@@ -11,7 +11,7 @@ class UserBalanceCoinCell {
   static Widget creditSection({
     required ListTransactionInfoItemModel trans,
   }) {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         trans.coinBalanceBes == 0
@@ -114,7 +114,7 @@ class UserBalanceCoinCell {
   static Widget debitSection({
     required ListTransactionInfoItemModel trans,
   }) {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         trans.coinBalanceBed == 0

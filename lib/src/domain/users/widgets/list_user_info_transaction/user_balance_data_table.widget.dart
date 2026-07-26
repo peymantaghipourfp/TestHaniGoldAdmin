@@ -4,13 +4,13 @@ import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
 import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_coin_cell.widget.dart';
-import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_currency_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_gold_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_grouped_header.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_rial_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_total_cell.widget.dart';
+import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_unit_balance_cell.widget.dart';
 
-/// Seven-column grouped [DataTable] for the desktop user-balance list.
+/// Nine-column grouped [DataTable] for the desktop user-balance list.
 class UserBalanceDataTable extends StatelessWidget {
   const UserBalanceDataTable({
     super.key,
@@ -93,20 +93,36 @@ class UserBalanceDataTable extends StatelessWidget {
       ),
       DataColumn(
         label: UserBalanceGroupedHeader(
-          label: 'مانده ارز',
+          label: 'مانده دلار',
           creditSortIndex: 8,
           debitSortIndex: 9,
           controller: controller,
-          sortEnabled: false,
-          swapPolarityColors: true,
+        ),
+        headingRowAlignment: MainAxisAlignment.center,
+      ),
+      DataColumn(
+        label: UserBalanceGroupedHeader(
+          label: 'مانده یورو',
+          creditSortIndex: 10,
+          debitSortIndex: 11,
+          controller: controller,
+        ),
+        headingRowAlignment: MainAxisAlignment.center,
+      ),
+      DataColumn(
+        label: UserBalanceGroupedHeader(
+          label: 'مانده نقره',
+          creditSortIndex: 12,
+          debitSortIndex: 13,
+          controller: controller,
         ),
         headingRowAlignment: MainAxisAlignment.center,
       ),
       DataColumn(
         label: UserBalanceGroupedHeader(
           label: 'تراز کل',
-          creditSortIndex: 10,
-          debitSortIndex: 11,
+          creditSortIndex: 14,
+          debitSortIndex: 15,
           controller: controller,
         ),
         headingRowAlignment: MainAxisAlignment.center,
@@ -182,8 +198,16 @@ class UserBalanceDataTable extends StatelessWidget {
             debit: UserBalanceCoinCell.debitSection(trans: trans),
           )),
           DataCell(_assetCell(
-            credit: UserBalanceCurrencyCell.creditSection(trans: trans),
-            debit: UserBalanceCurrencyCell.debitSection(trans: trans),
+            credit: UserBalanceDollarCell.creditSection(trans: trans),
+            debit: UserBalanceDollarCell.debitSection(trans: trans),
+          )),
+          DataCell(_assetCell(
+            credit: UserBalanceEuroCell.creditSection(trans: trans),
+            debit: UserBalanceEuroCell.debitSection(trans: trans),
+          )),
+          DataCell(_assetCell(
+            credit: UserBalanceSilverCell.creditSection(trans: trans),
+            debit: UserBalanceSilverCell.debitSection(trans: trans),
           )),
           DataCell(_assetCell(
             credit: UserBalanceTotalCell.creditSection(trans: trans),
@@ -201,6 +225,7 @@ class UserBalanceDataTable extends StatelessWidget {
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           credit,
           const SizedBox(height: 4),
@@ -210,7 +235,7 @@ class UserBalanceDataTable extends StatelessWidget {
     );
   }
 
-  /// Maps controller sort indices (2–11) to visual column indices (2–6).
+  /// Maps controller sort indices (2–11) to visual column indices (2–8).
   static int? _visualSortColumnIndex(int? controllerIndex) {
     if (controllerIndex == null) {
       return null;
@@ -220,7 +245,7 @@ class UserBalanceDataTable extends StatelessWidget {
       4 || 5 => 3,
       6 || 7 => 4,
       8 || 9 => 5,
-      10 || 11 => 6,
+      10 || 11 => 8,
       _ => null,
     };
   }

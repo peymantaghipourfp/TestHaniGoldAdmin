@@ -105,10 +105,28 @@ class UserInfoTransactionController extends GetxController{
       case 7: // Coin balance (debit)
         orderByField = "AccountValues.CoinBalanceBed";
         break;
-      case 10: // Currency balance (debit)
+      case 8: // Dollar balance (credit)
+        orderByField = "AccountValues.DollarBalanceBES";
+        break;
+      case 9: // Dollar balance (debit)
+        orderByField = "AccountValues.DollarBalanceBED";
+        break;
+      case 10: // Euro balance (credit)
+        orderByField = "AccountValues.EuroBalanceBES";
+        break;
+      case 11: // Euro balance (debit)
+        orderByField = "AccountValues.EuroBalanceBED";
+        break;
+      case 12: // Silver balance (credit)
+        orderByField = "AccountValues.SilverBalanceBES";
+        break;
+      case 13: // Silver balance (debit)
+        orderByField = "AccountValues.SilverBalanceBED";
+        break;
+      case 14: // Currency balance (debit)
         orderByField = "AccountValues.CurrencyValueBes";
         break;
-      case 11: // Currency balance (debit)
+      case 15: // Currency balance (debit)
         orderByField = "AccountValues.CurrencyValueBed";
         break;
       default:

@@ -266,7 +266,7 @@ class UserBalanceRialCell {
     required ListTransactionInfoItemModel trans,
   }) {
     return (trans.cashBalanceBed ?? 0) < 0
-        ? Column(
+        ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               trans.cashBalanceBed == 0

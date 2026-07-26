@@ -43,6 +43,18 @@ class ListTransactionInfoItemModel {
   final double? cashBalanceBes;
   @JsonKey(name: "cashBalanceBED")
   final double? cashBalanceBed;
+   @JsonKey(name: "dollarBalanceBES")
+  final double? dollarBalanceBes;
+  @JsonKey(name: "dollarBalanceBED")
+  final double? dollarBalanceBed;
+  @JsonKey(name: "euroBalanceBES")
+  final double? euroBalanceBes;
+  @JsonKey(name: "euroBalanceBED")
+  final double? euroBalanceBed;
+  @JsonKey(name: "silverBalanceBES")
+  final double? silverBalanceBes;
+  @JsonKey(name: "silverBalanceBED")
+  final double? silverBalanceBed;
   @JsonKey(name: "goldValue")
   final double? goldValue;
   @JsonKey(name: "coinValue")
@@ -71,6 +83,12 @@ class ListTransactionInfoItemModel {
     required this.quarterCoinBalanceBed,
     required this.cashBalanceBes,
     required this.cashBalanceBed,
+    required this.dollarBalanceBes,
+    required this.dollarBalanceBed,
+    required this.euroBalanceBes,
+    required this.euroBalanceBed,
+    required this.silverBalanceBes,
+    required this.silverBalanceBed,
     required this.goldValue,
     required this.coinValue,
     required this.afterGoldBalance,

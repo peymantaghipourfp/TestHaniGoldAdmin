@@ -275,23 +275,57 @@ class _MobileTransactionCard extends StatelessWidget {
               isCredit: false,
               chipLabel: 'بدهکار',
             ),
-          if ((trans.balances ?? []).any((e) => e.unitName == 'دلار' && (e.balance ?? 0) > 0))
+          if ((trans.dollarBalanceBes ?? 0) > 0)
             _MobileBalanceLine(
-              label: 'ارز',
-              value:
-                  '${(trans.balances ?? []).where((e) => e.unitName == 'دلار').fold<double>(0, (p, e) => p + (e.balance ?? 0))}',
+              label: 'دلار',
+              value: trans.dollarBalanceBes!.toDisplayString(),
               color: AppColor.primaryColor,
               unit: 'دلار',
               isCredit: true,
               chipLabel: 'بستانکار',
             ),
-          if ((trans.balances ?? []).any((e) => e.unitName == 'دلار' && (e.balance ?? 0) < 0))
+          if (trans.dollarBalanceBed != 0 && trans.dollarBalanceBed != null)
             _MobileBalanceLine(
-              label: 'ارز',
-              value:
-                  '-${(trans.balances ?? []).where((e) => e.unitName == 'دلار').fold<double>(0, (p, e) => p + (e.balance ?? 0).abs())}',
+              label: 'دلار',
+              value: '-${trans.dollarBalanceBed!.abs().toDisplayString()}',
               color: AppColor.accentColor,
               unit: 'دلار',
+              isCredit: false,
+              chipLabel: 'بدهکار',
+            ),
+          if ((trans.euroBalanceBes ?? 0) > 0)
+            _MobileBalanceLine(
+              label: 'یورو',
+              value: trans.euroBalanceBes!.toDisplayString(),
+              color: AppColor.primaryColor,
+              unit: 'یورو',
+              isCredit: true,
+              chipLabel: 'بستانکار',
+            ),
+          if (trans.euroBalanceBed != 0 && trans.euroBalanceBed != null)
+            _MobileBalanceLine(
+              label: 'یورو',
+              value: '-${trans.euroBalanceBed!.abs().toDisplayString()}',
+              color: AppColor.accentColor,
+              unit: 'یورو',
+              isCredit: false,
+              chipLabel: 'بدهکار',
+            ),
+          if ((trans.silverBalanceBes ?? 0) > 0)
+            _MobileBalanceLine(
+              label: 'نقره',
+              value: trans.silverBalanceBes!.toDisplayString(),
+              color: AppColor.primaryColor,
+              unit: 'گرم',
+              isCredit: true,
+              chipLabel: 'بستانکار',
+            ),
+          if (trans.silverBalanceBed != 0 && trans.silverBalanceBed != null)
+            _MobileBalanceLine(
+              label: 'نقره',
+              value: '-${trans.silverBalanceBed!.abs().toDisplayString()}',
+              color: AppColor.accentColor,
+              unit: 'گرم',
               isCredit: false,
               chipLabel: 'بدهکار',
             ),
