@@ -1,13 +1,14 @@
-﻿### Task 5: Temp-detail widgets (create flow parity)
+﻿### Task 5: 7-column data table + desktop body
 
-**Files:**
-- Modify: [item_temp_detail_receive.widget.dart](lib/src/domain/inventory/widget/item_temp_detail_receive.widget.dart)
-- Modify: [item_temp_detail_payment.widget.dart](lib/src/domain/inventory/widget/item_temp_detail_payment.widget.dart)
+**Files:** `user_balance_data_table.widget.dart`, `user_balance_desktop_body.widget.dart`
 
-- [ ] **Step 1:** Delete large commented-out `pickImageMobile` blocks (lines ~142â€“344 receive, ~149â€“351 payment).
-- [ ] **Step 2:** Maintain `List<XFile> image` callback contract to parent, but internally track `List<PickedInventoryImage>` for preview; on `recId` callback pass `picked.map((p) => p.file).toList()`.
-- [ ] **Step 3:** Use shared picker utility + thumbnail row (replace `FileImage` / `dart:io`).
-- [ ] **Step 4:** Fix desktop pick to **append** to existing images (currently `selectedImagesDesktop.clear()` replaces prior selection).
-- [ ] **Step 5: Run analyzer** on both widgets
+- [ ] **Step 1:** `UserBalanceDataTable` — 7 `DataColumn`s, `dataRowMaxHeight: double.infinity`, zebra rows, `sortColumnIndex`/`sortAscending` from controller
+- [ ] **Step 2:** Each `DataRow` has 7 `DataCell`s; asset cells = `Column(crossAxisAlignment: center, children: [creditSection, SizedBox(4), debitSection])`
+- [ ] **Step 3:** `UserBalanceDesktopBody` — vertical `Column`: `StatsGrid` → `Toolbar` → `DataTable` (NO horizontal `SingleChildScrollView`) → `Footer` placeholder or skip footer until Task 6
+- [ ] **Step 4:** Commit `feat(users): add 7-column grouped data table`
 
----
+**Validate:** Column count == 7; NO outer horizontal scroll; sort indices 2–11 via grouped headers.
+
+**Use widgets from Tasks 1-4.** Footer widget comes in Task 6 — desktop body can omit footer or accept optional footer slot.
+
+**Do NOT thin main view yet (Task 6).**

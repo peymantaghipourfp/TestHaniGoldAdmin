@@ -1,55 +1,51 @@
-# Task 4 Report: Update views (receive + payment)
+# Task 4 Report: Per-asset cell widgets (installment-safe)
 
 ## Status: Complete
 
-## Files modified
-- `lib/src/domain/inventory/view/inventory_detail_update_receive.view.dart`
-- `lib/src/domain/inventory/view/inventory_detail_update_payment.view.dart`
+**Branch:** `feat/user-balance-grouped-table`
 
-## Changes
+## Files created
 
-### Step 1 — Remove `dart:io`
-- Removed `import 'dart:io'` from both views.
-- Removed unused `import 'package:flutter/foundation.dart'` (only used for `kIsWeb` in removed `FileImage` branches).
+| File | Class | API |
+|------|-------|-----|
+| `user_balance_rial_cell.widget.dart` | `UserBalanceRialCell` | `creditSection`, `debitSection` — cash bes/bed + `afterCashBalance` installment rows (`unitName=="ریال"`) + list.svg dialogs |
+| `user_balance_gold_cell.widget.dart` | `UserBalanceGoldCell` | `creditSection`, `debitSection` — gold bes/bed + `afterGoldBalance` installment rows (`unitName=="گرم"`) + list.svg dialogs |
+| `user_balance_coin_cell.widget.dart` | `UserBalanceCoinCell` | `creditSection`, `debitSection` — full/half/quarter coin bes/bed |
+| `user_balance_currency_cell.widget.dart` | `UserBalanceCurrencyCell` | `creditSection`, `debitSection` — per-currency rows from `balances` (دلار filter, monolith parity) |
+| `user_balance_total_cell.widget.dart` | `UserBalanceTotalCell` | `creditSection`, `debitSection` — `currencyValueBes/Bed` + scales.svg + gold/coin equivalents |
+| `user_balance_grouped_header.widget.dart` | `UserBalanceGroupedHeader` | Asset label + two `UserBalancePolarityChip` wired to `controller.onSort` |
 
-### Step 2 — Picked images via `PickedImageThumbnailRow`
-- Replaced `selectedImagesDesktop.map(... FileImage ...)` `Obx` block with `PickedImageThumbnailRow`.
-- `images`: `controller.pickedImages`
-- `onRemove`: removes item from `pickedImages` and calls `.refresh()`
-- `onTap`: `showPickedImageFullscreenDialog(context, previewBytes: image.previewBytes)`
-- Added import for `picked_image_thumbnail.widget.dart`.
+## Sort indices (unchanged)
 
-### Step 3 — Server images (`imageList`)
-- Kept `BaseUrl` + `Attachment/downloadAttachment?fileName=` URL pattern.
-- Replaced `DecorationImage(NetworkImage(...))` with `Image.network(...)` so `loadingBuilder` and `errorBuilder` are supported.
-- Loading: `HaniGoldLoading()` centered placeholder.
-- Error: `ColoredBox` + `Icons.broken_image_outlined` (matches picked-image widget style).
-- Applied to both thumbnail (60×60) and fullscreen dialog.
-
-### Step 4 — Mobile bottom sheet
-- No change required — already calls `Get.back()` then `controller.pickImageMobile(ImageSource.gallery|camera)`.
+| Asset | Credit | Debit |
+|-------|--------|-------|
+| ریال | 2 | 3 |
+| طلا | 4 | 5 |
+| سکه | 6 | 7 |
+| ارز | 8 | 9 (display only — `sortEnabled: false`) |
+| تراز | 10 | 11 |
 
 ## Analyzer (`flutter analyze`)
 
 ```
-12 issues — 0 errors
+Analyzing 6 items...
+No issues found! (ran in 1.4s)
 ```
 
-| File | Errors | Warnings | Info |
-|------|--------|----------|------|
-| receive.view.dart | 0 | 1 (pre-existing unused `chat_dialog` import) | 2 (pre-existing `withOpacity`) |
-| payment.view.dart | 0 | 1 (pre-existing unused `chat_dialog` import) | 7 (pre-existing `withOpacity`, `use_build_context_synchronously`) |
-
-No new issues introduced by Task 4 changes.
-
 ## Concerns / follow-ups
-- **Insert views** (`inventory_detail_insert_receive.view.dart`, `inventory_detail_insert_payment.view.dart`) still use `selectedImagesDesktop` + `FileImage` — out of scope for Task 4 but same migration may be needed later.
-- Server-image fullscreen dialog in payment view now uses responsive sizing (`isMobile` margins) where it previously used fixed `Get.height * 0.8` — intentional alignment with receive view.
+
+- **Not wired yet** — cells are extracted but monolith `buildDataRows` unchanged; Task 5 composes them in 7-column `UserBalanceDataTable`.
+- **Currency filter** — monolith only renders `unitName == "دلار"`; یورو and future units need a separate enhancement if API starts returning them.
+- **Currency header colors** — `swapPolarityColors: true` preserves monolith's swapped بستانکار/بدهکار accent/primary on ارز headers.
+- **Coin zero checks** — `coinBalanceBes == 0` / `coinBalanceBed == 0` use exact equality (monolith parity); half/quarter may still show when full coin is zero.
 
 ## Verification checklist
-- [x] `dart:io` removed
-- [x] `selectedImagesDesktop` / `FileImage` removed
-- [x] `PickedImageThumbnailRow` wired
-- [x] Server `imageList` has loading + error placeholders
-- [x] Mobile sheet unchanged (Get.back → pickImageMobile)
-- [x] `flutter analyze` — no errors
+
+- [x] Rial cell: `cashBalanceBes/Bed`, `afterCashBalance`, installment `balances` rows, list.svg dialogs
+- [x] Gold cell: `goldBalanceBes/Bed`, `afterGoldBalance`, installment breakdown, list.svg dialogs
+- [x] Coin cell: full/half/quarter bes/bed
+- [x] Currency cell: `balances` iteration (دلار positive/negative)
+- [x] Total cell: scales SVG, `currencyValueBes/Bed`, gold/coin equivalents
+- [x] Grouped header: polarity chips + `onSort` with active highlight
+- [x] `flutter analyze` — 0 issues on new files
+- [ ] Integration smoke — deferred to Task 5

@@ -1,0 +1,14 @@
+---
+description: Apply senior-mobile skill for Flutter/mobile work
+globs: "**/*.{dart,kt,swift,tsx,jsx}"
+alwaysApply: false
+---
+
+# Senior Mobile
+
+When working on mobile/Flutter features, performance, scaffolding, or store submission:
+
+1. Read and follow `.cursor/skills/senior-mobile/SKILL.md` before implementing.
+2. Prefer Flutter + GetX patterns already defined in `AGENTS.md` over generic scaffolds from this skill when changing this app.
+3. Load skill references on demand (`references/workflows.md`, etc.) — do not dump them all into context.
+4. Project conventions in `AGENTS.md` win over skill defaults when they conflict.
