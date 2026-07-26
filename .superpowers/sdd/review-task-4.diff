@@ -1,0 +1,389 @@
+﻿# Review package: Task 4 (no-git)
+
+## Files changed
+- inventory_detail_update_receive.view.dart
+- inventory_detail_update_payment.view.dart
+
+## Grep evidence
+No dart:io, FileImage, selectedImagesDesktop in either update view.
+PickedImageThumbnailRow + showPickedImageFullscreenDialog + Image.network with errorBuilder present.
+
+## Excerpt: receive view image section (~970-1130)
+                                                                                  color: Colors.transparent,
+                                                                                  child: Container(
+                                                                                    margin: EdgeInsets.all(isMobile ? 20 : 10),
+                                                                                    decoration: BoxDecoration(
+                                                                                        borderRadius: BorderRadius.circular(8),
+                                                                                        border: Border.all(color: AppColor.textColor),
+                                                                                    ),
+                                                                                    clipBehavior: Clip.antiAlias,
+                                                                                    height: isMobile ? Get.height * 0.6 : Get.height * 0.8,
+                                                                                    width: isMobile ? Get.width * 0.8 : Get.width * 0.4,
+                                                                                    child: Image.network(
+                                                                                      "${BaseUrl.baseUrl}Attachment/downloadAttachment?fileName=$e",
+                                                                                      fit: BoxFit.cover,
+                                                                                      loadingBuilder: (context, child, loadingProgress) {
+                                                                                        if (loadingProgress == null) return child;
+                                                                                        return Center(child: HaniGoldLoading());
+                                                                                      },
+                                                                                      errorBuilder: (context, error, stackTrace) => ColoredBox(
+                                                                                        color: AppColor.secondary50Color,
+                                                                                        child: Icon(
+                                                                                          Icons.broken_image_outlined,
+                                                                                          color: AppColor.textColor.withAlpha(120),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            });
+                                                                      },
+                                                                      child: Container(
+                                                                        margin: EdgeInsets.all(10),
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(8),
+                                                                            border: Border.all(color: AppColor.textColor),
+                                                                        ),
+                                                                        clipBehavior: Clip.antiAlias,
+                                                                        height: 60,width: 60,
+                                                                        child: Image.network(
+                                                                          "${BaseUrl.baseUrl}Attachment/downloadAttachment?fileName=$e",
+                                                                          fit: BoxFit.cover,
+                                                                          loadingBuilder: (context, child, loadingProgress) {
+                                                                            if (loadingProgress == null) return child;
+                                                                            return Center(child: HaniGoldLoading());
+                                                                          },
+                                                                          errorBuilder: (context, error, stackTrace) => ColoredBox(
+                                                                            color: AppColor.secondary50Color,
+                                                                            child: Icon(
+                                                                              Icons.broken_image_outlined,
+                                                                              color: AppColor.textColor.withAlpha(120),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    GestureDetector(
+                                                                      child: CircleAvatar(
+                                                                        backgroundColor: AppColor.accentColor,radius: 10,
+                                                                        child: Center(child: Icon(Icons.clear,color: AppColor.textColor,size: 15,)),
+                                                                      ),
+                                                                      onTap: (){
+                                                                        inventoryUpdateReceiveController.deleteImage(e);
+                                                                      },
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                            ).toList(),
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                              Container(
+                                                padding: EdgeInsets.only(bottom: 5),
+                                                child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          if (isMobile) {
+                                                            showModalBottomSheet(
+                                                              context: context,
+                                                              builder: (_) {
+                                                                return SafeArea(
+                                                                  child: Material(
+                                                                    color: AppColor.secondary200Color,
+                                                                    borderRadius: BorderRadius.circular(15),
+                                                                    child: Wrap(
+                                                                      children: [
+                                                                        ListTile(
+                                                                          leading: Icon(Icons.photo_library,color: AppColor.textColor,),
+                                                                          title: Text('Ú¯Ø§Ù„Ø±ÛŒ',style: AppTextStyle.bodyText.copyWith(fontSize: 16,fontWeight: FontWeight.w700),),
+                                                                          onTap: () {
+                                                                            Get.back();
+                                                                            inventoryUpdateReceiveController
+                                                                                .pickImageMobile(ImageSource.gallery);
+                                                                          },
+                                                                        ),
+                                                                        ListTile(
+                                                                          leading: Icon(Icons.camera_alt,color: AppColor.textColor,),
+                                                                          title: Text('Ø¯ÙˆØ±Ø¨ÛŒÙ†',style: AppTextStyle.bodyText.copyWith(fontSize: 16,fontWeight: FontWeight.w700),),
+                                                                          onTap: () {
+                                                                            Get.back();
+                                                                            inventoryUpdateReceiveController
+                                                                                .pickImageMobile(ImageSource.camera);
+                                                                          },
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          } else {
+                                                            inventoryUpdateReceiveController.pickImageDesktop();
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.all(10),
+                                                          constraints: BoxConstraints(maxWidth: 100),
+                                                          child: SvgPicture
+                                                              .asset(
+                                                            'assets/svg/camera.svg',
+                                                            width: 30,
+                                                            height: 30,
+                                                            colorFilter: ColorFilter
+                                                                .mode(
+                                                                AppColor
+                                                                    .iconViewColor,
+                                                                BlendMode
+                                                                    .srcIn),),
+                                                        ),
+
+                                                      ),
+                                                      Obx(() {
+                                                        if (inventoryUpdateReceiveController
+                                                            .isUploadingDesktop
+                                                            .value) {
+                                                          return Row(
+                                                            children: [
+                                                              const HaniGoldLoadingPage(message: 'Ø¯Ø± Ø­Ø§Ù„ Ø¨Ø§Ø±Ú¯Ø°Ø§Ø±ÛŒ ØªØµÙˆÛŒØ±...',),
+                                                            ],
+                                                          );
+                                                        }
+                                                        return PickedImageThumbnailRow(
+                                                          images: inventoryUpdateReceiveController.pickedImages,
+                                                          onRemove: (image) {
+                                                            inventoryUpdateReceiveController.pickedImages.remove(image);
+                                                            inventoryUpdateReceiveController.pickedImages.refresh();
+                                                          },
+                                                          onTap: (image) {
+                                                            showPickedImageFullscreenDialog(
+                                                              context,
+                                                              previewBytes: image.previewBytes,
+                                                            );
+                                                          },
+                                                        );
+                                                      }),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              //  Ø¯Ú©Ù…Ù‡ Ø«Ø¨Øª Ù†Ù‡Ø§ÛŒÛŒ
+                                              SizedBox(height: 20,),
+                                              SizedBox(width: double.infinity,
+                                                height: 40,
+                                                // Ø¯Ú©Ù…Ù‡ Ø«Ø¨Øª Ù†Ù‡Ø§ÛŒÛŒ
+                                                child: ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      fixedSize: WidgetStatePropertyAll(
+                                                          Size(Get.width * .77,
+
+## Excerpt: payment view image section (~970-1130)
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                border: Border.all(color: AppColor.textColor),
+                                                                            ),
+                                                                            clipBehavior: Clip.antiAlias,
+                                                                            height: isMobile ? Get.height * 0.6 : Get.height * 0.8,
+                                                                            width: isMobile ? Get.width * 0.8 : Get.width * 0.4,
+                                                                            child: Image.network(
+                                                                              "${BaseUrl.baseUrl}Attachment/downloadAttachment?fileName=$e",
+                                                                              fit: BoxFit.cover,
+                                                                              loadingBuilder: (context, child, loadingProgress) {
+                                                                                if (loadingProgress == null) return child;
+                                                                                return Center(child: HaniGoldLoading());
+                                                                              },
+                                                                              errorBuilder: (context, error, stackTrace) => ColoredBox(
+                                                                                color: AppColor.secondary50Color,
+                                                                                child: Icon(
+                                                                                  Icons.broken_image_outlined,
+                                                                                  color: AppColor.textColor.withAlpha(120),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    });
+                                                              },
+                                                              child: Container(
+                                                                margin: EdgeInsets.all(10),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(8),
+                                                                    border: Border.all(color: AppColor.textColor),
+                                                                ),
+                                                                clipBehavior: Clip.antiAlias,
+                                                                height: 60,width: 60,
+                                                                child: Image.network(
+                                                                  "${BaseUrl.baseUrl}Attachment/downloadAttachment?fileName=$e",
+                                                                  fit: BoxFit.cover,
+                                                                  loadingBuilder: (context, child, loadingProgress) {
+                                                                    if (loadingProgress == null) return child;
+                                                                    return Center(child: HaniGoldLoading());
+                                                                  },
+                                                                  errorBuilder: (context, error, stackTrace) => ColoredBox(
+                                                                    color: AppColor.secondary50Color,
+                                                                    child: Icon(
+                                                                      Icons.broken_image_outlined,
+                                                                      color: AppColor.textColor.withAlpha(120),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              child: CircleAvatar(
+                                                                backgroundColor: AppColor.accentColor,radius: 10,
+                                                                child: Center(child: Icon(Icons.clear,color: AppColor.textColor,size: 15,)),
+                                                              ),
+                                                              onTap: (){
+                                                                inventoryDetailUpdatePaymentController.deleteImage(e);
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),).toList(),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.only(bottom: 5),
+                                                child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          if (isMobile) {
+                                                            showModalBottomSheet(
+                                                              context: context,
+                                                              builder: (_) {
+                                                                return SafeArea(
+                                                                  child: Material(
+                                                                    color: AppColor.secondary200Color,
+                                                                    borderRadius: BorderRadius.circular(15),
+                                                                    child: Wrap(
+                                                                      children: [
+                                                                        ListTile(
+                                                                          leading: Icon(Icons.photo_library,color: AppColor.textColor,),
+                                                                          title: Text('Ú¯Ø§Ù„Ø±ÛŒ',style: AppTextStyle.bodyText.copyWith(fontSize: 16,fontWeight: FontWeight.w700),),
+                                                                          onTap: () {
+                                                                            Get.back();
+                                                                            inventoryDetailUpdatePaymentController
+                                                                                .pickImageMobile(ImageSource.gallery);
+                                                                          },
+                                                                        ),
+                                                                        ListTile(
+                                                                          leading: Icon(Icons.camera_alt,color: AppColor.textColor,),
+                                                                          title: Text('Ø¯ÙˆØ±Ø¨ÛŒÙ†',style: AppTextStyle.bodyText.copyWith(fontSize: 16,fontWeight: FontWeight.w700),),
+                                                                          onTap: () {
+                                                                            Get.back();
+                                                                            inventoryDetailUpdatePaymentController
+                                                                                .pickImageMobile(ImageSource.camera);
+                                                                          },
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          } else {
+                                                            inventoryDetailUpdatePaymentController.pickImageDesktop();
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          constraints: BoxConstraints(maxWidth: 100),
+                                                          child: SvgPicture
+                                                              .asset(
+                                                            'assets/svg/camera.svg',
+                                                            width: 30,
+                                                            height: 30,
+                                                            colorFilter: ColorFilter
+                                                                .mode(
+                                                                AppColor
+                                                                    .iconViewColor,
+                                                                BlendMode
+                                                                    .srcIn),),
+                                                        ),
+
+                                                      ),
+                                                      Obx(() {
+                                                        if (inventoryDetailUpdatePaymentController
+                                                            .isUploadingDesktop
+                                                            .value) {
+                                                          return Row(
+                                                            children: [
+                                                              const HaniGoldLoadingPage(message: 'Ø¯Ø± Ø­Ø§Ù„ Ø¨Ø§Ø±Ú¯Ø°Ø§Ø±ÛŒ ØªØµÙˆÛŒØ±...',),
+                                                            ],
+                                                          );
+                                                        }
+                                                        return PickedImageThumbnailRow(
+                                                          images: inventoryDetailUpdatePaymentController.pickedImages,
+                                                          onRemove: (image) {
+                                                            inventoryDetailUpdatePaymentController.pickedImages.remove(image);
+                                                            inventoryDetailUpdatePaymentController.pickedImages.refresh();
+                                                          },
+                                                          onTap: (image) {
+                                                            showPickedImageFullscreenDialog(
+                                                              context,
+                                                              previewBytes: image.previewBytes,
+                                                            );
+                                                          },
+                                                        );
+                                                      }),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              //  Ø¯Ú©Ù…Ù‡ Ø«Ø¨Øª Ù†Ù‡Ø§ÛŒÛŒ
+                                              SizedBox(height: 20,),
+                                              SizedBox(width: double.infinity,
+                                                height: 40,
+                                                // Ø¯Ú©Ù…Ù‡ Ø«Ø¨Øª Ù†Ù‡Ø§ÛŒÛŒ
+                                                child: ElevatedButton(
+
+## Receive imports (first 40 lines)
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/domain/inventory/controller/inventory_update_receive.controller.dart';
+import 'package:hanigold_admin/src/domain/inventory/widget/picked_image_thumbnail.widget.dart';
+import 'package:hanigold_admin/src/widget/custom_appbar1.widget.dart';
+import 'package:hanigold_admin/src/widget/hanigold_loading.widget.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import '../../../config/const/app_color.dart';
+import '../../../config/const/app_text_style.dart';
+import '../../../config/repository/url/base_url.dart';
+import '../../../widget/app_drawer.widget.dart';
+import '../../../widget/background_image.widget.dart';
+import '../../../widget/chat_floating_button.widget.dart';
+import '../../../widget/custom_dropdown.widget.dart';
+import '../../chat/widget/chat_dialog.widget.dart';
+import '../../users/widgets/balance.widget.dart';
+
+class InventoryDetailUpdateReceiveView extends StatefulWidget {
+  const InventoryDetailUpdateReceiveView({super.key});
+
+  @override
+  State<InventoryDetailUpdateReceiveView> createState() =>
+      _InventoryDetailUpdateReceiveViewState();
+}
+
+class _InventoryDetailUpdateReceiveViewState
+    extends State<InventoryDetailUpdateReceiveView>
+    with TickerProviderStateMixin {
+  final formKey = GlobalKey<FormState>();
+  InventoryUpdateReceiveController inventoryUpdateReceiveController = Get.find<
+      InventoryUpdateReceiveController>();
+
+
+  @override
+  Widget build(BuildContext context) {

@@ -1,0 +1,547 @@
+
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/const/app_color.dart';
+import 'package:hanigold_admin/src/config/network/error/network.error.dart';
+import 'package:hanigold_admin/src/config/repository/account.repository.dart';
+import 'package:hanigold_admin/src/config/repository/item.repository.dart';
+import 'package:hanigold_admin/src/config/repository/order.repository.dart';
+import 'package:hanigold_admin/src/domain/account/model/account.model.dart';
+import 'package:hanigold_admin/src/domain/base/base_controller.dart';
+import 'package:hanigold_admin/src/domain/product/model/item.model.dart';
+import 'package:hanigold_admin/src/utils/convert_jalali_to_gregorian_custom_date.component.dart';
+import 'package:hanigold_admin/src/utils/num_display.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+import '../../../config/repository/account_sales_group.repository.dart';
+import '../../../config/repository/user_info_transaction.repository.dart';
+import '../../account/model/account_level_get_one_item.model.dart';
+import '../../accountSalesGroup/model/account_sales_group_get_one_item.model.dart';
+import '../../users/model/balance_item.model.dart';
+import '../model/order.model.dart';
+import 'order.controller.dart';
+
+
+enum PageState{loading,err,empty,list}
+
+class OrderTypeModel{
+  final int? id;
+  final String? name;
+  OrderTypeModel({this.id, this.name});
+}
+
+class OrderUpdateController extends BaseController{
+
+  final OrderController orderController=Get.find<OrderController>();
+
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
+  final TextEditingController priceController=TextEditingController();
+  final TextEditingController quantityController=TextEditingController();
+  final TextEditingController totalPriceController=TextEditingController();
+  final TextEditingController dateController=TextEditingController();
+  final TextEditingController descriptionController=TextEditingController();
+
+  final ItemRepository itemRepository=ItemRepository();
+  final AccountRepository accountRepository=AccountRepository();
+  final AccountSalesGroupRepository accountSalesGroupRepository=AccountSalesGroupRepository();
+  final OrderRepository orderRepository=OrderRepository();
+  UserInfoTransactionRepository userInfoTransactionRepository=UserInfoTransactionRepository();
+
+  final List<OrderTypeModel> orderTypeList=<OrderTypeModel>[
+    OrderTypeModel(id: 0, name: 'فروش به کاربر'),
+    OrderTypeModel(id: 1, name: 'خرید از کاربر'),
+  ];
+  final List<ItemModel> itemList=<ItemModel>[].obs;
+  final List<AccountModel> accountList=<AccountModel>[].obs;
+  final List<BalanceItemModel> balanceList=<BalanceItemModel>[].obs;
+
+  Rx<PageState> state=Rx<PageState>(PageState.list);
+  var errorMessage=''.obs;
+  var isLoading=true.obs;
+  var isLoadingBalance=true.obs;
+
+  final Rxn<OrderTypeModel> selectedBuySell = Rxn<OrderTypeModel>();
+  final Rxn<ItemModel> selectedItem=Rxn<ItemModel>();
+  final Rxn<AccountModel> selectedAccount = Rxn<AccountModel>();
+  RxList<AccountModel> searchedAccounts = <AccountModel>[].obs;
+  Timer? debounce;
+
+  var orderId=0.obs;
+  var maxItemSell=0.obs;
+  var maxItemBuy=0.obs;
+  var manualPriceChecked = false.obs;
+  var notLimitChecked = false.obs;
+  var isCardChecked = false.obs;
+  final Rxn<OrderModel> getOneOrder = Rxn<OrderModel>();
+  var priceTemp=''.obs;
+  var dropdownError="".obs;
+  final Rxn<AccountLevelGetOneItemModel> selectedAccountLevelItem = Rxn<AccountLevelGetOneItemModel>();
+  var isLoadingAccountLevelItem = false.obs;
+  final Rxn<AccountSalesGroupGetOneItemModel> selectedAccountSalesGroupItem = Rxn<AccountSalesGroupGetOneItemModel>();
+  var isLoadingAccountSalesGroupItem = false.obs;
+
+  //final SocketService socketService = Get.find();
+  StreamSubscription? socketSubscription;
+
+  void changeSelectedBuySell(OrderTypeModel? newValue) {
+    selectedBuySell.value = newValue;
+    if(selectedItem.value!=null){
+      if(selectedItem.value?.itemUnit?.name=='گرم' && selectedItem.value?.id!=23 ){
+        if(selectedBuySell.value?.id==0){
+          priceController.text=selectedItem.value!.mesghalPrice.toString().seRagham(separator: ',');
+          priceTemp.value=selectedItem.value!.price.toString().seRagham(separator: ',');
+        }else{
+          priceController.text=(((selectedItem.value!.mesghalPrice!)-(selectedItem.value!.mesghalDifferentPrice!)).toDouble()).toString().seRagham(separator: ',');
+          priceTemp.value=(selectedItem.value!.price!-selectedItem.value!.differentPrice!.toDouble()).toString().seRagham(separator: ',');
+        }
+      }else{
+        if(selectedBuySell.value?.id==0){
+          priceController.text=selectedItem.value!.price.toString().seRagham(separator: ',');
+          priceTemp.value=selectedItem.value!.price.toString().seRagham(separator: ',');
+        }else{
+          priceController.text=(((selectedItem.value!.price!)-(selectedItem.value!.differentPrice!)).toDouble()).toString().seRagham(separator: ',');
+          priceTemp.value=(selectedItem.value!.price!-selectedItem.value!.differentPrice!.toDouble()).toString().seRagham(separator: ',');
+        }
+      }
+    }
+  }
+  void changeSelectedItem(ItemModel? newValue) {
+    clearListChangeItem();
+    selectedItem.value = newValue;
+    if(newValue?.itemUnit?.name=='گرم' && newValue?.id!=23){
+      if(selectedBuySell.value?.id==0){
+        priceController.text=selectedItem.value!.mesghalPrice.toString().seRagham(separator: ',');
+        priceTemp.value=selectedItem.value!.price.toString().seRagham(separator: ',');
+      }else{
+        priceController.text=(selectedItem.value!.mesghalPrice!-selectedItem.value!.mesghalDifferentPrice!.toDouble()).toString().seRagham(separator: ',');
+        priceTemp.value=(((selectedItem.value!.price!)-(selectedItem.value!.differentPrice!)).toDouble()).toString().seRagham(separator: ',');
+      }
+    }else{
+      if(selectedBuySell.value?.id==0){
+        priceController.text=selectedItem.value!.price.toString().seRagham(separator: ',');
+        priceTemp.value=selectedItem.value!.price.toString().seRagham(separator: ',');
+      }else{
+        priceController.text=(selectedItem.value!.price!-selectedItem.value!.differentPrice!.toDouble()).toString().seRagham(separator: ',');
+        priceTemp.value=(((selectedItem.value!.price!)-(selectedItem.value!.differentPrice!)).toDouble()).toString().seRagham(separator: ',');
+      }
+    }
+    //maxItemSell.value=newValue!.maxSell!;
+    //maxItemBuy.value=newValue.maxBuy!;
+    _fetchAccountLevelForCurrentSelection();
+    _fetchAccountSalesGroupForCurrentSelection();
+  }
+
+  void _listenToSocket() {
+    socketSubscription?.cancel();
+    socketSubscription = socketService.messageStream.listen((message) {
+      if (message is String) {
+        try {
+          final data = json.decode(message);
+          if (data['channel'] == 'itemPrice') {
+            //final socketItem = SocketItemModel.fromJson(data);
+            /*Get.snackbar('تغییر قیمت', 'قیمت ${socketItem.name} تغییر کرد.',
+              titleText: Text('تغییر قیمت',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColor.textColor),),
+              messageText: Text(
+                'قیمت ${socketItem.name} تغییر کرد.', textAlign: TextAlign.center,
+                style: TextStyle(color: AppColor.textColor),),
+            );*/
+            _fetchAccountSalesGroupForCurrentSelection();
+          }
+        } catch (e) {
+          Get.log('Error processing socket message in ProductController: $e');
+        }
+      }
+    }, onError: (error) {
+      Get.log('Socket stream error in ProductController: $error');
+    });
+  }
+
+  /*void changePriceItem(SocketItemModel socketItem){
+    for(int i=0 ; i<itemList.length ; i++){
+      if(itemList[i].id==socketItem.id){
+        itemList[i].mesghalPrice=socketItem.mesghalPrice;
+      }
+    }
+    if(selectedItem.value!=null){
+      if(selectedItem.value?.id==socketItem.id){
+        selectedItem.value?.mesghalPrice=socketItem.mesghalPrice;
+        priceController.text=socketItem.mesghalPrice.toString().seRagham(separator: ',');
+      }
+    }
+    update();
+  }*/
+
+  void changeSelectedAccount(AccountModel? newValue){
+    selectedAccount.value = newValue;
+    selectedAccountLevelItem.value = null;
+    selectedAccountSalesGroupItem.value = null;
+    //getBalanceList(newValue?.id ?? 0);
+    //isLoadingBalance.value=false;
+    if (newValue != null) {
+      isLoadingBalance.value=true;
+      getBalanceList(newValue.id ?? 0);
+      _fetchAccountLevelForCurrentSelection();
+      _fetchAccountSalesGroupForCurrentSelection();
+    }
+    debounce?.cancel();
+  }
+
+  void updateTotalPrice(){
+    if(selectedItem.value?.itemUnit?.name=='گرم' && selectedItem.value?.id!=23 ){
+      double price=double.tryParse(priceController.text ==""?"0" : priceController.text.replaceAll(',', '').toEnglishDigit())!/4.3318;
+      double quantity=double.tryParse(quantityController.text==""? "0" : quantityController.text.toEnglishDigit()) ?? 0.0;
+      double totalPrice= price * quantity;
+      totalPriceController.text=totalPrice.toStringAsFixed(0).toPersianDigit().seRagham();
+      priceTemp.value=price.toString();
+    }else{
+      double price=double.tryParse(priceController.text ==""?"0" : priceController.text.replaceAll(',', '').toEnglishDigit()) ?? 0;
+      double quantity=double.tryParse(quantityController.text==""? "0" : quantityController.text.toEnglishDigit()) ?? 0.0;
+      double totalPrice= price * quantity;
+      totalPriceController.text=totalPrice.toStringAsFixed(0).toPersianDigit().seRagham();
+      priceTemp.value=price.toString();
+    }
+  }
+
+  void updateQuantity(){
+    if(selectedItem.value?.itemUnit?.name=='گرم' && selectedItem.value?.id!=23 ){
+      double totalPrice=double.tryParse(totalPriceController.text ==""?"0" : totalPriceController.text.replaceAll(',', '').toEnglishDigit()) ?? 0;
+      double price=double.tryParse(priceController.text ==""?"0" : priceController.text.replaceAll(',', '').toEnglishDigit()) ?? 0;
+      double mesghal=totalPrice / price; // مثقال
+      double quantity=mesghal*4.3318;
+      quantityController.text=quantity.toStringAsFixed(2);
+    }else{
+      double totalPrice=double.tryParse(totalPriceController.text ==""?"0" : totalPriceController.text.replaceAll(',', '').toEnglishDigit()) ?? 0;
+      double price=double.tryParse(priceController.text ==""?"0" : priceController.text.replaceAll(',', '').toEnglishDigit()) ?? 0;
+      double quantity=totalPrice / price;
+      quantityController.text=quantity.toStringAsFixed(2);
+    }
+  }
+
+  late OrderModel existingOrder;
+  @override
+  void onInit() async{
+    //searchController.addListener(onSearchChanged);
+    socketSubscription?.cancel();
+    _listenToSocket();
+    fetchAccountList();
+    fetchItemList();
+    orderId.value = int.parse(Get.parameters['id']!);
+    await fetchGetOneOrder(orderId.value);
+    if (getOneOrder.value != null) {
+      existingOrder=getOneOrder.value!;
+      setOrderDetails(existingOrder);
+      if (existingOrder.account != null) {
+        getBalanceList(existingOrder.account?.id ?? 0);
+        accountList.add(existingOrder.account!);
+        searchedAccounts.add(existingOrder.account!);
+      }
+    }
+    super.onInit();
+  }
+
+  void onDropdownMenuStateChange(bool isOpen) {
+    if (isOpen) {
+      fetchAccountList();
+      // Add a small delay to ensure the dropdown is fully opened
+      Future.delayed(const Duration(milliseconds: 100), () {
+        searchFocusNode.requestFocus();
+      });
+    } else {
+      resetAccountSearch();
+    }
+  }
+
+  @override
+  void onClose() {
+    debounce?.cancel();
+    searchController.removeListener(onSearchChanged);
+    searchFocusNode.dispose();
+    //searchController.dispose();
+    //Get.delete<OrderUpdateController>(force: true);
+    socketSubscription?.cancel();
+    super.onClose();
+  }
+
+  // لیست محصولات
+  Future<void> fetchItemList() async{
+    try{
+      itemList.clear();
+      state.value=PageState.loading;
+      var fetchedItemList=await itemRepository.getItemList();
+      itemList.assignAll(fetchedItemList);
+      itemList.removeWhere((e) => e.status==false,);
+      state.value=PageState.list;
+      if (existingOrder != null && existingOrder.item != null) {
+        final match = itemList.firstWhereOrNull(
+              (i) => i.id == existingOrder.item!.id,
+        );
+        if (match != null) {
+          selectedItem.value = match;
+          maxItemSell.value=match.maxSell!;
+          maxItemBuy.value=match.maxBuy!;
+          _fetchAccountLevelForCurrentSelection();
+          _fetchAccountSalesGroupForCurrentSelection();
+        }
+      }
+    }
+    catch(e){
+      state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+    }finally{
+      isLoading.value=false;
+    }
+  }
+  // لیست کاربران
+  Future<void> fetchAccountList() async{
+    try{
+      //state.value=PageState.loading;
+      var fetchedAccountList=await accountRepository.getAccountList("");
+      accountList.assignAll(fetchedAccountList);
+      searchedAccounts.assignAll(fetchedAccountList);
+      //state.value=PageState.list;
+      //selectedAccount.value=existingOrder.account;
+    }
+    catch(e){
+      //state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+    }finally{
+      //isLoading.value=false;
+    }
+  }
+
+  void onSearchChanged(){
+    if (debounce?.isActive ?? false) debounce!.cancel();
+    debounce=Timer(const Duration(milliseconds: 800), () async {
+      await searchAccountList(searchController.text.trim());
+
+    });
+  }
+  Future<void> searchAccountList(String name) async {
+    try {
+      isLoading.value = true;
+      if (name.length>2) {
+        searchedAccounts.assignAll(accountList);
+      } else {
+        final results = await accountRepository.searchAccountList(name,"");
+        searchedAccounts.assignAll(results);
+      }
+      state.value=PageState.list;
+    } catch (e) {
+      Get.snackbar('خطا', 'خطا در جستجوی کاربران');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // getOne order
+  Future<OrderModel?> fetchGetOneOrder(int id)async{
+    try {
+      state.value=PageState.loading;
+      //EasyLoading.show(status: 'دریافت اطلاعات از سرور...');
+      var fetchedGetOne = await orderRepository.getOneOrder(id);
+      if(fetchedGetOne!=null){
+        getOneOrder.value = fetchedGetOne;
+        selectedAccount.value=getOneOrder.value?.account;
+        state.value=PageState.list;
+        //EasyLoading.dismiss();
+      }else{
+        state.value=PageState.empty;
+      }
+    }
+    catch(e){
+      state.value=PageState.err;
+      errorMessage.value=" خطایی به وجود آمده است ${e.toString()}";
+    }
+    return null;
+  }
+
+
+  Future<OrderModel?> updateOrder() async {
+    if(orderId.value==0){
+      return null;
+    }
+    try {
+      isLoading.value = true;
+
+      String gregorianDate = convertJalaliToGregorianCustomDate(dateController.text);
+     // Gregorian date=existingOrder.date!.toGregorian();
+      if (Get.isDialogOpen!) Get.back();
+     var response = await orderRepository.updateOrder(
+        orderId: orderId.value,
+        //date: "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}T${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}",
+       date:gregorianDate,
+        accountId: selectedAccount.value?.id ?? 0,
+        accountName: selectedAccount.value?.name ?? "",
+        type: selectedBuySell.value?.id ?? 0,
+        itemId: selectedItem.value?.id ?? 0,
+        itemName: selectedItem.value?.name ?? "",
+        price: double.parse(priceTemp.value.replaceAll(',', '').toEnglishDigit()),
+        quantity: double.parse(quantityController.text.toEnglishDigit()),
+        description: descriptionController.text,
+        notLimit:true,
+        manualPrice:manualPriceChecked.value,
+       isCard: isCardChecked.value,
+      );
+
+     if(response!= null){
+       OrderModel orderResponse=OrderModel.fromJson(response);
+       //Get.toNamed('/orderList');
+       Get.back();
+       Get.snackbar(orderResponse.infos!.first['title'], orderResponse.infos!.first["description"],
+           titleText: Text(orderResponse.infos!.first['title'],
+             textAlign: TextAlign.center,
+             style: TextStyle(color: AppColor.textColor),),
+           messageText: Text(orderResponse.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
+       /*orderController.getOrderListPager();
+       orderController.fetchTotalBalanceList();*/
+       // Use silent refresh to update list without UI flicker
+       orderController.refreshOrderListSilently();
+       orderController.refreshTotalBalanceSilently();
+       balanceList.clear();
+       clearList();
+     }
+
+    } catch (e) {
+      throw ErrorException('خطا در به‌روزرسانی سفارش: $e');
+    } finally {
+      isLoading.value = false;
+    }
+    return null;
+  }
+
+  void setOrderDetails(OrderModel order) {
+    orderId.value=order.id ?? 0;
+    selectedBuySell.value = (order.type == 1)
+        ? OrderTypeModel(id: 1, name: 'خرید از کاربر')
+        : OrderTypeModel(id: 0, name: 'فروش به کاربر');
+    //selectedItem.value = itemList.firstWhereOrNull((item) => item.id == order.item?.id);
+    //selectedAccount.value = accountList.firstWhereOrNull((account) => account.id == order.account?.id);
+    dateController.text = order.date?.toPersianDate(showTime: true,digitType: NumStrLanguage.English) ?? '';
+    priceController.text =order.item?.id == 23 ? order.price?.toStringAsFixed(0).seRagham(separator: ',') ?? '' : order.mesghalPrice?.toStringAsFixed(0).seRagham(separator: ',') ?? '';
+    quantityController.text = order.quantity?.toDisplayString() ?? '';
+    totalPriceController.text = order.totalPrice?.toStringAsFixed(0).seRagham(separator: ',') ?? '';
+    descriptionController.text = order.description ?? '';
+    //isLoadingBalance.value=true;
+    priceTemp.value=order.price?.toStringAsFixed(0).seRagham(separator: ',') ?? '';
+    selectedAccount.value=order.account;
+    isCardChecked.value=order.isCard!;
+    // Load balance data for the selected account
+    if (order.account != null) {
+      isLoadingBalance.value=true;
+      getBalanceList(order.account!.id ?? 0);
+    }
+    // Fetch account level item data if both account and item are available
+    if (order.account != null && order.item != null) {
+      _fetchAccountLevelForCurrentSelection();
+      _fetchAccountSalesGroupForCurrentSelection();
+    }
+  }
+
+  // لیست بالانس
+  Future<void> getBalanceList(int id) async{
+    balanceList.clear();
+    try{
+      state.value=PageState.loading;
+      var response=await userInfoTransactionRepository.getBalanceList(id);
+      balanceList.assignAll(response);
+      balanceList.removeWhere((r)=>r.balance==0);
+      //isLoadingBalance.value=true;
+      isLoadingBalance.value=false;
+      state.value=PageState.list;
+      if(balanceList.isEmpty){
+        state.value=PageState.empty;
+      }
+      update();
+    }
+    catch(e){
+      state.value=PageState.err;
+    }finally{
+    }
+  }
+
+  Future<void> _fetchAccountLevelForCurrentSelection() async {
+    final accountId = selectedAccount.value?.id;
+    final itemId = selectedItem.value?.id;
+    if (accountId == null || itemId == null) {
+      selectedAccountLevelItem.value = null;
+      return;
+    }
+    try {
+      isLoadingAccountLevelItem.value = true;
+      final result = await accountRepository.accountLevelGetOneItem(
+        accountId: accountId,
+        itemId: itemId,
+      );
+      selectedAccountLevelItem.value = result;
+    } catch (_) {
+      selectedAccountLevelItem.value = null;
+    } finally {
+      isLoadingAccountLevelItem.value = false;
+    }
+  }
+
+  Future<void> _fetchAccountSalesGroupForCurrentSelection() async {
+    final accountId = selectedAccount.value?.id;
+    final itemId = selectedItem.value?.id;
+    if (accountId == null || itemId == null) {
+      selectedAccountSalesGroupItem.value = null;
+      return;
+    }
+    try {
+      isLoadingAccountSalesGroupItem.value = true;
+      final result = await accountSalesGroupRepository.accountSalesGroupGetOneItem(
+        accountId: accountId,
+        itemId: itemId,
+      );
+      selectedAccountSalesGroupItem.value = result;
+    } catch (_) {
+      selectedAccountSalesGroupItem.value = null;
+    } finally {
+      isLoadingAccountSalesGroupItem.value = false;
+    }
+  }
+
+
+  void clearList() {
+    dateController.clear();
+    priceController.clear();
+    quantityController.clear();
+    descriptionController.clear();
+    totalPriceController.clear();
+    selectedBuySell.value=null;
+    selectedItem.value=null;
+    selectedAccount.value=null;
+    selectedAccountLevelItem.value = null;
+    selectedAccountSalesGroupItem.value = null;
+    manualPriceChecked.value=false;
+    notLimitChecked.value=false;
+  }
+  void clearListChangeItem() {
+    dateController.clear();
+    priceController.clear();
+    quantityController.clear();
+    descriptionController.clear();
+    totalPriceController.clear();
+    selectedItem.value=null;
+    selectedAccountLevelItem.value = null;
+    selectedAccountSalesGroupItem.value = null;
+    manualPriceChecked.value=false;
+    notLimitChecked.value=false;
+  }
+  void resetAccountSearch() {
+    debounce?.cancel();
+    searchController.clear();
+    searchedAccounts.assignAll(accountList);
+  }
+
+  // Set price from sales group
+  void setPriceFromSalesGroup(double mesghalPrice) {
+    priceController.text = mesghalPrice.toStringAsFixed(0).toPersianDigit().seRagham(separator: ',');
+    updateTotalPrice();
+  }
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+
+  <title>Hanigold</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <!-- 🎨 LOADING STYLE -->
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: sans-serif;
+      font-display: swap;
+    }
+
+    #loader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #111, #000);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    /* Logo */
+    .logo-img {
+      width: 150px;
+      margin-bottom: 25px;
+      animation: glow 2s ease-in-out infinite alternate;
+      will-change: filter;
+    }
+
+    @keyframes glow {
+      from {
+        filter: drop-shadow(0 0 10px #d4af37);
+      }
+      to {
+        filter: drop-shadow(0 0 30px #FFD700);
+      }
+    }
+
+    /* Circular Loader */
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 215, 0, 0.2);
+      border-top: 4px solid #FFD700;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Fade out */
+    .fade-out {
+      opacity: 0;
+      transition: 0.6s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="loader">
+
+  <!-- لوگو -->
+  <img src="HaniGold.png" class="logo-img" loading="eager"/>
+
+  <!-- لودینگ دایره‌ای -->
+  <div class="spinner"></div>
+
+</div>
+
+<script>
+  // Flutter ready → hide loader
+  window.addEventListener('flutter-first-frame', () => {
+    const loader = document.getElementById("loader");
+    loader.classList.add("fade-out");
+
+    setTimeout(() => {
+      loader.remove();
+    }, 600);
+  });
+</script>
+<!-- 🔊 AUDIO (بدون تغییر) -->
+<script>
+  let audioContext = null;
+  let audioEnabled = false;
+
+  function enableAudio() {
+    if (audioEnabled) return;
+    try {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      audioEnabled = true;
+      localStorage.setItem('audioEnabled', 'true');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function preloadSounds() {
+    const files = [
+      'assets/sounds/notification.mp3',
+      'assets/sounds/notificationAll.mp3'
+    ];
+
+    files.forEach(src => {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = src;
+    });
+  }
+
+  document.addEventListener('click', function () {
+      enableAudio();
+      preloadSounds();
+        }, { once: true });
+  document.addEventListener('touchstart', function () {
+      enableAudio();
+      preloadSounds();
+        }, { once: true });
+  document.addEventListener('keydown', function () {
+      enableAudio();
+      preloadSounds();
+        }, { once: true });
+</script>
+<script>
+  {{flutter_js}}
+  {{flutter_build_config}}
+
+  if (typeof _flutter !== 'undefined') {
+    _flutter.loader.load({
+      config: {
+        canvasKitBaseUrl: "/canvaskit/"
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

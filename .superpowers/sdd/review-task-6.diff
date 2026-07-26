@@ -1,0 +1,89 @@
+﻿# Review package: Task 6
+
+## File: upload.repository.dart
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:dio/dio.dart';
+import 'package:hanigold_admin/src/config/repository/url/base_url.dart';
+
+import '../network/dio_Interceptor.dart';
+
+class UploadRepository{
+
+  final Dio uploadDio=Dio();
+
+  UploadRepository(){
+    uploadDio.options.baseUrl=BaseUrl.baseUrl;
+    uploadDio.options.connectTimeout = const Duration(seconds: 30);
+    uploadDio.options.sendTimeout = const Duration(seconds: 60);
+    uploadDio.options.receiveTimeout = const Duration(seconds: 30);
+    uploadDio.interceptors.add(DioInterceptor());
+  }
+
+  Future<String> uploadImage({
+    required File imageFile,
+    required String recordId,
+    required String type,
+    required String entityType,
+  }) async {
+
+    String fileName = imageFile.path.split('/').last;
+
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(imageFile.path, filename: fileName),
+    });
+    final response = await uploadDio.post("Attachment/uploadAttachment", data: formData,
+      options: Options(headers: {
+        "Content-Type": "multipart/form-data","recordId": recordId, "type": type, "entityType": entityType,
+      },
+      ),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data;
+    } else {
+      throw Exception("Ø®Ø·Ø§ Ø¯Ø± Ø§Ø±Ø³Ø§Ù„ ØªØµÙˆÛŒØ±: ${response.statusMessage}");
+    }
+  }
+}
+
+class UploadRepositoryDesktop{
+
+  final Dio uploadDio=Dio();
+
+  UploadRepositoryDesktop(){
+    uploadDio.options.baseUrl=BaseUrl.baseUrl;
+    uploadDio.options.connectTimeout = const Duration(seconds: 30);
+    uploadDio.options.sendTimeout = const Duration(seconds: 60);
+    uploadDio.options.receiveTimeout = const Duration(seconds: 30);
+    uploadDio.interceptors.add(DioInterceptor());
+  }
+
+  Future<String> uploadImageDesktop({
+    required Uint8List imageBytes,
+    required String fileName,
+    required String recordId,
+    required String type,
+    required String entityType,
+  }) async {
+
+    final multipartFile = MultipartFile.fromBytes(
+      imageBytes,
+      filename: fileName,
+    );
+    FormData formData = FormData.fromMap({
+      "file": multipartFile,
+    });
+    final response = await uploadDio.post("Attachment/uploadAttachment", data: formData,
+      options: Options(headers: {
+        "Content-Type": "multipart/form-data","recordId": recordId, "type": type, "entityType": entityType,
+      },
+      ),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data;
+    } else {
+      throw Exception("Ø®Ø·Ø§ Ø¯Ø± Ø§Ø±Ø³Ø§Ù„ ØªØµÙˆÛŒØ±: ${response.statusMessage}");
+    }
+
+  }
+}

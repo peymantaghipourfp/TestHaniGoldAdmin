@@ -1,0 +1,33 @@
+
+
+import 'package:dio/dio.dart';
+import 'package:hanigold_admin/src/config/repository/url/base_url.dart';
+import 'package:hanigold_admin/src/domain/withdraw/model/deposit_request.model.dart';
+
+import '../logger/app_logger.dart';
+import '../network/dio_Interceptor.dart';
+import '../network/error/network.error.dart';
+import '../network/error_handler.dart';
+
+class DepositRequestGetOneRepository{
+  Dio depositRequestGetOneDio=Dio();
+
+  DepositRequestGetOneRepository(){
+    depositRequestGetOneDio.options.baseUrl=BaseUrl.baseUrl;
+    depositRequestGetOneDio.interceptors.add(DioInterceptor());
+  }
+
+  Future<DepositRequestModel> getOneDepositRequest(int depositRequestId)async{
+    try{
+      final response=await depositRequestGetOneDio.get(
+        'DepositRequest/getOne',queryParameters: {'id':depositRequestId}
+      );
+      Map<String, dynamic> data=response.data;
+      return DepositRequestModel.fromJson(data);
+    }catch(e,s){
+      AppLogger.e('getOneDepositRequest failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+}

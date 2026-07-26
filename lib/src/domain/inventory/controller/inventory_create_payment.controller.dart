@@ -1,0 +1,965 @@
+
+
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:printing/printing.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/repository/inventory.repository.dart';
+import 'package:hanigold_admin/src/config/repository/laboratory.repository.dart';
+import 'package:hanigold_admin/src/domain/inventory/controller/inventory.controller.dart';
+import 'package:hanigold_admin/src/domain/inventory/model/inventory.model.dart';
+import 'package:hanigold_admin/src/domain/inventory/model/inventory_detail.model.dart';
+import 'package:hanigold_admin/src/domain/wallet/model/wallet_account_req.model.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+
+import '../../../config/const/app_color.dart';
+import '../../../config/network/error/network.error.dart';
+import '../../../config/repository/account.repository.dart';
+import '../../../config/repository/remittance.repository.dart';
+import '../../../config/repository/upload.repository.dart';
+import '../../../config/repository/user_info_transaction.repository.dart';
+import '../../../config/repository/wallet.repository.dart';
+import '../../../utils/convert_Jalali_to_gregorian.component.dart';
+import '../../account/model/account.model.dart';
+import '../../laboratory/model/laboratory.model.dart';
+import '../../users/model/balance_item.model.dart';
+import '../../users/model/paginated.model.dart';
+import '../../wallet/model/wallet.model.dart';
+import '../../withdraw/model/filter.model.dart';
+import '../../withdraw/model/options.model.dart';
+import '../../withdraw/model/predicate.model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
+
+import 'inventory_create_layout.controller.dart';
+
+enum PageState{loading,err,empty,list}
+
+class InventoryCreatePaymentController extends GetxController{
+
+  final InventoryController inventoryController=Get.find<InventoryController>();
+  final InventoryCreateLayoutController inventoryCreateLayoutController = Get.find<InventoryCreateLayoutController>();
+
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
+  final TextEditingController searchLaboratoryController=TextEditingController();
+  final FocusNode searchLaboratoryFocusNode = FocusNode();
+  final TextEditingController quantityController=TextEditingController();
+  final TextEditingController impurityController=TextEditingController();
+  final TextEditingController weight750Controller=TextEditingController();
+  final TextEditingController caratController=TextEditingController();
+  final TextEditingController receiptNumberController=TextEditingController();
+  final TextEditingController dateController=TextEditingController();
+  final TextEditingController descriptionController=TextEditingController();
+  final TextEditingController verificationCodeController=TextEditingController();
+  final TextEditingController recipientNameController=TextEditingController();
+
+  final AccountRepository accountRepository=AccountRepository();
+  final WalletRepository walletRepository=WalletRepository();
+  final InventoryRepository inventoryRepository=InventoryRepository();
+  final LaboratoryRepository laboratoryRepository=LaboratoryRepository();
+  UserInfoTransactionRepository userInfoTransactionRepository=UserInfoTransactionRepository();
+  final UploadRepositoryDesktop uploadRepositoryDesktop=UploadRepositoryDesktop();
+  final RemittanceRepository remittanceRepository=RemittanceRepository();
+
+  final List<AccountModel> accountList=<AccountModel>[].obs;
+  final List<WalletModel> walletAccountList=<WalletModel>[].obs;
+  final List<LaboratoryModel> laboratoryList=<LaboratoryModel>[].obs;
+  final List<InventoryDetailModel> forPaymentList=<InventoryDetailModel>[].obs;
+  final List<BalanceItemModel> balanceList=<BalanceItemModel>[].obs;
+
+  Rx<PageState> state=Rx<PageState>(PageState.list);
+  var errorMessage=''.obs;
+  var isLoading=true.obs;
+  var isLoadingBalance=true.obs;
+
+  final Rxn<PaginatedModel> paginated = Rxn<PaginatedModel>();
+  final Rxn<AccountModel> selectedAccount = Rxn<AccountModel>();
+  final Rxn<WalletModel> selectedWalletAccount=Rxn<WalletModel>();
+  final Rxn<LaboratoryModel> selectedLaboratory=Rxn<LaboratoryModel>();
+  final Rxn<InventoryDetailModel> selectedInputItem=Rxn<InventoryDetailModel>();
+  final RxList<InventoryDetailModel> tempDetails = <InventoryDetailModel>[].obs;
+  final RxBool isFinalizing = false.obs;
+  RxList<AccountModel> searchedAccounts = <AccountModel>[].obs;
+  Timer? debounce;
+  RxList<LaboratoryModel> searchedLaboratories = <LaboratoryModel>[].obs;
+  RxInt editingIndex = RxInt(-1);
+  RxBool isEditing = false.obs;
+  final RxSet<int> selectedForPaymentId = RxSet<int>();
+  RxInt selectedLaboratoryId = RxInt(0);
+  //final ImagePicker _picker = ImagePicker();
+  RxList<XFile?> selectedImagesDesktop = RxList<XFile?>();
+  RxList<bool> uploadStatusesDesktop = RxList<bool>();
+  RxBool isUploadingDesktop = false.obs;
+  List<Uint8List> selectedImagesBytes = [];
+  List<String> selectedFileNames = [];
+  var recordId="".obs;
+  var uuid = Uuid();
+  var factorChecked = false.obs;
+  var factorBalanceChecked = false.obs;
+  RxInt currentPage = 1.obs;
+  RxInt itemsPerPage = 10.obs;
+  RxBool isVerification = false.obs;
+  RxBool isCodeVerified = false.obs;
+  Timer? _timer;
+  final RxInt countdownSeconds = 180.obs;
+  final RxBool isTimerActive = false.obs;
+  var verificationChecked = false.obs;
+  var itemCountTemp=''.obs;
+  var calculatedWeight = 0.0.obs;
+  var dropdownError="".obs;
+
+  void changeSelectedAccount(AccountModel? newValue) {
+    if (tempDetails.isNotEmpty) {
+      Get.snackbar(
+        "هشدار",
+        "امکان تغییر کاربر وجود ندارد. ابتدا آیتم‌های موقت را پاک کنید.",
+        titleText: Text(
+          "هشدار",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          "امکان تغییر کاربر وجود ندارد. ابتدا آیتم‌های موقت را پاک کنید.",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
+      return;
+    }
+    selectedAccount.value = newValue;
+    selectedWalletAccount.value = null;
+    getWalletAccount(selectedAccount.value?.id ?? 0);
+    // getBalanceList(newValue?.id ?? 0);
+    isLoadingBalance.value=false;
+
+  }
+  void updateW750(){
+    if (selectedWalletAccount.value?.item?.itemUnit?.id == 2) {
+      int carat = int.parse(caratController.text=="" ? "0" : caratController.text.toEnglishDigit());
+      double quantity = double.tryParse(quantityController.text=="" ? "0" : quantityController.text.toEnglishDigit()) ?? 0;
+      double w750 = (carat * quantity)/750;
+      weight750Controller.text = w750.toStringAsFixed(4).toEnglishDigit();
+    } else {
+      weight750Controller.clear();
+    }
+  }
+
+  void changeSelectedWalletAccount(WalletModel? newValue) {
+    // Check if there are items in tempDetails and prevent changing wallet account
+    if (tempDetails.isNotEmpty) {
+      Get.snackbar(
+        "هشدار",
+        "امکان تغییر حساب wallet وجود ندارد. ابتدا آیتم‌های موقت را پاک کنید.",
+        titleText: Text(
+          "هشدار",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          "امکان تغییر حساب wallet وجود ندارد. ابتدا آیتم‌های موقت را پاک کنید.",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
+      return;
+    }
+    selectedWalletAccount.value = newValue;
+    if (newValue?.item?.itemUnit?.id == 2) {
+      if(newValue?.item?.id==10 ||
+          newValue?.item?.id==12 ||
+          newValue?.item?.id==15 ||
+          newValue?.item?.id==16){
+        caratController.text = '900';
+        updateW750();
+      }else if(newValue?.item?.id==13){
+        caratController.text = '750';
+        updateW750();
+      }else{
+        caratController.text = '';
+        updateW750();
+      }
+    }
+    selectedLaboratoryId.value = 0;
+    searchLaboratoryController.clear();
+    getForPaymentListPager();
+
+    viewCountItem();
+  }
+
+
+  void viewCountItem(){
+    if(selectedWalletAccount.value?.item?.id==10 || selectedWalletAccount.value?.item?.id==13 || selectedWalletAccount.value?.item?.id==15 || selectedWalletAccount.value?.item?.id==16){
+      double? w750=selectedWalletAccount.value?.item?.w750;
+      double quantity=double.tryParse(quantityController.text==""? "0" :quantityController.text.toEnglishDigit()) ?? 0;
+      itemCountTemp.value=(quantity/w750!).round().toString();
+    }
+  }
+
+  void changeSelectedLaboratory(LaboratoryModel? newValue) {
+    selectedLaboratory.value=newValue;
+  }
+
+  void selectQuantity(double quantity){
+    quantityController.text=quantity.toString();
+    update();
+  }
+
+  void updateTempDetailQuantity(int index, double newQuantity) {
+    if (index >= 0 && index < tempDetails.length) {
+      final oldDetail = tempDetails[index];
+
+      // Calculate weight using formula: (weight * carat) / 750 for طلای آبشده (Molten Gold)
+      // This calculation converts the original weight to the actual weight based on carat purity
+      // and will be sent in the weight field during submission
+      //double calculatedWeight = 0.0;
+      if (oldDetail.item?.id == 1) { // Item id 1 is "طلای آبشده" (Molten Gold)
+        //final weight = oldDetail.weight ?? 0.0;
+        final carat = oldDetail.carat ?? 0;
+        if (newQuantity > 0 && carat > 0) {
+          calculatedWeight.value = (newQuantity * carat) / 750;
+        }
+      }
+
+      final newDetail = oldDetail.copyWith(
+        quantity: newQuantity,
+        weight: calculatedWeight.value,
+      );
+      tempDetails[index] = newDetail;
+    }
+  }
+  /*void updateDetail(int index, String recId,List<XFile> listXfile) {
+    if (index >= 0 && index < tempDetails.length) {
+      final oldDetail = tempDetails[index];
+      List<XFile> list = tempDetails[index].listXfile!=null?tempDetails[index].listXfile!:[];
+      if(listXfile.isNotEmpty){
+        list.addAll(listXfile);
+      }
+      final newDetail = oldDetail.copyWith(recId: recId,listXfile: list);
+      tempDetails[index] = newDetail;
+      update();
+    }
+  }*/
+  void updateDetail(int index, String recId, List<XFile> listXfile) {
+    if (index < 0 || index >= tempDetails.length) return;
+
+    final oldDetail = tempDetails[index];
+
+    // لیست قبلی (اگر null بود → خالی)
+    final existing = oldDetail.listXfile ?? [];
+    //  جلوگیری از عکس تکراری + immutable
+    final updatedList = [
+      ...existing,
+      ...listXfile.where(
+            (f) => !existing.any((e) => e.path == f.path),
+      ),
+    ];
+    final newDetail = oldDetail.copyWith(
+      recId: recId,
+      listXfile: updatedList,
+    );
+
+    tempDetails[index] = newDetail;
+
+    update();
+  }
+
+
+  @override
+  void onInit() {
+    fetchAccountList();
+    fetchWalletAccountList();
+    getForPaymentListPager();
+    searchController.addListener(onSearchChanged);
+    quantityController.addListener(updateW750);
+    caratController.addListener(updateW750);
+    var now = Jalali.now();
+    DateTime date=DateTime.now();
+    dateController.text =
+    "${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}";
+    super.onInit();
+  }
+  void onDropdownMenuStateChange(bool isOpen) {
+    if (isOpen) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        searchFocusNode.requestFocus();
+      });
+    } else {
+      resetAccountSearch();
+    }
+  }
+  @override
+  void onClose() {
+    _timer?.cancel();
+    debounce?.cancel();
+    searchController.dispose();
+    searchFocusNode.dispose();
+    searchLaboratoryController.dispose();
+    searchLaboratoryFocusNode.dispose();
+    super.onClose();
+  }
+
+  // لیست عکس ها
+  Future<List<String>> getImage(String fileName,String type) async{
+    //imageList.clear();
+    try{
+      var fetch=await remittanceRepository.getImage(fileName: fileName, type: type);
+      /*imageList.addAll(fetch.guidIds );
+      imageList.refresh();
+      update();*/
+      return fetch.guidIds;
+    }
+    catch(e){
+      //  state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+      return [];
+    }finally{
+    }
+  }
+
+  /*Future<void> deleteImage(String fileName,) async{
+    EasyLoading.show(status: 'لطفا منتظر بمانید');
+    try{
+      var fetch=await remittanceRepository.deleteImage(fileName: fileName,);
+      if(fetch){
+        getImage(remittanceModel?.recId??"", "Remittance");
+      }
+    }
+    catch(e){
+      //  state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+    }finally{
+      EasyLoading.dismiss();
+    }
+  }*/
+
+  // لیست کاربران
+  Future<void> fetchAccountList() async{
+    try{
+      state.value=PageState.loading;
+      var fetchedAccountList=await accountRepository.getAccountList("");
+      accountList.assignAll(fetchedAccountList);
+      searchedAccounts.assignAll(fetchedAccountList);
+      state.value=PageState.list;
+      if(accountList.isEmpty){
+        state.value=PageState.empty;
+      }
+    }
+    catch(e){
+      state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+    }finally{
+      isLoading.value=false;
+    }
+  }
+
+  void onSearchChanged(){
+    if (debounce?.isActive ?? false) debounce!.cancel();
+    debounce=Timer(const Duration(milliseconds: 500), () async {
+      final query = searchController.text.trim();
+      if (query.isEmpty) {
+        searchedAccounts.assignAll(accountList);
+        state.value = PageState.list;
+        return;
+      }
+      await searchAccountList(query);
+
+    });
+  }
+  Future<void> searchAccountList(String name) async {
+    try {
+      isLoading.value = true;
+      if (name.isEmpty) {
+        searchedAccounts.assignAll(accountList);
+        state.value = PageState.list;
+        return;
+      }
+      final results = await accountRepository.searchAccountList(name,"");
+      searchedAccounts.assignAll(results);
+      state.value = searchedAccounts.isEmpty ? PageState.empty : PageState.list;
+    } catch (e) {
+      Get.snackbar('خطا', 'خطا در جستجوی کاربران');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // مدل آپشن ولت
+  WalletAccountReqModel? walletAccountReqModel;
+  getWalletAccount(int id){
+    walletAccountReqModel= WalletAccountReqModel(
+        wallet: OptionsModel(
+            orderBy: "wallet.Id",
+            orderByType: "asc",
+            startIndex: 1,
+            toIndex: 10000,
+            predicate: [PredicateModel(
+                innerCondition: 0,
+                outerCondition: 0,
+                filters: [FilterModel(
+                    fieldName: "AccountId",
+                    filterValue: id.toString(),
+                    filterType: 4,
+                    refTable: "wallet"
+                )
+                ]
+            )
+            ]
+        )
+    );
+    fetchWalletAccountList();
+  }
+
+  // لیست ولت اکانت
+  Future<void> fetchWalletAccountList()async{
+    try{
+      state.value=PageState.loading;
+      var fetchedWalletAccountList=await walletRepository.getWalletList(walletAccountReqModel!);
+      walletAccountList.assignAll(fetchedWalletAccountList);
+      state.value=PageState.list;
+      if(walletAccountList.isEmpty){
+        state.value=PageState.empty;
+      }
+    }
+    catch(e){
+      state.value=PageState.err;
+      errorMessage.value=e.toString();
+    }
+  }
+
+  // لیست آزمایشگاه ها
+
+  Future<void> searchLaboratory(String name) async {
+    try {
+      isLoading.value = true;
+      if (name.isEmpty) {
+        searchedLaboratories.clear();
+      }
+      final laboratory = await laboratoryRepository.searchLaboratoryList(name);
+      searchedLaboratories.assignAll(laboratory);
+    } catch (e) {
+      Get.snackbar('خطا', 'خطا در جستجوی آزمایشگاه');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  void selectLaboratory(LaboratoryModel laboratory) {
+
+    selectedLaboratoryId.value = laboratory.id!;
+    searchLaboratoryController.text = laboratory.name!;
+    Get.back(); // Close search dialog
+    getForPaymentListPager();
+  }
+
+  void clearSearch() {
+
+    selectedLaboratoryId.value = 0;
+    searchLaboratoryController.clear();
+    searchedLaboratories.clear();
+    getForPaymentListPager();
+  }
+
+  void isChangePage(int index){
+    currentPage.value=(index*10-10)+1;
+    itemsPerPage.value=index*10;
+    getForPaymentListPager();
+  }
+
+  // لیست دریافتی ها
+  /*Future<void> fetchForPaymentList()async{
+    try{
+      isLoading.value=true;
+      state.value=PageState.loading;
+      var fetchedForPaymentList=await inventoryRepository.getForPaymentlist(
+          itemId:selectedWalletAccount.value?.item?.id ?? 0,
+        laboratoryId: selectedLaboratoryId.value == 0
+            ? null :selectedLaboratoryId.value
+      );
+      forPaymentList.assignAll(fetchedForPaymentList);
+      state.value=PageState.list;
+      if(forPaymentList.isEmpty){
+        state.value=PageState.empty;
+      }
+    }
+    catch(e){
+      state.value=PageState.err;
+      errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
+    }finally{
+      isLoading.value=false;
+    }
+  }*/
+
+  // لیست دریافتی ها با صفحه بندی
+  Future<void> getForPaymentListPager() async {
+    //isLoading.value=true;
+    try {
+      //state.value=PageState.loading;
+      var response = await inventoryRepository.getForPaymentlistPager(
+        startIndex: currentPage.value,
+        toIndex: itemsPerPage.value,
+        itemId:selectedWalletAccount.value?.item?.id ?? 0,
+        /*laboratoryId: selectedLaboratoryId.value == 0
+              ? null :selectedLaboratoryId.value*/
+      );
+      forPaymentList.clear();
+      //isLoading.value=false;
+      forPaymentList.addAll(response.inventories?.where((pList)=>pList.itemUnit?.id==2).toList() ?? []);
+      paginated.value=response.paginated;
+      //state.value=PageState.list;
+      update();
+    }
+    catch (e) {
+      //state.value = PageState.err;
+    } finally {}
+  }
+
+  Future<void> uploadImagesDesktop( String type, String entityType) async {
+    EasyLoading.show(status: 'لطفا منتظر بمانید');
+    try{
+      for(int i=0; i < tempDetails.length; i++){
+        recordId.value=uuid.v4();
+        if (tempDetails[i].listXfile==null || tempDetails[i].listXfile!.isEmpty){
+          continue;
+        }
+        if (tempDetails[i].recId == null || tempDetails[i].recId!.isEmpty) {
+          tempDetails[i] = tempDetails[i].copyWith(recId: uuid.v4());
+        }
+        isUploadingDesktop.value = true;
+        uploadStatusesDesktop.assignAll(List.filled(tempDetails[i].listXfile!.length, false));
+        for (int j = 0; j < tempDetails[i].listXfile!.length; j++) {
+          final file = tempDetails[i].listXfile![j];
+          try{
+            final bytes = await file.readAsBytes();
+            String success = await uploadRepositoryDesktop.uploadImageDesktop(
+              imageBytes: bytes,
+              fileName: file.name,
+              recordId: tempDetails[i].recId!,
+              type: type,
+              entityType: entityType,
+            );
+            uploadStatusesDesktop[i] = success.isNotEmpty;
+          }catch(e){
+            EasyLoading.dismiss();
+            Get.snackbar("خطا", "خطا در آپلود تصویر ${j + 1}");
+          }
+        }
+        if (uploadStatusesDesktop.every((status) => status)) {
+          EasyLoading.dismiss();
+          Get.snackbar("موفقیت", "همه تصاویر با موفقیت آپلود شدند");
+        }
+
+      }
+    }finally{
+      submitFinalInventory();
+      EasyLoading.dismiss();
+      isUploadingDesktop.value = false;
+      selectedImagesDesktop.clear();
+      uploadStatusesDesktop.clear();
+    }
+
+  }
+
+// لیست موقت فاکتور
+  Future<void> addToTempList() async {
+    try {
+      if (selectedAccount.value == null ||
+          selectedWalletAccount.value == null ||
+          quantityController.text.isEmpty) {
+        throw ErrorException('لطفا فیلدهای ضروری را پر کنید');
+      }
+      if(selectedWalletAccount.value!.item?.id==1){
+        calculatedWeight.value=(double.tryParse(quantityController.text.toEnglishDigit())! * double.parse(caratController.text.toEnglishDigit())) / 750;
+      }
+
+
+      final newDetail = InventoryDetailModel(
+        wallet: selectedWalletAccount.value!,
+        item: selectedWalletAccount.value!.item!,
+        itemUnit: selectedWalletAccount.value!.item!.itemUnit,
+        quantity: double.tryParse(quantityController.text.toEnglishDigit()) ?? 0.0,
+        weight: selectedWalletAccount.value?.item?.id==10 ||
+            selectedWalletAccount.value?.item?.id==12 ||
+            selectedWalletAccount.value?.item?.id==15 ||
+            selectedWalletAccount.value?.item?.id==16 ||
+            selectedWalletAccount.value!.item?.id==14 ? double.tryParse(weight750Controller.text.toEnglishDigit()) ?? 0.0
+            : selectedWalletAccount.value!.item?.id==1 && calculatedWeight.value!=0 ? calculatedWeight.value :
+        double.tryParse(quantityController.text.toEnglishDigit()) ?? 0.0,
+        type: 1,
+        impurity: double.tryParse(impurityController.text.toEnglishDigit()) ?? 0.0,
+        weight750: double.tryParse(weight750Controller.text.toEnglishDigit()) ?? 0.0,
+        carat: int.tryParse(caratController.text.toEnglishDigit()) ?? 0,
+        receiptNumber: receiptNumberController.text,
+        laboratory: selectedLaboratory.value,
+        stateMode : 1,
+        inputItemId: selectedWalletAccount.value!.item?.itemUnit?.id==2 ? selectedInputItem.value?.id : null,
+        description: descriptionController.text,
+        listXfile: selectedInputItem.value?.listXfile ?? [],
+        recId: selectedInputItem.value?.recId,
+        //fetchedImageUrls: fetchedImageUrls,
+      );
+
+      tempDetails.add(newDetail);
+      if (selectedInputItem.value?.id != null &&
+          !selectedForPaymentId.contains(selectedInputItem.value!.id)) {
+        selectedForPaymentId.add(selectedInputItem.value!.id!);
+      }
+      selectedInputItem.value = null;
+      // ریست کردن فیلدها
+      quantityController.clear();
+      //receiptNumberController.clear();
+      //descriptionController.clear();
+      //impurityController.clear();
+      //weight750Controller.clear();
+      //caratController.clear();
+      //selectedWalletAccount.value = null;
+      //selectedLaboratory.value=null;
+      Get.snackbar("موفق", "آیتم به لیست موقت اضافه شد");
+    } catch (e) {
+      throw ErrorException('خطا در افزودن آیتم: ${e.toString()}');
+    }
+  }
+
+  // تایمر
+  void startTimer() {
+    isTimerActive.value = true;
+    countdownSeconds.value = 180;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (countdownSeconds.value > 0) {
+        countdownSeconds.value--;
+      } else {
+        isTimerActive.value = false;
+        timer.cancel();
+      }
+    });
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    isTimerActive.value = false;
+    countdownSeconds.value = 180;
+  }
+
+  void resetTimer() {
+    stopTimer();
+    isTimerActive.value = false;
+    countdownSeconds.value = 180;
+  }
+
+  void resendVerificationCode() {
+    if (selectedAccount.value?.id != null && selectedAccount.value!.id! > 0) {
+      // Reset verification state
+      isVerification.value = false;
+      isCodeVerified.value = false;
+      verificationCodeController.clear();
+
+      // Send new code
+      sendVerificationCode(selectedAccount.value!.id!);
+    } else {
+      Get.snackbar(
+        "خطا",
+        "لطفا ابتدا کاربر را انتخاب کنید",
+        titleText: Text(
+          "خطا",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          "لطفا ابتدا کاربر را انتخاب کنید",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
+    }
+  }
+//ارسال کد
+  Future<void> sendVerificationCode(int accountId) async{
+    EasyLoading.show(status: 'لطفا منتظر بمانید');
+    try{
+      if (accountId <= 0) {
+        Get.snackbar(
+          "خطا",
+          "لطفا ابتدا کاربر را انتخاب کنید",
+          titleText: Text(
+            "خطا",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+          messageText: Text(
+            "لطفا ابتدا کاربر را انتخاب کنید",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+        );
+        return;
+      }
+      isVerification.value=false;
+      isCodeVerified.value=false;
+      var response=await inventoryRepository.sendVerificationCode(accountId);
+      isVerification.value=true;
+      if (response == true) {
+        startTimer();
+        Get.snackbar(
+          "موفقیت",
+          "کد با موفقیت ارسال شد",
+          titleText: Text(
+            "موفقیت",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+          messageText: Text(
+            "کد با موفقیت ارسال شد",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+        );
+      } else {
+        Get.snackbar(
+          "خطا",
+          "اجازه دهید زمان 3 دقیقه تمام شود \n خطا در ارسال کد",
+          titleText: Text(
+            "خطا",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+          messageText: Text(
+            "اجازه دهید زمان 3 دقیقه تمام شود \n خطا در ارسال کد",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+        );
+      }
+      update();
+    }
+    catch(e){
+      EasyLoading.dismiss();
+      throw ErrorException('خطا:$e');
+    }finally{
+      EasyLoading.dismiss();
+    }
+  }
+
+  // چک کد
+  Future<void> checkVerificationCode(int accountId,int code) async{
+    EasyLoading.show(status: 'لطفا منتظر بمانید');
+    try{
+      //isVerification.value=true;
+      var response=await inventoryRepository.checkVerificationCode(accountId,code);
+      //isVerification.value=false;
+      if (response == true) {
+        isCodeVerified.value = true;
+        isVerification.value = false;
+        stopTimer();
+        verificationCodeController.clear();
+        Get.snackbar(
+          "موفقیت",
+          "کد با موفقیت ثبت شد",
+          titleText: Text(
+            "موفقیت",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+          messageText: Text(
+            "کد با موفقیت ثبت شد",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+        );
+      } else {
+        Get.snackbar(
+          "خطا",
+          "کد نامعبر",
+          titleText: Text(
+            "خطا",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+          messageText: Text(
+            "کد نامعتبر",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),
+          ),
+        );
+      }
+      update();
+    }
+    catch(e){
+      EasyLoading.dismiss();
+      throw ErrorException('خطا:$e');
+    }finally{
+      EasyLoading.dismiss();
+    }
+  }
+
+
+// ثبت نهایی
+  Future<InventoryModel?> submitFinalInventory()async{
+    EasyLoading.show(status: 'لطفا منتظر بمانید');
+    try{
+      if (tempDetails.isEmpty) {
+        throw ErrorException('لیست آیتم‌ها خالی است');
+      }
+      isLoading.value=true;
+      isFinalizing.value=true;
+      String gregorianDate = convertJalaliToGregorian(dateController.text);
+      var response=await inventoryRepository.insertInventoryPayment(
+        date: gregorianDate,
+        accountId: selectedAccount.value?.id ?? 0,
+        accountName: selectedAccount.value?.name ?? "",
+        type: 1,
+        details:tempDetails,
+        recId: null,
+        confirmByAdmin: verificationChecked.value,
+        recipient: recipientNameController.text,
+      );
+      if (response != null) {
+        //Get.back();
+        tempDetails.clear();
+        InventoryModel responseData=InventoryModel.fromJson(response);
+        Get.snackbar(responseData.infos?.first['title'], responseData.infos?.first["description"],
+          titleText: Text(responseData.infos?.first['title'],
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),),
+          messageText: Text(
+            responseData.infos?.first["description"], textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),),
+        );
+        inventoryController.getInventoryListPager();
+        int accountId = selectedAccount.value?.id ?? 0;
+        await inventoryCreateLayoutController.getBalanceList(accountId);
+        // صدور فاکتور
+        if (factorBalanceChecked.value || factorChecked.value) {
+          final inventoryId = responseData.id;
+          if (inventoryId != null) {
+            final showBalance = factorBalanceChecked.value;
+            await _generateAndShareFactorPdf(inventoryId, showBalance);
+          }
+        }
+        Get.offNamed('/inventoryList');
+        clearList();
+      }
+    }catch(e){
+      EasyLoading.dismiss();
+      throw ErrorException('خطا:$e');
+    }finally{
+      EasyLoading.dismiss();
+      isLoading.value=false;
+      isFinalizing.value=false;
+    }
+    return null;
+  }
+
+  Future<void> _generateAndShareFactorPdf(int inventoryId, bool showBalance) async {
+    final bytes = await inventoryRepository.getFactorPdf(inventoryId, showBalance);
+    final fileName =
+        'factorInventoryPayment_${DateTime.now().millisecondsSinceEpoch}.pdf';
+    if (kIsWeb) {
+      final blob = html.Blob([bytes], 'application/pdf');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      html.AnchorElement(href: url)
+        ..download = fileName
+        ..click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+      await Printing.sharePdf(
+        bytes: bytes,
+        filename: 'factorInventoryPayment.pdf',
+      );
+    }
+  }
+
+  // لیست بالانس
+  /*Future<void> getBalanceList(int id) async{
+    balanceList.clear();
+    try{
+      state.value=PageState.loading;
+      var response=await userInfoTransactionRepository.getBalanceList(id);
+      balanceList.addAll(response);
+      balanceList.removeWhere((r)=>r.balance==0);
+      isLoadingBalance.value=true;
+      state.value=PageState.list;
+      if(balanceList.isEmpty){
+        state.value=PageState.empty;
+      }
+      update();
+    }
+    catch(e){
+      state.value=PageState.err;
+    }finally{
+    }
+  }*/
+
+  void clearList() {
+    dateController.clear();
+    quantityController.clear();
+    descriptionController.clear();
+    receiptNumberController.clear();
+    recipientNameController.clear();
+    impurityController.clear();
+    weight750Controller.clear();
+    caratController.clear();
+    selectedWalletAccount.value=null;
+    selectedAccount.value = null;
+    selectedLaboratory.value=null;
+    selectedInputItem.value = null;
+    factorBalanceChecked.value=false;
+    factorChecked.value=false;
+    clearVerificationState();
+    var now = Jalali.now();
+    DateTime date=DateTime.now();
+    dateController.text = "${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}";
+  }
+  void resetFieldsForTab(int tabIndex) {
+    //dateController.clear();
+    quantityController.clear();
+    descriptionController.clear();
+    receiptNumberController.clear();
+    recipientNameController.clear();
+    impurityController.clear();
+    weight750Controller.clear();
+    caratController.clear();
+    selectedWalletAccount.value=null;
+    selectedAccount.value = null;
+    selectedLaboratory.value=null;
+    selectedInputItem.value = null;
+    factorBalanceChecked.value=false;
+    factorChecked.value=false;
+    balanceList.clear();
+    tempDetails.clear();
+    clearVerificationState();
+    var now = Jalali.now();
+    DateTime date=DateTime.now();
+    dateController.text = "${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}";
+  }
+
+  void clearItemFields() {
+    quantityController.clear();
+    impurityController.clear();
+    weight750Controller.clear();
+    caratController.clear();
+    receiptNumberController.clear();
+    clearVerificationState();
+    //recipientNameController.clear();
+    selectedLaboratory.value = null;
+  }
+  void resetAccountSearch() {
+    searchController.clear();
+    searchedAccounts.assignAll(accountList);
+  }
+  void resetLaboratorySearch() {
+    searchLaboratoryController.clear();
+    searchedLaboratories.assignAll(laboratoryList);
+  }
+
+  void clearVerificationState() {
+    isVerification.value = false;
+    isCodeVerified.value = false;
+    verificationCodeController.clear();
+    resetTimer();
+  }
+
+}

@@ -1,0 +1,195 @@
+﻿# Final whole-branch review package — Safari pickImage fix
+# Plan: safari_pickimage_fix_6124e3d3.plan.md
+# Scope files only
+
+## RECEIVE widget key methods
+  void _showPickImageSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColor.secondary200Color,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.camera_alt, color: AppColor.textColor),
+                  title: Text(
+                    'Ø¯ÙˆØ±Ø¨ÛŒÙ†',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_library, color: AppColor.textColor),
+                  title: Text(
+                    'Ú¯Ø§Ù„Ø±ÛŒ',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> pickImageMobile(ImageSource source) async {
+    recordId.value = uuid.v4();
+
+    try {
+      if (source == ImageSource.camera) {
+        final XFile? photo = await _picker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 70,
+        );
+
+        if (photo == null) return;
+
+        widget.image.add(photo);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+      }
+
+      if (source == ImageSource.gallery) {
+        final List<XFile> images = await _picker.pickMultiImage();
+
+        if (images.isEmpty) return;
+
+        widget.image.addAll(images);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+      }
+    } catch (e, s) {
+      AppLogger.e("pickImageMobile error:", e, s);
+      Get.snackbar('Ø®Ø·Ø§', 'Ø§Ù…Ú©Ø§Ù† Ø§Ù†ØªØ®Ø§Ø¨ ØªØµÙˆÛŒØ± ÙˆØ¬ÙˆØ¯ Ù†Ø¯Ø§Ø±Ø¯');
+    }
+  }
+
+
+## RECEIVE call sites
+receive:63: void _showPickImageSheet() {
+receive:86: pickImageMobile(ImageSource.camera);
+receive:100: pickImageMobile(ImageSource.gallery);
+receive:111: Future<void> pickImageMobile(ImageSource source) async {
+receive:138: AppLogger.e("pickImageMobile error:", e, s);
+receive:339: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),
+receive:446: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),
+
+## PAYMENT widget key methods
+  void _showPickImageSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColor.secondary200Color,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.camera_alt, color: AppColor.textColor),
+                  title: Text(
+                    'Ø¯ÙˆØ±Ø¨ÛŒÙ†',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_library, color: AppColor.textColor),
+                  title: Text(
+                    'Ú¯Ø§Ù„Ø±ÛŒ',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> pickImageMobile(ImageSource source) async {
+    recordId.value = uuid.v4();
+
+    try {
+      if (source == ImageSource.camera) {
+        final XFile? photo = await _picker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 70,
+        );
+
+        if (photo == null) return;
+
+        widget.image.add(photo);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+        return;
+      }
+
+      if (source == ImageSource.gallery) {
+        final List<XFile> images = await _picker.pickMultiImage();
+
+        if (images.isEmpty) return;
+
+        widget.image.addAll(images);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+      }
+    } catch (e, s) {
+      AppLogger.e("pickImageMobile error:", e, s);
+      Get.snackbar('Ø®Ø·Ø§', 'Ø§Ù…Ú©Ø§Ù† Ø§Ù†ØªØ®Ø§Ø¨ ØªØµÙˆÛŒØ± ÙˆØ¬ÙˆØ¯ Ù†Ø¯Ø§Ø±Ø¯');
+    }
+  }
+
+  @override
+  void initState() {
+    quantityController.text = widget.quantity.toString();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
+
+## PAYMENT call sites
+payment:70: void _showPickImageSheet() {
+payment:93: pickImageMobile(ImageSource.camera);
+payment:107: pickImageMobile(ImageSource.gallery);
+payment:118: Future<void> pickImageMobile(ImageSource source) async {
+payment:146: AppLogger.e("pickImageMobile error:", e, s);
+payment:427: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),
+payment:529: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),

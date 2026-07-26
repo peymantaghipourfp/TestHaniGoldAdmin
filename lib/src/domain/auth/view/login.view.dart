@@ -1,0 +1,301 @@
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/const/app_color.dart';
+import 'package:hanigold_admin/src/config/const/app_text_style.dart';
+import 'package:hanigold_admin/src/domain/auth/controller/auth.controller.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
+import '../../../widget/version.widget.dart';
+import 'forget_password.view.dart';
+
+
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+
+  final formKey = GlobalKey<FormState>();
+  var controller=Get.find<AuthController>() ;
+  bool showPassword = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: isDesktop ? null : AppBar(
+        automaticallyImplyLeading: false,
+        /*actions: [
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/svg/exit.svg',
+              width: 32,
+              height: 32,
+              colorFilter: ColorFilter.mode(
+                AppColor.accentColor,
+                BlendMode.srcIn,
+              ),
+            ),
+            onPressed: () => FlutterExitApp.exitApp(),
+          ),
+        ],*/
+      ),
+      //backgroundColor: AppColor.backGroundColor1,
+
+      body: SizedBox.expand(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.topLeft,
+              colors: [
+                AppColor.backGroundColor1,
+                AppColor.backGroundColor2,
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: ResponsiveRowColumn(
+                  layout: isDesktop
+                      ? ResponsiveRowColumnType.ROW
+                      : ResponsiveRowColumnType.COLUMN,
+                  rowCrossAxisAlignment: CrossAxisAlignment.center,
+                  rowMainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // هدر
+                    if(isDesktop) ResponsiveRowColumnItem(
+                      rowFlex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(40),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo.png',
+                              width: 200,
+                              height: 200,
+                            ),
+                            Text(
+                              'به سیستم مدیریت حانی گلد خوش آمدید',
+                              style: AppTextStyle.smallTitleText.copyWith(fontSize: isDesktop ? 24 : 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 40),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Login Form
+                    ResponsiveRowColumnItem(
+                      rowFlex: 1,
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        padding: isDesktop
+                            ? const EdgeInsets.all(40)
+                            : const EdgeInsets.symmetric(horizontal: 24),
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if(!isDesktop) Center(
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/logo.png',
+                                        width: 150,
+                                        height: 150,
+                                      ),
+                                      Text(
+                                        'به سیستم مدیریت حانی گلد خوش آمدید',
+                                        style: AppTextStyle.smallTitleText,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 40),
+                                Text(
+                                    'ورود به حساب کاربری',
+                                    style: AppTextStyle.largeBodyTextBold.copyWith(fontSize: 18)
+                                ),
+                                const SizedBox(height: 32),
+                                // وارد کردن شماره موبایل
+                                TextFormField(
+                                  style: AppTextStyle.bodyText.copyWith(
+                                    fontSize: isDesktop ? 14 : 12,
+                                  ),
+                                  textDirection: TextDirection.rtl,
+                                  controller: controller.mobileController,
+                                  autofillHints: [AutofillHints.username],
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: isDesktop ? 20 : 16,
+                                      horizontal: 16,
+                                    ),
+                                    labelText: 'شماره موبایل',
+                                    labelStyle: TextStyle(color: AppColor.textColor),
+                                    hintText: '09xxxxxxxxx',
+                                    hintStyle: TextStyle(color: AppColor.textColor.withAlpha(50)),
+
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    prefixIcon: const Icon(Icons.phone_android_rounded),
+                                    prefixIconColor: AppColor.textColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.phone,
+                                  inputFormatters: [
+                                    //FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                    FilteringTextInputFormatter.allow(RegExp(r'[۰-۹0-9]')),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'لطفا شماره موبایل را وارد کنید';
+                                    }
+                                    return null;
+                                  },
+                                ),
+
+                                const SizedBox(height: 24),
+
+                                // وارد کردن پسورد
+                                TextFormField(
+                                  style: AppTextStyle.bodyText.copyWith(
+                                    fontSize: isDesktop ? 14 : 12,
+                                  ),
+                                  textDirection: TextDirection.rtl,
+                                  controller: controller.passwordController,
+                                  autofillHints: [AutofillHints.password],
+                                  obscureText: showPassword,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: isDesktop ? 20 : 16,
+                                      horizontal: 16,
+                                    ),
+                                    labelText: 'رمز عبور',
+                                    labelStyle: TextStyle(color: AppColor.textColor),
+                                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                                    prefixIconColor: AppColor.textColor,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        showPassword ? Icons.visibility_off : Icons.visibility,
+                                        color: AppColor.textColor,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          showPassword = !showPassword;
+                                        });
+                                      },
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12)),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'لطفا رمز عبور را وارد کنید';
+                                    }
+                                    return null;
+                                  },
+                                ),
+
+                                const SizedBox(height: 16),
+
+                                Obx(() => CheckboxListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  value: controller.rememberMe.value,
+                                  onChanged: (value) {
+                                    controller.updateRememberMe(value ?? false);
+                                  },
+                                  title: Text(
+                                    'مرا به خاطر بسپار',
+                                    style: AppTextStyle.bodyText.copyWith(
+                                      fontSize: isDesktop ? 14 : 12,
+                                    ),
+                                  ),
+                                )),
+
+                                const SizedBox(height: 16),
+
+                                // فراموشی پسورد
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Get.dialog(
+                                          ForgetPasswordPage());
+                                      setState(() {
+                                      });
+                                    },
+                                    child: Text(
+                                      'رمز عبور را فراموش کرده‌اید؟',
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        color: theme.colorScheme.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(height: 32),
+
+                                // دکمه ورود
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 52,
+                                  child: FilledButton.tonal(
+                                    style: FilledButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12)),
+                                      backgroundColor: AppColor.buttonColor,
+                                    ),
+                                    onPressed: () {
+                                      //Get.toNamed('/home');
+                                      if (formKey.currentState!.validate()) {
+                                        controller.login();
+                                      }
+                                    },
+                                    child: Text(
+                                      'ورود',
+                                      style: AppTextStyle.mediumTitleText,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: const VersionWidget(),
+    );
+  }
+}

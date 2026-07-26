@@ -1,0 +1,19 @@
+
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/domain/order/controller/order_byAccount_report.controller.dart';
+import 'package:hanigold_admin/src/domain/order/controller/order_create.controller.dart';
+import 'package:hanigold_admin/src/domain/order/controller/order_edited_report.controller.dart';
+import 'package:hanigold_admin/src/domain/order/controller/order_update.controller.dart';
+import '../../../domain/order/controller/order.controller.dart';
+
+class OrderBindings implements Bindings{
+  @override
+  void dependencies() {
+    Get.lazyPut(() => OrderController(), fenix: true);
+    Get.lazyPut(()=>OrderCreateController());
+    Get.lazyPut(()=>OrderUpdateController());
+    Get.lazyPut(()=>OrderByAccountReportController());
+    Get.lazyPut(()=>OrderEditedReportController());
+    //Get.lazyPut(()=>HomeController());
+  }
+}

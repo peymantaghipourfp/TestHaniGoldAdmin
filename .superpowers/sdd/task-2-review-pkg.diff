@@ -1,0 +1,104 @@
+﻿# Review package Task 2 (no-git working-tree snapshot)
+# File: lib/src/domain/inventory/widget/item_temp_detail_payment.widget.dart
+
+## Key methods after change
+  void _showPickImageSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColor.secondary200Color,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.camera_alt, color: AppColor.textColor),
+                  title: Text(
+                    'Ø¯ÙˆØ±Ø¨ÛŒÙ†',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_library, color: AppColor.textColor),
+                  title: Text(
+                    'Ú¯Ø§Ù„Ø±ÛŒ',
+                    style: AppTextStyle.bodyText.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                    pickImageMobile(ImageSource.gallery);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> pickImageMobile(ImageSource source) async {
+    recordId.value = uuid.v4();
+
+    try {
+      if (source == ImageSource.camera) {
+        final XFile? photo = await _picker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 70,
+        );
+
+        if (photo == null) return;
+
+        widget.image.add(photo);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+        return;
+      }
+
+      if (source == ImageSource.gallery) {
+        final List<XFile> images = await _picker.pickMultiImage();
+
+        if (images.isEmpty) return;
+
+        widget.image.addAll(images);
+        widget.recId?.call(recordId.value, List<XFile>.from(widget.image));
+        setState(() {});
+      }
+    } catch (e, s) {
+      AppLogger.e("pickImageMobile error:", e, s);
+      Get.snackbar('Ø®Ø·Ø§', 'Ø§Ù…Ú©Ø§Ù† Ø§Ù†ØªØ®Ø§Ø¨ ØªØµÙˆÛŒØ± ÙˆØ¬ÙˆØ¯ Ù†Ø¯Ø§Ø±Ø¯');
+    }
+  }
+
+  @override
+  void initState() {
+    quantityController.text = widget.quantity.toString();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
+
+## Call sites
+50: Future<void> pickImageDesktop() async {
+70: void _showPickImageSheet() {
+93: pickImageMobile(ImageSource.camera);
+107: pickImageMobile(ImageSource.gallery);
+118: Future<void> pickImageMobile(ImageSource source) async {
+146: AppLogger.e("pickImageMobile error:", e, s);
+427: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),
+529: onTap: () => isMobile ? _showPickImageSheet() : pickImageDesktop(),

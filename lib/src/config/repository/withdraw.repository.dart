@@ -1,0 +1,644 @@
+
+
+
+import 'package:dio/dio.dart';
+import 'package:hanigold_admin/src/config/repository/url/base_url.dart';
+import 'package:hanigold_admin/src/domain/withdraw/model/withdraw.model.dart';
+
+import '../../domain/remittance/model/list_withdraw.model.dart';
+import '../../domain/withdraw/model/today_deposit_request_report.model.dart';
+import '../../domain/withdraw/model/today_payment_report.model.dart';
+import '../../domain/withdraw/model/today_withdraw_request_report.model.dart';
+import '../logger/app_logger.dart';
+import '../network/dio_Interceptor.dart';
+import '../network/error/network.error.dart';
+import 'dart:typed_data';
+
+import '../network/error_handler.dart';
+
+class WithdrawRepository{
+  Dio withdrawDio=Dio();
+
+  WithdrawRepository(){
+    withdrawDio.options.baseUrl=BaseUrl.baseUrl;
+    withdrawDio.interceptors.add(DioInterceptor());
+  }
+  Future<List<WithdrawModel>> getWithdrawList({
+    required int startIndex,
+    required int toIndex,
+    int? accountId,
+    required String startDate,
+    required String endDate})async{
+    try{
+      Map<String , dynamic> options={
+        "options" : { "withdrawrequest" :{
+          "Predicate": [
+            {
+              "innerCondition": 0,
+              "outerCondition": 0,
+              "filters": [
+                if (accountId != null)
+                {
+                  "fieldName": "Id",
+                  "filterValue": accountId.toString(),
+                  "filterType": 5,
+                  "RefTable": "Account"
+                },
+                {
+                  "fieldName": "IsDeleted",
+                  "filterValue": "0",
+                  "filterType": 4,
+                  "RefTable": "WithdrawRequest"
+                },
+                if(startDate!="")
+                  {
+                    "fieldName": "RequestDate",
+                    "filterValue": "$startDate|$endDate",
+                    "filterType": 25,
+                    "RefTable": "WithdrawRequest"
+                  }
+              ]
+            }
+          ],
+          "orderBy": "withdrawrequest.requestDate",
+          "orderByType": "desc",
+          "StartIndex": startIndex,
+          "ToIndex": toIndex
+        }}
+      };
+      final response=await withdrawDio.post('WithdrawRequest/get',data: options);
+        List<dynamic> data=response.data;
+        return data.map((withdraw)=>WithdrawModel.fromJson(withdraw)).toList();
+
+    }
+    catch (e, s) {
+      AppLogger.e('getWithdrawList failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+Future<ListWithdrawModel> getWithdrawListPager({
+    required int startIndex,
+    required int toIndex,
+    int? accountId,
+    required String startDate,
+    required String endDate,
+  required String name,
+  required String ownerName,
+  required String amountFilter,
+  required String depositRequestAccountName,
+})async{
+    try{
+      Map<String , dynamic> options=
+      {
+          "options" : { "withdrawrequest" : {
+          "Predicate": [
+            {
+              "innerCondition": 0,
+              "outerCondition": 0,
+                "filters": [
+                  if(accountId != null)
+                {
+                  "fieldName": "Id",
+                  "filterValue": accountId.toString(),
+                  "filterType": 5,
+                  "RefTable": "Account"
+                },
+                  if(startDate!="")
+                    {
+                      "fieldName": "RequestDate",
+                      "filterValue": "$startDate|$endDate",
+                      "filterType": 25,
+                      "RefTable": "WithdrawRequest"
+                    },
+                  if(name!="")
+                    {
+                      "fieldName": "Name",
+                      "filterValue": name,
+                      "filterType": 0,
+                      "RefTable": "Account"
+                    },
+                  if(ownerName!="")
+                    {
+                      "fieldName": "OwnerName",
+                      "filterValue": ownerName,
+                      "filterType": 0,
+                      "RefTable": "WithdrawRequest"
+                    },
+                  if(depositRequestAccountName!="")
+                    {
+                      "fieldName": "DepositRequestAccountName",
+                      "filterValue": depositRequestAccountName,
+                      "filterType": 0,
+                      "RefTable": "Custom"
+                    },
+              ],
+            },
+            // Amount filter
+            if(amountFilter != null && amountFilter.isNotEmpty)
+              {
+                "innerCondition": 1,
+                "outerCondition": 0,
+                "filters": [
+                  {
+                    "fieldName": "RequestAmount",
+                    "filterValue": amountFilter,
+                    "filterType": 0,
+                    "RefTable": "WithdrawRequest"
+                  },
+                  {
+                    "fieldName": "Amount",
+                    "filterValue": amountFilter,
+                    "filterType": 0,
+                    "RefTable": "WithdrawRequest"
+                  },
+                  {
+                    "fieldName": "DividedAmount",
+                    "filterValue": amountFilter,
+                    "filterType": 0,
+                    "RefTable": "DividedAmountsPerWithdrawRequest"
+                  },
+                  {
+                    "fieldName": "PaidAmount",
+                    "filterValue": amountFilter,
+                    "filterType": 0,
+                    "RefTable": "PaidAmountsPerWithdrawRequest"
+                  },
+                ]
+              }
+          ],
+          "orderBy": "withdrawrequest.requestDate",
+          "orderByType": "desc",
+          "StartIndex": startIndex,
+          "ToIndex": toIndex
+        }}
+      };
+      final response=await withdrawDio.post('WithdrawRequest/getWrapper',data: options);
+        return ListWithdrawModel.fromJson(response.data);
+
+    }
+    catch (e, s) {
+      AppLogger.e('getWithdrawListPager failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+  Future<ListWithdrawModel> getWithdrawListPendingPager({
+    required int startIndex,
+    required int toIndex,
+    int? accountId,
+    required String startDate,
+    required String endDate,
+    required String name,
+  })async{
+    try{
+      Map<String , dynamic> options=
+      {
+        "options" : { "withdrawrequest" : {
+          "Predicate": [
+            {
+              "innerCondition": 0,
+              "outerCondition": 0,
+              "filters": [
+                if(accountId != null)
+                  {
+                    "fieldName": "Id",
+                    "filterValue": accountId.toString(),
+                    "filterType": 5,
+                    "RefTable": "Account"
+                  },
+                if(startDate!="")
+                  {
+                    "fieldName": "RequestDate",
+                    "filterValue": "$startDate|$endDate",
+                    "filterType": 25,
+                    "RefTable": "WithdrawRequest"
+                  },
+                if(name!="")
+                  {
+                    "fieldName": "Name",
+                    "filterValue": name,
+                    "filterType": 0,
+                    "RefTable": "Account"
+                  },
+                {
+                  "fieldName": "Status",
+                  "filterValue": "0",
+                  "filterType": 5,
+                  "RefTable": "WithdrawRequest"
+                }
+              ],
+            }
+          ],
+          "orderBy": "withdrawrequest.requestDate",
+          "orderByType": "desc",
+          "StartIndex": startIndex,
+          "ToIndex": toIndex
+        }}
+      };
+      final response=await withdrawDio.post('WithdrawRequest/getWrapper',data: options);
+      return ListWithdrawModel.fromJson(response.data);
+
+    }
+    catch (e, s) {
+      AppLogger.e('getWithdrawListPendingPager failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<Uint8List> getWithdrawExcel({
+    required String startDate,
+    required String endDate
+  }) async{
+    try{
+      Map<String, dynamic> options =
+      {
+        "options" : { "withdrawrequest" : {
+          "Predicate": [
+            {
+              "innerCondition": 0,
+              "outerCondition": 0,
+              "filters": [
+                if(startDate!="")
+                  {
+                    "fieldName": "RequestDate",
+                    "filterValue": "$startDate|$endDate",
+                    "filterType": 25,
+                    "RefTable": "WithdrawRequest"
+                  },
+              ]
+            }
+          ],
+          "orderBy": "withdrawrequest.requestDate",
+          "orderByType": "desc",
+          "StartIndex": 1,
+          "ToIndex": 100000
+        }
+        }
+      };
+      final response=await withdrawDio.post(
+          'WithdrawRequest/getExcel',
+          data: options,
+          options: Options(responseType: ResponseType.bytes));
+      return Uint8List.fromList(response.data);
+    }catch (e, s) {
+      AppLogger.e('getWithdrawExcel failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<Map<String , dynamic>> insertWithdraw({
+    required int walletId,
+    required int itemId,
+    required String itemName,
+    required int accountId,
+    required String accountName,
+    //required int bankAccountId,
+    required int bankId,
+    required String bankName,
+    required String ownerName,
+    required double amount,
+    required String number,
+    required String cardNumber,
+    required String sheba,
+    required String? description,
+    required String date,
+    required int status,
+    required String recId,
+})async{
+    try{
+      Map<String,dynamic> withdrawData={
+        "wallet": {
+          "address": "00000000-0000-0000-0000-000000000000",
+          "account": {
+            "code": "1",
+            "name": accountName,
+            "accountGroup": {
+              "infos": []
+            },
+            "accountItemGroup": {
+              "infos": []
+            },
+            "accountPriceGroup": {
+              "infos": []
+            },
+            "id": accountId,
+            "infos": []
+          },
+          "item": {
+            "itemGroup": {
+              "infos": []
+            },
+            "itemUnit": {
+              "infos": []
+            },
+            "name": itemName,
+            "id": itemId,
+            "infos": []
+          },
+          "id": walletId,
+          "infos": []
+        },
+        "bank": {
+          "name": bankName,
+          "id": bankId,
+          "infos": []
+        },
+        "ownerName": ownerName,
+        "number": number,
+        "cardNumber": cardNumber,
+        "sheba": sheba,
+        "amount": amount,
+        "undividedAmount": 100.000,
+        "requestDate": date,
+        "rowNum": 1,
+        "id": 1,
+        "status":status,
+        "attribute": "cus",
+        "infos": [],
+        "description": description,
+        "recId": recId,
+      };
+      
+      var response=await withdrawDio.post('WithdrawRequest/insert',data: withdrawData);
+      return response.data;
+    }
+    catch (e, s) {
+      AppLogger.e('insertWithdraw failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<Map<String , dynamic>> updateWithdraw({
+    required int withdrawId,
+    required int walletId,
+    required int itemId,
+    required String itemName,
+    required int accountId,
+    required String accountName,
+    //required int bankAccountId,
+    required int bankId,
+    required String bankName,
+    required String ownerName,
+    required double amount,
+    required String number,
+    required String cardNumber,
+    required String sheba,
+    required String? description,
+    required String date,
+    required int status,
+    required String recId,
+  })async{
+    try{
+      Map<String,dynamic> withdrawData={
+        "bank": {
+          "name": bankName,
+          "id": bankId,
+          "infos": []
+        },
+        "wallet": {
+          "address": "00000000-0000-0000-0000-000000000000",
+          "account": {
+            "code": "1",
+            "name": accountName,
+            "accountGroup": {
+              "infos": []
+            },
+            "accountItemGroup": {
+              "infos": []
+            },
+            "accountPriceGroup": {
+              "infos": []
+            },
+            "id": accountId,
+            "infos": []
+          },
+          "item": {
+            "itemGroup": {
+              "infos": []
+            },
+            "itemUnit": {
+              "infos": []
+            },
+            "name": itemName,
+            "id": itemId,
+            "infos": []
+          },
+          "id": walletId,
+          "infos": []
+        },
+        "ownerName": ownerName,
+        "number": number,
+        "cardNumber": cardNumber,
+        "sheba": sheba,
+        "amount": amount,
+        //"undividedAmount": 100.000,
+        "requestDate": date,
+        "confirmDate": date,
+        "rowNum": 1,
+        "id": withdrawId,
+        "status":status,
+        "attribute": "cus",
+        "infos": [],
+        "description": description,
+        "recId": recId,
+      };
+
+      var response=await withdrawDio.put('WithdrawRequest/update',data: withdrawData);
+      return response.data;
+    }
+    catch (e, s) {
+      AppLogger.e('updateWithdraw failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+
+  Future<Map<String , dynamic>> updateStatusWithdraw({
+    required int status,
+    required int withdrawId,
+    int? reasonRejectionId,
+  })async{
+    try{
+      Map<String,dynamic> withdrawData={
+        "bank": {
+          "name": "",
+          "icon": "",
+          "id": 0,
+          "infos": []
+        },
+        "wallet": {
+          "address": "6f95c785-db25-456d-9fa0-d5807d35dfa0",
+          "account": {
+            "code": "1",
+            "name": "پدیده ارتباطات",
+            "accountGroup": {
+              "infos": []
+            },
+            "accountItemGroup": {
+              "infos": []
+            },
+            "accountPriceGroup": {
+              "infos": []
+            },
+            "id": 1,
+            "infos": []
+          },
+          "item": {
+            "itemGroup": {
+              "infos": []
+            },
+            "itemUnit": {
+              "infos": []
+            },
+            "name": "وجه نقد",
+            "id": 6,
+            "infos": []
+          },
+          "id": 1005,
+          "infos": []
+        },
+        "amount": 2000000.000,
+        "dividedAmount": 0.000,
+        "notConfirmedAmount": 0.000,
+        "undividedAmount": 2000000.000,
+        "requestDate": "2025-03-10T12:48:23",
+        "status": status,
+        if (reasonRejectionId != null) "reasonRejection":{
+      "id": reasonRejectionId,
+      },
+        "rowNum": 1,
+        "id": withdrawId,
+        "attribute": "cus",
+        "infos": []
+      };
+
+
+      var response=await withdrawDio.put('WithdrawRequest/updateStatus',data: withdrawData);
+      return response.data;
+    }
+    catch (e, s) {
+      AppLogger.e('updateStatusWithdraw failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<List< dynamic>> deleteWithdraw({
+    required bool isDeleted,
+    required int withdrawId,
+  })async{
+    try{
+      Map<String,dynamic> withdrawData={
+        "id": withdrawId,
+        "isDeleted" : isDeleted,
+      };
+
+
+      var response=await withdrawDio.delete('WithdrawRequest/updateToIsDeleted',data: withdrawData);
+      return response.data;
+    }
+    catch (e, s) {
+      AppLogger.e('deleteWithdraw failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<Map<String,dynamic>> updateRequestDateWithdraw({
+    required int withdrawId,
+  })async{
+    try{
+      Map<String,dynamic> withdrawData={
+        "id": withdrawId,
+      };
+
+
+      var response=await withdrawDio.post('WithdrawRequest/insertRefrence',data: withdrawData);
+      return response.data;
+    }
+    catch (e, s) {
+      AppLogger.e('خطا در آپدیت تاریخ: ', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<List< dynamic>> sendTelegramWithdrawRequest({
+    required int withdrawRequestId,
+  })async{
+    try {
+      final response = await withdrawDio.post('WithdrawRequest/sendTelegram', queryParameters: {'withdrawRequestId': withdrawRequestId});
+      return response.data;
+    }catch (e, s) {
+      AppLogger.e('sendTelegramWithdrawRequest failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<TodayPaymentReportModel> getTodayPaymentReport({
+    required int accountId,
+    required String date,
+  }) async {
+    try {
+      final Map<String, dynamic> option = {'accountId': accountId,'date': date};
+      final response = await withdrawDio.get(
+        'WithdrawRequest/getTodayPaymentReport',
+        queryParameters: option,
+      );
+      return TodayPaymentReportModel.fromJson(
+        Map<String, dynamic>.from(response.data),
+      );
+    } catch (e, s) {
+      AppLogger.e('getTodayPaymentReport failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<List<TodayWithdrawRequestReportModel>> getTodayWithdrawRequest({
+    required int accountId,
+    required String date,
+  }) async {
+    try {
+      final Map<String, dynamic> option = {'accountId': accountId,'date': date};
+      final response = await withdrawDio.get(
+        'WithdrawRequest/getTodayWithdrawRequest',
+        queryParameters: option,
+      );
+      final data = response.data;
+      if (data is! List) return [];
+      return data
+          .map(
+            (e) => TodayWithdrawRequestReportModel.fromJson(
+          Map<String, dynamic>.from(e as Map),
+        ),
+      )
+          .toList();
+    } catch (e, s) {
+      AppLogger.e('getTodayWithdrawRequest failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<List<TodayDepositRequestReportModel>> getTodayDepositRequest({
+    required int accountId,
+    required String date,
+  }) async {
+    try {
+      final Map<String, dynamic> option = {'accountId': accountId,'date': date};
+      final response = await withdrawDio.get(
+        'WithdrawRequest/getTodayDepositRequest',
+        queryParameters: option,
+      );
+      final data = response.data;
+      if (data is! List) return [];
+      return data
+          .map(
+            (e) => TodayDepositRequestReportModel.fromJson(
+          Map<String, dynamic>.from(e as Map),
+        ),
+      )
+          .toList();
+    } catch (e, s) {
+      AppLogger.e('getTodayDepositRequest failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+
+}

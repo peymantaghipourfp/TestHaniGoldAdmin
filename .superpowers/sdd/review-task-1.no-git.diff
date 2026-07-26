@@ -1,0 +1,62 @@
+﻿# Review package: Task 1 (no-git working tree)
+## Commits
+none (no-git workspace)
+
+## Files changed
+test/today_payment_report_dialog_test.dart (new)
+
+## Diff
+--- /dev/null
++++ test/today_payment_report_dialog_test.dart
++import 'package:flutter_test/flutter_test.dart';
++import 'package:hanigold_admin/src/domain/withdraw/model/today_payment_report.model.dart';
++import 'package:hanigold_admin/src/domain/withdraw/util/today_payment_report_section.util.dart';
++
++TodayPaymentReportModel _report({
++  int? withdrawRequestCount,
++  double? withdrawRequestAmount,
++  int? pledgeCount,
++  double? pledgeAmount,
++}) {
++  return TodayPaymentReportModel(
++    accountId: null,
++    accountName: null,
++    reportDatePersian: null,
++    withdrawRequestCount: withdrawRequestCount,
++    withdrawRequestAmount: withdrawRequestAmount,
++    withdrawCoverageCount: null,
++    withdrawCoverageAmount: null,
++    withdrawCoveragePercent: null,
++    withdrawSettlementCount: null,
++    withdrawSettlementAmount: null,
++    withdrawSettlementPercent: null,
++    pledgeCount: pledgeCount,
++    pledgeAmount: pledgeAmount,
++    pledgeProgressPercent: null,
++    transferCount: null,
++    transferAmount: null,
++    outstandingAmount: null,
++    activePledgeCount: null,
++    finishedPledgeCount: null,
++    overPaymentCount: null,
++    overPaymentAmount: null,
++  );
++}
++
++void main() {
++  test('empty withdraw section disables expand', () {
++    final report = _report(
++      withdrawRequestCount: 0,
++      withdrawRequestAmount: 0,
++    );
++    expect(isWithdrawSectionEmpty(report), isTrue);
++  });
++
++  test('non-empty pledge section allows expand', () {
++    final report = _report(
++      pledgeCount: 1,
++      pledgeAmount: 100,
++    );
++    expect(isPledgeSectionEmpty(report), isFalse);
++  });
++}

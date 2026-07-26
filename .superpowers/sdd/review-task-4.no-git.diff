@@ -1,0 +1,149 @@
+﻿# Review package: Task 4 (no-git working tree)
+## Commits
+none (no-git workspace)
+
+## Note
+Task 4 is primarily validation. Controller resolution allowed skipping widget smoke when WithdrawController mocks are absent. Diff of test file vs Task 1 end state may be empty.
+
+## Current test file
+// Util tests for today-payment report dialog helpers.
+// Widget smoke test (icon â†’ Dialog) deferred: TodayPaymentReportDialogTrigger
+// requires a real WithdrawController with repository-backed cache/state; no
+// existing mocks in test/. See .superpowers/sdd/task-4-report.md for manual UI checklist.
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hanigold_admin/src/domain/withdraw/model/today_payment_report.model.dart';
+import 'package:hanigold_admin/src/domain/withdraw/util/today_payment_report_section.util.dart';
+
+TodayPaymentReportModel _report({
+  int? withdrawRequestCount,
+  double? withdrawRequestAmount,
+  int? pledgeCount,
+  double? pledgeAmount,
+}) {
+  return TodayPaymentReportModel(
+    accountId: null,
+    accountName: null,
+    reportDatePersian: null,
+    withdrawRequestCount: withdrawRequestCount,
+    withdrawRequestAmount: withdrawRequestAmount,
+    withdrawCoverageCount: null,
+    withdrawCoverageAmount: null,
+    withdrawCoveragePercent: null,
+    withdrawSettlementCount: null,
+    withdrawSettlementAmount: null,
+    withdrawSettlementPercent: null,
+    pledgeCount: pledgeCount,
+    pledgeAmount: pledgeAmount,
+    pledgeProgressPercent: null,
+    transferCount: null,
+    transferAmount: null,
+    outstandingAmount: null,
+    activePledgeCount: null,
+    finishedPledgeCount: null,
+    overPaymentCount: null,
+    overPaymentAmount: null,
+  );
+}
+
+void main() {
+  test('empty withdraw section disables expand', () {
+    final report = _report(
+      withdrawRequestCount: 0,
+      withdrawRequestAmount: 0,
+    );
+    expect(isWithdrawSectionEmpty(report), isTrue);
+  });
+
+  test('non-empty pledge section allows expand', () {
+    final report = _report(
+      pledgeCount: 1,
+      pledgeAmount: 100,
+    );
+    expect(isPledgeSectionEmpty(report), isFalse);
+  });
+}
+
+## Implementer report excerpt
+
+# Task 4 Report: Widget test for open/close path + final validation
+
+## Status
+
+**Complete**
+
+## Summary
+
+Kept Task 1 util tests for section-empty helpers. Skipped widget smoke test because `TodayPaymentReportDialogTrigger` requires a concrete `WithdrawController` with private cache/state tied to `WithdrawRepository` â€” no existing mocks in `test/` and a lightweight stub would need multi-method overrides plus cache simulation. Documented manual UI validation checklist below.
+
+## Files changed
+
+| File | Change |
+|------|--------|
+| `test/today_payment_report_dialog_test.dart` | Added deferral comment; util tests unchanged |
+
+## Widget smoke test decision
+
+`TodayPaymentReportDialogTrigger` passes `withdrawController` into `_TodayPaymentReportDialogBody`, which:
+
+1. Calls `loadTodayPaymentReport` on `initState`
+2. After `FutureBuilder` resolves, reads `todayPaymentReportStateFor` / `todayPaymentReportErrorFor` from controller cache
+
+A test-only subclass could override `loadTodayPaymentReport`, but the dialog body also depends on private `_todayPaymentReportCache` entries updated only inside `_fetchTodayPaymentReport`. Faking success/error/empty paths would require either repository injection refactors or a heavy GetX DI harness â€” out of scope per task resolution.
+
+## Manual validation checklist
+
+Run on Windows desktop or web (`flutter run -d windows` / `chrome`):
+
+1. **Open dialog** â€” Navigate to withdraws list â†’ click receipt icon (`Icons.receipt_long_rounded`) on a row with `account.id` â†’ dialog opens, shows loading then report content.
+2. **Nested expand/collapse** â€” Tap withdraw/deposit section icons inside the report â†’ nested lists expand and collapse as before.
+3. **Close paths** â€” Close via X button and via barrier tap â†’ dialog closes; reopen on same row still works.
+4. **Empty / error states** â€” For account/date with no report or API error â†’ status UI appears; retry button reloads report.
+
+## Verification
+
+### `flutter test test/today_payment_report_dialog_test.dart`
+
+```
+00:00 +2: All tests passed!
+```
+
+- `empty withdraw section disables expand`
+- `non-empty pledge section allows expand`
+
+### `dart analyze` (widget files)
+
+```
+dart analyze lib/src/domain/withdraw/widget/today_payment_report_tooltip_content.widget.dart lib/src/domain/withdraw/widget/hover_tooltip_today_payment_report.widget.dart
+```
+
+- **No issues found.**
+
+### `graphify update .`
+
+```
+AST extraction: 734/734 files (100%)
+Rebuilt: 8874 nodes, 16255 edges, 491 communities
+graph.json and GRAPH_REPORT.md updated in graphify-out
+```
+
+## Self-review
+
+| Check | Result |
+|-------|--------|
+| Util tests preserved | Yes (2 tests green) |
+| Widget smoke test | Skipped (controller coupling) |
+| Manual checklist documented | Yes |
+| Analyze on both widget files | Clean |
+| graphify updated | Yes |
+| Hover no longer required for report | Confirmed (Tasks 1â€“3) |
+
+## Concerns / follow-ups
+
+1. **Manual UI checklist not executed in CI** â€” requires logged-in app with live API data; assign to QA or developer smoke pass before release.
+2. **Future widget test** â€” if `WithdrawController` gains injectable repository or a test seam for today-payment cache, add `testWidgets('icon opens dialog shell', ...)` per brief.
+3. **No git commit** â€” workspace has no git repository.
+
+## Commits
+
+None (per environment note).

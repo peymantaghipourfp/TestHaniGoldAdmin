@@ -1,0 +1,141 @@
+﻿# Review package: Task 1 (no-git working tree)
+
+## Commits
+(none — no-git workspace)
+
+## Files changed
+D:\curserAi project\lib\src\domain\inventory\model\picked_inventory_image.model.dart (304 bytes)
+D:\curserAi project\lib\src\domain\inventory\utils\inventory_image_picker.dart (3187 bytes)
+
+## Diff
+
+### File: lib/src/domain/inventory/model/picked_inventory_image.model.dart
+
+import 'dart:typed_data';
+
+import 'package:image_picker/image_picker.dart';
+
+class PickedInventoryImage {
+  PickedInventoryImage({
+    required this.id,
+    required this.file,
+    required this.previewBytes,
+  });
+
+  final String id;
+  final XFile file;
+  final Uint8List previewBytes;
+}
+
+### File: lib/src/domain/inventory/utils/inventory_image_picker.dart
+
+import 'package:hanigold_admin/src/config/logger/app_logger.dart';
+import 'package:hanigold_admin/src/domain/inventory/model/picked_inventory_image.model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
+
+class InventoryImagePicker {
+  InventoryImagePicker._();
+
+  static const int _imageQuality = 80;
+  static const double _maxWidth = 1920;
+  static const double _maxHeight = 1080;
+  static const Duration _sheetCloseDelay = Duration(milliseconds: 300);
+
+  static final ImagePicker _picker = ImagePicker();
+  static final Uuid _uuid = Uuid();
+
+  static Future<PickedInventoryImage?> pickFromCamera() async {
+    await Future.delayed(_sheetCloseDelay);
+
+    try {
+      final XFile? photo = await _picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: _imageQuality,
+        maxWidth: _maxWidth,
+        maxHeight: _maxHeight,
+      );
+      if (photo == null) return null;
+      return _toPicked(photo);
+    } catch (e, s) {
+      AppLogger.e('pickFromCamera error:', e, s);
+      rethrow;
+    }
+  }
+
+  static Future<List<PickedInventoryImage>> pickFromGallery() async {
+    await Future.delayed(_sheetCloseDelay);
+
+    try {
+      List<XFile> images = [];
+
+      try {
+        images = await _picker.pickMultiImage(
+          imageQuality: _imageQuality,
+          maxWidth: _maxWidth,
+          maxHeight: _maxHeight,
+        );
+      } catch (multiError, multiStack) {
+        AppLogger.e('pickMultiImage failed, trying single:', multiError, multiStack);
+
+        final XFile? singleImage = await _picker.pickImage(
+          source: ImageSource.gallery,
+          imageQuality: _imageQuality,
+          maxWidth: _maxWidth,
+          maxHeight: _maxHeight,
+        );
+
+        if (singleImage != null) {
+          images = [singleImage];
+        }
+      }
+
+      if (images.isEmpty) return [];
+
+      return _toPickedList(images);
+    } catch (e, s) {
+      AppLogger.e('pickFromGallery error:', e, s);
+      rethrow;
+    }
+  }
+
+  static Future<List<PickedInventoryImage>> pickMultipleDesktop() async {
+    try {
+      final List<XFile> images = await _picker.pickMultiImage(
+        imageQuality: _imageQuality,
+        maxWidth: _maxWidth,
+        maxHeight: _maxHeight,
+      );
+      if (images.isEmpty) return [];
+
+      return _toPickedList(images);
+    } catch (e, s) {
+      AppLogger.e('pickMultipleDesktop error:', e, s);
+      rethrow;
+    }
+  }
+
+  static String resolveUploadFileName(XFile file) {
+    if (file.name.isEmpty) {
+      return 'image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    }
+    return file.name;
+  }
+
+  static Future<PickedInventoryImage> _toPicked(XFile file) async {
+    final previewBytes = await file.readAsBytes();
+    return PickedInventoryImage(
+      id: _uuid.v4(),
+      file: file,
+      previewBytes: previewBytes,
+    );
+  }
+
+  static Future<List<PickedInventoryImage>> _toPickedList(List<XFile> files) async {
+    final picked = <PickedInventoryImage>[];
+    for (final file in files) {
+      picked.add(await _toPicked(file));
+    }
+    return picked;
+  }
+}

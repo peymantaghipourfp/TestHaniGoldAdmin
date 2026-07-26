@@ -1,0 +1,164 @@
+
+
+
+import 'package:hanigold_admin/src/domain/product/model/item_group.model.dart';
+import 'package:hanigold_admin/src/domain/product/model/item_unit.model.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
+
+part 'item.model.g.dart';
+
+List<ItemModel> itemModelFromJson(String str) => List<ItemModel>.from(json.decode(str).map((x) => ItemModel.fromJson(x)));
+
+String itemModelToJson(List<ItemModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+@JsonSerializable()
+class ItemModel {
+  @JsonKey(name: "itemPriceDate")
+  late DateTime? itemPriceDate;
+  @JsonKey(name: "itemGroup")
+  final ItemGroupModel? itemGroup;
+  @JsonKey(name: "itemUnit")
+  final ItemUnitModel? itemUnit;
+  @JsonKey(name: "price")
+  late double? price;
+  @JsonKey(name: "basePrice")
+  late double? basePrice;
+  @JsonKey(name: "mesghalPrice")
+  late double? mesghalPrice;
+  @JsonKey(name: "baseMesghalPrice")
+  late double? baseMesghalPrice;
+  @JsonKey(name: "differentPrice")
+  late double? differentPrice;
+  @JsonKey(name: "baseDifferentPrice")
+  late double? baseDifferentPrice;
+  @JsonKey(name: "mesghalDifferentPrice")
+  late double? mesghalDifferentPrice;
+  @JsonKey(name: "baseMesghalDifferentPrice")
+  late double? baseMesghalDifferentPrice;
+  @JsonKey(name: "name")
+  final String? name;
+  @JsonKey(name: "isDefault")
+  final bool? isDefault;
+  @JsonKey(name: "isDecimal")
+  final bool? isDecimal;
+  @JsonKey(name: "status")
+  late bool? status;
+  @JsonKey(name: "showMarket")
+  final bool? showMarket;
+  @JsonKey(name: "sellStatus")
+  late  bool? sellStatus;
+  @JsonKey(name: "buyStatus")
+  late  bool? buyStatus;
+  @JsonKey(name: "hasWage")
+  final bool? hasWage;
+  @JsonKey(name: "wage")
+  final double? wage;
+  @JsonKey(name: "hasCard")
+  final bool? hasCard;
+  @JsonKey(name: "cardPrice")
+  final double? cardPrice;
+  @JsonKey(name: "maxSell")
+  final int? maxSell;
+  @JsonKey(name: "maxBuy")
+  final int? maxBuy;
+  @JsonKey(name: "salesRange")
+  final double? salesRange;
+  @JsonKey(name: "buyRange")
+  final double? buyRange;
+  @JsonKey(name: "w750")
+  final double? w750;
+  @JsonKey(name: "initBalance")
+  final int? initBalance;
+  @JsonKey(name: "openPrice")
+  final double? openPrice;
+  @JsonKey(name: "openPriceValue")
+  final double? openPriceValue;
+  @JsonKey(name: "symbol")
+  final String? symbol;
+  @JsonKey(name: "icon")
+  final String? icon;
+  @JsonKey(name: "rowNum")
+  final int? rowNum;
+  @JsonKey(name: "id")
+  final int? id;
+  @JsonKey(name: "attribute")
+  final String? attribute;
+  @JsonKey(name: "recId")
+  final String? recId;
+  @JsonKey(name: "infos")
+  final List<dynamic>? infos;
+  @JsonKey(name: "refrence")
+  final Refrence? refrence;
+
+  ItemModel({
+    required this.itemPriceDate,
+    required this.itemGroup,
+    required this.itemUnit,
+    required this.price,
+    required this.basePrice,
+    required this.mesghalPrice,
+    required this.baseMesghalPrice,
+    required this.differentPrice,
+    required this.baseDifferentPrice,
+    required this.mesghalDifferentPrice,
+    required this.baseMesghalDifferentPrice,
+    required this.name,
+    required this.isDefault,
+    required this.isDecimal,
+    required this.status,
+    required this.showMarket,
+    required this.sellStatus,
+    required this.buyStatus,
+    required this.hasWage,
+    required this.wage,
+    required this.hasCard,
+    required this.cardPrice,
+    required this.maxSell,
+    required this.maxBuy,
+    required this.w750,
+    required this.initBalance,
+    required this.openPrice,
+    required this.openPriceValue,
+    required this.symbol,
+    required this.icon,
+    required this.rowNum,
+    required this.id,
+    required this.attribute,
+    required this.recId,
+    required this.infos,
+    required this.salesRange,
+    required this.buyRange,
+    required this.refrence,
+  });
+
+  factory ItemModel.fromJson(Map<String, dynamic> json) => _$ItemModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemModelToJson(this);
+}
+
+@JsonSerializable()
+class Refrence {
+  @JsonKey(name: "itemGroup")
+  final ItemGroupModel? itemGroup;
+  @JsonKey(name: "itemUnit")
+  final ItemUnitModel? itemUnit;
+  @JsonKey(name: "name")
+  final String? name;
+  @JsonKey(name: "id")
+  final int? id;
+  @JsonKey(name: "infos")
+  final List<dynamic>? infos;
+
+  Refrence({
+    required this.itemGroup,
+    required this.itemUnit,
+    required this.name,
+    required this.id,
+    required this.infos,
+  });
+
+  factory Refrence.fromJson(Map<String, dynamic> json) => _$RefrenceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RefrenceToJson(this);
+}

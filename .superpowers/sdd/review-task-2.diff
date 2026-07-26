@@ -1,0 +1,174 @@
+﻿# Review package: Task 2 (no-git working tree)
+
+## Commits
+(none — no-git workspace)
+
+## Files changed
+lib/src/domain/inventory/widget/picked_image_thumbnail.widget.dart
+
+## Diff
+
+### File: lib/src/domain/inventory/widget/picked_image_thumbnail.widget.dart
+
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/const/app_color.dart';
+import 'package:hanigold_admin/src/domain/inventory/model/picked_inventory_image.model.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
+/// Horizontal row of picked-image thumbnails with remove and tap handlers.
+class PickedImageThumbnailRow extends StatelessWidget {
+  const PickedImageThumbnailRow({
+    super.key,
+    required this.images,
+    required this.onRemove,
+    required this.onTap,
+  });
+
+  final List<PickedInventoryImage> images;
+  final ValueChanged<PickedInventoryImage> onRemove;
+  final void Function(PickedInventoryImage) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (images.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      padding: const EdgeInsets.only(bottom: 5),
+      height: 80,
+      child: Row(
+        children: images
+            .map(
+              (image) => _PickedImageThumbnailItem(
+                previewBytes: image.previewBytes,
+                onTap: () => onTap(image),
+                onRemove: () => onRemove(image),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _PickedImageThumbnailItem extends StatelessWidget {
+  const _PickedImageThumbnailItem({
+    required this.previewBytes,
+    required this.onTap,
+    required this.onRemove,
+  });
+
+  final Uint8List previewBytes;
+  final VoidCallback onTap;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColor.textColor),
+            ),
+            clipBehavior: Clip.antiAlias,
+            height: 60,
+            width: 60,
+            child: _PickedImageMemoryThumbnail(previewBytes: previewBytes),
+          ),
+        ),
+        GestureDetector(
+          onTap: onRemove,
+          child: CircleAvatar(
+            backgroundColor: AppColor.accentColor,
+            radius: 10,
+            child: Center(
+              child: Icon(
+                Icons.clear,
+                color: AppColor.textColor,
+                size: 15,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PickedImageMemoryThumbnail extends StatelessWidget {
+  const _PickedImageMemoryThumbnail({required this.previewBytes});
+
+  final Uint8List previewBytes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.memory(
+      previewBytes,
+      fit: BoxFit.cover,
+      cacheWidth: 120,
+      errorBuilder: (_, __, ___) => ColoredBox(
+        color: AppColor.secondary50Color,
+        child: Icon(
+          Icons.broken_image_outlined,
+          color: AppColor.textColor.withAlpha(120),
+        ),
+      ),
+    );
+  }
+}
+
+/// Fullscreen preview dialog for a picked image's in-memory bytes.
+void showPickedImageFullscreenDialog(
+  BuildContext context, {
+  required Uint8List previewBytes,
+}) {
+  final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+    barrierColor: Colors.black45,
+    transitionDuration: const Duration(milliseconds: 200),
+    pageBuilder: (
+      BuildContext buildContext,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+    ) {
+      return Center(
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            margin: EdgeInsets.all(isMobile ? 20 : 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColor.textColor),
+            ),
+            clipBehavior: Clip.antiAlias,
+            height: isMobile ? Get.height * 0.6 : Get.height * 0.8,
+            width: isMobile ? Get.width * 0.8 : Get.width * 0.4,
+            child: Image.memory(
+              previewBytes,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => ColoredBox(
+                color: AppColor.secondary50Color,
+                child: Icon(
+                  Icons.broken_image_outlined,
+                  color: AppColor.textColor.withAlpha(120),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}

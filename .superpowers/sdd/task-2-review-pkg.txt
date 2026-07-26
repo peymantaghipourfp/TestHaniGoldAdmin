@@ -1,0 +1,109 @@
+# Review package Task 2
+import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/const/socket.service.dart';
+import 'package:hanigold_admin/src/config/logger/app_logger.dart';
+import 'package:hanigold_admin/src/config/session_storage.dart';
+
+/// Whether a pagehide event should trigger tab-close logout.
+///
+/// Skips when not web or when the page enters the back-forward cache
+/// ([persisted] true) — session is preserved for bfcache restore.
+bool shouldLogoutOnPageHide({
+  required bool isWeb,
+  required bool persisted,
+}) {
+  if (!isWeb) return false;
+  if (persisted) return false;
+  return true;
+}
+
+/// Logout-equivalent teardown for tab close: disconnect socket, clear session.
+Future<void> performTabCloseLogout() async {
+  try {
+    if (Get.isRegistered<SocketService>()) {
+      await SocketService.to.disconnect();
+    }
+  } catch (e, s) {
+    AppLogger.e('Socket disconnect during tab close logout', e, s);
+  }
+
+  try {
+    await clearStoredSession();
+    clearSessionControllers();
+  } catch (e, s) {
+    AppLogger.e('Session clear during tab close logout', e, s);
+  }
+}
+export 'web_tab_logout_stub.dart'
+    if (dart.library.html) 'web_tab_logout_web.dart';
+/// No-op on non-web platforms.
+void registerWebTabCloseLogout() {}
+import 'dart:async';
+
+import 'package:hanigold_admin/src/config/logger/app_logger.dart';
+import 'package:hanigold_admin/src/config/web_tab_logout_logic.dart';
+import 'package:universal_html/html.dart' as html;
+
+bool _readPageHidePersisted(html.Event event) {
+  try {
+    return (event as dynamic).persisted == true;
+  } catch (_) {
+    return false;
+  }
+}
+
+/// Registers a [pagehide] handler that logs out when the tab is closed or navigated away.
+void registerWebTabCloseLogout() {
+  try {
+    html.window.onPageHide.listen((event) {
+      try {
+        final persisted = _readPageHidePersisted(event);
+        if (!shouldLogoutOnPageHide(isWeb: true, persisted: persisted)) {
+          return;
+        }
+        unawaited(performTabCloseLogout());
+      } catch (e, s) {
+        AppLogger.e('pagehide tab-close logout handler failed', e, s);
+      }
+    });
+  } catch (e, s) {
+    AppLogger.e('registerWebTabCloseLogout failed', e, s);
+  }
+}
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hanigold_admin/src/config/web_tab_logout_logic.dart';
+
+void main() {
+  group('shouldLogoutOnPageHide', () {
+    test('web + non-persisted pagehide triggers logout intent', () {
+      expect(
+        shouldLogoutOnPageHide(isWeb: true, persisted: false),
+        isTrue,
+      );
+    });
+
+    test('non-web never triggers logout intent', () {
+      expect(
+        shouldLogoutOnPageHide(isWeb: false, persisted: false),
+        isFalse,
+      );
+      expect(
+        shouldLogoutOnPageHide(isWeb: false, persisted: true),
+        isFalse,
+      );
+    });
+
+    test('bfcache persisted pagehide skips logout', () {
+      expect(
+        shouldLogoutOnPageHide(isWeb: true, persisted: true),
+        isFalse,
+      );
+    });
+  });
+}
+import 'package:hanigold_admin/src/config/session_bootstrap.dart';
+import 'package:hanigold_admin/src/config/web_tab_logout.dart';
+  bootstrapSessionControllers();
+  registerWebTabCloseLogout();
+    bootstrapSocketConnection().catchError((Object e, StackTrace s) {
+      AppLogger.e('bootstrapSocketConnection uncaught', e, s);

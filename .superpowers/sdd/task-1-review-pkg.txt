@@ -1,0 +1,224 @@
+# Review package Task 1 (no-git working tree)
+# Files: socket.service.dart + socket_reconnect_test.dart
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../logger/app_logger.dart';
+import '../repository/url/web_socket_url.dart';
+import '../session_invalidation.dart';
+import 'socket_coordinator/socket_coordinator.dart';
+import 'socket_session_guard.dart';
+
+/// Whether a transport reconnect should be scheduled (leader tab, not manual disconnect).
+bool shouldAttemptReconnect({
+  required bool isManualDisconnect,
+  required bool isLeader,
+  required String? lastUrl,
+}) {
+  if (isManualDisconnect) return false;
+  if (!isLeader) return false;
+  if (lastUrl == null) return false;
+  return true;
+}
+
+// Mixin for views that need socket connection
+mixin SocketConnectionMixin {
+  Future<void> ensureSocketConnection() async {
+    try {
+      final socketService = Get.find<SocketService>();
+      await socketService.ensureConnected();
+    } catch (e, s) {
+      AppLogger.e('Error ensuring socket connection', e, s);
+    }
+  }
+}
+
+class SocketService extends GetxService {
+  static SocketService get to => Get.find();
+
+--- shouldAttemptReconnect + _reconnect excerpt ---
+/// Whether a transport reconnect should be scheduled (leader tab, not manual disconnect).
+bool shouldAttemptReconnect({
+  required bool isManualDisconnect,
+  required bool isLeader,
+  required String? lastUrl,
+}) {
+  if (isManualDisconnect) return false;
+  if (!isLeader) return false;
+  if (lastUrl == null) return false;
+  return true;
+}
+
+// Mixin for views that need socket connection
+mixin SocketConnectionMixin {
+  Future<void> ensureSocketConnection() async {
+    try {
+      final socketService = Get.find<SocketService>();
+      await socketService.ensureConnected();
+    } catch (e, s) {
+      AppLogger.e('Error ensuring socket connection', e, s);
+    }
+  }
+    try {
+      final decoded = data is String ? jsonDecode(data) : data;
+      if (decoded is! Map) return false;
+      return !SocketSessionGuard.accepts(
+        Map<String, dynamic>.from(decoded),
+      );
+    } catch (e, s) {
+      AppLogger.e('WebSocket: Dropped message — invalid JSON payload', e, s);
+      return true;
+    }
+  }
+
+  bool _shouldInvalidateSession({
+    int? closeCode,
+    String? closeReason,
+    String? errorMessage,
+  }) {
+    return isInvalidSessionSocketClose(
+      closeCode: closeCode,
+      closeReason: closeReason,
+      errorMessage: errorMessage,
+    );
+  }
+
+  Future<void> _handleInvalidSession(String reason) async {
+    if (_isManualDisconnect || _sessionInvalidationInProgress) return;
+    _sessionInvalidationInProgress = true;
+    try {
+      AppLogger.w('WebSocket: invalid session — $reason');
+      _isManualDisconnect = true;
+      _cancelTimers();
+      _connectionStatus.value = 'disconnected';
+      _lastError.value = reason;
+      _coordinator.broadcastDisconnected();
+      _closeTransportChannel();
+      await clearSessionAndRedirectToLogin(
+        reason: 'WebSocket session rejected',
+      );
+    } catch (e, s) {
+      AppLogger.e('WebSocket: session invalidation failed', e, s);
+    } finally {
+    _closeTransportChannel();
+
+    _coordinator.broadcastDisconnected();
+    _reconnect();
+  }
+
+  void _reconnect() {
+    if (!shouldAttemptReconnect(
+      isManualDisconnect: _isManualDisconnect,
+      isLeader: _coordinator.isLeader,
+      lastUrl: _lastUrl,
+    )) {
+      if (_isManualDisconnect) {
+        AppLogger.w(
+          'WebSocket: Manual disconnect in progress, skipping reconnection',
+        );
+      } else if (!_coordinator.isLeader) {
+        AppLogger.d('WebSocket: Follower tab — skipping reconnection');
+      } else {
+        AppLogger.e('WebSocket: No URL available for reconnection');
+        _connectionStatus.value = 'disconnected';
+      }
+      return;
+    }
+
+    if (_reconnectTimer?.isActive == true) {
+      AppLogger.d('WebSocket: Reconnect timer already active');
+      return;
+    }
+
+    _reconnectAttempts++;
+    _connectionStatus.value = 'reconnecting';
+    AppLogger.i(
+      'WebSocket: Scheduling reconnect attempt #$_reconnectAttempts',
+    );
+
+    _reconnectTimer = Timer(Duration(seconds: _reconnectDelay), () {
+      if (!_isManualDisconnect && _coordinator.isLeader) {
+        connect(_lastUrl!, clientId: _clientId, sessionId: _sessionId);
+      }
+    });
+  }
+
+  void _startHeartbeat() {
+    _heartbeatTimer?.cancel();
+    _heartbeatTimer =
+        Timer.periodic(Duration(seconds: _heartbeatInterval), (timer) {
+          if (_connectionStatus.value == 'connected' && !_isManualDisconnect) {
+            // send('ping');
+          } else {
+            timer.cancel();
+
+--- test/socket_reconnect_test.dart ---
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hanigold_admin/src/config/const/socket.service.dart';
+
+void main() {
+  group('shouldAttemptReconnect', () {
+    test('allows reconnect when leader with URL and not manual disconnect', () {
+      expect(
+        shouldAttemptReconnect(
+          isManualDisconnect: false,
+          isLeader: true,
+          lastUrl: 'wss://example.com/ws',
+        ),
+        isTrue,
+      );
+    });
+
+    test('blocks reconnect on manual disconnect', () {
+      expect(
+        shouldAttemptReconnect(
+          isManualDisconnect: true,
+          isLeader: true,
+          lastUrl: 'wss://example.com/ws',
+        ),
+        isFalse,
+      );
+    });
+
+    test('blocks reconnect for follower tabs', () {
+      expect(
+        shouldAttemptReconnect(
+          isManualDisconnect: false,
+          isLeader: false,
+          lastUrl: 'wss://example.com/ws',
+        ),
+        isFalse,
+      );
+    });
+
+    test('blocks reconnect when URL is missing', () {
+      expect(
+        shouldAttemptReconnect(
+          isManualDisconnect: false,
+          isLeader: true,
+          lastUrl: null,
+        ),
+        isFalse,
+      );
+    });
+
+    test('allows reconnect after many transport failures (no attempt cap)', () {
+      for (var attempt = 1; attempt <= 100; attempt++) {
+        expect(
+          shouldAttemptReconnect(
+            isManualDisconnect: false,
+            isLeader: true,
+            lastUrl: 'wss://example.com/ws',
+          ),
+          isTrue,
+          reason: 'attempt $attempt must not be blocked by count',
+        );
+      }
+    });
+  });
+}
