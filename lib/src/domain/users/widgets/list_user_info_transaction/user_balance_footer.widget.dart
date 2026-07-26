@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/model/transaction_info_footer.model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -14,7 +14,7 @@ class UserBalanceFooter extends StatelessWidget {
     required this.controller,
   });
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
 
   @override
   Widget build(BuildContext context) {

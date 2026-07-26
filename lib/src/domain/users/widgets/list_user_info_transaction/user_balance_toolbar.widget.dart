@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/filter_dialog_report_setting.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_excel_dialog.widget.dart';
@@ -18,10 +19,12 @@ class UserBalanceToolbar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.isDesktop,
+    this.filterDialogBuilder,
   });
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
   final bool isDesktop;
+  final Widget Function(BuildContext context)? filterDialogBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +151,11 @@ class UserBalanceToolbar extends StatelessWidget {
                 top: 20,
                 bottom: 3,
               ),
-              child: FilterDialog(controller: controller),
+              child: filterDialogBuilder != null
+                  ? filterDialogBuilder!(buildContext)
+                  : FilterDialog(
+                      controller: controller as UserInfoTransactionController,
+                    ),
             ),
           ),
         );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_data_table.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_page_chrome.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_stats_grid.widget.dart';
@@ -11,10 +11,12 @@ class UserBalanceDesktopBody extends StatelessWidget {
     super.key,
     required this.controller,
     this.footer,
+    this.filterDialogBuilder,
   });
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
   final Widget? footer;
+  final Widget Function(BuildContext context)? filterDialogBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,11 @@ class UserBalanceDesktopBody extends StatelessWidget {
         children: [
           UserBalanceStatsGrid(controller: controller),
           const SizedBox(height: 12),
-          UserBalanceToolbar(controller: controller, isDesktop: true),
+          UserBalanceToolbar(
+            controller: controller,
+            isDesktop: true,
+            filterDialogBuilder: filterDialogBuilder,
+          ),
           const SizedBox(height: 12),
           UserBalanceDataTable(controller: controller),
           if (footer != null) ...[
