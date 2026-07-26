@@ -15,9 +15,11 @@ class UserBalanceDataTable extends StatelessWidget {
   const UserBalanceDataTable({
     super.key,
     required this.controller,
+    this.accountDetailRoute = '/userInfoTransaction',
   });
 
   final UserBalanceListController controller;
+  final String accountDetailRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +156,7 @@ class UserBalanceDataTable extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   Get.toNamed(
-                    '/userInfoTransaction',
+                    accountDetailRoute,
                     parameters: {
                       'accountId': trans.accountId.toString(),
                     },

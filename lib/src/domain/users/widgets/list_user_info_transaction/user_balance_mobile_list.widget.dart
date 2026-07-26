@@ -18,10 +18,12 @@ class UserBalanceMobileList extends StatelessWidget {
     super.key,
     required this.controller,
     this.filterDialogBuilder,
+    this.accountDetailRoute = '/userInfoTransaction',
   });
 
   final UserBalanceListController controller;
   final Widget Function(BuildContext context)? filterDialogBuilder;
+  final String accountDetailRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,10 @@ class UserBalanceMobileList extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (ctx, index) {
                 final trans = controller.listTransactionInfo[index];
-                return _MobileTransactionCard(trans: trans);
+                return _MobileTransactionCard(
+                  trans: trans,
+                  accountDetailRoute: accountDetailRoute,
+                );
               },
             );
           }),
@@ -172,9 +177,13 @@ class _MobileSortHeader extends StatelessWidget {
 }
 
 class _MobileTransactionCard extends StatelessWidget {
-  const _MobileTransactionCard({required this.trans});
+  const _MobileTransactionCard({
+    required this.trans,
+    required this.accountDetailRoute,
+  });
 
   final ListTransactionInfoItemModel trans;
+  final String accountDetailRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +203,7 @@ class _MobileTransactionCard extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     Get.toNamed(
-                      '/userInfoTransaction',
+                      accountDetailRoute,
                       parameters: {'accountId': trans.accountId.toString()},
                     );
                   },

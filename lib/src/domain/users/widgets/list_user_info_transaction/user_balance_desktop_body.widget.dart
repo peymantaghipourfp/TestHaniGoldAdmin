@@ -12,11 +12,13 @@ class UserBalanceDesktopBody extends StatelessWidget {
     required this.controller,
     this.footer,
     this.filterDialogBuilder,
+    this.accountDetailRoute = '/userInfoTransaction',
   });
 
   final UserBalanceListController controller;
   final Widget? footer;
   final Widget Function(BuildContext context)? filterDialogBuilder;
+  final String accountDetailRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,10 @@ class UserBalanceDesktopBody extends StatelessWidget {
             filterDialogBuilder: filterDialogBuilder,
           ),
           const SizedBox(height: 12),
-          UserBalanceDataTable(controller: controller),
+          UserBalanceDataTable(
+            controller: controller,
+            accountDetailRoute: accountDetailRoute,
+          ),
           if (footer != null) ...[
             const SizedBox(height: 12),
             footer!,

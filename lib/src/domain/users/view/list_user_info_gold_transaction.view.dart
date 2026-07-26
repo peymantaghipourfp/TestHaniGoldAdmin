@@ -71,6 +71,7 @@ class ListUserInfoGoldTransactionView extends GetView<UserInfoGoldTransactionCon
             controller: controller,
             footer: UserBalanceFooter(controller: controller),
             filterDialogBuilder: _buildFilterDialog,
+            accountDetailRoute: '/userInfoGoldTransaction',
           ),
         ),
       );
@@ -95,6 +96,7 @@ class ListUserInfoGoldTransactionView extends GetView<UserInfoGoldTransactionCon
             UserBalanceMobileList(
               controller: controller,
               filterDialogBuilder: _buildFilterDialog,
+              accountDetailRoute: '/userInfoGoldTransaction',
             ),
           ],
         ),
