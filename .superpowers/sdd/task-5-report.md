@@ -1,46 +1,58 @@
-# Task 5 Report — Temp-detail widgets (create flow parity)
+# Task 5 Report — 7-column grouped DataTable + desktop body
 
 ## Status: Complete
 
-Both create-flow temp detail widgets now match the update-view image picking pattern.
+**Branch:** `feat/user-balance-grouped-table`
 
-## Files modified
+## Files created
 
-- `lib/src/domain/inventory/widget/item_temp_detail_receive.widget.dart`
-- `lib/src/domain/inventory/widget/item_temp_detail_payment.widget.dart`
+| File | Widget | Purpose |
+| --- | --- | --- |
+| `user_balance_data_table.widget.dart` | `UserBalanceDataTable` | 7-column grouped `DataTable` composing Task 4 cell widgets |
+| `user_balance_desktop_body.widget.dart` | `UserBalanceDesktopBody` | Desktop vertical stack: StatsGrid → Toolbar → DataTable → optional footer |
 
-## Changes
+## Implementation notes
 
-1. **Removed dead code** — Deleted ~200-line commented `pickImageMobile` blocks from both widgets.
-2. **Removed platform-specific preview** — Dropped `dart:io`, `FileImage`, and direct `ImagePicker` usage.
-3. **Internal preview state** — Added `RxList<PickedInventoryImage> pickedImages`; existing `widget.image` entries loaded in `initState` via `readAsBytes()`.
-4. **Shared utilities** — `InventoryImagePicker` for camera/gallery/desktop; `PickedImageThumbnailRow` + `showPickedImageFullscreenDialog` for UI.
-5. **Parent callback contract preserved** — `recId` still `Function(String, List<XFile>)?`; passes only newly picked files via `images.map((p) => p.file).toList()`.
-6. **Desktop append fix** — Removed `selectedImagesDesktop.clear()`; new desktop picks append to `pickedImages` via `addAll`.
-7. **No double delay** — Mobile sheet closes first; `InventoryImagePicker` handles the 300ms delay internally.
+### `UserBalanceDataTable`
 
-## Public API
+- **7 columns:** ردیف, نام, مانده ریالی, مانده طلا, مانده سکه, مانده ارز, تراز کل
+- **Row/name cells** copied from monolith L1123–1143 (`rowNum` text + underlined `accountName` link to `/userInfoTransaction`)
+- **Asset columns (2–6):** `UserBalanceGroupedHeader` with sort indices 2–11 (ارز: `sortEnabled: false`, `swapPolarityColors: true`)
+- **Asset cells:** `Column(crossAxisAlignment: center, children: [creditSection, SizedBox(4), debitSection])` via per-asset cell widgets
+- **Table chrome:** zebra rows, `dataRowMaxHeight: double.infinity`, monolith border/divider/heading colors
+- **Sort wiring:** `sortColumnIndex` / `sortAscending` from controller; controller indices 2–11 mapped to visual columns 2–6 via `_visualSortColumnIndex`
 
-Unchanged — same constructor parameters (`detail`, `image`, `recId`, plus payment-specific `quantity` / `onQuantityChanged`).
+### `UserBalanceDesktopBody`
 
-## Analyzer
+- Panel uses `UserBalancePageChrome.panelDecoration()`
+- Vertical `Column`: `UserBalanceStatsGrid` → `UserBalanceToolbar(isDesktop: true)` → `UserBalanceDataTable`
+- **No** horizontal `SingleChildScrollView` around the table
+- Optional `Widget? footer` slot for Task 6 (`UserBalanceFooter`)
+
+### Not wired
+
+- `list_user_info_transaction.view.dart` unchanged (Task 6 scope)
+
+## Verification
 
 ```
-flutter analyze lib/src/domain/inventory/widget/item_temp_detail_receive.widget.dart \
-              lib/src/domain/inventory/widget/item_temp_detail_payment.widget.dart
+flutter analyze lib/src/domain/users/widgets/list_user_info_transaction/user_balance_data_table.widget.dart \
+              lib/src/domain/users/widgets/list_user_info_transaction/user_balance_desktop_body.widget.dart
 → No issues found!
 ```
 
-## Concerns / notes
+| Check | Result |
+| --- | --- |
+| `DataColumn(` count == 7 | Pass |
+| No horizontal scroll in desktop body | Pass |
+| Sort indices 2–11 via grouped headers | Pass |
+| Cell widgets composed (rial/gold/coin/currency/total) | Pass |
+| `dataRowMaxHeight: double.infinity` | Pass |
+| View monolith untouched | Pass |
 
-- **Remove without recId** — Image removal still mutates `widget.image` in place (same as before); parent `updateDetail` is not called on remove. Pre-existing behavior.
-- **initState hydration** — If parent replaces `widget.image` with a new list after mount (without remounting the State), `pickedImages` won't auto-sync; unlikely for temp-detail flow since items are added fresh.
-- **Thumbnail sizing** — Mobile now uses shared 60×60 thumbnails (was 50×50); consistent with update views.
+## Concerns / follow-ups
 
-## Manual test suggestions
-
-1. Create receive/payment flow → add temp item → pick images on mobile (camera + gallery) and desktop.
-2. Pick multiple times on desktop → verify thumbnails accumulate (append, not replace).
-3. Remove a thumbnail → verify it disappears and `widget.image` shrinks.
-4. Tap thumbnail → fullscreen preview opens.
-5. Submit temp item with images → verify upload still receives `recId` + merged `listXfile` in controller.
+1. **Integration smoke deferred** — widgets exist but are not mounted in the view until Task 6 shell wiring.
+2. **Tall rows** — stacked بس/بد cells increase row height; acceptable trade-off per plan.
+3. **Footer slot** — `UserBalanceDesktopBody.footer` ready for Task 6 `UserBalanceFooter`.
+4. **Currency sort** — ارز chips are display-only (`sortEnabled: false`); matches controller (no case 8/9 in `onSort`).

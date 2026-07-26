@@ -1,0 +1,15 @@
+---
+description: Apply design-auditor skill for UI/UX audits, AI slop, WCAG, and design tokens
+globs: "**/*.{dart,css,html,tsx,jsx,vue,svelte}"
+alwaysApply: false
+---
+
+# Design Auditor
+
+When reviewing UI/UX quality, AI-generated design slop, WCAG contrast, design-token adherence, or responsive breakpoints:
+
+1. Read and follow `.cursor/skills/design-auditor/SKILL.md` before auditing.
+2. Clarify audit type, input artifacts, and conformance threshold first (per the skill's "Clarify First" checklist).
+3. Load skill references and run Python tools on demand — do not dump all references into context.
+4. For this Flutter app, prefer `AppColor` / `AppTextStyle` and RTL/`fa_IR` conventions from `AGENTS.md` over generic web token assumptions when they conflict.
+5. Source: [borghei/Claude-Skills](https://github.com/borghei/Claude-Skills) `engineering/design-auditor` (v2.2.0).

@@ -189,7 +189,20 @@ Top "god nodes" today: `package:get/get.dart`, `package:flutter/material.dart`, 
 
 ---
 
-## 10. Pull Request / Commit Etiquette
+## 10. Project Agent Skills
+
+| Skill | Path | When |
+| --- | --- | --- |
+| `senior-mobile` | `.cursor/skills/senior-mobile/SKILL.md` | Flutter/mobile features, performance, scaffolding, store submission |
+| `ui-ux-pro-max` | `.cursor/skills/ui-ux-pro-max/SKILL.md` | UI/UX design, layout, visual polish |
+| `design-auditor` | `.cursor/skills/design-auditor/SKILL.md` | UI/UX audit, AI-slop detection, WCAG contrast, design-token compliance |
+| `ux-researcher-designer` | `.cursor/skills/ux-researcher-designer/SKILL.md` | Personas, journey maps, usability test plans, research synthesis |
+
+Cursor rules: `.cursor/rules/senior-mobile.mdc` (Dart/mobile), `.cursor/rules/design-auditor.mdc` (UI audit / a11y), `.cursor/rules/ux-researcher-designer.mdc` (UX research). **AGENTS.md conventions override skill defaults** when they conflict (e.g. GetX, repository layout, `AppColor`).
+
+---
+
+## 11. Pull Request / Commit Etiquette
 
 - Keep commits focused; one feature or fix per commit.
 - Run `flutter analyze` and `dart format .` before committing.

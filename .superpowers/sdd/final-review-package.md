@@ -1,307 +1,3318 @@
-﻿# Final Branch Review Package
-Base: pre-Task-1 baselines
-Head: current working tree
-Commits: none (no-git)
-Minor carry-forward: status close AlignmentDirectional.topStart vs content trailing Row RTL
-
-## Files changed
-- lib/src/widget/hover_lazy_rich_tooltip.widget.dart
-- lib/src/domain/withdraw/widget/hover_tooltip_today_payment_report.widget.dart
-
-## Diff 1: HoverLazyRichTooltip
-diff --git a/.superpowers/sdd/hover_lazy_rich_tooltip.widget.baseline.dart b/lib/src/widget/hover_lazy_rich_tooltip.widget.dart
-index 79e2ec8..c3c9102 100644
---- a/.superpowers/sdd/hover_lazy_rich_tooltip.widget.baseline.dart
-+++ b/lib/src/widget/hover_lazy_rich_tooltip.widget.dart
-@@ -20,31 +20,35 @@ class HoverLazyRichTooltip<T> extends StatefulWidget {
-   final Widget Function(BuildContext context, AsyncSnapshot<T?> snapshot)
-   messageBuilder;
-   final Widget? waitingMessage;
-   final bool preferBelow;
-   final Duration showDuration;
-   final double? messageMaxWidth;
- 
-   /// When set, this tooltip participates in [HoverTooltipScope] coordination.
-   final String? nestedId;
- 
-+  /// When true, pointer leave does not dismiss; only [HoverLazyRichTooltipState.forceDeactivate] closes.
-+  final bool stickyUntilDismissed;
-+
-   const HoverLazyRichTooltip({
-     super.key,
-     required this.child,
-     required this.loadData,
-     required this.messageBuilder,
-     this.onHoverEnd,
-     this.waitingMessage,
-     this.preferBelow = false,
-     this.showDuration = const Duration(seconds: 5),
-     this.messageMaxWidth,
-     this.nestedId,
-+    this.stickyUntilDismissed = false,
-   });
- 
-   @override
-   State<HoverLazyRichTooltip<T>> createState() =>
-       HoverLazyRichTooltipState<T>();
- }
- 
- class HoverLazyRichTooltipState<T> extends State<HoverLazyRichTooltip<T>> {
-   final GlobalKey<TooltipState> _flutterTooltipKey = GlobalKey<TooltipState>();
- 
-@@ -57,20 +61,21 @@ class HoverLazyRichTooltipState<T> extends State<HoverLazyRichTooltip<T>> {
-   HoverTooltipScopeState? _scope;
- 
-   bool get _scopeRetained =>
-       HoverTooltipScopeData.maybeOf(context)?.isRetained ?? false;
- 
-   bool get _hasActiveNested =>
-       widget.nestedId == null &&
-           (HoverTooltipScopeData.maybeOf(context)?.activeNestedId != null);
- 
-   bool get _isActive {
-+    if (widget.stickyUntilDismissed && _isHovering) return true;
-     if (widget.nestedId != null) {
-       return _isHoveringTarget || _isHoveringMessage;
-     }
-     return _isHoveringTarget ||
-         _isHoveringMessage ||
-         _scopeRetained ||
-         _hasActiveNested;
-   }
- 
-   @override
-@@ -84,27 +89,35 @@ class HoverLazyRichTooltipState<T> extends State<HoverLazyRichTooltip<T>> {
-         if (mounted) _keepFlutterTooltipVisibleIfNeeded();
-       });
-     } else if (widget.nestedId == null &&
-         _isHovering &&
-         !_isHoveringTarget &&
-         !_isHoveringMessage) {
-       WidgetsBinding.instance.addPostFrameCallback((_) {
-         if (!mounted) return;
-         if (_scopeRetained || _hasActiveNested) return;
-         if (_isHoveringTarget || _isHoveringMessage) return;
-+        if (widget.stickyUntilDismissed && _isHovering) {
-+          _keepFlutterTooltipVisibleIfNeeded();
-+          return;
-+        }
-         _scheduleHide();
-       });
-     }
-   }
- 
-   void _keepFlutterTooltipVisibleIfNeeded() {
--    if (!_scopeRetained && !_hasActiveNested) return;
-+    if (!widget.stickyUntilDismissed &&
-+        !_scopeRetained &&
-+        !_hasActiveNested) {
-+      return;
-+    }
-     _flutterTooltipKey.currentState?.ensureTooltipVisible();
-   }
- 
-   @override
-   void dispose() {
-     _hideTimer?.cancel();
-     _releaseScope(fromDispose: true);
-     super.dispose();
-   }
- 
-@@ -204,37 +217,45 @@ class HoverLazyRichTooltipState<T> extends State<HoverLazyRichTooltip<T>> {
-   void _onTargetEnter(PointerEnterEvent _) {
-     _isHoveringTarget = true;
-     _activate();
-   }
- 
-   void _onTargetExit(PointerExitEvent _) {
-     _isHoveringTarget = false;
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-       if (!mounted) return;
-       if (_isHoveringTarget || _isHoveringMessage) return;
-+      if (widget.stickyUntilDismissed && _isHovering) {
-+        _keepFlutterTooltipVisibleIfNeeded();
-+        return;
-+      }
-       _scheduleHide();
-     });
-   }
- 
-   void _onMessageEnter(PointerEnterEvent _) {
-     _isHoveringMessage = true;
-     _cancelHide();
-     if (!_isHovering) {
-       _activate();
-     }
-   }
- 
-   void _onMessageExit(PointerExitEvent _) {
-     _isHoveringMessage = false;
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-       if (!mounted) return;
-       if (_isHoveringMessage || _isHoveringTarget) return;
-+      if (widget.stickyUntilDismissed && _isHovering) {
-+        _keepFlutterTooltipVisibleIfNeeded();
-+        return;
-+      }
-       if (_scopeRetained || _hasActiveNested) {
-         _keepFlutterTooltipVisibleIfNeeded();
-         return;
-       }
-       _scheduleHide();
-     });
-   }
- 
-   @override
-   Widget build(BuildContext context) {
-
-## Diff 2: HoverTooltipTodayPaymentReportWidget
-diff --git a/.superpowers/sdd/hover_tooltip_today_payment_report.widget.baseline.dart b/lib/src/domain/withdraw/widget/hover_tooltip_today_payment_report.widget.dart
-index a84b7ac..c396d98 100644
---- a/.superpowers/sdd/hover_tooltip_today_payment_report.widget.baseline.dart
-+++ b/lib/src/domain/withdraw/widget/hover_tooltip_today_payment_report.widget.dart
-@@ -1,11 +1,12 @@
+﻿4d236ec feat(users): mobile list extraction and grouped-table verification
+2b28ebf refactor(users): thin view shell and responsive footer grid
+82ead62 feat(users): add 7-column grouped data table
+3310575 feat(users): extract grouped balance cells with installment breakdown
+f287309 feat(users): extract user-balance toolbar
+2c5574c feat(users): add KPI grid and page states
+68d3104 feat(users): add user-balance chrome, polarity chip, KPI helper
+ .superpowers/sdd/task-6-report.md                  |     87 +-
+ graphify-out/GRAPH_REPORT.md                       |   1108 +-
+ ...d00f3936ee2809e6b78cbef73e83d4524bf205c357.json |      1 +
+ ...36e5b815c80127d9a3f839276c6984244f70e225bb.json |      1 +
+ ...fd061fab7b12dc1de4edb614b27f78392167b9a178.json |      1 +
+ ...b795de50ae3d2e09243495af1816976b7bba3f85f5.json |      1 +
+ ...c00ccc37ca88b19f066f22148d886046b915c7d928.json |      1 +
+ ...5ed898cd89d6f7e7ce2cacb5f886fc802c0c09acc9.json |      1 +
+ ...9376212c6e44df7f287295da6613289e98abae2cad.json |      1 +
+ ...b6fcfdfdd2feac2d008b24b2fc6afc2146c127e0bf.json |      1 +
+ ...93f8e2fe75c870fa1b6a2bc6c845a27a8cb5c685bd.json |      1 +
+ ...a54972d93897563069d3a922bb3757a3850373ea71.json |      1 +
+ ...0bbea8f824a1021b4d95fc0f51d01b7b4fe3020d97.json |      1 +
+ ...e2e9f7986f96edcdc06c8d2e81787574eac526a9bf.json |      1 +
+ ...6337b2d65f03d243f42a07fddf9a4fffa39ba7b5fc.json |      1 +
+ ...6810dad03cd1d46f1fb540ffeb05dd57e6279d8ed8.json |      1 +
+ ...6d2af2f5c0f550e2ba987f567828066040321789b0.json |      1 +
+ ...ec9d68caa1bf797ab6b34b90196be3ed6115358efc.json |      1 +
+ ...236bd306fce11197aefa7cb168afbfefacd7751e57.json |      1 +
+ ...9ca0784761679e33d569af2ca3a27cfa239e0fa1d6.json |      1 +
+ ...fc63fc54e077f77ea8aaa4aa9905a3785b0cc29c1a.json |      1 +
+ ...f467f5beb78373993344df95b8f10e61bb6bda3612.json |      1 +
+ ...3145aa232d173eb84db658d2b2b103babb54f56bc6.json |      1 +
+ ...a368c46b39f378595dff9861aed8fd9bbceab7b8db.json |      1 +
+ ...d36a095bb59aa98eb302ccfbc762c9439e6d5c7ff3.json |      1 +
+ ...9a5fa60ca1220d1e9c1b9c0fcdf3baee7e3e91b9d8.json |      1 +
+ ...3d86238c72cd7876eb54cd8525f0affecd4820ea53.json |      1 +
+ ...806280a5916b9abe55daa219dfcc51b3a50a8c2224.json |      1 +
+ ...fd6c56c92f2bfc59b4676dc18cd34d1524f9ee21b9.json |      1 +
+ ...331af6b345a64476b22a1ea415ed6a7ca54ef88967.json |      1 +
+ ...99bd7e78f72664a215386ff406e9ec20b77888dd72.json |      1 +
+ ...edc6515c0c142912c488f3288a2cbe303842453c96.json |      1 +
+ ...0f975a5b0f0b6956b85fe42b89d7a23d03ae35f903.json |      1 +
+ ...93b536fa3db2708d8add09bd4a0acc3c184eb61d0e.json |      1 +
+ ...4ef2be8fcecf47fec571974567a0096791771b8194.json |      1 +
+ ...93d45fcc743a69cd8397c489ceb3102c16e65dbf0c.json |      1 +
+ ...4cb83319cfda28ff97f40858cfdbcd369ba6fe8cf1.json |      1 +
+ ...810520c4f08b85285a36a21098dbd5c90428ce94cb.json |      1 +
+ ...24d14a000c6bdb88379975eaeb9cf97fc3bfbf6eb4.json |      1 +
+ ...91e5fd19066ffddddf24a107085b0555358826255f.json |      1 +
+ ...a94c41065a169a0f85f6df6bec7b7d76ac9b142a8a.json |      1 +
+ ...130ec5021097abcf55d09f9b2c5b6d7bbc3c887edf.json |      1 +
+ ...5420b20e574b6f23778363284586d8a72307fd7efe.json |      1 +
+ ...e293b5f710add155c8186fe64c9d798213c214465b.json |      1 +
+ ...0d3d094085b140b2a54306eb1c5af08dfc4e7ccf3c.json |      1 +
+ ...1ca180fb9aa34543fcc0c4bda70f5f7f9bc9b2d172.json |      1 +
+ ...2465d4416bd43af7fdd3ec141f224d99692ab0f127.json |      1 +
+ graphify-out/graph.json                            | 140398 +++++++++---------
+ graphify-out/manifest.json                         |    502 +-
+ .../view/list_user_info_transaction.view.dart      |   3199 +-
+ .../user_balance_coin_cell.widget.dart             |    216 +
+ .../user_balance_currency_cell.widget.dart         |    120 +
+ .../user_balance_data_table.widget.dart            |    225 +
+ .../user_balance_desktop_body.widget.dart          |     41 +
+ .../user_balance_empty_state.widget.dart           |     64 +
+ .../user_balance_error_state.widget.dart           |     23 +
+ .../user_balance_excel_dialog.widget.dart          |    165 +
+ .../user_balance_footer.widget.dart                |    507 +
+ .../user_balance_gold_cell.widget.dart             |    499 +
+ .../user_balance_grouped_header.widget.dart        |     79 +
+ .../user_balance_loading_state.widget.dart         |     14 +
+ .../user_balance_mobile_list.widget.dart           |    504 +
+ .../user_balance_page_chrome.dart                  |     31 +
+ .../user_balance_polarity_chip.widget.dart         |     56 +
+ .../user_balance_rial_cell.widget.dart             |    509 +
+ .../user_balance_search_bar.widget.dart            |    102 +
+ .../user_balance_stats_grid.widget.dart            |    161 +
+ .../user_balance_stats_helper.dart                 |     36 +
+ .../user_balance_toolbar.widget.dart               |    158 +
+ .../user_balance_total_cell.widget.dart            |    275 +
+ .../users/user_balance_stats_helper_test.dart      |    120 +
+ 71 files changed, 75914 insertions(+), 73330 deletions(-)
+diff --git a/lib/src/domain/users/view/list_user_info_transaction.view.dart b/lib/src/domain/users/view/list_user_info_transaction.view.dart
+index 46ec82f..eff5ae0 100644
+--- a/lib/src/domain/users/view/list_user_info_transaction.view.dart
++++ b/lib/src/domain/users/view/list_user_info_transaction.view.dart
+@@ -1,3156 +1,113 @@
  import 'package:flutter/material.dart';
-+import 'package:hanigold_admin/src/config/const/app_color.dart';
- import 'package:hanigold_admin/src/config/const/app_text_style.dart';
- import 'package:hanigold_admin/src/domain/withdraw/controller/withdraw.controller.dart';
- import 'package:hanigold_admin/src/domain/withdraw/model/today_payment_report.model.dart';
- import 'package:hanigold_admin/src/domain/withdraw/widget/today_payment_report_tooltip_content.widget.dart';
- import 'package:hanigold_admin/src/widget/hanigold_loading.widget.dart';
- import 'package:hanigold_admin/src/widget/hover_floating_panel.widget.dart';
- import 'package:hanigold_admin/src/widget/hover_lazy_rich_tooltip.widget.dart';
- import 'package:hanigold_admin/src/widget/hover_tooltip_scope.widget.dart';
+-import 'package:flutter_svg/svg.dart';
+ import 'package:get/get.dart';
+-import 'package:hanigold_admin/src/utils/num_display.dart';
+ import 'package:hanigold_admin/src/widget/custom_appbar1.widget.dart';
+-import 'package:hanigold_admin/src/widget/hanigold_loading.widget.dart';
+-import 'package:persian_number_utility/persian_number_utility.dart';
+ import 'package:responsive_framework/responsive_framework.dart';
  
- const double _kTooltipWidth = 700;
-@@ -29,26 +30,46 @@ class HoverTooltipTodayPaymentReportWidget extends StatefulWidget {
-   @override
-   State<HoverTooltipTodayPaymentReportWidget> createState() =>
-       _HoverTooltipTodayPaymentReportWidgetState();
- }
+-import '../../../config/const/app_color.dart';
+-import '../../../config/const/app_text_style.dart';
+ import '../../../widget/app_drawer.widget.dart';
+ import '../../../widget/background_image_total.widget.dart';
+ import '../../../widget/chat_floating_button.widget.dart';
+-import '../../../widget/err_page.dart';
+ import '../../../widget/pager_widget.dart';
+-import '../../chat/widget/chat_dialog.widget.dart';
+ import '../controller/user_info_transaction.controller.dart';
+-import '../widgets/filter_dialog_report_setting.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_desktop_body.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_empty_state.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_error_state.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_footer.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_loading_state.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_mobile_list.widget.dart';
++import '../widgets/list_user_info_transaction/user_balance_search_bar.widget.dart';
  
- class _HoverTooltipTodayPaymentReportWidgetState
-     extends State<HoverTooltipTodayPaymentReportWidget> {
-   final GlobalKey<HoverLazyRichTooltipState<TodayPaymentReportModel>>
-   _tooltipKey = GlobalKey();
+ class ListUserInfoTransactionView extends GetView<UserInfoTransactionController> {
+   const ListUserInfoTransactionView({super.key});
  
-+  Widget _statusCloseButton() {
-+    return Align(
-+      alignment: AlignmentDirectional.topStart,
-+      child: IconButton(
-+        tooltip: '╪¿╪│╪¬┘å',
-+        visualDensity: VisualDensity.compact,
-+        padding: EdgeInsets.zero,
-+        constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-+        onPressed: () => _tooltipKey.currentState?.forceDeactivate(),
-+        icon: Icon(
-+          Icons.close_rounded,
-+          size: 18,
-+          color: AppColor.textColor.withValues(alpha: 0.7),
-+        ),
-+      ),
-+    );
++  void _onRetry() {
++    controller.clearSearch();
++    controller.getListTransactionInfoPager();
 +  }
 +
    @override
    Widget build(BuildContext context) {
-     return HoverTooltipScopeHost(
-       child: HoverLazyRichTooltip<TodayPaymentReportModel>(
-         key: _tooltipKey,
-         messageMaxWidth: _kTooltipWidth,
-+        stickyUntilDismissed: true,
-+        showDuration: const Duration(days: 1),
-         loadData: ({forceRefresh = false}) =>
-             widget.withdrawController.loadTodayPaymentReport(
-               widget.accountId,
-               date: widget.date,
-               forceRefresh: forceRefresh,
+     final isDesktop = ResponsiveBreakpoints.of(context).largerThan(TABLET);
+-    return Obx(()=>Scaffold(
+-      appBar: CustomAppbar1(
+-        title: '┘à╪º┘å╪»┘ç ┌⌐╪º╪▒╪¿╪▒╪º┘å',
+-        onBackTap: () => Get.toNamed("/home"),
+-      ),
+-      drawer: const AppDrawer(),
+-      body:Stack(
+-        children: [
+-          BackgroundImageTotal(),
+-          SafeArea(
+-            child: controller.state.value == PageState.loading
+-                ? Center(
+-              child: HaniGoldLoading.large(),
+-            )
+-                : controller.state.value == PageState.list
+-                ? SizedBox(
+-              height: Get.height,
+-              width: Get.width,
+-              child: SingleChildScrollView(
+-                controller:isDesktop ? null : controller.scrollControllerMobile,
+-                child: Column(
+-                  children: [
+-                    //┘ü█î┘ä╪» ╪¼╪│╪¬╪¼┘ê
+-                    isDesktop ? SizedBox.shrink() :
+-                    Container(
+-                      margin: EdgeInsets.symmetric(
+-                          horizontal: 15, vertical: 10),
+-                      height: 41,
+-                      child: TextFormField(
+-                        // onChanged: (value){
+-                        //   Future.delayed(const Duration(milliseconds: 3000), () {
+-                        //     controller.getListTransactionInfo();
+-                        //   });
+-                        // },
+-                        controller: controller.searchController,
+-                        style: AppTextStyle.labelText,
+-                        textInputAction: TextInputAction.search,
+-                        // onFieldSubmitted: (value) async {
+-                        //   // Future.delayed(const Duration(milliseconds: 700), () {
+-                        //      controller.getListTransactionInfo();
+-                        //   // });
+-                        // },
+-                        onEditingComplete: () async {
+-                          if (controller.searchController.text.isNotEmpty) {
+-                            await controller.getListTransactionInfoPager();
+-                          }else {
+-                            controller.clearSearch();
+-                          }
+-                      },
+-
+-                        decoration: InputDecoration(
+-                          border: OutlineInputBorder(
+-                            borderRadius: BorderRadius.circular(10),
+-                          ),
+-                          filled: true,
+-                          fillColor: AppColor.textFieldColor,
+-                          hintText: "╪¼╪│╪¬╪¼┘ê ... ",
+-                          hintStyle: AppTextStyle.labelText,
+-
+-                          prefixIcon: IconButton(
+-                              onPressed: () async {
+-                                controller.getListTransactionInfoPager();
+-                              },
+-                              icon: Icon(
+-                                Icons.search,
+-                                color: AppColor.textColor,
+-                                size: 30,
+-                              )),
+-                            suffixIcon: IconButton(
+-                              onPressed: controller.clearSearch,
+-                              icon: Icon(Icons.close, color: AppColor.textColor),
+-                            )
+-                        ),
+-                      ),
+-                    ),
+-                    isDesktop ?
+-                    Container(
+-                      margin: EdgeInsets.only(left: 30,right: 30, top: 5,bottom: 30),
+-                      padding: EdgeInsets.only(left: 20,right: 20, top: 5, bottom: 40),
+-                      color: AppColor.backGroundColor1.withAlpha(150),
+-                      child: SingleChildScrollView(
+-                        scrollDirection: Axis.horizontal,
+-                        controller:
+-                        controller.scrollController,
+-                        physics: ClampingScrollPhysics(),
+-                        child: Row(
+-                          children: [
+-                            SingleChildScrollView(
+-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+-                                children: [
+-                                  Container(
+-                                    padding: EdgeInsets.symmetric( vertical: 5),
+-                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                      children: [
+-                                        Container(
+-                                          width: 400,
+-                                          child: TextFormField(
+-                                            // onChanged: (value){
+-                                            //   Future.delayed(const Duration(milliseconds: 3000), () {
+-                                            //     controller.getListTransactionInfo();
+-                                            //   });
+-                                            // },
+-                                            controller: controller.searchController,
+-                                            style: AppTextStyle.labelText,
+-                                            textInputAction: TextInputAction.search,
+-                                            // onFieldSubmitted: (value) async {
+-                                            //   // Future.delayed(const Duration(milliseconds: 700), () {
+-                                            //      controller.getListTransactionInfo();
+-                                            //   // });
+-                                            // },
+-                                            onEditingComplete: () async {
+-                                              if (controller.searchController.text.isNotEmpty) {
+-                                                await controller.getListTransactionInfoPager();
+-                                              }else {
+-                                                controller.clearSearch();
+-                                              }
+-                                            },
+-
+-                                            decoration: InputDecoration(
+-                                                border: OutlineInputBorder(
+-                                                  borderRadius: BorderRadius.circular(10),
+-                                                ),
+-                                                filled: true,
+-                                                fillColor: AppColor.textFieldColor,
+-                                                hintText: "╪¼╪│╪¬╪¼┘ê ... ",
+-                                                hintStyle: AppTextStyle.labelText,
+-
+-                                                prefixIcon: IconButton(
+-                                                    onPressed: () async {
+-                                                      controller.getListTransactionInfoPager();
+-                                                    },
+-                                                    icon: Icon(
+-                                                      Icons.search,
+-                                                      color: AppColor.textColor,
+-                                                      size: 30,
+-                                                    )),
+-                                                suffixIcon: IconButton(
+-                                                  onPressed: controller.clearSearch,
+-                                                  icon: Icon(Icons.close, color: AppColor.textColor),
+-                                                )
+-                                            ),
+-                                          ),
+-                                        ),
+-                                        SizedBox(width: 10),
+-                                        Row(
+-                                          children: [
+-                                            // ╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä
+-                                            OutlinedButton.icon(
+-                                              onPressed: () async {
+-                                                controller.clearFilter();
+-                                                showGeneralDialog(
+-                                                    context: context,
+-                                                    barrierDismissible: true,
+-                                                    barrierLabel:
+-                                                    MaterialLocalizations
+-                                                        .of(context)
+-                                                        .modalBarrierDismissLabel,
+-                                                    barrierColor:
+-                                                    Colors.black45,
+-                                                    transitionDuration:
+-                                                    const Duration(
+-                                                        milliseconds:
+-                                                        200),
+-                                                    pageBuilder: (BuildContext
+-                                                    buildContext,
+-                                                        Animation animation,
+-                                                        Animation
+-                                                        secondaryAnimation) {
+-                                                      return Center(
+-                                                        child: Material(
+-                                                          color: Colors
+-                                                              .transparent,
+-                                                          child: Container(
+-                                                            decoration: BoxDecoration(
+-                                                                borderRadius:
+-                                                                BorderRadius
+-                                                                    .circular(
+-                                                                    8),
+-                                                                color: AppColor
+-                                                                    .backGroundColor),
+-                                                            width: isDesktop
+-                                                                ? Get.width *
+-                                                                0.2
+-                                                                : Get.width *
+-                                                                0.5,
+-                                                            height: isDesktop
+-                                                                ? Get.height *
+-                                                                0.5
+-                                                                : Get.height *
+-                                                                0.7,
+-                                                            padding:
+-                                                            EdgeInsets
+-                                                                .all(20),
+-                                                            child: Column(
+-                                                              children: [
+-                                                                Padding(
+-                                                                  padding:
+-                                                                  const EdgeInsets
+-                                                                      .all(
+-                                                                      8.0),
+-                                                                  child: Row(
+-                                                                    mainAxisAlignment:
+-                                                                    MainAxisAlignment
+-                                                                        .end,
+-                                                                    children: [
+-                                                                      Expanded(
+-                                                                        child:
+-                                                                        Center(
+-                                                                          child:
+-                                                                          Text(
+-                                                                            '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                                                                            style: AppTextStyle.labelText.copyWith(
+-                                                                              fontSize: 15,
+-                                                                              fontWeight: FontWeight.normal,
+-                                                                            ),
+-                                                                          ),
+-                                                                        ),
+-                                                                      ),
+-                                                                    ],
+-                                                                  ),
+-                                                                ),
+-                                                                Container(
+-                                                                  color: AppColor
+-                                                                      .textColor,
+-                                                                  height: 0.2,
+-                                                                ),
+-                                                                Padding(
+-                                                                  padding: const EdgeInsets
+-                                                                      .symmetric(
+-                                                                      horizontal:
+-                                                                      10),
+-                                                                  child:
+-                                                                  Column(
+-                                                                    children: [
+-                                                                      SizedBox(
+-                                                                        height:
+-                                                                        8,
+-                                                                      ),
+-                                                                      Column(
+-                                                                        crossAxisAlignment:
+-                                                                        CrossAxisAlignment.start,
+-                                                                        children: [
+-                                                                          Text(
+-                                                                            '┘å╪º┘à ╪¡╪│╪º╪¿',
+-                                                                            style: AppTextStyle.labelText.copyWith(fontSize: 11, fontWeight: FontWeight.normal, color: AppColor.textColor),
+-                                                                          ),
+-                                                                          SizedBox(
+-                                                                            height: 10,
+-                                                                          ),
+-                                                                          IntrinsicHeight(
+-                                                                            child: TextFormField(
+-                                                                              autovalidateMode: AutovalidateMode.onUserInteraction,
+-                                                                              controller: controller.nameFilterController,
+-                                                                              style: AppTextStyle.labelText.copyWith(fontSize: 15),
+-                                                                              textAlign: TextAlign.start,
+-                                                                              keyboardType: TextInputType.text,
+-                                                                              decoration: InputDecoration(
+-                                                                                contentPadding: const EdgeInsets.symmetric(vertical: 11, horizontal: 15),
+-                                                                                isDense: true,
+-                                                                                border: OutlineInputBorder(
+-                                                                                  borderRadius: BorderRadius.circular(6),
+-                                                                                ),
+-                                                                                filled: true,
+-                                                                                fillColor: AppColor.textFieldColor,
+-                                                                                errorMaxLines: 1,
+-                                                                              ),
+-                                                                            ),
+-                                                                          ),
+-                                                                        ],
+-                                                                      ),
+-                                                                      SizedBox(
+-                                                                        height:
+-                                                                        8,
+-                                                                      ),
+-                                                                    ],
+-                                                                  ),
+-                                                                ),
+-                                                                Spacer(),
+-                                                                Container(
+-                                                                  margin: EdgeInsets.symmetric(
+-                                                                      horizontal:
+-                                                                      20,
+-                                                                      vertical:
+-                                                                      10),
+-                                                                  width: double
+-                                                                      .infinity,
+-                                                                  height: 40,
+-                                                                  child:
+-                                                                  ElevatedButton(
+-                                                                    style: ButtonStyle(
+-                                                                        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 23)),
+-                                                                        // elevation: WidgetStatePropertyAll(5),
+-                                                                        backgroundColor: WidgetStatePropertyAll(AppColor.appBarColor),
+-                                                                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(side: BorderSide(color: AppColor.textColor), borderRadius: BorderRadius.circular(5)))),
+-                                                                    onPressed:
+-                                                                        () async {
+-                                                                      controller.getListUserInfoTransactionExcel();
+-                                                                      Get.back();
+-                                                                    },
+-                                                                    child: controller
+-                                                                        .isLoading
+-                                                                        .value
+-                                                                        ? CircularProgressIndicator(
+-                                                                      valueColor: AlwaysStoppedAnimation<Color>(AppColor.textColor),
+-                                                                    )
+-                                                                        : Text(
+-                                                                      '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                                                                      style: AppTextStyle.labelText.copyWith(fontSize: isDesktop ? 12 : 10),
+-                                                                    ),
+-                                                                  ),
+-                                                                ),
+-                                                              ],
+-                                                            ),
+-                                                          ),
+-                                                        ),
+-                                                      );
+-                                                    });
+-                                              },
+-                                              label: Text(
+-                                                '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                                                style: AppTextStyle
+-                                                    .labelText.copyWith(color: AppColor.primaryColor,fontSize: 12),
+-                                              ),
+-                                              icon: SvgPicture.asset(
+-                                                'assets/svg/excel.svg',
+-                                                height: 24,
+-                                              ),
+-                                            ),
+-                                            SizedBox(width: 10),
+-                                            // Filter Button
+-                                            OutlinedButton.icon(
+-                                              onPressed: () async {
+-                                                //controller.fetchAccountList();
+-                                                showGeneralDialog(
+-                                                    context: context,
+-                                                    barrierDismissible: true,
+-                                                    barrierLabel:
+-                                                    MaterialLocalizations
+-                                                        .of(context)
+-                                                        .modalBarrierDismissLabel,
+-                                                    barrierColor:
+-                                                    Colors.black45,
+-                                                    transitionDuration:
+-                                                    const Duration(
+-                                                        milliseconds:
+-                                                        200),
+-                                                    pageBuilder: (BuildContext
+-                                                    buildContext,
+-                                                        Animation animation,
+-                                                        Animation
+-                                                        secondaryAnimation) {
+-                                                      return Center(
+-                                                        child: Material(
+-                                                          color: Colors
+-                                                              .transparent,
+-                                                          child: Container(
+-                                                            decoration: BoxDecoration(
+-                                                                borderRadius:
+-                                                                BorderRadius
+-                                                                    .circular(
+-                                                                    8),
+-                                                                color: AppColor
+-                                                                    .backGroundColor),
+-                                                            width: isDesktop
+-                                                                ? Get.width *
+-                                                                0.5
+-                                                                : Get.width *
+-                                                                0.8,
+-                                                            height: isDesktop
+-                                                                ? Get.height *
+-                                                                0.8
+-                                                                : Get.height *
+-                                                                0.9,
+-                                                            padding:
+-                                                            EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 3),
+-                                                            child: FilterDialog(controller: controller),
+-                                                          ),
+-                                                        ),
+-                                                      );
+-                                                    });
+-                                              },
+-                                                icon: SvgPicture.asset(
+-                                                    'assets/svg/filter3.svg',
+-                                                    height: 22,
+-                                                    colorFilter:
+-                                                    ColorFilter.mode(AppColor.textColor, BlendMode.srcIn,
+-                                                    )),
+-                                                label: Text(
+-                                                  '┘ü█î┘ä╪¬╪▒',
+-                                                  style: AppTextStyle
+-                                                      .labelText,
+-                                                ),
+-                                            ),
+-                                            /*ElevatedButton(
+-                            style: ButtonStyle(
+-                                padding: WidgetStatePropertyAll(
+-                                  EdgeInsets
+-                                      .symmetric(
+-                                      horizontal: 15,
+-                                      vertical: 7
+-                                  ),
+-                                ),
+-                                fixedSize: WidgetStatePropertyAll(
+-                                    Size(100, 30)),
+-                                elevation: WidgetStatePropertyAll(
+-                                    5),
+-                                backgroundColor:
+-                                WidgetStatePropertyAll(
+-                                    AppColor
+-                                        .secondary3Color),
+-                                shape: WidgetStatePropertyAll(
+-                                    RoundedRectangleBorder(
+-                                        borderRadius: BorderRadius
+-                                            .circular(
+-                                            5)))),
+-                            onPressed: () {
+-                              controller.getListUserInfoTransactionExcel();
+-                              Get.back();
+-                            },
+-                            child: Text(
+-                              '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                              style: AppTextStyle
+-                                  .labelText,
+-                            ),
+-                            //onPressed: () => orderController.getOrderExcel(),
+-                          ),*/
+-                                          ],
+-                                        ),
+-                                      ],
+-                                    ),
+-                                  ),
+-                                  DataTable(
+-                                    columns:
+-                                    buildDataColumns(),
+-                                    sortColumnIndex: controller
+-                                        .sortColumnIndex
+-                                        .value,
+-                                    sortAscending: controller
+-                                        .sortAscending
+-                                        .value,
+-                                    border: TableBorder.symmetric(inside: BorderSide(color: AppColor.textColor,width: 0.3),
+-                                      outside: BorderSide(color: AppColor.textColor,width: 0.3),
+-                                      borderRadius: BorderRadius.circular(8),
+-                                    ),
+-                                    dividerThickness: 0.3,
+-                                    rows: buildDataRows(
+-                                        context),
+-                                    dataRowMaxHeight: double.infinity,
+-                                    //dataRowColor: WidgetStatePropertyAll(AppColor.secondaryColor),
+-                                    headingRowColor: WidgetStatePropertyAll(AppColor.buttonColor.withAlpha(40)),
+-                                    headingRowHeight: 35,
+-                                    columnSpacing: 30,
+-                                    horizontalMargin: 5,
+-                                  ),
+-                                  // Footer Section
+-                                  Obx(() => controller.listTransactionInfoFooter.isNotEmpty
+-                                      ? Container(
+-                                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color:AppColor.appBarColor.withAlpha(130),),
+-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+-                                          children: [
+-                                            Container(
+-                                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+-                                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                            //decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color:AppColor.appBarColor.withOpacity(0.5),),
+-                                            child: SingleChildScrollView(
+-                                            scrollDirection: Axis.horizontal,
+-                                            child: Row(
+-                                              children: [
+-                                                // ╪▒█î╪º┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-                                                _buildFooterItem(
+-                                                  title: "╪▒█î╪º┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                  positiveValue: controller.listTransactionInfoFooter
+-                                                      .where((item) => item.unitName == "╪▒█î╪º┘ä")
+-                                                      .fold(0.0, (sum, item) => sum! + (item.totalPositiveBalance ?? 0)),
+-                                                  color: AppColor.primaryColor,
+-                                                  unit: "╪▒█î╪º┘ä",
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪▒█î╪º┘ä ╪¿╪»┘ç┌⌐╪º╪▒
+-                                                _buildFooterItem(
+-                                                  title: "╪▒█î╪º┘ä ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                  negativeValue: controller.listTransactionInfoFooter
+-                                                      .where((item) => item.unitName == "╪▒█î╪º┘ä")
+-                                                      .fold(0.0, (sum, item) => sum! + (item.totalNegativeBalance ?? 0)),
+-                                                  color: AppColor.accentColor,
+-                                                  unit: "╪▒█î╪º┘ä",
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪╖┘ä╪º ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-                                                Row(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪╖┘ä╪º ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                      positiveValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "┌»╪▒┘à")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalPositiveBalance ?? 0)),
+-                                                      color: AppColor.primaryColor,
+-                                                      unit: "┌»╪▒┘à",
+-                                                    ),
+-                                                    GestureDetector(
+-                                                      onTap: (){
+-                                                        Get.defaultDialog(
+-                                                          confirm: Column(
+-                                                            children: controller.listTransactionInfoFooter.map((e)=>e.unitName=="┌»╪▒┘à" && e.totalPositiveBalance! > 0 ? Row(
+-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                                              children: [
+-                                                                Text(
+-                                                                  e.itemName??"",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ), Text(
+-                                                                  "${e.totalPositiveBalance??0} ┌»╪▒┘à ",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ),
+-                                                              ],
+-                                                            ):SizedBox()).toList(),
+-                                                          ),
+-                                                          middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪╖┘ä╪º█î ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                          middleTextStyle: context
+-                                                              .textTheme.bodyMedium!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 13),
+-                                                          title: "╪¼╪▓█î█î╪º╪¬",
+-                                                          titleStyle: context
+-                                                              .textTheme.titleSmall!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 14),
+-                                                          backgroundColor: AppColor.textColor,
+-                                                          radius: 7,
+-                                                          contentPadding: EdgeInsets.symmetric(
+-                                                              horizontal: 20, vertical: 20),
+-
+-
+-                                                        );
+-                                                      },
+-                                                      child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                                                          colorFilter: ColorFilter.mode(
+-                                                            AppColor.textColor,
+-                                                            BlendMode.srcIn,
+-                                                          )),
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪╖┘ä╪º ╪¿╪»┘ç┌⌐╪º╪▒
+-                                                Row(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪╖┘ä╪º ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                      negativeValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "┌»╪▒┘à")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalNegativeBalance ?? 0)),
+-                                                      color: AppColor.accentColor,
+-                                                      unit: "┌»╪▒┘à",
+-                                                    ),
+-                                                    GestureDetector(
+-                                                      onTap: (){
+-                                                        Get.defaultDialog(
+-                                                          confirm: Column(
+-                                                            children: controller.listTransactionInfoFooter.map((e)=>e.unitName=="┌»╪▒┘à" && e.totalNegativeBalance! < 0 ? Row(
+-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                                              children: [
+-                                                                Text(
+-                                                                  e.itemName??"",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ), Text(
+-                                                                  "${e.totalNegativeBalance??0} ┌»╪▒┘à ",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ),
+-                                                              ],
+-                                                            ):SizedBox()).toList(),
+-                                                          ),
+-                                                          middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪╖┘ä╪º█î ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                          middleTextStyle: context
+-                                                              .textTheme.bodyMedium!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 13),
+-                                                          title: "╪¼╪▓█î█î╪º╪¬",
+-                                                          titleStyle: context
+-                                                              .textTheme.titleSmall!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 14),
+-                                                          backgroundColor: AppColor.textColor,
+-                                                          radius: 7,
+-                                                          contentPadding: EdgeInsets.symmetric(
+-                                                              horizontal: 20, vertical: 20),
+-
+-
+-                                                        );
+-                                                      },
+-                                                      child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                                                          colorFilter: ColorFilter.mode(
+-                                                            AppColor.textColor,
+-                                                            BlendMode.srcIn,
+-                                                          )),
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-                                                Row(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                      positiveValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "╪╣╪»╪»")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalPositiveBalance ?? 0)),
+-                                                      color: AppColor.primaryColor,
+-                                                      unit: "╪╣╪»╪»",
+-                                                    ),
+-                                                    GestureDetector(
+-                                                      onTap: (){
+-                                                        Get.defaultDialog(
+-                                                          confirm: Column(
+-                                                            children: controller.listTransactionInfoFooter.map((e)=>e.unitName=="╪╣╪»╪»" && e.totalPositiveBalance! > 0 ? Row(
+-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                                              children: [
+-                                                                Text(
+-                                                                  e.itemName??"",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ), Text(
+-                                                                  "${e.totalPositiveBalance??0} ╪╣╪»╪» ",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ),
+-                                                              ],
+-                                                            ):SizedBox()).toList(),
+-                                                          ),
+-                                                          middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                          middleTextStyle: context
+-                                                              .textTheme.bodyMedium!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 13),
+-                                                          title: "╪¼╪▓█î█î╪º╪¬",
+-                                                          titleStyle: context
+-                                                              .textTheme.titleSmall!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 14),
+-                                                          backgroundColor: AppColor.textColor,
+-                                                          radius: 7,
+-                                                          contentPadding: EdgeInsets.symmetric(
+-                                                              horizontal: 20, vertical: 20),
+-
+-
+-                                                        );
+-                                                      },
+-                                                      child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                                                          colorFilter: ColorFilter.mode(
+-                                                            AppColor.textColor,
+-                                                            BlendMode.srcIn,
+-                                                          )),
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒
+-                                                Row(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                      negativeValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "╪╣╪»╪»")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalNegativeBalance ?? 0)),
+-                                                      color: AppColor.accentColor,
+-                                                      unit: "╪╣╪»╪»",
+-                                                    ),
+-                                                    GestureDetector(
+-                                                      onTap: (){
+-                                                        Get.defaultDialog(
+-                                                          confirm: Column(
+-                                                            children: controller.listTransactionInfoFooter.map((e)=>e.unitName=="╪╣╪»╪»" && e.totalNegativeBalance! < 0 ? Row(
+-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                                              children: [
+-                                                                Text(
+-                                                                  e.itemName??"",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ), Text(
+-                                                                  "${e.totalNegativeBalance??0} ╪╣╪»╪» ",
+-                                                                  style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                                                ),
+-                                                              ],
+-                                                            ):SizedBox()).toList(),
+-                                                          ),
+-                                                          middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                          middleTextStyle: context
+-                                                              .textTheme.bodyMedium!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 13),
+-                                                          title: "╪¼╪▓█î█î╪º╪¬",
+-                                                          titleStyle: context
+-                                                              .textTheme.titleSmall!
+-                                                              .copyWith(
+-                                                              color: AppColor.backGroundColor,
+-                                                              fontSize: 14),
+-                                                          backgroundColor: AppColor.textColor,
+-                                                          radius: 7,
+-                                                          contentPadding: EdgeInsets.symmetric(
+-                                                              horizontal: 20, vertical: 20),
+-
+-
+-                                                        );
+-                                                      },
+-                                                      child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                                                          colorFilter: ColorFilter.mode(
+-                                                            AppColor.textColor,
+-                                                            BlendMode.srcIn,
+-                                                          )),
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪º╪▒╪▓ ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-                                                Column(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪º╪▒╪▓ ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                                                      positiveValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "╪»┘ä╪º╪▒")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalPositiveBalance ?? 0)),
+-                                                      color: AppColor.primaryColor,
+-                                                      unit: "╪»┘ä╪º╪▒",
+-                                                    ),
+-                                                    _buildFooterItem(
+-                                                      title: "",
+-                                                      positiveValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "█î┘ê╪▒┘ê")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalPositiveBalance ?? 0)),
+-                                                      color: AppColor.primaryColor,
+-                                                      unit: "█î┘ê╪▒┘ê",
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                                SizedBox(width: 20),
+-                                                // ╪º╪▒╪▓ ╪¿╪»┘ç┌⌐╪º╪▒
+-                                                Column(
+-                                                  children: [
+-                                                    _buildFooterItem(
+-                                                      title: "╪º╪▒╪▓ ╪¿╪»┘ç┌⌐╪º╪▒",
+-                                                      negativeValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "╪»┘ä╪º╪▒")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalNegativeBalance ?? 0)),
+-                                                      color: AppColor.accentColor,
+-                                                      unit: "╪»┘ä╪º╪▒",
+-                                                    ),
+-                                                    SizedBox(height: 2,),
+-                                                    _buildFooterItem(
+-                                                      title: "",
+-                                                      positiveValue: controller.listTransactionInfoFooter
+-                                                          .where((item) => item.unitName == "█î┘ê╪▒┘ê")
+-                                                          .fold(0.0, (sum, item) => sum! + (item.totalNegativeBalance ?? 0)),
+-                                                      color: AppColor.primaryColor,
+-                                                      unit: "█î┘ê╪▒┘ê",
+-                                                    ),
+-                                                  ],
+-                                                ),
+-                                              ],
+-                                            ),
+-                                                                                ),
+-                                                                              ),
+-                                            Container(
+-                                              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+-                                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: AppColor.backGroundColor1.withAlpha(130),),
+-                                              child: Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+-                                                children: [
+-                                                  Container(
+-                                                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                                    //decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: AppColor.appBarColor.withOpacity(0.5),),
+-                                                    child:  Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+-                                                        children: [
+-                                                          // ╪▒█î╪º┘ä ╪«╪º┘ä╪╡
+-                                                          _buildNetFooterItem(
+-                                                            title: "╪▒█î╪º┘ä ╪«╪º┘ä╪╡",
+-                                                            netValue: controller.listTransactionInfoFooter
+-                                                                .where((item) => item.unitName == "╪▒█î╪º┘ä")
+-                                                                .fold(0.0, (sum, item) => sum + ((item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0))),
+-                                                            unit: "╪▒█î╪º┘ä",
+-                                                          ),
+-                                                          SizedBox(width: 50),
+-                                                          // ╪╖┘ä╪º ╪«╪º┘ä╪╡
+-                                                          _buildNetFooterItem(
+-                                                            title: "╪╖┘ä╪º ╪«╪º┘ä╪╡",
+-                                                            netValue: controller.listTransactionInfoFooter
+-                                                                .where((item) => item.unitName == "┌»╪▒┘à")
+-                                                                .fold(0.0, (sum, item) => sum + ((item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0))),
+-                                                            unit: "┌»╪▒┘à",
+-                                                          ),
+-                                                          SizedBox(width: 50),
+-                                                          // Individual Coin Types
+-                                                          Container(
+-                                                            child: Column(
+-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+-                                                              children: controller.listTransactionInfoFooter
+-                                                                  .where((item) => item.unitName == "╪╣╪»╪»")
+-                                                                  .map((item) {
+-                                                                final netValue = (item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0);
+-                                                                if (netValue == 0.0) return SizedBox();
+-                                                                return Padding(
+-                                                                  padding: EdgeInsets.only(bottom: 8),
+-                                                                  child: _buildNetFooterItem(
+-                                                                    title: item.itemName ?? "╪│┌⌐┘ç",
+-                                                                    netValue: netValue,
+-                                                                    unit: "╪╣╪»╪»",
+-                                                                  ),
+-                                                                );
+-                                                              }).toList(),
+-                                                            ),
+-                                                          ),
+-                                                          SizedBox(width: 50),
+-                                                          // Individual Currency Types
+-                                                          Container(
+-                                                            child: Column(
+-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+-                                                              children: controller.listTransactionInfoFooter
+-                                                                  .where((item) => item.itemGroupName == "╪º╪▒╪▓")
+-                                                                  .map((item) {
+-                                                                final netValue = (item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0);
+-                                                                if (netValue == 0.0) return SizedBox();
+-                                                                return Padding(
+-                                                                  padding: EdgeInsets.only(bottom: 8),
+-                                                                  child: _buildNetFooterItem(
+-                                                                    title: "",
+-                                                                    netValue: netValue,
+-                                                                    unit: item.unitName,
+-                                                                  ),
+-                                                                );
+-                                                              }).toList(),
+-                                                            ),
+-                                                          ),
+-                                                        ],
+-                                                      ),
+-
+-                                                  ),
+-                                                  Container(
+-                                                    width: Get.width*0.2,
+-                                                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+-                                                    //decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: AppColor.appBarColor.withOpacity(0.5),),
+-                                                    child:  Column(crossAxisAlignment: CrossAxisAlignment.start,
+-                                                      children: [
+-                                                        Text(
+-                                                          "┘à╪¼┘à┘ê╪╣ ┌⌐┘ä:",
+-                                                          style: AppTextStyle.labelText.copyWith(
+-                                                            fontSize: 14,
+-                                                            fontWeight: FontWeight.bold,
+-                                                          ),
+-                                                        ),
+-                                                        SizedBox(height: 10),
+-                                                        _buildNetFooterItem(
+-                                                          title: "┘à╪¼┘à┘ê╪╣ ┌⌐┘ä",
+-                                                          netValue: controller.listTransactionInfoFooter.fold(0.0, (sum, item) =>
+-                                                          sum + ((item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0))
+-                                                          ),
+-                                                          unit: "╪▒█î╪º┘ä",
+-                                                        ),
+-                                                      ],
+-                                                    ),
+-
+-                                                  ),
+-                                                ],
+-                                              ),
+-                                            ),
+-                                          ],
+-                                        ),
+-                                      )
+-                                      : SizedBox()),
+-                                ],
+-                              ),
+-                            ),
+-                          ],
+-                        ),
+-                      ),
+-                    ):
+-                    _buildMobileTransactionList(context),
+-                  ],
+-                ),
+-              ),
+-            )
+-                : Center(
+-              child: ErrPage(
+-                callback: () {
+-                  controller.clearSearch();
+-                  controller.getListTransactionInfoPager();
+-                },
+-                title: "╪«╪╖╪º ╪»╪▒ ┘ä█î╪│╪¬ ┌⌐╪º╪▒╪¿╪▒╪º┘å",
+-                des: '╪¿╪▒╪º█î ╪»╪▒█î╪º┘ü╪¬ ┘ä█î╪│╪¬ ┌⌐╪º╪▒╪¿╪▒╪º┘å ┘à╪¼╪»╪»╪º ╪¬┘ä╪º╪┤ ┌⌐┘å█î╪»',
+-              ),
+-            ),
+-          ),
+-          isDesktop ?
+-          Column(
+-            mainAxisAlignment: MainAxisAlignment.end,
+-            children: [
+-              // Pagination
+-              controller.paginated.value!=null?   Container(
+-                  height: 70,
+-                  margin: EdgeInsets.symmetric(horizontal: 50,vertical: 10),
+-                  padding: EdgeInsets.symmetric(horizontal: 20),
+-                  //color: AppColor.appBarColor.withAlpha(130),
+-                  alignment: Alignment.bottomCenter,
+-                  child:PagerWidget(countPage: controller.paginated.value?.totalCount??0, callBack: (int index) {
+-                    controller.isChangePage(index);
+-                  },)):SizedBox(),
+-            ],
+-          ): SizedBox.shrink(),
+-        ],
+-      ),
+-      floatingActionButton: const ChatFloatingButton(),
+-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+-    ));
+-  }
+-  List<DataColumn> buildDataColumns() {
+-    return [
+-      DataColumn(
+-          label: ConstrainedBox(
+-              constraints: BoxConstraints(maxWidth: 80),
+-              child: Text('╪▒╪»█î┘ü',
+-                  style: AppTextStyle.labelText)),
+-          headingRowAlignment: MainAxisAlignment.center,
+-      ),
+-      DataColumn(
+-          label: ConstrainedBox(
+-              constraints: BoxConstraints(maxWidth: 100),
+-              child: Text('┘å╪º┘à',
+-                  style: AppTextStyle.labelText.copyWith(fontSize: 11))),
+-          headingRowAlignment: MainAxisAlignment.center,
+-      ),
+ 
+-      DataColumn(
+-          label:  Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä█î',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪│╪¬╪º┘å┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.primaryColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-      DataColumn(
+-          label:  Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä█î',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪»┘ç┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.accentColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪╖┘ä╪º',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪│╪¬╪º┘å┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.primaryColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪╖┘ä╪º',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪»┘ç┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.accentColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪│┌⌐┘ç',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪│╪¬╪º┘å┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.primaryColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪│┌⌐┘ç',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪»┘ç┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.accentColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪º╪▒╪▓',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪│╪¬╪º┘å┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.accentColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center),
+-
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('┘à╪º┘å╪»┘ç ╪º╪▒╪▓',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                  SizedBox(width: 5,),
+-                  Text('(╪¿╪»┘ç┌⌐╪º╪▒)',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 12,color: AppColor.primaryColor,fontWeight: FontWeight.bold)),
+-                ],
+-              ),
+-
+-          headingRowAlignment: MainAxisAlignment.center),
+-
+-      DataColumn(
+-          label: Row(
+-                children: [
+-                  Text('╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪│',
+-                      style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-                ],
+-              ),
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-      DataColumn(
+-          label: Row(
+-            children: [
+-              Text('╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪»',
+-                  style: AppTextStyle.labelText.copyWith(fontSize: 11)),
+-            ],
+-          ),
+-          headingRowAlignment: MainAxisAlignment.center,
+-        onSort: (columnIndex, ascending){
+-          controller.onSort(columnIndex, ascending);
+-        },
+-      ),
+-    ];
+-  }
+-
+-  List<DataRow> buildDataRows(BuildContext context) {
+-    return controller.listTransactionInfo.asMap().entries.map((entry) {
+-      final index = entry.key;
+-      final trans = entry.value;
+-      final rowColor = index.isEven
+-          ? AppColor.backGroundColor
+-          : AppColor.secondaryColor.withAlpha(100);
+-      return DataRow(
+-        color: WidgetStateProperty.all(rowColor),
+-        cells: [
+-          // ╪▒╪»█î┘ü
+-          DataCell(
+-              Center(
+-                child: Text(
+-                  "${trans.rowNum}",
+-                  style: AppTextStyle.bodyText,
+-                ),
+-              )),
+-          // ┘å╪º┘à
+-          DataCell(Center(
+-            child: GestureDetector(
+-              onTap: (){
+-                Get.toNamed("/userInfoTransaction",parameters: {"accountId":trans.accountId.toString()});
+-                // /controller.getInfo(trans.accountId);
++    return Obx(
++      () => Scaffold(
++        appBar: CustomAppbar1(
++          title: '┘à╪º┘å╪»┘ç ┌⌐╪º╪▒╪¿╪▒╪º┘å',
++          onBackTap: () => Get.toNamed('/home'),
++        ),
++        drawer: const AppDrawer(),
++        body: Stack(
++          children: [
++            const BackgroundImageTotal(),
++            SafeArea(
++              child: switch (controller.state.value) {
++                PageState.loading => const UserBalanceLoadingState(),
++                PageState.empty => UserBalanceEmptyState(onRetry: _onRetry),
++                PageState.err => UserBalanceErrorState(onRetry: _onRetry),
++                PageState.list => _buildListBody(context, isDesktop),
+               },
+-              child: Text(
+-                "${trans.accountName} ",
+-                style: AppTextStyle.bodyText
+-                    .copyWith(color: AppColor.textColor, fontSize: 11,decoration: TextDecoration.underline,decorationColor: AppColor.textColor,decorationThickness: 3),),
              ),
-         waitingMessage: Container(
-           padding: const EdgeInsets.all(8),
-           child: Text(
-             '╪»╪▒ ╪¡╪º┘ä ╪¿╪º╪▒┌»╪░╪º╪▒█î...',
-@@ -61,55 +82,73 @@ class _HoverTooltipTodayPaymentReportWidgetState
+-          )),
+-          // ┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä█î ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-          DataCell(Center(
+-            child:
+-            (trans.cashBalanceBes ?? 0)>0 ?
+-            Row(
+-              mainAxisAlignment: MainAxisAlignment.center,
+-              children: [
+-                trans.cashBalanceBes==0
+-                    ? SizedBox()
+-                    :
+-                Column(mainAxisAlignment: MainAxisAlignment.center,
+-                  children: [
+-                    Row(
+-                      children: [
+-                        SizedBox(
+-                          //width: 150,
+-                          child: Row(
+-                            children: [
+-                              Text("┘ê╪¼┘ç ┘å┘é╪» ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight:
+-                                      FontWeight
+-                                          .bold)),
+-                              Text(
+-                                trans.cashBalanceBes!.toStringAsFixed(0).seRagham(),
+-                                style: AppTextStyle.bodyText
+-                                    .copyWith(
+-                                    fontSize: 12,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold),
+-                                textDirection:
+-                                TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ),
+-                        ),
+-                        GestureDetector(
+-                          onTap: (){
+-                            Get.defaultDialog(
+-                              confirm: Column(
+-                                children: trans.balances!.map((e)=>e.unitName=="╪▒█î╪º┘ä" ? Row(
+-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                  children: [
+-                                    Text(
+-                                      e.itemName??"",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ), Text(
+-                                      "${e.balance?.toStringAsFixed(0).seRagham() ?? 0} ╪▒█î╪º┘ä ",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                      textDirection: TextDirection.ltr,
+-                                    ),
+-                                  ],
+-                                ):SizedBox()).toList(),
+-                              ),
+-                              middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                              middleTextStyle: context
+-                                  .textTheme.bodyMedium!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 13),
+-                              title: "╪¼╪▓█î█î╪º╪¬",
+-                              titleStyle: context
+-                                  .textTheme.titleSmall!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 14),
+-                              backgroundColor: AppColor.textColor,
+-                              radius: 7,
+-                              contentPadding: EdgeInsets.symmetric(
+-                                  horizontal: 20, vertical: 20),
+-
+-
+-                            );
+-                          },
+-                          child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                              colorFilter: ColorFilter.mode(
+-                                AppColor.textColor,
+-                                BlendMode.srcIn,
+-                              )),
+-                        ),
+-                      ],
+-                    ),
+-                    SizedBox(height: 5,),
+-                    (trans.afterCashBalance ?? 0) > 0 ?
+-                    Divider(height: 0.5,color: AppColor.dividerColor,) : SizedBox.shrink(),
+-                    SizedBox(height: 5,),
+-                    (trans.afterCashBalance ?? 0) > 0 ?
+-                    Column(
+-                      children: trans.balances!.map((e)=>e.unitName=="╪▒█î╪º┘ä" ?
+-                      Row(
+-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                        children: [
+-                          (e.balance ?? 0) > 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "${e.balance?.toStringAsFixed(0).seRagham() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                                textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                                ,textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ): (e.balance ?? 0) < 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.accentColor , fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "-${e.balance?.abs().toStringAsFixed(0).seRagham() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.accentColor,fontWeight: FontWeight.bold),
+-                                textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 10,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ) : SizedBox.shrink(),
+-                        ],
+-                      ):SizedBox()).toList(),
+-                    ):
+-                    SizedBox.shrink(),
+-                  ],
+-                ),
+-
+-
+-              ],
+-            ):
+-            SizedBox.shrink(),
+-          ),
+-          ),
+-          // ┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä█î ╪¿╪»┘ç┌⌐╪º╪▒
+-          DataCell(Center(
+-            child:
+-            (trans.cashBalanceBed ?? 0)<0 ?
+-            Column(
+-              mainAxisAlignment: MainAxisAlignment.center,
+-              children: [
+-                trans.cashBalanceBed==0
+-                    ? SizedBox()
+-                    :
+-                Column(mainAxisAlignment: MainAxisAlignment.center,
+-                  children: [
+-                    Row(
+-                      children: [
+-                        SizedBox(
+-                          //width: 150,
+-                          child: Row(
+-                            children: [
+-                              Text("┘ê╪¼┘ç ┘å┘é╪» ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight
+-                                          .bold)),
+-                              Text(
+-                                "-${trans.cashBalanceBed?.abs().toStringAsFixed(0).seRagham() ?? ""}",
+-                                style: AppTextStyle.bodyText
+-                                    .copyWith(
+-                                    fontSize: 12,
+-                                    color:  AppColor
+-                                        .accentColor
+-                                    ,
+-                                    fontWeight:
+-                                    FontWeight.bold),
+-                                textDirection:
+-                                TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ),
+-                        ),
+-                        GestureDetector(
+-                          onTap: (){
+-                            Get.defaultDialog(
+-                              confirm: Column(
+-                                children: trans.balances!.map((e)=>e.unitName=="╪▒█î╪º┘ä" ? Row(
+-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                  children: [
+-                                    Text(
+-                                      e.itemName??"",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ), Text(
+-                                      "-${e.balance?.abs().toStringAsFixed(0).seRagham() ?? 0} ╪▒█î╪º┘ä ",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor,),
+-                                      textDirection: TextDirection.ltr,
+-                                    ),
+-                                  ],
+-                                ):SizedBox()).toList(),
+-                              ),
+-                              middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪▒█î╪º┘ä ╪¿╪»┘ç┌⌐╪º╪▒",
+-                              middleTextStyle: context
+-                                  .textTheme.bodyMedium!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 13),
+-                              title: "╪¼╪▓█î█î╪º╪¬",
+-                              titleStyle: context
+-                                  .textTheme.titleSmall!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 14),
+-                              backgroundColor: AppColor.textColor,
+-                              radius: 7,
+-                              contentPadding: EdgeInsets.symmetric(
+-                                  horizontal: 20, vertical: 20),
+-
+-
+-                            );
+-                          },
+-                          child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                              colorFilter: ColorFilter.mode(
+-                                AppColor.textColor,
+-                                BlendMode.srcIn,
+-                              )),
+-                        ),
+-                      ],
+-                    ),
+-                    SizedBox(height: 5,),
+-                    (trans.afterCashBalance ?? 0) < 0 ?
+-                    Divider(height: 0.5,color: AppColor.dividerColor,) : SizedBox.shrink(),
+-                    SizedBox(height: 5,),
+-                    (trans.afterCashBalance ?? 0) < 0 ?
+-                    Column(
+-                      children: trans.balances!.map((e)=>e.unitName=="╪▒█î╪º┘ä" ?
+-                      Row(
+-                        children: [
+-                          (e.balance ?? 0) < 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.accentColor , fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "-${e.balance?.abs().toStringAsFixed(0).seRagham() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.accentColor,fontWeight: FontWeight.bold),
+-                                textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 10,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ) : (e.balance ?? 0) > 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "${e.balance?.toStringAsFixed(0).seRagham() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                                textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ╪▒█î╪º┘ä ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                                ,textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ): SizedBox.shrink(),
+-                        ],
+-                      ):SizedBox()).toList(),
+-                    ):SizedBox.shrink(),
+-                  ],
+-                ),
+-
+-              ],
+-            ):
+-            SizedBox.shrink(),
+-          ),
+-          ),
+-          // ┘à╪º┘å╪»┘ç ╪╖┘ä╪º ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-          DataCell(Center(
+-            child:
+-            (trans.goldBalanceBes ?? 0)>0 ?
+-            Row(
+-              mainAxisAlignment: MainAxisAlignment.center,
+-              children: [
+-                trans.goldBalanceBes==0
+-                    ? SizedBox()
+-                    :
+-                Column(mainAxisAlignment: MainAxisAlignment.center,
+-                  children: [
+-                    Row(
+-                      children: [
+-                        SizedBox(
+-                          //width: 150,
+-                          child: Row(
+-                            children: [
+-                              Text("╪ó╪¿╪┤╪»┘ç ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight:
+-                                      FontWeight
+-                                          .bold)),
+-                              Text(
+-                                trans.goldBalanceBes!.toStringAsFixed(3),
+-                                style: AppTextStyle.bodyText
+-                                    .copyWith(
+-                                    fontSize: 11,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold),
+-                                textDirection:
+-                                TextDirection.ltr,
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ),
+-                        ),
+-                        GestureDetector(
+-                          onTap: (){
+-                            Get.defaultDialog(
+-                              confirm: Column(
+-                                children: trans.balances!.map((e)=>e.unitName=="┌»╪▒┘à" ? Row(
+-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                  children: [
+-                                    Text(
+-                                      e.itemName??"",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ), Text(
+-                                      "${e.balance??0} ┌»╪▒┘à ",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ),
+-                                  ],
+-                                ):SizedBox()).toList(),
+-                              ),
+-                              middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪╖┘ä╪º█î ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                              middleTextStyle: context
+-                                  .textTheme.bodyMedium!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 13),
+-                              title: "╪¼╪▓█î█î╪º╪¬",
+-                              titleStyle: context
+-                                  .textTheme.titleSmall!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 14),
+-                              backgroundColor: AppColor.textColor,
+-                              radius: 7,
+-                              contentPadding: EdgeInsets.symmetric(
+-                                  horizontal: 20, vertical: 20),
+-
+-
+-                            );
+-                          },
+-                          child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                              colorFilter: ColorFilter.mode(
+-                                AppColor.textColor,
+-                                BlendMode.srcIn,
+-                              )),
+-                        ),
+-                      ],
+-                    ),
+-                    SizedBox(height: 5,),
+-                    (trans.afterGoldBalance ?? 0) > 0 ?
+-                    Divider(height: 0.5,color: AppColor.dividerColor,) : SizedBox.shrink(),
+-                    SizedBox(height: 5,),
+-                    (trans.afterGoldBalance ?? 0) > 0 ?
+-                    Column(
+-                      children: trans.balances!.map((e)=>e.unitName=="┌»╪▒┘à" ?
+-                      Row(
+-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                        children: [
+-                          (e.balance ?? 0) > 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "${e.balance??0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 10,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight: FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ): (e.balance ?? 0) < 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.accentColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "-${e.balance?.abs() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.accentColor,fontWeight: FontWeight.bold),textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 10,
+-                                    color:  AppColor
+-                                        .accentColor,
+-                                    fontWeight: FontWeight.bold)
+-                                ,textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ) : SizedBox.shrink(),
+-                        ],
+-                      ):SizedBox()).toList(),
+-                    ):
+-                    SizedBox.shrink(),
+-                  ],
+-                ),
+-
+-
+-              ],
+-            ):
+-            SizedBox.shrink(),
+-          ),
+-          ),
+-          // ┘à╪º┘å╪»┘ç ╪╖┘ä╪º ╪¿╪»┘ç┌⌐╪º╪▒
+-          DataCell(Center(
+-            child:
+-            (trans.goldBalanceBed ?? 0)<0 ?
+-            Row(
+-              mainAxisAlignment: MainAxisAlignment.center,
+-              children: [
+-                trans.goldBalanceBed==0
+-                    ? SizedBox()
+-                    :
+-                Column(mainAxisAlignment: MainAxisAlignment.center,
+-                  children: [
+-                    Row(
+-                      children: [
+-                        SizedBox(
+-                          //width: 150,
+-                          child: Row(
+-                            children: [
+-                              Text("╪ó╪¿╪┤╪»┘ç ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight
+-                                          .bold)),
+-                              Text(
+-                                "-${trans.goldBalanceBed?.abs().toStringAsFixed(3) ?? ""}",
+-                                style: AppTextStyle.bodyText
+-                                    .copyWith(
+-                                    fontSize: 11,
+-                                    color:  AppColor
+-                                        .accentColor
+-                                    ,
+-                                    fontWeight:
+-                                    FontWeight.bold),
+-                                textDirection:
+-                                TextDirection.ltr,
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 9,
+-                                      color:  AppColor
+-                                          .accentColor,
+-                                      fontWeight:
+-                                      FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ),
+-                        ),
+-                        GestureDetector(
+-                          onTap: (){
+-                            Get.defaultDialog(
+-                              confirm: Column(
+-                                children: trans.balances!.map((e)=>e.unitName=="┌»╪▒┘à" ? Row(
+-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                                  children: [
+-                                    Text(
+-                                      e.itemName??"",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ), Text(
+-                                      "${e.balance??0} ┌»╪▒┘à",
+-                                      style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.backGroundColor),
+-                                    ),
+-                                  ],
+-                                ):SizedBox()).toList(),
+-                              ),
+-                              middleText: "┘ä█î╪│╪¬ ┘à╪º┘å╪»┘ç ╪╖┘ä╪º█î ╪¿╪»┘ç┌⌐╪º╪▒",
+-                              middleTextStyle: context
+-                                  .textTheme.bodyMedium!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 13),
+-                              title: "╪¼╪▓█î█î╪º╪¬",
+-                              titleStyle: context
+-                                  .textTheme.titleSmall!
+-                                  .copyWith(
+-                                  color: AppColor.backGroundColor,
+-                                  fontSize: 14),
+-                              backgroundColor: AppColor.textColor,
+-                              radius: 7,
+-                              contentPadding: EdgeInsets.symmetric(
+-                                  horizontal: 20, vertical: 20),
+-
+-
+-                            );
+-                          },
+-                          child: SvgPicture.asset('assets/svg/list.svg',height: 16,
+-                              colorFilter: ColorFilter.mode(
+-                                AppColor.textColor,
+-                                BlendMode.srcIn,
+-                              )),
+-                        ),
+-                      ],
+-                    ),
+-                    SizedBox(height: 5,),
+-                    (trans.afterGoldBalance ?? 0) < 0 ?
+-                    Divider(height: 0.5,color: AppColor.dividerColor,) : SizedBox.shrink(),
+-                    SizedBox(height: 5,),
+-                    (trans.afterGoldBalance ?? 0) < 0 ?
+-                    Column(
+-                      children: trans.balances!.map((e)=>e.unitName=="┌»╪▒┘à" ?
+-                      Row(
+-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                        children: [
+-                          (e.balance ?? 0) > 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "${e.balance??0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.primaryColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                  style: AppTextStyle
+-                                      .bodyText
+-                                      .copyWith(
+-                                      fontSize: 10,
+-                                      color:  AppColor
+-                                          .primaryColor,
+-                                      fontWeight: FontWeight.bold)
+-                                //  textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ): (e.balance ?? 0) < 0 ?
+-                          Row(
+-                            children: [
+-                              Text(
+-                                e.itemName??"",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  10,color: AppColor.accentColor,fontWeight: FontWeight.bold),
+-                              ),
+-                              Text(
+-                                "-${e.balance?.abs() ?? 0}",
+-                                style: AppTextStyle.labelText.copyWith(fontSize:  12,color: AppColor.accentColor,fontWeight: FontWeight.bold),textDirection: TextDirection.ltr,
+-                              ),
+-                              Text(" ┌»╪▒┘à ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 10,
+-                                    color:  AppColor
+-                                        .accentColor,
+-                                    fontWeight: FontWeight.bold)
+-                                ,textDirection: TextDirection.ltr,
+-                              ),
+-                            ],
+-                          ) : SizedBox.shrink(),
+-                        ],
+-                      ):SizedBox()).toList(),
+-                    ):
+-                    SizedBox.shrink(),
+-                  ],
+-                ),
+-
+-              ],
+-            ):
+-            SizedBox.shrink(),
+-          ),
+-          ),
+-          // ┘à╪º┘å╪»┘ç ╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  trans.coinBalanceBes==0
+-                      ? SizedBox()
+-                      : Column(
+-                      children: [
+-                        Row(
+-                          children: [
+-                            Text(" ╪¬┘à╪º┘à ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              trans.coinBalanceBes?.toDisplayString() ?? "",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        ),
+-                        Row(
+-                          children: [
+-                            Text(" ┘å█î┘à ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              trans.halfCoinBalanceBes?.toDisplayString() ?? "",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        ),
+-                        Row(
+-                          children: [
+-                            Text(" ╪▒╪¿╪╣ ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              trans.quarterCoinBalanceBes?.toDisplayString() ?? "",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .primaryColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        )
+-                      ]
+-                  ),
+-                ],
+-              ))),
+-          // ┘à╪º┘å╪»┘ç ╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  trans.coinBalanceBed==0
+-                      ? SizedBox()
+-                      : Column(
+-                      children: [
+-                        Row(
+-                          children: [
+-                            Text(" ╪¬┘à╪º┘à ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              "-${trans.coinBalanceBed?.abs().toDisplayString()}",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        ),
+-                        Row(
+-                          children: [
+-                            Text(" ┘å█î┘à ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              "-${trans.halfCoinBalanceBed?.abs().toDisplayString()}",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        ),
+-                        Row(
+-                          children: [
+-                            Text(" ╪▒╪¿╪╣ ╪│┌⌐┘ç ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color: AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight
+-                                        .bold)),
+-                            Text(
+-                              "-${trans.quarterCoinBalanceBed?.abs().toDisplayString()}",
+-                              style: AppTextStyle.bodyText
+-                                  .copyWith(
+-                                  fontSize: 11,
+-                                  color:  AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight.bold),
+-                              textDirection:
+-                              TextDirection.ltr,
+-                            ),
+-                            Text(" ╪╣╪»╪» ",
+-                                style: AppTextStyle
+-                                    .bodyText
+-                                    .copyWith(
+-                                    fontSize: 9,
+-                                    color:  AppColor
+-                                        .accentColor,
+-                                    fontWeight:
+-                                    FontWeight.bold)
+-                              //  textDirection: TextDirection.ltr,
+-                            ),
+-                          ],
+-                        )
+-                      ]
+-                  ),
+-                ],
+-              ))),
+-          // ┘à╪º┘å╪»┘ç ╪º╪▒╪▓ ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  trans.balances!.isEmpty
+-                      ? SizedBox()
+-                      : Column(
+-                    children: trans.balances
+-                    !.map((e) => Container(
+-                      child: e.unitName == "╪»┘ä╪º╪▒" && e.balance! > 0
+-                          ? Row(
+-                        children: [
+-                          Text(" ${e.itemName} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:  AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          Text(
+-                            e.balance?.toDisplayString() ?? "",
+-                            style: AppTextStyle.bodyText
+-                                .copyWith(
+-                                fontSize: 10,
+-                                color:  AppColor
+-                                    .primaryColor
+-                                ,
+-                                fontWeight:
+-                                FontWeight.bold),
+-                            textDirection:
+-                            TextDirection.ltr,
+-                          ),
+-                          Text(" ${e.unitName} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:  AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight.bold)
+-                            //  textDirection: TextDirection.ltr,
+-                          ),
+-                        ],
+-                      )
+-                          : Row(
+-                        children: [
+-                          SizedBox(width: 120,),
+-                        ],
+-                      ),
+-                    ))
+-                        .toList(),
+-                  ),
+-                ],
+-              ))),
+-          // ┘à╪º┘å╪»┘ç ╪º╪▒╪▓ ╪¿╪»┘ç┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  trans.balances!.isEmpty
+-                      ? SizedBox()
+-                      : Column(
+-                    children: trans.balances
+-                    !.map((e) => Container(
+-                      child: e.unitName == "╪»┘ä╪º╪▒" && e.balance! < 0
+-                          ? Row(
+-                        children: [
+-                          Text(" ${e.itemName} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:  AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          Text(
+-                            e.balance?.toDisplayString() ?? "",
+-                            style: AppTextStyle.bodyText
+-                                .copyWith(
+-                                fontSize: 10,
+-                                color:  AppColor
+-                                    .accentColor
+-                                ,
+-                                fontWeight:
+-                                FontWeight.bold),
+-                            textDirection:
+-                            TextDirection.ltr,
+-                          ),
+-                          Text(" ${e.unitName} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:  AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight.bold)
+-                            //  textDirection: TextDirection.ltr,
+-                          ),
+-                        ],
+-                      )
+-                          : Row(
+-                        children: [
+-                          SizedBox(width: 120,),
+-                        ],
+-                      ),
+-                    ))
+-                        .toList(),
+-                  ),
+-                ],
+-              ))),
+-          // ╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  (trans.currencyValueBes ?? 0) > 0 ?
+-                  Column(
+-                    children: [
+-                      SizedBox(height: 5,),
+-                      Row(
+-                        children: [
+-                          SvgPicture.asset(
+-                              'assets/svg/scales.svg',
+-                              height: 15,
+-                              colorFilter:
+-                              ColorFilter
+-                                  .mode(
+-                                AppColor
+-                                    .primaryColor,
+-                                BlendMode
+-                                    .srcIn,
+-                              )),
+-                          SizedBox(width: 5,),
+-                          Text(trans.currencyValueBes?.toStringAsFixed(0).seRagham() ?? "",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 10,
+-                                  color:AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-
+-                          Text(" ╪▒█î╪º┘ä ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor.primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-
+-                          SizedBox(width: 5,)
+-                        ],
+-                      ),
+-                      Container(
+-                        margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+-                        height: 0.5,color: AppColor.textColor,
+-                      ),
+-                      Row(
+-                        children: [
+-                          Text(" ┘à╪╣╪º╪»┘ä ╪ó╪¿╪┤╪»┘ç : ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          (trans.goldValue ?? 0) <0 ?
+-                          Text("-${trans.goldValue?.abs().toStringAsFixed(3) ?? ""} ",
+-                            style: AppTextStyle
+-                                .bodyText
+-                                .copyWith(
+-                                fontSize: 9,
+-                                color:AppColor
+-                                    .accentColor,
+-                                fontWeight:
+-                                FontWeight
+-                                    .bold),textDirection:
+-                            TextDirection.ltr,):
+-                          Text(" ${trans.goldValue?.toStringAsFixed(3) ?? ""} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-
+-                          Text(" ┌»╪▒┘à ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                        ],
+-                      ),
+-                      SizedBox(height: 5,),
+-                      Row(
+-                        children: [
+-                          Text(" ┘à╪╣╪º╪»┘ä ╪│┌⌐┘ç : ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          (trans.coinValue ?? 0) <0 ?
+-                          Text("-${trans.coinValue?.abs().toStringAsFixed(3) ?? ""} ",
+-                            style: AppTextStyle
+-                                .bodyText
+-                                .copyWith(
+-                                fontSize: 9,
+-                                color:AppColor
+-                                    .accentColor,
+-                                fontWeight:
+-                                FontWeight
+-                                    .bold),textDirection:
+-                            TextDirection.ltr,):
+-                          Text(" ${trans.coinValue?.toStringAsFixed(3) ?? ""} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          Text(" ╪╣╪»╪» ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                        ],
+-                      ),
+-                      SizedBox(height: 5,),
+-                    ],
+-                  ):SizedBox.shrink(),
+-                ],
+-              ))),
+-          // ╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪»┘ç┌⌐╪º╪▒
+-          DataCell(Center(
+-              child: Column(
+-                mainAxisAlignment: MainAxisAlignment.center,
+-                children: [
+-                  (trans.currencyValueBed ?? 0) < 0 ?
+-                  Column(
+-                    children: [
+-                      SizedBox(height: 5,),
+-                      Row(
+-                        children: [
+-                          SvgPicture.asset(
+-                              'assets/svg/scales.svg',
+-                              height: 15,
+-                              colorFilter:
+-                              ColorFilter
+-                                  .mode(AppColor
+-                                  .accentColor,
+-                                BlendMode
+-                                    .srcIn,
+-                              )),
+-                          SizedBox(width: 5,),
+-                          Text("-${trans.currencyValueBed?.abs().toStringAsFixed(0).seRagham() ?? ""}",
+-                            style: AppTextStyle
+-                                .bodyText
+-                                .copyWith(
+-                              fontSize: 10,
+-                              color:AppColor
+-                                  .accentColor,
+-                              fontWeight:
+-                              FontWeight
+-                                  .bold,),textDirection:
+-                            TextDirection.ltr,),
+-                          Text(" ╪▒█î╪º┘ä ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor
+-                                      .accentColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-
+-                          SizedBox(width: 5,)
+-                        ],
+-                      ),
+-                      Container(
+-                        margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+-                        height: 0.5,color: AppColor.textColor,
+-                      ),
+-                      Row(
+-                        children: [
+-                          Text(" ┘à╪╣╪º╪»┘ä ╪ó╪¿╪┤╪»┘ç : ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          (trans.goldValue ?? 0) <0 ?
+-                          Text("-${trans.goldValue?.abs().toStringAsFixed(3) ?? ""} ",
+-                            style: AppTextStyle
+-                                .bodyText
+-                                .copyWith(
+-                                fontSize: 9,
+-                                color:AppColor
+-                                    .accentColor,
+-                                fontWeight:
+-                                FontWeight
+-                                    .bold),textDirection:
+-                            TextDirection.ltr,):
+-                          Text(" ${trans.goldValue?.toStringAsFixed(3) ?? ""} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-
+-                          Text(" ┌»╪▒┘à ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                        ],
+-                      ),
+-                      SizedBox(height: 5,),
+-                      Row(
+-                        children: [
+-                          Text(" ┘à╪╣╪º╪»┘ä ╪│┌⌐┘ç : ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          (trans.coinValue ?? 0) <0 ?
+-                          Text("-${trans.coinValue?.abs().toStringAsFixed(3) ?? ""} ",
+-                            style: AppTextStyle
+-                                .bodyText
+-                                .copyWith(
+-                                fontSize: 9,
+-                                color:AppColor
+-                                    .accentColor,
+-                                fontWeight:
+-                                FontWeight
+-                                    .bold),textDirection:
+-                            TextDirection.ltr,):
+-                          Text(" ${trans.coinValue?.toStringAsFixed(3) ?? ""} ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 9,
+-                                  color:AppColor
+-                                      .primaryColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                          Text(" ╪╣╪»╪» ",
+-                              style: AppTextStyle
+-                                  .bodyText
+-                                  .copyWith(
+-                                  fontSize: 8,
+-                                  color:AppColor
+-                                      .textColor,
+-                                  fontWeight:
+-                                  FontWeight
+-                                      .bold)),
+-                        ],
+-                      ),
+-                      SizedBox(height: 5,),
+-                    ],
+-                  ):SizedBox.shrink(),
+-                ],
+-              ))),
+-        ],
+-      );
+-    }
+-    ).toList();
+-  }
+-
+-  Widget _buildFooterItem({
+-    required String title,
+-    double? positiveValue,
+-    double? negativeValue,
+-    required Color color,
+-    String? unit,
+-  }) {
+-    final value = positiveValue ?? negativeValue ?? 0.0;
+-
+-    // Don't display if value is zero
+-    if (value == 0.0) {
+-      return SizedBox();
+-    }
+-
+-    String formattedValue;
+-    if (unit == "╪▒█î╪º┘ä") {
+-      // For Rial, use seRagham formatting
+-      formattedValue = value.toStringAsFixed(3).seRagham();
+-    } else if(unit == "┌»╪▒┘à") {
+-      // For other units, use 3 decimal places
+-      formattedValue = value.toStringAsFixed(3);
+-    }else{
+-      formattedValue = value.toString();
+-    }
+-
+-    return Container(
+-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+-      decoration: BoxDecoration(
+-        border: Border.all(color: color, width: 1),
+-        borderRadius: BorderRadius.circular(8),
+-      ),
+-      child: Row(
+-        mainAxisSize: MainAxisSize.min,
+-        children: [
+-          Text(
+-            title,
+-            style: AppTextStyle.labelText.copyWith(
+-              fontSize: 12,
+-              fontWeight: FontWeight.bold,
+-            ),
+-          ),
+-          SizedBox(width: 3),
+-          Row(
+-            mainAxisSize: MainAxisSize.min,
+-            children: [
+-              Text(
+-                formattedValue,
+-                style: AppTextStyle.bodyText.copyWith(
+-                  fontSize: 14,
+-                  color: color,
+-                  fontWeight: FontWeight.bold,
+-                ),
+-                textDirection: TextDirection.ltr,
+-              ),
+-              if (unit != null) ...[
+-                SizedBox(width: 4),
+-                Text(
+-                  unit,
+-                  style: AppTextStyle.bodyText.copyWith(
+-                    fontSize: 12,
+-                    color: color,
+-                    fontWeight: FontWeight.bold,
+-                  ),
+-                ),
+-              ],
+-            ],
+-          ),
+-        ],
++            if (isDesktop && controller.paginated.value != null) _buildPagerOverlay(),
++          ],
++        ),
++        floatingActionButton: const ChatFloatingButton(),
++        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+       ),
      );
    }
  
-   Widget _buildMessage(
-       BuildContext context,
-       AsyncSnapshot<TodayPaymentReportModel?> snapshot,
-       ) {
-     if (snapshot.connectionState == ConnectionState.waiting) {
-       return FloatingPanelStatusCard(
-         width: _kTooltipWidth,
--        child: const SizedBox(
--          height: 80,
--          child: Center(child: HaniGoldLoading()),
-+        child: Column(
-+          mainAxisSize: MainAxisSize.min,
-+          children: [
-+            _statusCloseButton(),
-+            const SizedBox(
-+              height: 80,
-+              child: Center(child: HaniGoldLoading()),
-+            ),
-+          ],
-         ),
-       );
+-  Widget _buildNetFooterItem({
+-    required String title,
+-    required double netValue,
+-    String? unit,
+-  }) {
+-    // Don't display if net value is zero
+-    if (netValue == 0.0) {
+-      return SizedBox();
+-    }
+-
+-    // Determine color based on net value
+-    final color = netValue > 0 ? AppColor.primaryColor : AppColor.accentColor;
+-
+-    String formattedValue;
+-    if (unit == "╪▒█î╪º┘ä") {
+-      // For Rial, use seRagham formatting
+-      formattedValue = netValue.toStringAsFixed(0).seRagham();
+-    } else if(unit == "┌»╪▒┘à") {
+-      // For other units, use 3 decimal places
+-      formattedValue = netValue.toStringAsFixed(3);
+-    }else{
+-      formattedValue = netValue.toStringAsFixed(3);
++  Widget _buildListBody(BuildContext context, bool isDesktop) {
++    if (isDesktop) {
++      return SizedBox(
++        height: Get.height,
++        width: Get.width,
++        child: SingleChildScrollView(
++          physics: const ClampingScrollPhysics(),
++          child: UserBalanceDesktopBody(
++            controller: controller,
++            footer: UserBalanceFooter(controller: controller),
++          ),
++        ),
++      );
      }
  
-     final loadState = widget.withdrawController.todayPaymentReportStateFor(
-       widget.accountId,
-       date: widget.date,
+-    return Container(
+-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+-      decoration: BoxDecoration(
+-        border: Border.all(color: color, width: 1),
+-        borderRadius: BorderRadius.circular(8),
+-      ),
+-      child: Row(
+-        mainAxisSize: MainAxisSize.min,
+-        children: [
+-          Text(
+-            title,
+-            style: AppTextStyle.labelText.copyWith(
+-              fontSize: 12,
+-              fontWeight: FontWeight.bold,
+-            ),
+-          ),
+-          SizedBox(width: 3),
+-          Row(
+-            mainAxisSize: MainAxisSize.min,
+-            children: [
+-              Text(
+-                formattedValue,
+-                style: AppTextStyle.bodyText.copyWith(
+-                  fontSize: 14,
+-                  color: color,
+-                  fontWeight: FontWeight.bold,
+-                ),
+-                textDirection: TextDirection.ltr,
+-              ),
+-              if (unit != null) ...[
+-                SizedBox(width: 4),
+-                Text(
+-                  unit,
+-                  style: AppTextStyle.bodyText.copyWith(
+-                    fontSize: 12,
+-                    color: color,
+-                    fontWeight: FontWeight.bold,
+-                  ),
+-                ),
+-              ],
+-            ],
+-          ),
+-        ],
+-      ),
+-    );
+-  }
+-
+-  Widget _buildMobileTransactionList(BuildContext context){
+-    return Container(
+-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+-      child: Column(
+-        children: [
+-          Row(
+-            children: [
+-              Container(
+-                //margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+-                child: Row(mainAxisAlignment: MainAxisAlignment.start,
+-                  children: [
+-                    // ╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä
+-                    GestureDetector(
+-                      onTap: () async {
+-                        controller.clearFilter();
+-                        showGeneralDialog(
+-                            context: context,
+-                            barrierDismissible: true,
+-                            barrierLabel:
+-                            MaterialLocalizations
+-                                .of(context)
+-                                .modalBarrierDismissLabel,
+-                            barrierColor:
+-                            Colors.black45,
+-                            transitionDuration:
+-                            const Duration(
+-                                milliseconds:
+-                                200),
+-                            pageBuilder: (BuildContext
+-                            buildContext,
+-                                Animation animation,
+-                                Animation
+-                                secondaryAnimation) {
+-                              return Center(
+-                                child: Material(
+-                                  color: Colors
+-                                      .transparent,
+-                                  child: Container(
+-                                    decoration: BoxDecoration(
+-                                        borderRadius:
+-                                        BorderRadius
+-                                            .circular(
+-                                            8),
+-                                        color: AppColor
+-                                            .backGroundColor),
+-                                    width: Get.width * 0.65,
+-                                    height: Get.height * 0.5,
+-                                    padding:
+-                                    EdgeInsets
+-                                        .all(20),
+-                                    child: Column(
+-                                      children: [
+-                                        Padding(
+-                                          padding:
+-                                          const EdgeInsets
+-                                              .all(
+-                                              8.0),
+-                                          child: Row(
+-                                            mainAxisAlignment:
+-                                            MainAxisAlignment
+-                                                .end,
+-                                            children: [
+-                                              Expanded(
+-                                                child:
+-                                                Center(
+-                                                  child:
+-                                                  Text(
+-                                                    '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                                                    style: AppTextStyle.labelText.copyWith(
+-                                                      fontSize: 15,
+-                                                      fontWeight: FontWeight.normal,
+-                                                    ),
+-                                                  ),
+-                                                ),
+-                                              ),
+-                                            ],
+-                                          ),
+-                                        ),
+-                                        Container(
+-                                          color: AppColor
+-                                              .textColor,
+-                                          height: 0.2,
+-                                        ),
+-                                        Padding(
+-                                          padding: const EdgeInsets
+-                                              .symmetric(
+-                                              horizontal:
+-                                              10),
+-                                          child:
+-                                          Column(
+-                                            children: [
+-                                              SizedBox(
+-                                                height:
+-                                                8,
+-                                              ),
+-                                              Column(
+-                                                crossAxisAlignment:
+-                                                CrossAxisAlignment.start,
+-                                                children: [
+-                                                  Text(
+-                                                    '┘å╪º┘à ╪¡╪│╪º╪¿',
+-                                                    style: AppTextStyle.labelText.copyWith(fontSize: 11, fontWeight: FontWeight.normal, color: AppColor.textColor),
+-                                                  ),
+-                                                  SizedBox(
+-                                                    height: 10,
+-                                                  ),
+-                                                  IntrinsicHeight(
+-                                                    child: TextFormField(
+-                                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+-                                                      controller: controller.nameFilterController,
+-                                                      style: AppTextStyle.labelText.copyWith(fontSize: 15),
+-                                                      textAlign: TextAlign.start,
+-                                                      keyboardType: TextInputType.text,
+-                                                      decoration: InputDecoration(
+-                                                        contentPadding: const EdgeInsets.symmetric(vertical: 11, horizontal: 15),
+-                                                        isDense: true,
+-                                                        border: OutlineInputBorder(
+-                                                          borderRadius: BorderRadius.circular(6),
+-                                                        ),
+-                                                        filled: true,
+-                                                        fillColor: AppColor.textFieldColor,
+-                                                        errorMaxLines: 1,
+-                                                      ),
+-                                                    ),
+-                                                  ),
+-                                                ],
+-                                              ),
+-                                              SizedBox(
+-                                                height:
+-                                                8,
+-                                              ),
+-                                            ],
+-                                          ),
+-                                        ),
+-                                        Spacer(),
+-                                        Container(
+-                                          margin: EdgeInsets.symmetric(
+-                                              horizontal:
+-                                              20,
+-                                              vertical:
+-                                              10),
+-                                          width: double
+-                                              .infinity,
+-                                          height: 40,
+-                                          child:
+-                                          ElevatedButton(
+-                                            style: ButtonStyle(
+-                                                padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 23)),
+-                                                // elevation: WidgetStatePropertyAll(5),
+-                                                backgroundColor: WidgetStatePropertyAll(AppColor.appBarColor),
+-                                                shape: WidgetStatePropertyAll(RoundedRectangleBorder(side: BorderSide(color: AppColor.textColor), borderRadius: BorderRadius.circular(5)))),
+-                                            onPressed:
+-                                                () async {
+-                                              controller.getListUserInfoTransactionExcel();
+-                                              Get.back();
+-                                            },
+-                                            child: controller
+-                                                .isLoading
+-                                                .value
+-                                                ? CircularProgressIndicator(
+-                                              valueColor: AlwaysStoppedAnimation<Color>(AppColor.textColor),
+-                                            )
+-                                                : Text(
+-                                              '╪«╪▒┘ê╪¼█î ╪º┌⌐╪│┘ä',
+-                                              style: AppTextStyle.labelText.copyWith(fontSize: 10),
+-                                            ),
+-                                          ),
+-                                        ),
+-                                      ],
+-                                    ),
+-                                  ),
+-                                ),
+-                              );
+-                            });
+-                      },
+-                      child: SvgPicture.asset(
+-                        'assets/svg/excel.svg',
+-                        height: 30,
+-                      ),
+-                    ),
+-                    SizedBox(width: 8,),
+-                    // ┘ü█î┘ä╪¬╪▒
+-                    GestureDetector(
+-                      onTap: () async {
+-                        //controller.fetchAccountList();
+-                        showGeneralDialog(
+-                            context: context,
+-                            barrierDismissible: true,
+-                            barrierLabel:
+-                            MaterialLocalizations
+-                                .of(context)
+-                                .modalBarrierDismissLabel,
+-                            barrierColor:
+-                            Colors.black45,
+-                            transitionDuration:
+-                            const Duration(
+-                                milliseconds:
+-                                200),
+-                            pageBuilder: (BuildContext
+-                            buildContext,
+-                                Animation animation,
+-                                Animation
+-                                secondaryAnimation) {
+-                              return Center(
+-                                child: Material(
+-                                  color: Colors
+-                                      .transparent,
+-                                  child: Container(
+-                                    decoration: BoxDecoration(
+-                                        borderRadius:
+-                                        BorderRadius
+-                                            .circular(
+-                                            8),
+-                                        color: AppColor
+-                                            .backGroundColor),
+-                                    width:Get.width * 0.9,
+-                                    height:Get.height * 0.9,
+-                                    padding:
+-                                    EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 3),
+-                                    child: FilterDialog(controller: controller),
+-                                  ),
+-                                ),
+-                              );
+-                            });
+-                      },
+-                      child: SvgPicture.asset(
+-                          'assets/svg/filter3.svg',
+-                          height: 26,
+-                          colorFilter:
+-                          ColorFilter.mode(
+-                             AppColor.textColor,
+-                            BlendMode.srcIn,
+-                          )
+-                      ),
+-                    ),
+-                  ],
+-                ),
+-              ),
+-              Expanded(child: _buildMobileSortHeader()),
+-            ],
+-          ),
+-          SizedBox(height: 10),
+-          ListView.builder(
+-            itemCount: controller.listTransactionInfo.length,
+-            shrinkWrap: true,
+-            physics: NeverScrollableScrollPhysics(),
+-            itemBuilder: (ctx, index){
+-              final trans = controller.listTransactionInfo[index];
+-              return Container(
+-                margin: EdgeInsets.only(bottom: 12),
+-                padding: EdgeInsets.all(12),
+-                decoration: BoxDecoration(
+-                  color: AppColor.appBarColor.withAlpha(200),
+-                  borderRadius: BorderRadius.circular(12),
+-                  border: Border.all(color: AppColor.textColor.withAlpha(75)),
+-                ),
+-                child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+-                  children: [
+-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-                      children: [
+-                        Expanded(
+-                          child: GestureDetector(
+-                            onTap: (){
+-                              Get.toNamed("/userInfoTransaction",parameters: {"accountId":trans.accountId.toString()});
+-                            },
+-                            child: Text(
+-                              trans.accountName ?? "",
+-                              style: AppTextStyle.labelText.copyWith(fontSize: 13, fontWeight: FontWeight.bold, color: AppColor.textColor),
+-                              overflow: TextOverflow.ellipsis,
+-                            ),
+-                          ),
+-                        ),
+-                        Text("${trans.rowNum}", style: AppTextStyle.labelText.copyWith(fontSize: 10, color: AppColor.textColor.withAlpha(200))),
+-                      ],
+-                    ),
+-                    SizedBox(height: 8),
+-                    Divider(height: 0.5,color: AppColor.dividerColor),
+-                    SizedBox(height: 8),
+-                    // Rial balances
+-                    if((trans.cashBalanceBes ?? 0) > 0)
+-                      _mobileLine("┘à╪º┘å╪»┘ç ┘ê╪¼┘ç ┘å┘é╪» (╪¿╪│)",
+-                          "${trans.cashBalanceBes!.toStringAsFixed(0).seRagham()}", AppColor.primaryColor,"╪▒█î╪º┘ä"),
+-                    if((trans.cashBalanceBed ?? 0) < 0)
+-                      _mobileLine("┘à╪º┘å╪»┘ç ┘ê╪¼┘ç ┘å┘é╪» (╪¿╪»)",
+-                          "-${trans.cashBalanceBed!.abs().toStringAsFixed(0).seRagham()}", AppColor.accentColor,"╪▒█î╪º┘ä"),
+-                    // Gold balances
+-                    if((trans.goldBalanceBes ?? 0) > 0)
+-                      _mobileLine("┘à╪º┘å╪»┘ç ╪ó╪¿╪┤╪»┘ç (╪¿╪│)",
+-                          "${trans.goldBalanceBes!.toStringAsFixed(3)}", AppColor.primaryColor,"┌»╪▒┘à"),
+-                    if((trans.goldBalanceBed ?? 0) < 0)
+-                      _mobileLine("┘à╪º┘å╪»┘ç ╪ó╪¿╪┤╪»┘ç (╪¿╪»)",
+-                          "-${trans.goldBalanceBed!.abs().toStringAsFixed(3)}", AppColor.accentColor,"┌»╪▒┘à"),
+-                    // Coin balances
+-                    if((trans.coinBalanceBes ?? 0) != 0 || (trans.halfCoinBalanceBes ?? 0) != 0 || (trans.quarterCoinBalanceBes ?? 0) != 0)
+-                      _mobileLine("╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                          "╪¬┘à╪º┘à ${trans.coinBalanceBes?.toDisplayString()} / ┘å█î┘à ${trans.halfCoinBalanceBes?.toDisplayString()} / ╪▒╪¿╪╣ ${trans.quarterCoinBalanceBes?.toDisplayString()}", AppColor.primaryColor,"╪╣╪»╪»"),
+-                    if((trans.coinBalanceBed ?? 0) != 0 || (trans.halfCoinBalanceBed ?? 0) != 0 || (trans.quarterCoinBalanceBed ?? 0) != 0)
+-                      _mobileLine("╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒",
+-                          "-╪¬┘à╪º┘à ${(trans.coinBalanceBed??0).abs().toDisplayString()}- / ┘å█î┘à ${(trans.halfCoinBalanceBed??0).abs().toDisplayString()}- / ╪▒╪¿╪╣ ${(trans.quarterCoinBalanceBed??0).abs().toDisplayString()}", AppColor.accentColor,"╪╣╪»╪»"),
+-                    // Currency sample (USD)
+-                    if((trans.balances??[]).any((e)=> e.unitName=="╪»┘ä╪º╪▒" && (e.balance??0)>0))
+-                      _mobileLine("╪º╪▒╪▓ ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒",
+-                          "${(trans.balances??[]).where((e)=>e.unitName=="╪»┘ä╪º╪▒").fold<double>(0, (p, e)=> p + (e.balance??0))}", AppColor.primaryColor,"╪»┘ä╪º╪▒"),
+-                    if((trans.balances??[]).any((e)=> e.unitName=="╪»┘ä╪º╪▒" && (e.balance??0)<0))
+-                      _mobileLine("╪º╪▒╪▓ ╪¿╪»┘ç┌⌐╪º╪▒",
+-                          "-${(trans.balances??[]).where((e)=>e.unitName=="╪»┘ä╪º╪▒").fold<double>(0, (p, e)=> p + (e.balance??0).abs())}", AppColor.accentColor,"╪»┘ä╪º╪▒"),
+-                    SizedBox(height: 8),
+-                    Container(
+-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+-                      decoration: BoxDecoration(
+-                        color: AppColor.backGroundColor.withAlpha(60),
+-                        borderRadius: BorderRadius.circular(8),
+-                        border: Border.all(color: AppColor.textColor.withAlpha(50)),
+-                      ),
+-                      child: Column(
+-                        children: [
+-                          if((trans.currencyValueBes ?? 0) > 0)
+-                            _mobileLineWithIcon("╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪│",
+-                                "${trans.currencyValueBes!.toStringAsFixed(0).seRagham()}",
+-                                'assets/svg/scales.svg', AppColor.primaryColor,"╪▒█î╪º┘ä"),
+-                          if((trans.currencyValueBed ?? 0) < 0)
+-                            _mobileLineWithIcon("╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪»",
+-                                "-${trans.currencyValueBed!.abs().toStringAsFixed(0).seRagham()}",
+-                                'assets/svg/scales.svg', AppColor.accentColor,"╪▒█î╪º┘ä"),
+-                          if((trans.goldValue ?? 0) != 0)
+-                            _mobileLine("┘à╪╣╪º╪»┘ä ╪ó╪¿╪┤╪»┘ç",
+-                                (trans.goldValue ?? 0) < 0 ? "-${trans.goldValue!.abs().toStringAsFixed(3)}" : "${trans.goldValue!.toStringAsFixed(3)}",
+-                                (trans.goldValue ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,"┌»╪▒┘à"),
+-                          if((trans.coinValue ?? 0) != 0)
+-                            _mobileLine("┘à╪╣╪º╪»┘ä ╪│┌⌐┘ç",
+-                                (trans.coinValue ?? 0) < 0 ? "-${trans.coinValue!.abs().toStringAsFixed(3)}" : "${trans.coinValue!.toStringAsFixed(3)}",
+-                                (trans.coinValue ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,"╪╣╪»╪»"),
+-                        ],
+-                      ),
+-                    ),
+-                  ],
+-                ),
+-              );
+-            },
+-          ),
+-          Obx(() {
+-            if (controller.isLoading.value && controller.listTransactionInfo.isNotEmpty) {
+-              return Container(
+-                padding: EdgeInsets.all(16),
+-                child: Center(
+-                  child: HaniGoldLoading(),
+-                ),
+-              );
+-            }
+-
+-            if (!controller.hasMore.value && controller.listTransactionInfo.isNotEmpty) {
+-              return Container(
+-                padding: EdgeInsets.all(16),
+-                child: Text(
+-                  "┘ç┘à┘ç ╪¬╪▒╪º┌⌐┘å╪┤ΓÇî┘ç╪º ┘å┘à╪º█î╪┤ ╪»╪º╪»┘ç ╪┤╪»",
+-                  textAlign: TextAlign.center,
+-                  style: AppTextStyle.bodyText.copyWith(
+-                    color: AppColor.textColor.withOpacity(0.7),
+-                  ),
+-                ),
+-              );
+-            }
+-            return SizedBox.shrink();
+-          }),
+-          SizedBox(height: 20),
+-        ],
+-      ),
+-    );
+-  }
+-
+-  Widget _buildMobileSortHeader() {
+-    return Container(
+-      padding: EdgeInsets.symmetric(horizontal: 12,),
+-      decoration: BoxDecoration(
+-        color: AppColor.appBarColor.withAlpha(80),
+-        borderRadius: BorderRadius.circular(8),
+-        border: Border.all(color: AppColor.textColor.withAlpha(80)),
+-      ),
+-      child: Row(
+-        children: [
+-          Icon(
+-            Icons.sort,
+-            color: AppColor.textColor,
+-            size: 18,
+-          ),
+-          SizedBox(width: 8),
+-          Text(
+-            '┘à╪▒╪¬╪¿ΓÇî╪│╪º╪▓█î:',
+-            style: AppTextStyle.labelText.copyWith(
+-              fontSize: 12,
+-              fontWeight: FontWeight.bold,
+-              color: AppColor.textColor,
+-            ),
+-          ),
+-          SizedBox(width: 12),
+-          Expanded(
+-            child: DropdownButtonHideUnderline(
+-              child: DropdownButton<int>(
+-                value: controller.sortColumnIndex.value,
+-                isExpanded: true,
+-                style: AppTextStyle.labelText.copyWith(
+-                  fontSize: 11,
+-                  color: AppColor.textColor,
+-                ),
+-                dropdownColor: AppColor.appBarColor,
+-                icon: Icon(
+-                  Icons.arrow_drop_down,
+-                  color: AppColor.textColor,
+-                ),
+-                items: [
+-                  DropdownMenuItem(
+-                    value: 2,
+-                    child: Text('╪▒█î╪º┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 3,
+-                    child: Text('╪▒█î╪º┘ä ╪¿╪»┘ç┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 4,
+-                    child: Text('╪╖┘ä╪º ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 5,
+-                    child: Text('╪╖┘ä╪º ╪¿╪»┘ç┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 6,
+-                    child: Text('╪│┌⌐┘ç ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 7,
+-                    child: Text('╪│┌⌐┘ç ╪¿╪»┘ç┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 10,
+-                    child: Text('╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪│╪¬╪º┘å┌⌐╪º╪▒'),
+-                  ),
+-                  DropdownMenuItem(
+-                    value: 11,
+-                    child: Text('╪¬╪▒╪º╪▓ ┌⌐┘ä ╪¿╪»┘ç┌⌐╪º╪▒'),
+-                  ),
+-                ],
+-                onChanged: (int? newValue) {
+-                  if (newValue != null) {
+-                    controller.onSort(newValue, !controller.sortAscending.value);
+-                  }
+-                },
+-              ),
+-            ),
+-          ),
+-          SizedBox(width: 8),
+-          // Sort direction toggle button
+-          GestureDetector(
+-            onTap: () {
+-              if (controller.sortColumnIndex.value != null) {
+-                controller.onSort(controller.sortColumnIndex.value!, !controller.sortAscending.value);
+-              }
+-            },
+-            child: Container(
+-              padding: EdgeInsets.all(4),
+-              decoration: BoxDecoration(
+-                color: controller.sortColumnIndex.value != null
+-                    ? AppColor.primaryColor.withAlpha(30)
+-                    : Colors.transparent,
+-                borderRadius: BorderRadius.circular(4),
+-                border: Border.all(
+-                  color: controller.sortColumnIndex.value != null
+-                      ? AppColor.primaryColor
+-                      : AppColor.textColor.withAlpha(30),
+-                  width: 1,
+-                ),
+-              ),
+-              child: Icon(
+-                controller.sortAscending.value ? Icons.arrow_upward : Icons.arrow_downward,
+-                size: 16,
+-                color: controller.sortColumnIndex.value != null
+-                    ? AppColor.primaryColor
+-                    : AppColor.textColor,
++    return SizedBox(
++      height: Get.height,
++      width: Get.width,
++      child: SingleChildScrollView(
++        controller: controller.scrollControllerMobile,
++        child: Column(
++          children: [
++            Container(
++              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
++              child: UserBalanceSearchBar(
++                searchController: controller.searchController,
++                onSearch: controller.getListTransactionInfoPager,
++                onClear: controller.clearSearch,
++                compact: true,
+               ),
+             ),
+-          ),
+-        ],
+-      ),
+-    );
+-  }
+-
+-  Widget _mobileLine(String label, String value, Color color , String itemName){
+-    return Padding(
+-      padding: EdgeInsets.only(bottom: 6),
+-      child: Row(
+-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+-        children: [
+-          Expanded(child: Text(label, style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.textColor))),
+-          SizedBox(width: 8),
+-          Text(value, style: AppTextStyle.labelText.copyWith(fontSize: 12, color: color, fontWeight: FontWeight.bold), textDirection: TextDirection.ltr),
+-          SizedBox(width: 4),
+-          Text(itemName, style: AppTextStyle.labelText.copyWith(fontSize: 10, color: AppColor.textColor, fontWeight: FontWeight.bold),),
+-        ],
++            UserBalanceMobileList(controller: controller),
++          ],
++        ),
+       ),
      );
+   }
  
-     if (loadState == TodayPaymentReportLoadState.error) {
-       final errorMessage = widget.withdrawController.todayPaymentReportErrorFor(
-         widget.accountId,
-         date: widget.date,
-       );
-       return FloatingPanelStatusCard(
-         width: _kTooltipWidth,
--        child: FloatingPanelRetryRow(
--          message: errorMessage ?? '╪«╪╖╪º ╪»╪▒ ╪¿╪º╪▒┌»╪░╪º╪▒█î ┌»╪▓╪º╪▒╪┤',
--          onRetry: () =>
--              _tooltipKey.currentState?.reload(forceRefresh: true),
-+        child: Column(
-+          mainAxisSize: MainAxisSize.min,
-+          children: [
-+            _statusCloseButton(),
-+            FloatingPanelRetryRow(
-+              message: errorMessage ?? '╪«╪╖╪º ╪»╪▒ ╪¿╪º╪▒┌»╪░╪º╪▒█î ┌»╪▓╪º╪▒╪┤',
-+              onRetry: () =>
-+                  _tooltipKey.currentState?.reload(forceRefresh: true),
-+            ),
-+          ],
-         ),
-       );
-     }
- 
-     if (loadState == TodayPaymentReportLoadState.empty ||
-         snapshot.data == null) {
-       return FloatingPanelStatusCard(
-         width: _kTooltipWidth,
--        child: Text(
--          '┌»╪▓╪º╪▒╪┤█î ╪¿╪▒╪º█î ╪º┘à╪▒┘ê╪▓ ┘à┘ê╪¼┘ê╪» ┘å█î╪│╪¬',
--          style: AppTextStyle.labelText.copyWith(fontSize: 12),
--          textAlign: TextAlign.center,
-+        child: Column(
-+          mainAxisSize: MainAxisSize.min,
-+          children: [
-+            _statusCloseButton(),
-+            Text(
-+              '┌»╪▓╪º╪▒╪┤█î ╪¿╪▒╪º█î ╪º┘à╪▒┘ê╪▓ ┘à┘ê╪¼┘ê╪» ┘å█î╪│╪¬',
-+              style: AppTextStyle.labelText.copyWith(fontSize: 12),
-+              textAlign: TextAlign.center,
-+            ),
-+          ],
-         ),
-       );
-     }
- 
-     return TodayPaymentReportTooltipContent(
-       report: snapshot.data!,
-       accountName: widget.accountName,
-       accountId: widget.accountId,
-       date: widget.date,
-       withdrawController: widget.withdrawController,
+-  Widget _mobileLineWithIcon(String label, String value, String asset, Color color,String itemName){
+-    return Padding(
+-      padding: EdgeInsets.only(bottom: 6),
+-      child: Row(
+-        children: [
+-          SvgPicture.asset(asset, height: 14, colorFilter: ColorFilter.mode(color, BlendMode.srcIn)),
+-          SizedBox(width: 6),
+-          Expanded(child: Text(label, style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.textColor))),
+-          SizedBox(width: 8),
+-          Text(value, style: AppTextStyle.labelText.copyWith(fontSize: 12, color: color, fontWeight: FontWeight.bold), textDirection: TextDirection.ltr),
+-          SizedBox(width: 4),
+-          Text(itemName, style: AppTextStyle.labelText.copyWith(fontSize: 10, color: AppColor.textColor, fontWeight: FontWeight.bold),),
+-        ],
+-      ),
++  Widget _buildPagerOverlay() {
++    return Column(
++      mainAxisAlignment: MainAxisAlignment.end,
++      children: [
++        Container(
++          height: 70,
++          margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
++          padding: const EdgeInsets.symmetric(horizontal: 20),
++          alignment: Alignment.bottomCenter,
++          child: PagerWidget(
++            countPage: controller.paginated.value?.totalCount ?? 0,
++            callBack: controller.isChangePage,
++          ),
++        ),
++      ],
+     );
+   }
+-
+ }

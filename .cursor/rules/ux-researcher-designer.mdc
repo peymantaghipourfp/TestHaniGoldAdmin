@@ -1,0 +1,14 @@
+---
+description: Apply ux-researcher-designer skill for personas, journey maps, usability tests, and research synthesis
+alwaysApply: false
+---
+
+# UX Researcher & Designer
+
+When creating personas, journey maps, usability test plans, research synthesis, empathy maps, or analyzing user research findings:
+
+1. Read and follow `.cursor/skills/ux-researcher-designer/SKILL.md` before generating artifacts.
+2. Clarify deliverable, available data/volume, and user goal/scope first (per the skill's "Clarify First" checklist).
+3. Load skill references and run Python tools on demand — do not dump all references into context.
+4. For this Flutter admin app (RTL / `fa_IR` / GetX), ground personas and journeys in Hanigold admin workflows (accounts, orders, wallets, deposits/withdrawals, roles) when product context is missing.
+5. Source: [borghei/Claude-Skills](https://github.com/borghei/Claude-Skills) `product-team/ux-researcher-designer` (v1.0.0).

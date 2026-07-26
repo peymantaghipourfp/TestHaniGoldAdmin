@@ -1,59 +1,49 @@
-# Task 3 Report: Harden update controllers (receive + payment)
+# Task 3 Report — Toolbar, search, excel dialog
 
-## Status: Complete
+**Status:** Complete  
+**Commit:** `f287309` — `feat(users): extract user-balance toolbar`  
+**Branch:** `feat/user-balance-grouped-table`
 
-## Files modified
-- `lib/src/domain/inventory/controller/inventory_update_receive.controller.dart`
-- `lib/src/domain/inventory/controller/inventory_update_payment.controller.dart`
+## Deliverables
 
-## Changes applied (both controllers, mirrored)
+| File | Widget / API | Purpose |
+| --- | --- | --- |
+| `user_balance_search_bar.widget.dart` | `UserBalanceSearchBar` | Reusable search field with chrome borders; optional `maxWidth` + `compact` for mobile |
+| `user_balance_excel_dialog.widget.dart` | `showUserBalanceExcelDialog` | Shared Excel export dialog (name filter + `getListUserInfoTransactionExcel`) |
+| `user_balance_toolbar.widget.dart` | `UserBalanceToolbar` | Desktop row (search 400px + Excel + Filter in chrome); mobile icon actions |
 
-| Change | Receive | Payment |
-|--------|---------|---------|
-| `selectedImagesDesktop` → `pickedImages` (`RxList<PickedInventoryImage>`) | ✓ | ✓ |
-| `pickImageDesktop` → `InventoryImagePicker.pickMultipleDesktop()` | ✓ | ✓ |
-| `pickImageMobile` → `pickFromCamera` / `pickFromGallery` | ✓ | ✓ |
-| `uploadImagesDesktopUpdate` refactored per brief | ✓ | ✓ |
-| Uses `picked.previewBytes` + `resolveUploadFileName` | ✓ | ✓ |
-| `recId` from `inventoryDetail?.recId` (not new UUID) | ✓ | ✓ |
-| Failed uploads keep `pickedImages` (no clear in `finally`) | ✓ | ✓ |
-| Success path: `getImage` → clear `pickedImages` → `updateInventoryDetail*` | ✓ | ✓ |
-| Removed extra `Get.back()` in upload success path | ✓ | ✓ |
-| `clearList()` clears `pickedImages` | ✓ | ✓ |
-| Removed `_picker`, `uploadStatusesDesktop` | ✓ | ✓ |
-| Added `AppLogger`, `PickedInventoryImage`, `InventoryImagePicker` imports | ✓ | ✓ |
-| Removed `import 'dart:io'` | ✓ | n/a (was absent) |
+## Implementation notes
 
-Payment controller calls `updateInventoryDetailPayment` in empty/success paths (not Receive).
+- **Search bar:** Extracted from monolith L50–101 (mobile) and L117–168 (desktop). Uses `UserBalancePageChrome.radiusMd` / `slateBorder` for borders and focused state. Callbacks `onSearch` / `onClear` wire to `getListTransactionInfoPager` / `clearSearch` at call site. Hint text preserved (`جستجو ... `).
+- **Excel dialog:** Extracted from L174–344 (desktop) and mobile duplicate (~L2648). `Obx` wraps export button for `isLoading`. Caller clears filters before open (`toolbar._openExcel`). Dialog chrome uses `radiusMd` + slate border.
+- **Toolbar:** Desktop uses `UserBalancePageChrome.toolbarDecoration()` with 400px search slot + `Spacer` + outlined Excel/Filter buttons. Mobile exposes Excel/Filter `GestureDetector` icons (search remains external per hybrid layout). Filter opens existing `FilterDialog` via `showGeneralDialog` with monolith dimensions (0.5/0.8 desktop, 0.9/0.9 mobile).
+- **Not wired:** `list_user_info_transaction.view.dart` unchanged per Task 6 scope.
 
-## Analyzer
+## Verification
 
 ```
-flutter analyze lib/src/domain/inventory/controller/inventory_update_receive.controller.dart \
-  lib/src/domain/inventory/controller/inventory_update_payment.controller.dart
+flutter analyze lib/src/domain/users/widgets/list_user_info_transaction/user_balance_search_bar.widget.dart \
+  lib/src/domain/users/widgets/list_user_info_transaction/user_balance_excel_dialog.widget.dart \
+  lib/src/domain/users/widgets/list_user_info_transaction/user_balance_toolbar.widget.dart
+→ No issues found! (3 files)
 ```
-
-**Result:** 0 errors. 5 pre-existing info/warnings (unrelated to this task):
-- `strict_top_level_inference` on `getWalletAccount` (both)
-- `avoid_print` in payment `getForPaymentListPager`
-- `unnecessary_null_comparison` on `response != null` in update methods
 
 ## Self-review
 
-### Correctness
-- Upload loop uses local `statuses` list; per-image failures logged via `AppLogger.e` and surfaced with Persian snackbars.
-- Empty `pickedImages` skips upload and proceeds directly to update API.
-- Empty `recId` guard prevents upload without attachment ID.
-- `EasyLoading` shown/dismissed in upload path only; update methods manage their own loading.
+| Check | Result |
+| --- | --- |
+| Uses `AppColor` / `AppTextStyle` | Pass |
+| Uses `UserBalancePageChrome` (toolbar + search + excel) | Pass |
+| Desktop search max width 400 | Pass |
+| Filter uses `FilterDialog` | Pass |
+| Excel calls `getListUserInfoTransactionExcel` + `clearFilter` before open | Pass |
+| No view wiring | Pass |
+| No API / model changes | Pass |
 
-### Intentional breakage (Task 4)
-- Update views still reference `selectedImagesDesktop` — expected until Task 4 renames to `pickedImages` and uses thumbnail widgets.
+## Concerns / carry-forward
 
-### Dead code left intentionally
-- `recordId` / `uuid` fields remain (no longer set in upload path) — minimal diff; can be removed in a cleanup pass if desired.
-
-### No duplicate 300ms delay
-- Controller pick methods delegate to `InventoryImagePicker` which owns the camera/gallery delay.
-
-## Commits
-None (per task instructions).
+1. **Excel dialog context:** `showUserBalanceExcelDialog` uses `Get.context!` rather than the toolbar's `BuildContext`; works under GetX but less ideal for tests.
+2. **Mobile excel size:** Kept monolith mobile dimensions (65% × 50% height); redesign plan had 50% × 70% — confirm in Task 6 if UX wants the planned resize.
+3. **Search chrome vs monolith:** Search field gains chrome borders/focus ring (intentional per brief Step 2); visual delta from plain `OutlineInputBorder(10)`.
+4. **Double toolbar on mobile:** Task 6 must mount mobile search outside toolbar and toolbar icons below stats — avoid duplicating search inside `UserBalanceToolbar(isDesktop: false)`.
+5. **No widget tests:** Extraction-only scope; dialog/filter flows need manual regression in Task 7.

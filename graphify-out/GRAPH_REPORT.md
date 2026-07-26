@@ -1,16 +1,16 @@
 # Graph Report - curserAi project  (2026-07-26)
 
 ## Corpus Check
-- 758 files · ~650,963 words
+- 758 files · ~650,988 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 8983 nodes · 16415 edges · 510 communities (488 shown, 22 thin omitted)
+- 8983 nodes · 16415 edges · 513 communities (491 shown, 22 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 58 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b28ebfb`
+- Built from commit: `4d236ecc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -216,8 +216,8 @@
 - [[_COMMUNITY_Community 198|Community 198]]
 - [[_COMMUNITY_Community 199|Community 199]]
 - [[_COMMUNITY_Community 200|Community 200]]
+- [[_COMMUNITY_Community 201|Community 201]]
 - [[_COMMUNITY_Community 202|Community 202]]
-- [[_COMMUNITY_Community 203|Community 203]]
 - [[_COMMUNITY_Community 204|Community 204]]
 - [[_COMMUNITY_Community 205|Community 205]]
 - [[_COMMUNITY_Community 206|Community 206]]
@@ -316,9 +316,9 @@
 - [[_COMMUNITY_Community 299|Community 299]]
 - [[_COMMUNITY_Community 300|Community 300]]
 - [[_COMMUNITY_Community 301|Community 301]]
+- [[_COMMUNITY_Community 302|Community 302]]
 - [[_COMMUNITY_Community 303|Community 303]]
 - [[_COMMUNITY_Community 304|Community 304]]
-- [[_COMMUNITY_Community 305|Community 305]]
 - [[_COMMUNITY_Community 306|Community 306]]
 - [[_COMMUNITY_Community 307|Community 307]]
 - [[_COMMUNITY_Community 308|Community 308]]
@@ -327,11 +327,14 @@
 - [[_COMMUNITY_Community 311|Community 311]]
 - [[_COMMUNITY_Community 312|Community 312]]
 - [[_COMMUNITY_Community 313|Community 313]]
+- [[_COMMUNITY_Community 314|Community 314]]
 - [[_COMMUNITY_Community 315|Community 315]]
-- [[_COMMUNITY_Community 341|Community 341]]
-- [[_COMMUNITY_Community 342|Community 342]]
-- [[_COMMUNITY_Community 343|Community 343]]
+- [[_COMMUNITY_Community 316|Community 316]]
+- [[_COMMUNITY_Community 318|Community 318]]
 - [[_COMMUNITY_Community 344|Community 344]]
+- [[_COMMUNITY_Community 345|Community 345]]
+- [[_COMMUNITY_Community 346|Community 346]]
+- [[_COMMUNITY_Community 347|Community 347]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `package:flutter/material.dart` - 418 edges
@@ -357,11 +360,11 @@
 - `deposit_filter_dialog.widget.dart` --defines--> `_buildRequestField`  [EXTRACTED]
   lib/src/domain/deposit/widget/deposit_filter_button.widget.dart → lib/src/domain/deposit/widget/deposit_filter_dialog.widget.dart
 
-## Communities (510 total, 22 thin omitted)
+## Communities (513 total, 22 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.02
-Nodes (210): ../../chat/widget/chat_dialog.widget.dart, ../controller/insert_user.controller.dart, ../controller/laboratory.controller.dart, ../controller/user_info_date_transaction.controller.dart, ../controller/user_info_gold_transaction.controller.dart, _mobileLine, build, _buildMobileCreditHelperList (+202 more)
+Cohesion: 0.01
+Nodes (237): ../../chat/widget/chat_dialog.widget.dart, ../controller/insert_user.controller.dart, ../controller/laboratory.controller.dart, ../controller/order_update.controller.dart, ../controller/user_info_date_transaction.controller.dart, _mobileLine, build, _buildMobileCreditHelperList (+229 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.01
@@ -369,83 +372,83 @@ Nodes (204): chat_fab.controller.dart, _activateOpenTabAfterPick, addAttachments
 
 ### Community 2 - "Community 2"
 Cohesion: 0.01
-Nodes (77): addBrightnessToRGB(), addHueToRGB(), addSaturationToRGB(), boxIntersect(), CanvasContext(), checkReady(), createCanvas(), createNS() (+69 more)
+Nodes (79): addBrightnessToRGB(), addDecorator(), addEffect(), addHueToRGB(), addSaturationToRGB(), boxIntersect(), CanvasContext(), checkReady() (+71 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.02
-Nodes (148): DioInterceptor, onError, onRequest, onResponse, AccountRepository, ErrorException, AccountSalesGroupRepository, ErrorException (+140 more)
+Nodes (149): DioInterceptor, onError, onRequest, onResponse, AccountRepository, ErrorException, AccountSalesGroupRepository, ErrorException (+141 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.02
-Nodes (150): ../config/const/app_text_style.dart, ../controller/auth.controller.dart, ../controller/person_list.controller.dart, ../controller/user_list.controller.dart, build, dependencies, ProductBindings, dependencies (+142 more)
+Nodes (161): ../../base/base_controller.dart, ../../../config/repository/reason_rejection.repository.dart, selectAccount, Card, Center, clearFilter, clearSearch, DepositController (+153 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.02
-Nodes (157): ../../../config/repository/user_info_transaction.repository.dart, ErrorException, InventoryRepository, Attachment, InventoryCreateLayoutController, changeSelectedAccount, changeSelectedLaboratory, changeSelectedWalletAccount (+149 more)
+Nodes (154): ErrorException, InventoryRepository, Attachment, changeSelectedAccount, changeSelectedLaboratory, changeSelectedWalletAccount, clearItemFields, clearList (+146 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.02
-Nodes (143): ../../../config/repository/trading_balance.repository.dart, ReasonRejectionRepository, changeSelectedItem, convertJalaliToGregorianForApi, _listenToSocket, onDateRangeChanged, onInit, TradingBalanceController (+135 more)
+Nodes (137): ../controller/deposit.controller.dart, ../controller/product_inventory.controller.dart, ../controller/user_info_detail_gold_transaction.controller.dart, _buildDateField, _buildItemDropdown, build, _buildAccountNameField, _buildAmountField (+129 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.02
-Nodes (140): ../../account/model/account_level_get_one_item.model.dart, ../../accountSalesGroup/model/account_sales_group_get_one_item.model.dart, ../../base/base_controller.dart, ../config/const/app_color.dart, ../../../config/network/error/network.error.dart, ../../../config/repository/credit_helper.repository.dart, ../../../config/repository/item.repository.dart, ../../../config/repository/transfer_wallet.repository.dart (+132 more)
+Nodes (98): a, c, d(), dc(), ec(), f, fc(), gc() (+90 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.02
-Nodes (98): a, c, d(), dc(), ec(), f, fc(), gc() (+90 more)
+Nodes (121): build, dependencies, ProductBindings, dependencies, SplashBindings, Row, build, OrderFilterWidget (+113 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.02
-Nodes (132): ../controller/deposit.controller.dart, ../controller/product_inventory.controller.dart, ../controller/user_info_detail_gold_transaction.controller.dart, _buildDateField, _buildItemDropdown, build, _buildAccountNameField, _buildAmountField (+124 more)
+Cohesion: 0.03
+Nodes (82): A(), b(), c(), ["delete"](), e(), f(), fc(), gc() (+74 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.03
-Nodes (112): ../../../config/repository/transaction.repository.dart, ErrorHandler, handle, Exception, ChatAttachmentNotFoundException, ChatAttachmentRepository, downloadUrl, Exception (+104 more)
+Nodes (102): ../config/const/app_color.dart, ../../../config/network/error/network.error.dart, ../../../config/repository/credit_helper.repository.dart, ../../../config/repository/item.repository.dart, ../../../config/repository/laboratory.repository.dart, ../../../config/repository/transfer_wallet.repository.dart, ../controller/credit_helper.controller.dart, onClose (+94 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.03
-Nodes (81): A(), b(), c(), ["delete"](), e(), f(), fc(), gc() (+73 more)
+Cohesion: 0.02
+Nodes (97): ReasonRejectionRepository, Card, Center, clearFilter, clearList, clearSearch, DepositPendingController, ErrorException (+89 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.02
-Nodes (108): ../../../config/repository/laboratory.repository.dart, ../../../config/repository/user.repository.dart, selectAccount, changeSelectedItemFilter, changeSelectedType, clearFilter, clearSearch, downloadImage (+100 more)
+Cohesion: 0.03
+Nodes (94): ../../../config/repository/account.repository.dart, ../../../config/repository/inventory.repository.dart, ../../../config/repository/user_info_transaction.repository.dart, InventoryCreateLayoutController, TooltipTotalBalanceModel, tooltipTotalBalanceModelToJson, applyFilter, clearFilter (+86 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.02
-Nodes (94): ../controller/inventory_detail_insert_receive.controller.dart, ../controller/order_update.controller.dart, ../controller/withdraw.controller.dart, PopupMenuDivider, AuthenticatedPageScaffold, build, DropdownMenuItem, InventoryDetailInsertReceiveView (+86 more)
+Nodes (93): ../../account/model/account_level_get_one_item.model.dart, ../../accountSalesGroup/model/account_sales_group_get_one_item.model.dart, ../../../config/repository/trading_balance.repository.dart, changeSelectedItem, convertJalaliToGregorianForApi, _listenToSocket, onDateRangeChanged, onInit (+85 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.02
-Nodes (94): AuthenticatedPageScaffold, build, Card, Center, DataRow, DepositsPendingListView, EmptyPage, ErrPage (+86 more)
+Nodes (96): chat_file_saver_io.dart, _ActiveChatAudio, AlertDialog, AnimatedSwitcher, _AttachmentChip, _AttachmentDownloadChip, _AttachmentDownloadChipState, _AttachmentMenuButton (+88 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.02
-Nodes (96): chat_file_saver_io.dart, _ActiveChatAudio, AlertDialog, AnimatedSwitcher, _AttachmentChip, _AttachmentDownloadChip, _AttachmentDownloadChipState, _AttachmentMenuButton (+88 more)
+Cohesion: 0.03
+Nodes (82): ../config/const/app_text_style.dart, ../controller/deposit_update.controller.dart, ../controller/person_list.controller.dart, ../controller/remittance.controller.dart, ../controller/user_list.controller.dart, ../controller/withdraw.controller.dart, SafeArea, AuthenticatedPageScaffold (+74 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.03
-Nodes (84): ../../account/model/account.model.dart, ../../account/model/social.model.dart, ../../accountSalesGroup/model/account_sales_group.model.dart, ../../../config/repository/remittance.repository.dart, ../../../config/repository/upload.repository.dart, searchAccountList, changeSelectedAccountGroup, changeSelectedAccountLevel (+76 more)
+Nodes (76): ErrorHandler, handle, Exception, ChatAttachmentNotFoundException, ChatAttachmentRepository, downloadUrl, Exception, UploadRepository (+68 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.03
-Nodes (78): ../controller/deposit_update.controller.dart, ../controller/inventory.controller.dart, ../controller/remittance.controller.dart, Wrap, AuthenticatedPageScaffold, build, Center, CircularProgressIndicator (+70 more)
+Nodes (76): build, ChatComposerDropTarget, _ChatComposerDropTargetState, _collectDropItem, DropTarget, _onDragDone, SizedBox, build (+68 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.03
-Nodes (79): ../../../config/repository/account.repository.dart, ../../../config/repository/inventory.repository.dart, registerSessionSync, onSort, TooltipTotalBalanceModel, tooltipTotalBalanceModelToJson, clearFilter, clearSearch (+71 more)
-
-### Community 19 - "Community 19"
 Cohesion: 0.04
 Nodes (81): ../controller/account_sales_group.controller.dart, ../controller/deposit_create.controller.dart, ../controller/notification.controller.dart, dispose, initState, AssignAccountsDialog, AssignAccountsDialogState, build (+73 more)
 
+### Community 19 - "Community 19"
+Cohesion: 0.03
+Nodes (78): AuthenticatedPageScaffold, build, Card, Center, DataRow, DepositsPendingListView, EmptyPage, ErrPage (+70 more)
+
 ### Community 20 - "Community 20"
 Cohesion: 0.03
-Nodes (74): ../controller/transaction.controller.dart, AuthenticatedPageScaffold, BalanceDialog, build, _buildDateField, _buildInfoCard, buildInventoryDetail, _buildMobileActionButton (+66 more)
+Nodes (76): ../../account/model/account.model.dart, ../../account/model/social.model.dart, ../../accountSalesGroup/model/account_sales_group.model.dart, ../../../config/repository/remittance.repository.dart, ../../../config/repository/upload.repository.dart, ../../../config/repository/user.repository.dart, changeSelectedItemFilter, clearFilter (+68 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.03
-Nodes (64): build, ChatComposerDropTarget, _ChatComposerDropTargetState, _collectDropItem, DropTarget, _onDragDone, SizedBox, build (+56 more)
+Nodes (56): contact.model.dart, AccountGroupModel, accountGroupModelToJson, AccountPriceGroupModel, accountPriceGroupModelToJson, AccountSearchReqModel, accountSearchReqModelFromJson, accountSearchReqModelToJson (+48 more)
 
 ### Community 22 - "Community 22"
 Cohesion: 0.03
@@ -453,35 +456,35 @@ Nodes (73): ../controller/check_result.controller.dart, BalanceDialogId, build, 
 
 ### Community 23 - "Community 23"
 Cohesion: 0.03
-Nodes (54): account_level_item.model.dart, AccountGroupModel, accountGroupModelToJson, AccountLevelGetOneItemModel, accountLevelGetOneItemModelFromJson, accountLevelGetOneItemModelToJson, AccountLevelItemModel, accountLevelItemModelToJson (+46 more)
+Nodes (51): account_level_item.model.dart, AccountItemGroupModel, accountItemGroupModelToJson, AccountLevelGetOneItemModel, accountLevelGetOneItemModelFromJson, accountLevelGetOneItemModelToJson, AccountLevelItemModel, accountLevelItemModelToJson (+43 more)
 
 ### Community 24 - "Community 24"
 Cohesion: 0.03
-Nodes (67): ../../account/model/account_search_req.model.dart, ../../../config/repository/bank_account.repository.dart, ../../../config/repository/bank.repository.dart, ../../../config/repository/reason_rejection.repository.dart, Card, Center, clearFilter, clearSearch (+59 more)
+Nodes (66): ../controller/inventory_create_receive.controller.dart, ../controller/inventory_detail_insert_payment.controller.dart, ../controller/inventory_update_payment.controller.dart, ListTile, showSearchResults, _getMimeType, AuthenticatedPageScaffold, build (+58 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.03
-Nodes (50): AccountItemGroupModel, accountItemGroupModelToJson, AccountSearchReqModel, accountSearchReqModelFromJson, accountSearchReqModelToJson, OrderResultDayModel, orderResultDayModelToJson, ChatAccountModel (+42 more)
+Nodes (63): dependencies, WithdrawBindings, build, Padding, RoleCreationExample, Scaffold, SizedBox, Text (+55 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.03
-Nodes (67): ../../../config/repository/deposit.repository.dart, ../../../config/repository/deposit_request.repository.dart, ../config/repository/url/base_url.dart, ../../../config/repository/wallet.repository.dart, ../../../config/repository/withdraw_getOne.repository.dart, ../../../config/repository/withdraw.repository.dart, DioClient, filterAccounts (+59 more)
+Cohesion: 0.04
+Nodes (61): ../../../config/repository/deposit.repository.dart, ../../../config/repository/deposit_request.repository.dart, ../../../config/repository/transaction.repository.dart, ../config/repository/url/base_url.dart, ../../../config/repository/wallet.repository.dart, ../../../config/repository/withdraw_getOne.repository.dart, ../../../config/repository/withdraw.repository.dart, DioClient (+53 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.04
-Nodes (67): ../controller/inventory_create_receive.controller.dart, ../controller/inventory_detail_insert_payment.controller.dart, ../controller/inventory_update_payment.controller.dart, ListTile, showSearchResults, _getMimeType, AuthenticatedPageScaffold, build (+59 more)
+Cohesion: 0.03
+Nodes (61): ../controller/inventory_detail_insert_receive.controller.dart, AuthenticatedPageScaffold, build, DropdownMenuItem, InventoryDetailInsertReceiveView, _InventoryDetailInsertReceiveViewState, Obx, Row (+53 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.03
-Nodes (63): ../../auth/model/user_login.model.dart, ../../chat/controller/chat.controller.dart, ../../chat/controller/chat_fab.controller.dart, ../../chat/model/socket_chat_ack_unread.model.dart, ../../chat/model/socket_chat_admin_send.model.dart, ../../chat/model/socket_chat_message.model.dart, ../../chat/model/socket_chat_unread_total.model.dart, ../../chat/model/socket_chat_waiting_total.model.dart (+55 more)
-
-### Community 29 - "Community 29"
 Cohesion: 0.05
 Nodes (38): FlutterViewController(), main, fl_register_plugins(), RegisterPlugins(), RegisterGeneratedPlugins(), NSWindow, package:hanigold_admin/main.dart, GeneratedPluginRegistrant (+30 more)
 
-### Community 30 - "Community 30"
+### Community 29 - "Community 29"
 Cohesion: 0.03
 Nodes (62): AuthenticatedPageScaffold, BackgroundImageTotal, build, _buildCandleChart, _buildChartContainer, _buildChartHeader, _buildChartSection, _buildChartStats (+54 more)
+
+### Community 30 - "Community 30"
+Cohesion: 0.03
+Nodes (53): build, DashboardSectionHeader, Padding, SizedBox, AddDashboardItemSheet, build, Center, ListTile (+45 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.04
@@ -489,7 +492,7 @@ Nodes (47): ListCreditHelperModel, listCreditHelperModelFromJson, listCreditHelp
 
 ### Community 32 - "Community 32"
 Cohesion: 0.04
-Nodes (56): dependencies, WithdrawBindings, AuthenticatedPageScaffold, build, Center, CircularProgressIndicator, Container, DropdownMenuItem (+48 more)
+Nodes (58): ../../auth/model/user_login.model.dart, ../../chat/controller/chat.controller.dart, ../../chat/controller/chat_fab.controller.dart, ../../chat/model/socket_chat_ack_unread.model.dart, ../../chat/model/socket_chat_admin_send.model.dart, ../../chat/model/socket_chat_message.model.dart, ../../chat/model/socket_chat_unread_total.model.dart, ../../chat/model/socket_chat_waiting_total.model.dart (+50 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.04
@@ -497,27 +500,27 @@ Nodes (57): ../../accountSalesGroup/controller/account_sales_group.controller.da
 
 ### Community 34 - "Community 34"
 Cohesion: 0.04
-Nodes (43): app_color.dart, AppColor, AppTextStyle, ChatAppColors, SidebarTheme, isInsideShellOf, ShellScope, updateShouldNotify (+35 more)
+Nodes (50): dark, light, ThemeData, AnimatedSlide, build, DashboardEditToolbar, Obx, SizedBox (+42 more)
 
 ### Community 35 - "Community 35"
 Cohesion: 0.04
-Nodes (54): ../controller/product_inventory_quantity.controller.dart, build, _buildDescriptionInRow, buildDetailedReportSection, buildDetailsTable, _buildMobileDetailCard, _buildMobileDetailsList, _buildMobileDetailsSheet (+46 more)
+Nodes (47): build, CustomTextButton, _CustomTextButtonState, Focus, handleFocus, handleHover, BalanceEmptyCard, build (+39 more)
 
 ### Community 36 - "Community 36"
 Cohesion: 0.04
-Nodes (54): ShellChildRoutes, package:hanigold_admin/src/config/routes/bindings/account.bindings.dart, package:hanigold_admin/src/config/routes/bindings/account_sales_group.bindings.dart, package:hanigold_admin/src/config/routes/bindings/credit_helper.bindings.dart, package:hanigold_admin/src/config/routes/bindings/home.bindings.dart, package:hanigold_admin/src/config/routes/bindings/inventory.bindings.dart, package:hanigold_admin/src/config/routes/bindings/laboratory.bindings.dart, package:hanigold_admin/src/config/routes/bindings/notification.bindings.dart (+46 more)
+Nodes (54): ../controller/product_inventory_quantity.controller.dart, build, _buildDescriptionInRow, buildDetailedReportSection, buildDetailsTable, _buildMobileDetailCard, _buildMobileDetailsList, _buildMobileDetailsSheet (+46 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.04
-Nodes (53): ../../account/widget/account_level_get_one_item.widget.dart, ../../accountSalesGroup/widget/account_sales_group_get_one_item.widget.dart, AccountLevelGetOneItemWidget, AccountSalesGroupGetOneItemWidget, AuthenticatedPageScaffold, build, _buildMostUsedProductCard, Center (+45 more)
+Nodes (54): ShellChildRoutes, package:hanigold_admin/src/config/routes/bindings/account.bindings.dart, package:hanigold_admin/src/config/routes/bindings/credit_helper.bindings.dart, package:hanigold_admin/src/config/routes/bindings/laboratory.bindings.dart, package:hanigold_admin/src/config/routes/bindings/notification.bindings.dart, package:hanigold_admin/src/config/routes/bindings/product.bindings.dart, package:hanigold_admin/src/config/routes/bindings/remittance_request.bindings.dart, package:hanigold_admin/src/config/routes/bindings/setting_chat.bindings.dart (+46 more)
 
 ### Community 38 - "Community 38"
 Cohesion: 0.04
-Nodes (54): activate, build, _buildDepositDetail, _buildDepositIconHover, _buildExpandedDetail, _buildWithdrawDetail, _buildWithdrawIconHover, ClipRRect (+46 more)
+Nodes (53): ../../account/widget/account_level_get_one_item.widget.dart, ../../accountSalesGroup/widget/account_sales_group_get_one_item.widget.dart, AccountLevelGetOneItemWidget, AccountSalesGroupGetOneItemWidget, AuthenticatedPageScaffold, build, _buildMostUsedProductCard, Center (+45 more)
 
 ### Community 39 - "Community 39"
 Cohesion: 0.04
-Nodes (45): build, CustomTextButton, _CustomTextButtonState, Focus, handleFocus, handleHover, BalanceEmptyCard, build (+37 more)
+Nodes (54): activate, build, _buildDepositDetail, _buildDepositIconHover, _buildExpandedDetail, _buildWithdrawDetail, _buildWithdrawIconHover, ClipRRect (+46 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.04
@@ -525,183 +528,183 @@ Nodes (53): build, _buildBridgedPanel, _cancelHide, ClipRRect, Column, Composite
 
 ### Community 41 - "Community 41"
 Cohesion: 0.04
-Nodes (50): ../config/session_bootstrap.dart, ../config/shell/navigation_route_utils.dart, dependencies, NotificationBindings, listNotificationFromJson, ListNotificationModel, listNotificationToJson, build (+42 more)
+Nodes (48): chat_dialog_list_tile.widget.dart, chat_list_topic_filter.widget.dart, chatConversationShellTheme, build, Center, ChatItem, ChatListPanel, Container (+40 more)
 
 ### Community 42 - "Community 42"
 Cohesion: 0.04
-Nodes (44): AnimatedSlide, build, DashboardEditToolbar, Obx, SizedBox, build, DashboardSectionHeader, Padding (+36 more)
+Nodes (52): conversation_message_search.widget.dart, Badge, build, ChatItem, _ChatThreadUnreadBadge, _ChatThreadUnreadMentionBadge, Container, Padding (+44 more)
 
 ### Community 43 - "Community 43"
 Cohesion: 0.04
-Nodes (48): BackgroundImageTotal, build, _buildDesktopListBody, _buildDesktopPagerOverlay, _buildFooterItem, _buildListBody, _buildMobileListBody, _buildMobileSortHeader (+40 more)
+Nodes (51): ../controller/transaction.controller.dart, AuthenticatedPageScaffold, BalanceDialog, build, _buildDateField, _buildInfoCard, buildInventoryDetail, _buildMobileActionButton (+43 more)
 
 ### Community 44 - "Community 44"
 Cohesion: 0.04
-Nodes (43): dependencies, RemittanceRequestBindings, AnimatedContainer, _balanceColor, build, Container, Divider, Expanded (+35 more)
+Nodes (47): ../config/session_bootstrap.dart, ../config/shell/navigation_route_utils.dart, build, _buildMenuButton, _buildSubMenuItem, clearStoredSession, Container, FixedSidebar (+39 more)
 
 ### Community 45 - "Community 45"
 Cohesion: 0.04
-Nodes (45): ../../../config/const/chat_app_colors.dart, build, ChatComposer, _ChatComposerShell, _ChatComposerShellState, Container, Obx, Padding (+37 more)
+Nodes (48): BackgroundImageTotal, build, _buildDesktopListBody, _buildDesktopPagerOverlay, _buildFooterItem, _buildListBody, _buildMobileListBody, _buildMobileSortHeader (+40 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.04
-Nodes (46): _cancelTimers, clearSessionAndRedirectToLogin, _closeTransportChannel, _completeFollowerSync, _dispatchIncomingMessage, Duration, ensureConnected, _flushFollowerOutboundQueue (+38 more)
+Nodes (43): dependencies, RemittanceRequestBindings, AnimatedContainer, _balanceColor, build, Container, Divider, Expanded (+35 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.04
-Nodes (43): ../../../config/socket_ui_scheduler.dart, scheduleSocketUiUpdate, applyChatFabUnreadCount, applyChatFabUnreadMentionCount, applyChatFabWaitingCount, _applyRemoteFabTotals, attach, ChatFabController (+35 more)
+Nodes (45): ../../../config/const/chat_app_colors.dart, build, ChatComposer, _ChatComposerShell, _ChatComposerShellState, Container, Obx, Padding (+37 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.05
-Nodes (39): dark, light, ThemeData, build, Semantics, TopBarActionButton, _TopBarActionButtonState, build (+31 more)
+Cohesion: 0.04
+Nodes (46): AuthenticatedPageScaffold, build, buildDepositRequestsTableForDesktop, buildExpandableTable, Card, Center, Column, Container (+38 more)
 
 ### Community 49 - "Community 49"
-Cohesion: 0.05
-Nodes (43): ../controller/statistics_report.controller.dart, AuthenticatedPageScaffold, BackgroundImageTotal, build, _buildCardHeader, _buildContent, _buildControlPanel, _buildDateField (+35 more)
+Cohesion: 0.04
+Nodes (34): app_color.dart, AppColor, AppTextStyle, ChatAppColors, SidebarTheme, isInsideShellOf, ShellScope, updateShouldNotify (+26 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.05
-Nodes (39): chat_dialog_list_tile.widget.dart, chatConversationShellTheme, BoxDecoration, build, ChatThemeData, chatThemedDialog, ChatThemeInherited, ChatThemeScope (+31 more)
+Cohesion: 0.04
+Nodes (46): _cancelTimers, clearSessionAndRedirectToLogin, _closeTransportChannel, _completeFollowerSync, _dispatchIncomingMessage, Duration, ensureConnected, _flushFollowerOutboundQueue (+38 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.05
-Nodes (41): bindings/account.bindings.dart, bindings/credit_helper.bindings.dart, bindings/notification.bindings.dart, bindings/setting_chat.bindings.dart, bindings/setting_telegram.bindings.dart, bindings/trading_balance.bindings.dart, ../../domain/account/view/account_level.view.dart, ../../domain/accountSalesGroup/view/insert_account_sales_group.view.dart (+33 more)
+Cohesion: 0.04
+Nodes (43): ../../../config/socket_ui_scheduler.dart, scheduleSocketUiUpdate, applyChatFabUnreadCount, applyChatFabUnreadMentionCount, applyChatFabWaitingCount, _applyRemoteFabTotals, attach, ChatFabController (+35 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.05
-Nodes (41): bindings/laboratory.bindings.dart, bindings/transaction.bindings.dart, RoutePage, RoutePage, ../../domain/deposit/view/deposit_pending_list.view.dart, ../../domain/home/view/more.view.dart, ../../domain/inventory/view/inventory_detail_insert_payment.view.dart, ../../domain/inventory/view/inventory_detail_update_payment.view.dart (+33 more)
+Cohesion: 0.06
+Nodes (42): ../../account/model/account_search_req.model.dart, ../../../config/repository/bank_account.repository.dart, ../../../config/repository/bank.repository.dart, changeSelectedBankAccount, clearList, DepositCreateController, ErrorException, Exception (+34 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.05
-Nodes (41): Align, build, _buildContent, _buildMessage, _buildOverlayContent, _buildPanelContent, _buildPanelInner, _buildStatusCard (+33 more)
+Nodes (43): ../controller/statistics_report.controller.dart, AuthenticatedPageScaffold, BackgroundImageTotal, build, _buildCardHeader, _buildContent, _buildControlPanel, _buildDateField (+35 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.06
-Nodes (37): build, buildDesktopLayout, _buildStatCard, _buildStatsGrid, Container, Expanded, HomeTabsBar, _MainContent (+29 more)
+Cohesion: 0.05
+Nodes (35): createdBy.model.dart, copyWith, CreditHelperModel, creditHelperModelToJson, CreatedByModel, createdByModelToJson, Balance, copyWith (+27 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.05
-Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
+Nodes (41): bindings/laboratory.bindings.dart, bindings/trading_balance.bindings.dart, bindings/transaction.bindings.dart, RoutePage, RoutePage, ../../domain/balance/view/trading_balance.view.dart, ../../domain/deposit/view/deposit_pending_list.view.dart, ../../domain/deposit/view/deposit_update.view.dart (+33 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.05
-Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
+Nodes (41): bindings/account.bindings.dart, bindings/credit_helper.bindings.dart, bindings/notification.bindings.dart, bindings/setting_chat.bindings.dart, bindings/setting_telegram.bindings.dart, ../../domain/account/view/account_level.view.dart, ../../domain/accountSalesGroup/view/insert_account_sales_group.view.dart, ../../domain/accountSalesGroup/view/update_account_sales_group.view.dart (+33 more)
 
 ### Community 57 - "Community 57"
 Cohesion: 0.05
-Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
+Nodes (41): Align, build, _buildContent, _buildMessage, _buildOverlayContent, _buildPanelContent, _buildPanelInner, _buildStatusCard (+33 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.11
-Nodes (40): q(), AppLogger, d, e, i, w, package:logger/logger.dart, a() (+32 more)
+Cohesion: 0.05
+Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
 
 ### Community 59 - "Community 59"
 Cohesion: 0.05
-Nodes (38): AuthenticatedPageScaffold, build, Divider, _handleTabChange, InventoryCreateView, _InventoryCreateViewState, Obx, Scaffold (+30 more)
+Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.06
-Nodes (34): ../controller/user_info_detail_transaction.controller.dart, ../controller/user_info_transaction.controller.dart, AccountLevelGetOneItemWidget, build, _buildRow, _buildRowTwo, Container, Divider (+26 more)
+Cohesion: 0.05
+Nodes (39): build, _buildMobileDropZone, _buildWebDropZone, Column, Container, dispose, _handleDragEnter, _handleDragLeave (+31 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.06
-Nodes (35): build, _buildForm, _buildLabelCompact, Container, CreditHelperCreateDialogWidget, _CreditHelperCreateDialogWidgetState, CustomDropdownWidget, dispose (+27 more)
+Nodes (37): ../controller/auth.controller.dart, ../controller/user_info_gold_transaction.controller.dart, build, dispose, ForgetPasswordPage, _ForgetPasswordPageState, initState, Obx (+29 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.05
-Nodes (35): addTrendPoint, CandlePriceChartController, changeTimeFrame, ChartTimeFrame, clearTrendLine, _convertJalaliToGregorian, getHighestPrice, getLowestPrice (+27 more)
+Nodes (35): dependencies, ShellBindings, AppBar, build, CustomAppbar1, PreferredSize, _publishChromeToShell, SizedBox (+27 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.05
-Nodes (37): _alignmentForSide, build, _cancelHide, _computeBridgeRect, _computePanelRect, didChangeDependencies, didUpdateWidget, dispose (+29 more)
+Cohesion: 0.06
+Nodes (35): build, _buildForm, _buildLabelCompact, Container, CreditHelperCreateDialogWidget, _CreditHelperCreateDialogWidgetState, CustomDropdownWidget, dispose (+27 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.05
-Nodes (37): _activate, build, _buildMessageBody, _cancelHide, CompositedTransformFollower, CompositedTransformTarget, _deactivateIfIdle, didChangeDependencies (+29 more)
+Nodes (35): addTrendPoint, CandlePriceChartController, changeTimeFrame, ChartTimeFrame, clearTrendLine, _convertJalaliToGregorian, getHighestPrice, getLowestPrice (+27 more)
 
 ### Community 65 - "Community 65"
-Cohesion: 0.05
-Nodes (37): conversation_message_search.widget.dart, Align, AnimatedSwitcher, build, Center, Container, _ConversationEmptyState, _ConversationMessageArea (+29 more)
+Cohesion: 0.13
+Nodes (37): q(), AppLogger, d, e, i, w, package:logger/logger.dart, a() (+29 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.06
-Nodes (33): build, _buildMenuItem, _buildSubMenuItem, Container, MoreView, ResponsiveRowColumn, ResponsiveRowColumnItem, Scaffold (+25 more)
+Cohesion: 0.05
+Nodes (37): _activate, build, _buildMessageBody, _cancelHide, CompositedTransformFollower, CompositedTransformTarget, _deactivateIfIdle, didChangeDependencies (+29 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.05
-Nodes (36): _AccountListTile, _AssignedTopicTile, AuthenticatedPageScaffold, _breakpointFor, build, _buildAccountsBody, _buildAccountsPanel, _buildAssignedTopicsBody (+28 more)
+Nodes (37): _alignmentForSide, build, _cancelHide, _computeBridgeRect, _computePanelRect, didChangeDependencies, didUpdateWidget, dispose (+29 more)
 
 ### Community 68 - "Community 68"
-Cohesion: 0.06
-Nodes (24): main, scheduleRefocus, main, main, main, SizedBox, main, SizedBox (+16 more)
+Cohesion: 0.05
+Nodes (36): _AccountListTile, _AssignedTopicTile, AuthenticatedPageScaffold, _breakpointFor, build, _buildAccountsBody, _buildAccountsPanel, _buildAssignedTopicsBody (+28 more)
 
 ### Community 69 - "Community 69"
 Cohesion: 0.06
-Nodes (35): _ActionsSection, AppBar, AppTopBar, build, Builder, ConstrainedBox, Container, _ContextSection (+27 more)
+Nodes (24): main, scheduleRefocus, main, main, main, main, SizedBox, main (+16 more)
 
 ### Community 70 - "Community 70"
 Cohesion: 0.06
-Nodes (35): build, _buildOverlay, CallbackShortcuts, CompositedTransformFollower, CompositedTransformTarget, dispose, _focusSearch, IconButton (+27 more)
+Nodes (35): _ActionsSection, AppBar, AppTopBar, build, Builder, ConstrainedBox, Container, _ContextSection (+27 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.06
-Nodes (28): Data, SocketChatCloseModel, socketChatCloseModelFromJson, socketChatCloseModelToJson, Data, SocketChatForwardModel, socketChatForwardModelFromJson, socketChatForwardModelToJson (+20 more)
+Nodes (35): build, _buildOverlay, CallbackShortcuts, CompositedTransformFollower, CompositedTransformTarget, dispose, _focusSearch, IconButton (+27 more)
 
 ### Community 72 - "Community 72"
+Cohesion: 0.06
+Nodes (28): Data, SocketChatCloseModel, socketChatCloseModelFromJson, socketChatCloseModelToJson, Data, SocketChatForwardModel, socketChatForwardModelFromJson, socketChatForwardModelToJson (+20 more)
+
+### Community 73 - "Community 73"
 Cohesion: 0.08
 Nodes (34): _buildLoadingState, BoxConstraints, _buildMessageItem, IconButton, BoxConstraints, build, _buildLoading, _buildMessage (+26 more)
 
-### Community 73 - "Community 73"
-Cohesion: 0.07
-Nodes (25): _chat, ChatModel, main, mention, _msg, main, main, _sampleMessage (+17 more)
-
 ### Community 74 - "Community 74"
-Cohesion: 0.06
-Nodes (27): createdBy.model.dart, CreditHelperModel, creditHelperModelToJson, CreatedByModel, createdByModelToJson, Balance, copyWith, InventoryModel (+19 more)
+Cohesion: 0.07
+Nodes (24): indexOfOutgoingOptimisticMatch, messageInReplyLookupScope, messageMatchesBubbleRowTarget, normReplyMessageGuid, main, _sampleMessage, main, main (+16 more)
 
 ### Community 75 - "Community 75"
 Cohesion: 0.06
 Nodes (30): account_group.model.dart, AccountModel, accountModelFromJson, accountModelToJson, Address, AddressAccount, ContactAccount, ContactElement (+22 more)
 
 ### Community 76 - "Community 76"
+Cohesion: 0.07
+Nodes (30): AccountLevelGetOneItemWidget, build, _buildRow, _buildRowTwo, Container, Divider, _formatNumber, Padding (+22 more)
+
+### Community 77 - "Community 77"
 Cohesion: 0.06
 Nodes (32): components/balance_empty_card.widget.dart, components/inventory_mode_segmented.widget.dart, BalanceEmptyCard, build, _buildBalancePanel, _buildBody, _buildFormContent, _buildFormSection (+24 more)
 
-### Community 77 - "Community 77"
-Cohesion: 0.07
-Nodes (29): isAuthenticatedPath, requiresShell, ShellRouteConfig, shouldShowShell, AppDrawer, build, Container, Drawer (+21 more)
-
 ### Community 78 - "Community 78"
-Cohesion: 0.06
-Nodes (30): build, Padding, RoleCreationExample, Scaffold, SizedBox, Text, AuthenticatedPageScaffold, build (+22 more)
-
-### Community 79 - "Community 79"
 Cohesion: 0.06
 Nodes (27): chat_message.model.dart, SocketChatAckUnreadModel, socketChatAckUnreadModelFromJson, socketChatAckUnreadModelToJson, Data, FilesJson, Mention, put (+19 more)
 
-### Community 80 - "Community 80"
+### Community 79 - "Community 79"
 Cohesion: 0.06
 Nodes (28): build, ChatForwardPreviewBar, Container, SizedBox, AnimatedContainer, build, chatBubbleMaxWidthFraction, Container (+20 more)
+
+### Community 80 - "Community 80"
+Cohesion: 0.07
+Nodes (28): isAuthenticatedPath, requiresShell, ShellRouteConfig, shouldShowShell, AuthenticatedPageScaffold, _AuthenticatedPageScaffoldState, build, ColoredBox (+20 more)
 
 ### Community 81 - "Community 81"
 Cohesion: 0.06
 Nodes (30): _buildErrorState, AnimatedContainer, build, _buildCounter, _buildCounterButton, _buildErrorState, _buildFooter, _buildItemRow (+22 more)
 
 ### Community 82 - "Community 82"
-Cohesion: 0.06
-Nodes (28): ChatMessageModel, chatMessageModelToJson, copyIfNull, _filesJsonFromJson, forwardedMessageHasCaption, forwardEmbeddedMessagePreviewBody, jsonEncode, MessageMention (+20 more)
+Cohesion: 0.07
+Nodes (24): DepositModel, depositModelToJson, RemittanceModel, remittanceModelFromJson, remittanceModelToJson, RemittanceRequestModel, remittanceRequestModelToJson, TransferWalletModel (+16 more)
 
 ### Community 83 - "Community 83"
 Cohesion: 0.06
-Nodes (30): _buildDetailRow, _buildErrorWidget, _buildMobileLayout, _buildOrderForm, AccountLevelGetOneItemWidget, AccountSalesGroupGetOneItemWidget, BalanceWidget, build (+22 more)
+Nodes (28): ChatMessageModel, chatMessageModelToJson, copyIfNull, _filesJsonFromJson, forwardedMessageHasCaption, forwardEmbeddedMessagePreviewBody, jsonEncode, MessageMention (+20 more)
 
 ### Community 84 - "Community 84"
 Cohesion: 0.06
-Nodes (28): isGroupActive, isRouteActive, NavigationRouteUtils, normalize, require, RouteParams, StateError, SyncRouteParametersMiddleware (+20 more)
+Nodes (30): _buildDetailRow, _buildErrorWidget, _buildMobileLayout, _buildOrderForm, AccountLevelGetOneItemWidget, AccountSalesGroupGetOneItemWidget, BalanceWidget, build (+22 more)
 
 ### Community 85 - "Community 85"
-Cohesion: 0.07
-Nodes (28): build, Column, Container, Expanded, FloatingPanelShell, _formatAmount, _formatDate, _Header (+20 more)
+Cohesion: 0.06
+Nodes (28): isGroupActive, isRouteActive, NavigationRouteUtils, normalize, require, RouteParams, StateError, SyncRouteParametersMiddleware (+20 more)
 
 ### Community 86 - "Community 86"
 Cohesion: 0.06
@@ -713,67 +716,67 @@ Nodes (29): build, _buildDateSection, buildForPaymentDetail, _buildItemSection, 
 
 ### Community 88 - "Community 88"
 Cohesion: 0.07
-Nodes (28): ../controller/trading_balance.controller.dart, build, _buildControlPanel, _buildDesktopTable, _buildMainContent, _buildMainContentWithNoData, _buildMobileCardItem, _buildMobileCards (+20 more)
+Nodes (26): activateTab, _applyTearOffContext, copyWith, HomeTab, HomeTabsController, _navigateTo, onInit, openTab (+18 more)
 
 ### Community 89 - "Community 89"
 Cohesion: 0.07
-Nodes (27): Breakpoint, configLoading, _configureGlobalErrorHandling, didChangeAppLifecycleState, GetMaterialApp, main, Material, MyApp (+19 more)
+Nodes (28): ../controller/trading_balance.controller.dart, build, _buildControlPanel, _buildDesktopTable, _buildMainContent, _buildMainContentWithNoData, _buildMobileCardItem, _buildMobileCards (+20 more)
 
 ### Community 90 - "Community 90"
 Cohesion: 0.07
-Nodes (28): Actions, _beginCaptureClock, build, _buildMessageTextField, ChatComposerInputTrailing, _ChatComposerInputTrailingState, deleteChatVoiceRecordingFile, didChangeAppLifecycleState (+20 more)
+Nodes (27): Breakpoint, configLoading, _configureGlobalErrorHandling, didChangeAppLifecycleState, GetMaterialApp, main, Material, MyApp (+19 more)
 
 ### Community 91 - "Community 91"
-Cohesion: 0.07
-Nodes (27): ../controller/update_account_sales_group.controller.dart, AuthenticatedPageScaffold, build, _buildBuyRangeField, _buildBuyStatusField, _buildDesktopView, _buildEditableItemRow, _buildErrorBanner (+19 more)
+Cohesion: 0.09
+Nodes (25): build, _buildTileContent, Container, HomeTabsBar, Listener, Obx, onTearOff, openRouteInNewTab (+17 more)
 
 ### Community 92 - "Community 92"
 Cohesion: 0.07
-Nodes (27): AppEmptyState, build, dispose, _FavoritePagesContent, _FollowedItemsContent, _FrequentActionsContent, Icon, _iconForRoute (+19 more)
+Nodes (28): Actions, _beginCaptureClock, build, _buildMessageTextField, ChatComposerInputTrailing, _ChatComposerInputTrailingState, deleteChatVoiceRecordingFile, didChangeAppLifecycleState (+20 more)
 
 ### Community 93 - "Community 93"
 Cohesion: 0.07
-Nodes (27): addQuickAccess, addWorkspaceWidget, cancelEdit, cycleWorkspaceSize, DashboardController, isPageFavorite, _loadAll, onInit (+19 more)
+Nodes (27): ../controller/update_account_sales_group.controller.dart, AuthenticatedPageScaffold, build, _buildBuyRangeField, _buildBuyStatusField, _buildDesktopView, _buildEditableItemRow, _buildErrorBanner (+19 more)
 
 ### Community 94 - "Community 94"
-Cohesion: 0.09
-Nodes (22): _accountRow, ChatAccountModel, _FakePathProvider, _FakeSocketService, main, onInit, _FakePathProvider, main (+14 more)
+Cohesion: 0.07
+Nodes (27): AppEmptyState, build, dispose, _FavoritePagesContent, _FollowedItemsContent, _FrequentActionsContent, Icon, _iconForRoute (+19 more)
 
 ### Community 95 - "Community 95"
 Cohesion: 0.07
-Nodes (25): Assumptions (explicit), code:mermaid (flowchart LR), code:dart (onPressed: () async {), code:bash (git add lib/src/domain/users/view/user_info_transaction.view), code:bash (flutter test test/selected_factor_pdf_query_test.dart), code:bash (graphify update .), code:bash (git add graphify-out/), code:dart (// test/selected_factor_pdf_query_test.dart) (+17 more)
+Nodes (27): addQuickAccess, addWorkspaceWidget, cancelEdit, cycleWorkspaceSize, DashboardController, isPageFavorite, _loadAll, onInit (+19 more)
 
 ### Community 96 - "Community 96"
-Cohesion: 0.07
-Nodes (24): applyComposerTextEditingValue, composerGraphemeEndAfter, composerGraphemeStartBefore, ComposerGraphemeTextInputFormatter, formatEditUpdate, _isHighSurrogate, _isLowSurrogate, normalizeComposerTextEditingValue (+16 more)
+Cohesion: 0.09
+Nodes (22): _accountRow, ChatAccountModel, _FakePathProvider, _FakeSocketService, main, onInit, _FakePathProvider, main (+14 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.08
-Nodes (25): AuthenticatedPageScaffold, build, _buildBuyRangeEditorRow, _buildDifferentPriceEditorRow, _buildMaxBuyEditorRow, _buildMaxSellEditorRow, _buildSalesRangeEditorRow, _buildTextFieldNum (+17 more)
+Cohesion: 0.07
+Nodes (25): Assumptions (explicit), code:mermaid (flowchart LR), code:dart (onPressed: () async {), code:bash (git add lib/src/domain/users/view/user_info_transaction.view), code:bash (flutter test test/selected_factor_pdf_query_test.dart), code:bash (graphify update .), code:bash (git add graphify-out/), code:dart (// test/selected_factor_pdf_query_test.dart) (+17 more)
 
 ### Community 98 - "Community 98"
 Cohesion: 0.08
-Nodes (23): cancelRoleCreation, deselectAllElements, deselectAllSubElements, onClose, onInit, RoleCreationController, selectAllElements, selectAllSubElements (+15 more)
+Nodes (24): AppDrawer, build, Container, Drawer, SizedBox, AppShell, build, _buildDrawer (+16 more)
 
 ### Community 99 - "Community 99"
-Cohesion: 0.08
-Nodes (23): Chat Module Remediation Implementation Plan, code:dart (StreamSubscription<dynamic>? _transportSub;), code:dart (_customerTypingIdleTimer?.cancel();), code:dart (import 'package:hanigold_admin/src/config/socket_ui_schedule), code:dart (WidgetsBinding.instance.addPostFrameCallback((_) {), code:dart (scheduleSocketUiUpdate(() {), code:dart (WidgetsBinding.instance.addPostFrameCallback((_) {), code:dart (scheduleSocketUiUpdate(() {) (+15 more)
+Cohesion: 0.07
+Nodes (24): applyComposerTextEditingValue, composerGraphemeEndAfter, composerGraphemeStartBefore, ComposerGraphemeTextInputFormatter, formatEditUpdate, _isHighSurrogate, _isLowSurrogate, normalizeComposerTextEditingValue (+16 more)
 
 ### Community 100 - "Community 100"
 Cohesion: 0.08
-Nodes (24): build, Column, Container, DashboardCard, _EditableModuleTile, _EmptyModules, MainModulesSection, Obx (+16 more)
+Nodes (25): AuthenticatedPageScaffold, build, _buildBuyRangeEditorRow, _buildDifferentPriceEditorRow, _buildMaxBuyEditorRow, _buildMaxSellEditorRow, _buildSalesRangeEditorRow, _buildTextFieldNum (+17 more)
 
 ### Community 101 - "Community 101"
 Cohesion: 0.08
-Nodes (23): ChatBindings, dependencies, AppShell, build, clearStoredSession, HomeView, Positioned, Scaffold (+15 more)
+Nodes (23): cancelRoleCreation, deselectAllElements, deselectAllSubElements, onClose, onInit, RoleCreationController, selectAllElements, selectAllSubElements (+15 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.08
-Nodes (23): dependencies, ShellBindings, build, _chromeColumn, Column, DashboardShell, _DashboardShellState, dispose (+15 more)
+Nodes (23): Chat Module Remediation Implementation Plan, code:dart (StreamSubscription<dynamic>? _transportSub;), code:dart (_customerTypingIdleTimer?.cancel();), code:dart (import 'package:hanigold_admin/src/config/socket_ui_schedule), code:dart (WidgetsBinding.instance.addPostFrameCallback((_) {), code:dart (scheduleSocketUiUpdate(() {), code:dart (WidgetsBinding.instance.addPostFrameCallback((_) {), code:dart (scheduleSocketUiUpdate(() {) (+15 more)
 
 ### Community 103 - "Community 103"
 Cohesion: 0.08
-Nodes (23): AppBar, build, CustomAppbar1, PreferredSize, _publishChromeToShell, SizedBox, _tabsBarHeight, AppBar (+15 more)
+Nodes (24): build, Column, Container, DashboardCard, _EditableModuleTile, _EmptyModules, MainModulesSection, Obx (+16 more)
 
 ### Community 104 - "Community 104"
 Cohesion: 0.08
@@ -781,11 +784,11 @@ Nodes (23): 10. Project Agent Skills, 10. Pull Request / Commit Etiquette, 11. P
 
 ### Community 105 - "Community 105"
 Cohesion: 0.08
-Nodes (22): chat_list_topic_filter.widget.dart, build, Center, ChatItem, ChatListPanel, Container, Padding, SizedBox (+14 more)
+Nodes (23): build, buildDesktopLayout, _buildStatCard, _buildStatsGrid, Container, Expanded, HomeTabsBar, _MainContent (+15 more)
 
 ### Community 106 - "Community 106"
 Cohesion: 0.08
-Nodes (22): DashboardShellBindings, dependencies, closeDrawer, DashboardShellController, onReady, onRouteChanged, openDrawer, _syncSidebarRoute (+14 more)
+Nodes (22): ../controller/inventory.controller.dart, Wrap, AuthenticatedPageScaffold, build, Center, CircularProgressIndicator, Container, DepositCreateView (+14 more)
 
 ### Community 107 - "Community 107"
 Cohesion: 0.08
@@ -800,120 +803,120 @@ Cohesion: 0.08
 Nodes (21): Assumptions (conservative defaults), code:mermaid (flowchart LR), code:dart (SizedBox(width: 120,),), code:dart (const SizedBox.shrink(),), code:bash (graphify update .), code:dart (import 'package:flutter/material.dart';), code:dart (import 'package:flutter/painting.dart';), code:bash (git add lib/src/utils/data_table_text_widths.dart test/list_) (+13 more)
 
 ### Community 110 - "Community 110"
-Cohesion: 0.08
-Nodes (22): dependencies, DepositBindings, build, _buildMessage, _buildPanel, _buildPanelContent, dispose, FloatingPanelStatusCard (+14 more)
-
-### Community 111 - "Community 111"
 Cohesion: 0.15
 Nodes (18): DecodeAndProcessResponseEnvelopeInternal(), DecodeMessageInternal(), DecodeMethodCallInternal(), EncodedTypeForValue(), EncodeErrorEnvelopeInternal(), EncodeMessageInternal(), EncodeMethodCallInternal(), EncodeSuccessEnvelopeInternal() (+10 more)
 
-### Community 112 - "Community 112"
+### Community 111 - "Community 111"
 Cohesion: 0.08
 Nodes (22): Chat Module Remediation Phase 2 Implementation Plan, code:dart (import 'package:flutter_test/flutter_test.dart';), code:dart (import 'package:hanigold_admin/src/config/session_bootstrap.), code:dart (_socketReconnectWorker?.dispose();), code:dart (import 'package:flutter_test/flutter_test.dart';), code:dart (class WebSocketUrl {), code:dart (class _ConversationMessageArea extends StatelessWidget {), code:dart (/// Seconds to wait before reconnect attempt [attempt] (1-ba) (+14 more)
 
-### Community 113 - "Community 113"
+### Community 112 - "Community 112"
 Cohesion: 0.08
 Nodes (20): Column, _passwordField, showChangePasswordDialog, showExitDialog, SidebarDialogs, SizedBox, TextFormField, build (+12 more)
 
+### Community 113 - "Community 113"
+Cohesion: 0.08
+Nodes (21): DashboardShellBindings, dependencies, build, DashboardShellView, Scaffold, AnimatedContainer, build, _CollapsedGroupButton (+13 more)
+
 ### Community 114 - "Community 114"
 Cohesion: 0.09
-Nodes (17): _isEmojiBaseRune, isEmojiGraphemeCluster, buildEmojiAwareTextSpans, isCurrentUserMention, MentionMatch, MentionQuery, clampColumnWidth, measureTextWidth (+9 more)
+Nodes (22): AuthenticatedPageScaffold, build, _buildBasicInformationSection, _buildBottomBar, _buildInputField, _buildMainPermissionsList, _buildMainPermissionsSection, _buildPermissionItem (+14 more)
 
 ### Community 115 - "Community 115"
 Cohesion: 0.09
-Nodes (18): DepositModel, depositModelToJson, RemittanceModel, remittanceModelFromJson, remittanceModelToJson, RemittanceRequestModel, remittanceRequestModelToJson, transactionItemModelFromJson (+10 more)
+Nodes (22): build, Card, Center, Container, Exception, Function, HaniGoldLoadingPage, initState (+14 more)
 
 ### Community 116 - "Community 116"
 Cohesion: 0.09
-Nodes (22): build, Card, Center, Container, Exception, Function, HaniGoldLoadingPage, initState (+14 more)
+Nodes (18): consider, measure, Column, creditSection, debitSection, UserBalanceCurrencyCell, creditSection, debitSection (+10 more)
 
 ### Community 117 - "Community 117"
 Cohesion: 0.09
-Nodes (18): consider, measure, Column, creditSection, debitSection, UserBalanceCurrencyCell, creditSection, debitSection (+10 more)
+Nodes (21): ../controller/insert_account_sales_group.controller.dart, AuthenticatedPageScaffold, build, _buildBuyRangeField, _buildBuyStatusField, _buildDesktopView, _buildItemDropdown, _buildMobileView (+13 more)
 
 ### Community 118 - "Community 118"
 Cohesion: 0.09
-Nodes (20): AppCard, build, Divider, SizedBox, WorkspaceWidgetShell, AppCard, build, DashboardCard (+12 more)
+Nodes (21): ../controller/inventory_create_payment.controller.dart, build, Card, Center, Container, Exception, Function, HaniGoldLoadingPage (+13 more)
 
 ### Community 119 - "Community 119"
 Cohesion: 0.09
-Nodes (20): activateTab, _applyTearOffContext, copyWith, HomeTab, HomeTabsController, _navigateTo, onInit, openTab (+12 more)
+Nodes (20): Assumptions (locked), Checklist (3–5 steps), code:mermaid (sequenceDiagram), code:bash (git add lib/src/domain/withdraw/widget/hover_tooltip_today_p), code:bash (flutter analyze lib/src/widget/hover_lazy_rich_tooltip.widge), code:bash (graphify update .), code:dart (final bool stickyUntilDismissed;), code:dart (bool get _isActive {) (+12 more)
 
 ### Community 120 - "Community 120"
 Cohesion: 0.09
-Nodes (21): ../controller/insert_account_sales_group.controller.dart, AuthenticatedPageScaffold, build, _buildBuyRangeField, _buildBuyStatusField, _buildDesktopView, _buildItemDropdown, _buildMobileView (+13 more)
-
-### Community 121 - "Community 121"
-Cohesion: 0.09
-Nodes (21): ../controller/inventory_create_payment.controller.dart, build, Card, Center, Container, Exception, Function, HaniGoldLoadingPage (+13 more)
-
-### Community 122 - "Community 122"
-Cohesion: 0.09
-Nodes (20): Assumptions (locked), Checklist (3–5 steps), code:mermaid (sequenceDiagram), code:bash (git add lib/src/domain/withdraw/widget/hover_tooltip_today_p), code:bash (flutter analyze lib/src/widget/hover_lazy_rich_tooltip.widge), code:bash (graphify update .), code:dart (final bool stickyUntilDismissed;), code:dart (bool get _isActive {) (+12 more)
-
-### Community 123 - "Community 123"
-Cohesion: 0.09
 Nodes (21): Additional Forbidden Patterns, Anti-Patterns (Do NOT Use), Buttons, Cards, code:css (@import url('https://fonts.googleapis.com/css2?family=Inter:), code:css (/* Primary Button */), code:css (.card {), code:css (.input {) (+13 more)
 
-### Community 124 - "Community 124"
+### Community 121 - "Community 121"
 Cohesion: 0.1
 Nodes (19): fetchAssignedTopics, fetchMissingTopics, _onAccountSearchChanged, onClose, onInit, _resolveUserIdForSelectedAccount, SettingChatController, parseSettingChatDynamicId (+11 more)
 
-### Community 125 - "Community 125"
+### Community 122 - "Community 122"
 Cohesion: 0.1
-Nodes (19): _defaultNowMs, dispose, Function, _newTabId, start, unregisterAndCheckIfLast, WebTabPresence, _writeTabs (+11 more)
+Nodes (19): build, Column, Container, Expanded, FloatingPanelShell, _formatAmount, _formatDate, _Header (+11 more)
 
-### Community 126 - "Community 126"
+### Community 123 - "Community 123"
 Cohesion: 0.1
 Nodes (19): AnimatedContainer, build, FixedSidebar, Obx, build, _buildCollapsed, _buildExpanded, Column (+11 more)
 
-### Community 127 - "Community 127"
+### Community 124 - "Community 124"
 Cohesion: 0.1
 Nodes (19): build, _buildForm, _buildLabelCompact, Center, CircularProgressIndicator, Container, CustomDropdownWidget, dispose (+11 more)
 
-### Community 128 - "Community 128"
+### Community 125 - "Community 125"
 Cohesion: 0.1
-Nodes (19): _getOrCreateController, build, _buildLabelCompact, Center, CircularProgressIndicator, Container, CustomDropdownWidget, dispose (+11 more)
+Nodes (19): _showConfirmDialog, build, _buildLabelCompact, Center, CircularProgressIndicator, Container, CustomDropdownWidget, dispose (+11 more)
 
-### Community 129 - "Community 129"
+### Community 126 - "Community 126"
 Cohesion: 0.11
 Nodes (17): build, Center, showGeneralDialog, SizedBox, Spacer, UserBalanceExcelDialog, build, Container (+9 more)
 
-### Community 130 - "Community 130"
+### Community 127 - "Community 127"
 Cohesion: 0.1
 Nodes (19): _applyOutgoingSeenByCustomer, _applyRealtimeListUpdates, _clearCustomerTyping, _debugChatMessage, _handleIncomingChatMessage, _handleSeenBroadcast, handleSocketAckEnvelope, handleSocketErrorEnvelope (+11 more)
 
-### Community 131 - "Community 131"
+### Community 128 - "Community 128"
 Cohesion: 0.1
 Nodes (17): dependencies, HomeBindings, dependencies, RoleBinding, clearPageChrome, closeDrawer, onInit, onRouteChanged (+9 more)
 
-### Community 132 - "Community 132"
+### Community 129 - "Community 129"
+Cohesion: 0.1
+Nodes (18): ChatBindings, dependencies, AppShell, build, clearStoredSession, HomeView, Positioned, Scaffold (+10 more)
+
+### Community 130 - "Community 130"
 Cohesion: 0.11
 Nodes (18): ChatCloseBroadcastEvent, ChatForwardBroadcastEvent, ChatGrantBroadcastEvent, ChatMessageReceivedEvent, ChatPickBroadcastEvent, ChatRevokeBroadcastEvent, ChatSocketService, _dispatch (+10 more)
 
-### Community 133 - "Community 133"
-Cohesion: 0.11
-Nodes (16): copyWith, Attachment, copyWith, InventoryDetailModel, inventoryDetailModelFromJson, inventoryDetailModelToJson, Attachment, ProductInventoryDetailModel (+8 more)
+### Community 131 - "Community 131"
+Cohesion: 0.12
+Nodes (15): bootstrapSessionControllers, clearSessionAndRedirectToLogin, clearSessionControllers, hasActiveStoredSession, parseHashRoute, registerChatControllerIfNeeded, resolvePostSplashRoute, resolveWebInitialRoute (+7 more)
 
-### Community 134 - "Community 134"
+### Community 132 - "Community 132"
 Cohesion: 0.11
 Nodes (17): clearAllSync, FlutterSessionSecretBackend, hasActiveSession, instance, MemorySessionSecretBackend, _migrateFromGetStorage, read, remove (+9 more)
 
-### Community 135 - "Community 135"
+### Community 133 - "Community 133"
 Cohesion: 0.12
 Nodes (14): clearStoredSession, isInvalidSessionSocketClose, redirectToLoginIfNeeded, clearStoredSession, performTabCloseLogoutSync, shouldLogoutOnPageHide, _readPageHidePersisted, registerWebTabCloseLogout (+6 more)
 
-### Community 136 - "Community 136"
+### Community 134 - "Community 134"
 Cohesion: 0.11
 Nodes (18): build, Column, Container, _DepositRequestCard, Expanded, FloatingPanelShell, _formatAmount, _formatDate (+10 more)
 
-### Community 137 - "Community 137"
+### Community 135 - "Community 135"
 Cohesion: 0.11
 Nodes (17): AttachmentMenuButton, _AttachmentOption, build, SizedBox, build, Container, Expanded, GestureDetector (+9 more)
 
-### Community 138 - "Community 138"
+### Community 136 - "Community 136"
 Cohesion: 0.11
 Nodes (16): DashboardLayoutModel, defaultLayout, ModuleDefinition, moduleFromGroup, ModuleItemModel, QuickAccessDefinition, QuickAccessItemModel, WorkspaceWidgetDefinition (+8 more)
+
+### Community 137 - "Community 137"
+Cohesion: 0.11
+Nodes (17): build, _buildMenuItem, _buildSubMenuItem, Container, MoreView, ResponsiveRowColumn, ResponsiveRowColumnItem, Scaffold (+9 more)
+
+### Community 138 - "Community 138"
+Cohesion: 0.11
+Nodes (14): AnalyticalReportsBindings, dependencies, AuthBindings, dependencies, dependencies, TradingBalanceBindings, dependencies, TransferWalletBindings (+6 more)
 
 ### Community 139 - "Community 139"
 Cohesion: 0.19
@@ -921,75 +924,75 @@ Nodes (17): account_sales_group.controller.dart, AccountSalesGroupController, ad
 
 ### Community 140 - "Community 140"
 Cohesion: 0.11
-Nodes (13): indexOfOutgoingOptimisticMatch, messageInReplyLookupScope, messageMatchesBubbleRowTarget, normReplyMessageGuid, main, main, optimistic, main (+5 more)
+Nodes (17): _assetCell, build, Center, Container, DataRow, DataTable, Obx, _RowNumChip (+9 more)
 
 ### Community 141 - "Community 141"
 Cohesion: 0.11
-Nodes (17): _assetCell, build, Center, Container, DataRow, DataTable, Obx, _RowNumChip (+9 more)
+Nodes (17): Assumptions (locked), code:mermaid (flowchart TB), code:dart (// user_balance_page_chrome.dart — illustrative constants), code:dart (switch (controller.state.value) {), Design tokens (page-local), File map, Global Constraints, ListUserInfoTransaction UI Redesign Implementation Plan (+9 more)
 
 ### Community 142 - "Community 142"
 Cohesion: 0.11
-Nodes (17): Assumptions (locked), code:mermaid (flowchart TB), code:dart (// user_balance_page_chrome.dart — illustrative constants), code:dart (switch (controller.state.value) {), Design tokens (page-local), File map, Global Constraints, ListUserInfoTransaction UI Redesign Implementation Plan (+9 more)
+Nodes (16): dependencies, DepositBindings, _emptyPledgeReport, _emptyWithdrawReport, _ExpandingWithdrawController, _FakePathProvider, main, onInit (+8 more)
 
 ### Community 143 - "Community 143"
 Cohesion: 0.11
-Nodes (15): build, HomeMobileMenu, Obx, sidebarCurve, sidebarDuration, _backgroundColor, _Badge, build (+7 more)
+Nodes (17): AnimatedContainer, build, _CollapseToggle, Container, initState, _NavList, Obx, ScrollConfiguration (+9 more)
 
 ### Community 144 - "Community 144"
-Cohesion: 0.12
-Nodes (15): dependencies, PersonListBindings, dependencies, UserBindings, ../../../domain/users/controller/insert_user.controller.dart, ../../../domain/users/controller/person_list.controller.dart, ../../../domain/users/controller/user_detail.controller.dart, ../../../domain/users/controller/user_info_detail_transaction.controller.dart (+7 more)
+Cohesion: 0.11
+Nodes (15): build, HomeMobileMenu, Obx, sidebarCurve, sidebarDuration, _backgroundColor, _Badge, build (+7 more)
 
 ### Community 145 - "Community 145"
 Cohesion: 0.12
-Nodes (16): build, _buildAccountList, _buildContent, Center, Clude, Column, Container, _deselectAllAccounts (+8 more)
+Nodes (15): dependencies, PersonListBindings, dependencies, UserBindings, ../../../domain/users/controller/insert_user.controller.dart, ../../../domain/users/controller/person_list.controller.dart, ../../../domain/users/controller/user_detail.controller.dart, ../../../domain/users/controller/user_info_detail_transaction.controller.dart (+7 more)
 
 ### Community 146 - "Community 146"
 Cohesion: 0.12
-Nodes (16): build, _buildActionButtons, _buildAmountField, _buildEndDateField, _buildFilterFields, _buildHeader, _buildNameField, _buildRequestField (+8 more)
+Nodes (16): build, _buildAccountList, _buildContent, Center, Clude, Column, Container, _deselectAllAccounts (+8 more)
 
 ### Community 147 - "Community 147"
 Cohesion: 0.12
-Nodes (16): AnimatedBuilder, build, _ChatFabCountBadge, _ChatFabUnreadBadge, ChatFloatingButton, _ChatFloatingButtonState, Container, dispose (+8 more)
+Nodes (16): build, _buildActionButtons, _buildAmountField, _buildEndDateField, _buildFilterFields, _buildHeader, _buildNameField, _buildRequestField (+8 more)
 
 ### Community 148 - "Community 148"
 Cohesion: 0.12
-Nodes (16): conversationContentFitsInViewport, conversationFullySeenInLoadedMessages, conversationUnreadAfterSeen, conversationUnreadAfterSeenBroadcast, countMessagesWithSeqAbove, estimateReversedListPreJumpFraction, lastReadAnchorSeq, messageMentionsAccount (+8 more)
+Nodes (16): AnimatedBuilder, build, _ChatFabCountBadge, _ChatFabUnreadBadge, ChatFloatingButton, _ChatFloatingButtonState, Container, dispose (+8 more)
 
 ### Community 149 - "Community 149"
 Cohesion: 0.12
-Nodes (16): chat_attachment_pick.dart, CallbackShortcuts, chatAttachmentSaveBaseName, chatImageAttachmentThumbnail, chatSaveMeta, copyChatImageToClipboard, Dialog, encodeChatAttachmentFilesJsonForApi (+8 more)
+Nodes (13): _isEmojiBaseRune, isEmojiGraphemeCluster, buildEmojiAwareTextSpans, isCurrentUserMention, MentionMatch, MentionQuery, clampColumnWidth, measureTextWidth (+5 more)
 
 ### Community 150 - "Community 150"
 Cohesion: 0.12
-Nodes (16): build, _buildFooterItem, _buildNetFooterItem, Container, _DetailRow, _footerItemWithDetail, _netSum, Obx (+8 more)
+Nodes (16): conversationContentFitsInViewport, conversationFullySeenInLoadedMessages, conversationUnreadAfterSeen, conversationUnreadAfterSeenBroadcast, countMessagesWithSeqAbove, estimateReversedListPreJumpFraction, lastReadAnchorSeq, messageMentionsAccount (+8 more)
 
 ### Community 151 - "Community 151"
 Cohesion: 0.12
-Nodes (16): build, _buildDesktopToolbar, _buildMobileActions, Center, Container, _openFilterDialog, Padding, Row (+8 more)
+Nodes (16): chat_attachment_pick.dart, CallbackShortcuts, chatAttachmentSaveBaseName, chatImageAttachmentThumbnail, chatSaveMeta, copyChatImageToClipboard, Dialog, encodeChatAttachmentFilesJsonForApi (+8 more)
 
 ### Community 152 - "Community 152"
 Cohesion: 0.12
-Nodes (15): Chat Module Remediation Phase 3 Implementation Plan, code:dart (if (!SocketService.to.isLeader) return;), code:dart (if (!SocketService.to.isLeader) return;), code:dart (import 'package:flutter_test/flutter_test.dart';), code:dart (class FollowerOutboundQueue {), code:dart (_followerOutboundQueue.enqueue(message);), code:dart (void _flushFollowerOutboundQueue() {), code:dart (part 'chat.controller.socket.dart';) (+7 more)
+Nodes (15): ../controller/user_info_detail_transaction.controller.dart, ../controller/user_info_transaction.controller.dart, BalanceUserWidget, _BalanceUserWidgetState, build, CircleAvatar, Container, Divider (+7 more)
 
 ### Community 153 - "Community 153"
 Cohesion: 0.12
-Nodes (16): AnimatedSize, _AnimatedSubmenu, build, _CollapsedGroupButton, _CollapsedGroupButtonState, Container, _ExpandedGroupHeader, _ExpandedGroupHeaderState (+8 more)
+Nodes (16): build, _buildFooterItem, _buildNetFooterItem, Container, _DetailRow, _footerItemWithDetail, _netSum, Obx (+8 more)
 
 ### Community 154 - "Community 154"
 Cohesion: 0.12
-Nodes (16): AnimatedContainer, build, _CollapseToggle, Container, initState, _NavList, Obx, ScrollConfiguration (+8 more)
+Nodes (16): build, _buildDesktopToolbar, _buildMobileActions, Center, Container, _openFilterDialog, Padding, Row (+8 more)
 
 ### Community 155 - "Community 155"
 Cohesion: 0.12
-Nodes (16): build, _buildWidget, _colSpan, Column, Container, _EmptyWorkspace, _height, LayoutBuilder (+8 more)
+Nodes (15): Chat Module Remediation Phase 3 Implementation Plan, code:dart (if (!SocketService.to.isLeader) return;), code:dart (if (!SocketService.to.isLeader) return;), code:dart (import 'package:flutter_test/flutter_test.dart';), code:dart (class FollowerOutboundQueue {), code:dart (_followerOutboundQueue.enqueue(message);), code:dart (void _flushFollowerOutboundQueue() {), code:dart (part 'chat.controller.socket.dart';) (+7 more)
 
 ### Community 156 - "Community 156"
 Cohesion: 0.12
-Nodes (15): NavigationMenuConfig, NavigationMenuItem, _normalizeRoute, isGroupActive, isGroupExpanded, isRouteActive, navigateToItem, onInit (+7 more)
+Nodes (16): build, _buildWidget, _colSpan, Column, Container, _EmptyWorkspace, _height, LayoutBuilder (+8 more)
 
 ### Community 157 - "Community 157"
-Cohesion: 0.13
-Nodes (12): AuthBindings, dependencies, dependencies, LaboratoryBindings, dependencies, SettingBinding, dependencies, SettingTelegramBinding (+4 more)
+Cohesion: 0.12
+Nodes (15): NavigationMenuConfig, NavigationMenuItem, _normalizeRoute, isGroupActive, isGroupExpanded, isRouteActive, navigateToItem, onInit (+7 more)
 
 ### Community 158 - "Community 158"
 Cohesion: 0.12
@@ -1005,191 +1008,191 @@ Nodes (15): build, CustomPaint, dispose, initState, LinearGradient, paint, Parti
 
 ### Community 161 - "Community 161"
 Cohesion: 0.12
-Nodes (15): build, _buildMessage, _buildPanel, _buildPanelContent, dispose, FloatingPanelStatusCard, HoverFloatingPanel, HoverTooltipWithdrawRequestReportWidget (+7 more)
+Nodes (15): build, _buildMessage, _buildPanel, _buildPanelContent, dispose, FloatingPanelStatusCard, HoverFloatingPanel, HoverTooltipDepositRequestReportWidget (+7 more)
 
 ### Community 162 - "Community 162"
+Cohesion: 0.12
+Nodes (15): build, _buildMessage, _buildPanel, _buildPanelContent, dispose, FloatingPanelStatusCard, HoverFloatingPanel, HoverTooltipWithdrawRequestReportWidget (+7 more)
+
+### Community 163 - "Community 163"
 Cohesion: 0.19
 Nodes (11): main, main, main, Duration, main, Scaffold, main, package:flutter/gestures.dart (+3 more)
 
-### Community 163 - "Community 163"
+### Community 164 - "Community 164"
 Cohesion: 0.12
 Nodes (15): _becomeFollower, _becomeLeader, broadcastConnected, broadcastDisconnected, broadcastToFollowers, createSocketCoordinator, dispose, Duration (+7 more)
 
-### Community 164 - "Community 164"
+### Community 165 - "Community 165"
 Cohesion: 0.12
 Nodes (14): code:dart (void _onTargetEnter(PointerEnterEvent _) {), code:dart (final hoverRect = panelRect.expandToInclude(bridgeRect);), code:dart (final hoverRect = panelRect), code:dart (WidgetsBinding.instance.addPostFrameCallback((_) {), code:dart (final GlobalKey<TooltipState> _flutterTooltipKey = GlobalKey), code:dart (if (_scopeRetained || _hasActiveNested) {), code:dart (if (_isHovering && (_scopeRetained || _hasActiveNested)) {), code:dart (testWidgets('HoverTooltipScope retain prevents isRetained fr) (+6 more)
 
-### Community 165 - "Community 165"
+### Community 166 - "Community 166"
 Cohesion: 0.12
 Nodes (14): build, Center, ChatAccountItem, ChatListContent, Column, Padding, SizedBox, build (+6 more)
 
-### Community 166 - "Community 166"
-Cohesion: 0.12
-Nodes (15): Badge, build, ChatItem, _ChatThreadUnreadBadge, _ChatThreadUnreadMentionBadge, Container, Padding, showPickChatConfirmation (+7 more)
-
 ### Community 167 - "Community 167"
-Cohesion: 0.13
-Nodes (14): chat_attachment_preview_tile.widget.dart, chat_audio_player.widget.dart, chat_image_thumbnail.widget.dart, AttachmentDownloadChip, AttachmentPreviews, build, ChatAttachmentPreviewTile, ChatAudioPlayer (+6 more)
+Cohesion: 0.12
+Nodes (15): AnimatedSize, _AnimatedSubmenu, build, _CollapsedGroupButton, _CollapsedGroupButtonState, Container, _ExpandedGroupHeader, _ExpandedGroupHeaderState (+7 more)
 
 ### Community 168 - "Community 168"
 Cohesion: 0.13
-Nodes (12): Data, SocketChatGrantBroadcastModel, socketChatGrantBroadcastModelFromJson, socketChatGrantBroadcastModelToJson, Data, SocketChatRevokeModel, socketChatRevokeModelFromJson, socketChatRevokeModelToJson (+4 more)
+Nodes (14): chat_attachment_preview_tile.widget.dart, chat_audio_player.widget.dart, chat_image_thumbnail.widget.dart, AttachmentDownloadChip, AttachmentPreviews, build, ChatAttachmentPreviewTile, ChatAudioPlayer (+6 more)
 
 ### Community 169 - "Community 169"
-Cohesion: 0.13
-Nodes (14): _balanceColor, build, Container, _formatCoin, _formatGold, _formatRial, _formatUserCount, _KpiCard (+6 more)
+Cohesion: 0.16
+Nodes (12): broadcast_channel_stub.dart, sendMessage, ChatFabCrossTabSync, dispose, notifyUnread, setup, BroadcastChannelHandler, close (+4 more)
 
 ### Community 170 - "Community 170"
 Cohesion: 0.13
-Nodes (14): code:mermaid (sequenceDiagram), code:dart (@visibleForTesting), code:dart (test('shouldFetchChatAccounts only when empty and idle', () ), code:dart (@override), code:dart (Future<void> ensureChatAccountsLoaded() async {), code:dart (registerChatControllerIfNeeded();), code:dart (void showAddUserDialog(BuildContext context, ChatController ), Defer ChatController REST Loads After Login (+6 more)
+Nodes (12): Data, SocketChatGrantBroadcastModel, socketChatGrantBroadcastModelFromJson, socketChatGrantBroadcastModelToJson, Data, SocketChatRevokeModel, socketChatRevokeModelFromJson, socketChatRevokeModelToJson (+4 more)
 
 ### Community 171 - "Community 171"
 Cohesion: 0.13
-Nodes (14): build, CheckboxListTile, Dialog, _displayName, _formatNumber, initState, _onCancel, _onIssue (+6 more)
+Nodes (14): _balanceColor, build, Container, _formatCoin, _formatGold, _formatRial, _formatUserCount, _KpiCard (+6 more)
 
 ### Community 172 - "Community 172"
 Cohesion: 0.13
-Nodes (14): build, _buildPreview, ChatAccountItem, _ChatAccountItemState, Container, didUpdateWidget, dispose, initState (+6 more)
+Nodes (14): code:mermaid (sequenceDiagram), code:dart (@visibleForTesting), code:dart (test('shouldFetchChatAccounts only when empty and idle', () ), code:dart (@override), code:dart (Future<void> ensureChatAccountsLoaded() async {), code:dart (registerChatControllerIfNeeded();), code:dart (void showAddUserDialog(BuildContext context, ChatController ), Defer ChatController REST Loads After Login (+6 more)
 
 ### Community 173 - "Community 173"
 Cohesion: 0.13
-Nodes (13): DashboardPreferencesService, load, _storageKey, _favoritesKey, getFavoritePages, getPersonalNotes, isFavorite, _notesKey (+5 more)
+Nodes (14): build, CheckboxListTile, Dialog, _displayName, _formatNumber, initState, _onCancel, _onIssue (+6 more)
 
 ### Community 174 - "Community 174"
-Cohesion: 0.14
-Nodes (13): build, Center, dispose, _GoldOrbitPainter, HaniGoldLoading, HaniGoldLoadingPage, _HaniGoldLoadingState, initState (+5 more)
+Cohesion: 0.13
+Nodes (14): build, _buildPreview, ChatAccountItem, _ChatAccountItemState, Container, didUpdateWidget, dispose, initState (+6 more)
 
 ### Community 175 - "Community 175"
-Cohesion: 0.14
-Nodes (13): build, _buildMobileSortHeader, Container, _MobileBalanceLine, _MobileBalanceLineWithIcon, _mobileLine, _mobileLineWithIcon, _MobileSortHeader (+5 more)
+Cohesion: 0.13
+Nodes (13): DashboardPreferencesService, load, _storageKey, _favoritesKey, getFavoritePages, getPersonalNotes, isFavorite, _notesKey (+5 more)
 
 ### Community 176 - "Community 176"
 Cohesion: 0.14
-Nodes (13): code:mermaid (sequenceDiagram), code:dart (// Pseudocode: pump a parent Tooltip(richMessage: ...) conta), code:dart (tooltip: 'بستن',), code:dart (@override), code:bash (flutter analyze lib/src/domain/withdraw/widget/today_payment), code:bash (git add lib/src/domain/withdraw/widget/today_payment_report_), File map, Fix Icon Hover Closing Today-Payment Tooltip (+5 more)
+Nodes (13): build, Center, dispose, _GoldOrbitPainter, HaniGoldLoading, HaniGoldLoadingPage, _HaniGoldLoadingState, initState (+5 more)
 
 ### Community 177 - "Community 177"
 Cohesion: 0.14
-Nodes (13): build, deleteLastGraphemeBeforeCursorInComposer, dispose, _EmojiCategory, InkWell, insertEmojiAtComposerSelection, MarketHeaderEmojiPanel, _MarketHeaderEmojiPanelState (+5 more)
+Nodes (13): build, _buildMobileSortHeader, Container, _MobileBalanceLine, _MobileBalanceLineWithIcon, _mobileLine, _mobileLineWithIcon, _MobileSortHeader (+5 more)
 
 ### Community 178 - "Community 178"
-Cohesion: 0.19
-Nodes (11): broadcast_channel_stub.dart, sendMessage, ChatFabCrossTabSync, dispose, notifyUnread, setup, BroadcastChannelHandler, close (+3 more)
+Cohesion: 0.14
+Nodes (13): code:mermaid (sequenceDiagram), code:dart (// Pseudocode: pump a parent Tooltip(richMessage: ...) conta), code:dart (tooltip: 'بستن',), code:dart (@override), code:bash (flutter analyze lib/src/domain/withdraw/widget/today_payment), code:bash (git add lib/src/domain/withdraw/widget/today_payment_report_), File map, Fix Icon Hover Closing Today-Payment Tooltip (+5 more)
 
 ### Community 179 - "Community 179"
-Cohesion: 0.15
-Nodes (12): Expanded, BalanceDialog, BalanceDateDialog, build, _buildBalanceSection, Center, Container, Dialog (+4 more)
+Cohesion: 0.14
+Nodes (13): build, deleteLastGraphemeBeforeCursorInComposer, dispose, _EmojiCategory, InkWell, insertEmojiAtComposerSelection, MarketHeaderEmojiPanel, _MarketHeaderEmojiPanelState (+5 more)
 
 ### Community 180 - "Community 180"
-Cohesion: 0.17
-Nodes (11): BalanceDateDialogController, clearData, onClose, onInit, BalanceDialogIdController, clearData, loadBalances, onClose (+3 more)
+Cohesion: 0.14
+Nodes (13): BoxDecoration, build, ChatThemeData, chatThemedDialog, ChatThemeInherited, ChatThemeScope, dialogDecoration, LinearGradient (+5 more)
 
 ### Community 181 - "Community 181"
-Cohesion: 0.17
-Nodes (11): bootstrapSessionControllers, clearSessionAndRedirectToLogin, clearSessionControllers, hasActiveStoredSession, parseHashRoute, registerChatControllerIfNeeded, resolvePostSplashRoute, resolveWebInitialRoute (+3 more)
+Cohesion: 0.15
+Nodes (10): _chat, main, _chat, ChatModel, main, mention, _msg, main (+2 more)
 
 ### Community 182 - "Community 182"
 Cohesion: 0.17
-Nodes (10): isPledgeSectionEmpty, isWithdrawSectionEmpty, main, _report, TodayPaymentReportModel, main, _report, TodayPaymentReportModel (+2 more)
+Nodes (11): Attachment, copyWith, InventoryDetailModel, inventoryDetailModelFromJson, inventoryDetailModelToJson, Attachment, ProductInventoryDetailModel, productInventoryDetailModelFromJson (+3 more)
 
 ### Community 183 - "Community 183"
 Cohesion: 0.15
-Nodes (12): ChatAccountItem Cross-Tab Unread Sync, Chosen approach, code:mermaid (flowchart LR), Conceptual checklist, Fail-safe rules (non-negotiable), Files, Implementation tasks (TDD), Important assumptions (+4 more)
+Nodes (12): Expanded, BalanceDialog, build, _buildBalanceSection, _buildTotalValueSection, Center, Container, Dialog (+4 more)
 
 ### Community 184 - "Community 184"
+Cohesion: 0.17
+Nodes (11): BalanceDateDialogController, clearData, onClose, onInit, BalanceDialogIdController, clearData, loadBalances, onClose (+3 more)
+
+### Community 185 - "Community 185"
+Cohesion: 0.17
+Nodes (10): isPledgeSectionEmpty, isWithdrawSectionEmpty, main, _report, TodayPaymentReportModel, main, _report, TodayPaymentReportModel (+2 more)
+
+### Community 186 - "Community 186"
+Cohesion: 0.15
+Nodes (12): ChatAccountItem Cross-Tab Unread Sync, Chosen approach, code:mermaid (flowchart LR), Conceptual checklist, Fail-safe rules (non-negotiable), Files, Implementation tasks (TDD), Important assumptions (+4 more)
+
+### Community 187 - "Community 187"
 Cohesion: 0.15
 Nodes (12): Chat FAB Cross-Tab Unread Sync Fix, Chosen approach, code:mermaid (flowchart LR), Conceptual checklist, Fail-safe rules (non-negotiable), Files, Implementation tasks (TDD), Important assumptions (+4 more)
 
-### Community 185 - "Community 185"
+### Community 188 - "Community 188"
 Cohesion: 0.15
 Nodes (12): code:dart (import 'package:flutter_test/flutter_test.dart';), code:dart (import 'package:hanigold_admin/src/domain/withdraw/model/tod), code:bash (git add lib/src/domain/withdraw/util/today_payment_report_se), code:dart (import 'package:flutter/material.dart';), code:bash (git add lib/src/domain/withdraw/widget/today_payment_report_), File Structure, Global Constraints, Self-Review (+4 more)
 
-### Community 186 - "Community 186"
+### Community 189 - "Community 189"
 Cohesion: 0.17
 Nodes (11): ../../../config/repository/account_sales_group.repository.dart, addItemPrice, changeBuyStatus, changeSelectedItem, changeSellStatus, InsertAccountSalesGroupController, onClose, onInit (+3 more)
 
-### Community 187 - "Community 187"
+### Community 190 - "Community 190"
 Cohesion: 0.17
 Nodes (8): chatIdsEqual, incomingChatMessageMatchesOpenConversation, customerTypingFlagFromSocketData, main, main, package:hanigold_admin/src/domain/chat/model/socket_chat_typing.model.dart, package:hanigold_admin/src/domain/chat/utils/chat_typing_handler.dart, package:hanigold_admin/src/domain/chat/utils/chat_typing_match.dart
 
-### Community 188 - "Community 188"
+### Community 191 - "Community 191"
 Cohesion: 0.17
 Nodes (10): ../controller/chat.controller.dart, ChatAccountTabUiSpec, build, chatImageAttachmentThumbnail, ChatImageThumbnail, _ChatImageThumbnailState, Icon, initState (+2 more)
 
-### Community 189 - "Community 189"
+### Community 192 - "Community 192"
 Cohesion: 0.17
 Nodes (11): chatAttachmentSaveBaseName, chatAttachmentSaveDisplayName, chatImageAttachmentThumbnail, chatSaveMeta, Dialog, formatAttachmentSize, formatChatAudioDuration, jsonEncode (+3 more)
 
-### Community 190 - "Community 190"
+### Community 193 - "Community 193"
 Cohesion: 0.17
 Nodes (9): BalanceModel, balanceModelFromJson, balanceModelToJson, AllBalancesModel, allBalancesModelToJson, AllBalancesNewModel, allBalancesNewModelFromJson, allBalancesNewModelToJson (+1 more)
 
-### Community 191 - "Community 191"
-Cohesion: 0.17
-Nodes (9): ListTransactionInfoItemModel, listTransactionInfoItemModelFromJson, listTransactionInfoItemModelToJson, TransactionInfoItemModel, transactionInfoItemModelFromJson, transactionInfoItemModelToJson, TransactionItemModel, package:hanigold_admin/src/domain/users/model/transaction_info_detail_item.model.dart (+1 more)
-
-### Community 192 - "Community 192"
+### Community 194 - "Community 194"
 Cohesion: 0.17
 Nodes (11): applyComposerTextEditingValue, composerGraphemeEndAfter, composerGraphemeStartBefore, ComposerGraphemeTextInputFormatter, formatEditUpdate, _isHighSurrogate, _isLowSurrogate, normalizeComposerTextEditingValue (+3 more)
 
-### Community 193 - "Community 193"
+### Community 195 - "Community 195"
 Cohesion: 0.17
 Nodes (11): build, dispose, GestureDetector, initState, _onDragEnd, _onDragUpdate, Positioned, _signedDelta (+3 more)
 
-### Community 194 - "Community 194"
-Cohesion: 0.17
-Nodes (11): BalanceDialog, build, _buildBalanceSection, _buildTotalValueSection, Center, Container, Dialog, Divider (+3 more)
-
-### Community 195 - "Community 195"
-Cohesion: 0.17
-Nodes (11): _canPresentOverlay, Container, dismissActiveToasts, error, info, _safeShowToast, show, success (+3 more)
-
 ### Community 196 - "Community 196"
 Cohesion: 0.17
-Nodes (11): chat_voice_recording_io.dart, alignWavHeaderToCaptureDuration, chatVoiceRecordingFileName, deleteVoiceRecordingFile, Duration, readVoiceRecordingFileBytes, setWavHeaderSampleRate, StateError (+3 more)
+Nodes (11): BalanceDialog, BalanceDateDialog, build, _buildBalanceSection, Center, Container, Dialog, Divider (+3 more)
 
 ### Community 197 - "Community 197"
 Cohesion: 0.17
-Nodes (11): classifyChatAttachmentFileType, isChatAttachmentExtensionAllowed, isChatAttachmentFileNameAllowed, isDroppedChatAttachmentAllowed, isOpaqueDropUri, isRasterImageBytes, resolveAttachmentPreviewFileType, resolveChatAttachmentExtension (+3 more)
+Nodes (11): _canPresentOverlay, Container, dismissActiveToasts, error, info, _safeShowToast, show, success (+3 more)
 
 ### Community 198 - "Community 198"
-Cohesion: 0.18
-Nodes (9): connect, connect, disconnect, Function, listen, WebSocketRepository, main, package:hanigold_admin/src/config/repository/url/web_socket_url.dart (+1 more)
+Cohesion: 0.17
+Nodes (11): chat_voice_recording_io.dart, alignWavHeaderToCaptureDuration, chatVoiceRecordingFileName, deleteVoiceRecordingFile, Duration, readVoiceRecordingFileBytes, setWavHeaderSampleRate, StateError (+3 more)
 
 ### Community 199 - "Community 199"
-Cohesion: 0.18
-Nodes (10): addItemPrice, changeBuyStatus, changeSelectedItem, changeSellStatus, onInit, removeItemPrice, SelectedItemPriceUpdate, UpdateAccountSalesGroupController (+2 more)
+Cohesion: 0.17
+Nodes (11): classifyChatAttachmentFileType, isChatAttachmentExtensionAllowed, isChatAttachmentFileNameAllowed, isDroppedChatAttachmentAllowed, isOpaqueDropUri, isRasterImageBytes, resolveAttachmentPreviewFileType, resolveChatAttachmentExtension (+3 more)
 
 ### Community 200 - "Community 200"
 Cohesion: 0.18
-Nodes (8): contact.model.dart, ContactModel, contactModelToJson, UserModel, userModelToJson, UserModel, userModelFromJson, userModelToJson
+Nodes (9): connect, connect, disconnect, Function, listen, WebSocketRepository, main, package:hanigold_admin/src/config/repository/url/web_socket_url.dart (+1 more)
+
+### Community 201 - "Community 201"
+Cohesion: 0.18
+Nodes (10): addItemPrice, changeBuyStatus, changeSelectedItem, changeSellStatus, onInit, removeItemPrice, SelectedItemPriceUpdate, UpdateAccountSalesGroupController (+2 more)
 
 ### Community 202 - "Community 202"
 Cohesion: 0.18
-Nodes (10): AnimatedContainer, build, Obx, PersonalizedDashboard, _sectionWidget, package:hanigold_admin/src/domain/dashboard/widget/dashboard_edit_toolbar.widget.dart, package:hanigold_admin/src/domain/dashboard/widget/sections/main_modules_section.widget.dart, package:hanigold_admin/src/domain/dashboard/widget/sections/quick_access_section.widget.dart (+2 more)
-
-### Community 203 - "Community 203"
-Cohesion: 0.18
-Nodes (9): openModule, openQuickAccess, openRoute, _runAction, groupHasActiveRoute, isRouteActive, _routeMatches, package:hanigold_admin/src/domain/dashboard/catalog/dashboard_catalog.dart (+1 more)
+Nodes (8): main, main, ChatMessageModel, _embedded, main, _msg, ReplyMessage, package:hanigold_admin/src/domain/chat/utils/chat_reply_resolver.dart
 
 ### Community 204 - "Community 204"
 Cohesion: 0.18
-Nodes (9): canRevokeChatHistoryViewer, ChatHistoryModel, chatHistoryRemovingViewer, ChatHistoryModel, _history, main, _viewer, package:hanigold_admin/src/domain/chat/model/chat_history.model.dart (+1 more)
+Nodes (9): openModule, openQuickAccess, openRoute, _runAction, groupHasActiveRoute, isRouteActive, _routeMatches, package:hanigold_admin/src/domain/dashboard/catalog/dashboard_catalog.dart (+1 more)
 
 ### Community 205 - "Community 205"
-Cohesion: 0.2
-Nodes (9): dependencies, InventoryBindings, ../../../domain/inventory/controller/inventory_create_payment.controller.dart, ../../../domain/inventory/controller/inventory_detail_insert_payment.controller.dart, ../../../domain/inventory/controller/inventory_update_payment.controller.dart, ../../../domain/inventory/controller/inventory_update_receive.controller.dart, package:hanigold_admin/src/domain/inventory/controller/inventory_create_layout.controller.dart, package:hanigold_admin/src/domain/inventory/controller/inventory_create_receive.controller.dart (+1 more)
+Cohesion: 0.18
+Nodes (10): AnimatedContainer, build, Obx, PersonalizedDashboard, _sectionWidget, package:hanigold_admin/src/domain/dashboard/widget/dashboard_edit_toolbar.widget.dart, package:hanigold_admin/src/domain/dashboard/widget/sections/main_modules_section.widget.dart, package:hanigold_admin/src/domain/dashboard/widget/sections/quick_access_section.widget.dart (+2 more)
 
 ### Community 206 - "Community 206"
-Cohesion: 0.2
-Nodes (9): chat_forward_outbound.dart, ChatMessageModel, enrichForwardMessageSnapshot, enrichForwardSourceForOutbound, finalizeCaptionlessForwardDisplay, mergeIncomingReplyFields, ReplyMessage, _replyMessageWithFiles (+1 more)
+Cohesion: 0.18
+Nodes (9): canRevokeChatHistoryViewer, ChatHistoryModel, chatHistoryRemovingViewer, ChatHistoryModel, _history, main, _viewer, package:hanigold_admin/src/domain/chat/model/chat_history.model.dart (+1 more)
 
 ### Community 207 - "Community 207"
 Cohesion: 0.2
-Nodes (9): ActiveChatAudio, build, ChatAudioPlayer, ChatAudioPlayerState, dispose, initState, _onCoordinatorChanged, Padding (+1 more)
+Nodes (9): dependencies, InventoryBindings, ../../../domain/inventory/controller/inventory_create_payment.controller.dart, ../../../domain/inventory/controller/inventory_detail_insert_payment.controller.dart, ../../../domain/inventory/controller/inventory_update_payment.controller.dart, ../../../domain/inventory/controller/inventory_update_receive.controller.dart, package:hanigold_admin/src/domain/inventory/controller/inventory_create_layout.controller.dart, package:hanigold_admin/src/domain/inventory/controller/inventory_create_receive.controller.dart (+1 more)
 
 ### Community 208 - "Community 208"
 Cohesion: 0.2
-Nodes (9): attachment_download_chip.widget.dart, AttachmentDownloadChip, build, ChatAttachmentPreviewTile, _ChatAttachmentPreviewTileState, chatImageAttachmentThumbnail, initState, Padding (+1 more)
+Nodes (9): chat_forward_outbound.dart, ChatMessageModel, enrichForwardMessageSnapshot, enrichForwardSourceForOutbound, finalizeCaptionlessForwardDisplay, mergeIncomingReplyFields, ReplyMessage, _replyMessageWithFiles (+1 more)
 
 ### Community 209 - "Community 209"
 Cohesion: 0.2
@@ -1197,67 +1200,67 @@ Nodes (9): AssetSource, AudioService, _getAudioSource, _getPlayer, hasSound, ini
 
 ### Community 210 - "Community 210"
 Cohesion: 0.2
-Nodes (9): BubbleRow, chatMessageBelongsToThread, DateTime, DayHeaderRow, formatDayLabel, sameSenderRun, ../model/chat_message.model.dart, ../utils/chat_message_time.dart (+1 more)
+Nodes (9): attachment_download_chip.widget.dart, AttachmentDownloadChip, build, ChatAttachmentPreviewTile, _ChatAttachmentPreviewTileState, chatImageAttachmentThumbnail, initState, Padding (+1 more)
 
 ### Community 211 - "Community 211"
 Cohesion: 0.2
-Nodes (8): buildUserBalanceKpis, netFor, UserBalanceKpiSnapshot, _footer, main, TransactionInfoFooterModel, package:hanigold_admin/src/domain/users/model/transaction_info_footer.model.dart, package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_stats_helper.dart
+Nodes (9): ActiveChatAudio, build, ChatAudioPlayer, ChatAudioPlayerState, dispose, initState, _onCoordinatorChanged, Padding (+1 more)
 
 ### Community 212 - "Community 212"
 Cohesion: 0.2
-Nodes (8): ErrorException, handleError, toString, toDisplayString, toInt, toString, toStringAsFixed, ../error_handler.dart
+Nodes (9): BubbleRow, chatMessageBelongsToThread, DateTime, DayHeaderRow, formatDayLabel, sameSenderRun, ../model/chat_message.model.dart, ../utils/chat_message_time.dart (+1 more)
 
 ### Community 213 - "Community 213"
 Cohesion: 0.2
-Nodes (7): accepts, acceptsSessionId, SocketSessionGuard, clearSessionControllers, clearStoredSessionSync, hasActiveStoredSession, package:hanigold_admin/src/config/secure_session_storage.dart
+Nodes (8): buildUserBalanceKpis, netFor, UserBalanceKpiSnapshot, _footer, main, TransactionInfoFooterModel, package:hanigold_admin/src/domain/users/model/transaction_info_footer.model.dart, package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_stats_helper.dart
 
 ### Community 214 - "Community 214"
 Cohesion: 0.2
-Nodes (9): build, Center, Container, Function, _PickedImageMemoryThumbnail, _PickedImageThumbnailItem, PickedImageThumbnailRow, showPickedImageFullscreenDialog (+1 more)
+Nodes (8): ErrorException, handleError, toString, toDisplayString, toInt, toString, toStringAsFixed, ../error_handler.dart
 
 ### Community 215 - "Community 215"
+Cohesion: 0.2
+Nodes (9): build, Center, Container, Function, _PickedImageMemoryThumbnail, _PickedImageThumbnailItem, PickedImageThumbnailRow, showPickedImageFullscreenDialog (+1 more)
+
+### Community 216 - "Community 216"
 Cohesion: 0.44
 Nodes (10): $bm_isInstanceOfArray(), $bm_neg(), div(), isNumerable(), mul(), normalize(), sub(), sum() (+2 more)
 
-### Community 217 - "Community 217"
+### Community 218 - "Community 218"
 Cohesion: 0.22
 Nodes (8): Duration, Exception, onError, onMessage, settleError, settleOk, dart:js_interop, dart:js_interop_unsafe
 
-### Community 218 - "Community 218"
+### Community 219 - "Community 219"
 Cohesion: 0.2
 Nodes (9): broadcastConnected, broadcastDisconnected, broadcastToFollowers, createSocketCoordinator, dispose, requestLeaderSync, sendToLeader, SocketCoordinatorImpl (+1 more)
 
-### Community 219 - "Community 219"
+### Community 220 - "Community 220"
 Cohesion: 0.2
 Nodes (9): BalanceDialogId, build, _buildBalanceSection, Center, Container, Dialog, Divider, Expanded (+1 more)
 
-### Community 220 - "Community 220"
-Cohesion: 0.2
-Nodes (9): build, ChatListTopicFilter, Icon, Obx, PopupMenuDivider, Row, SizedBox, Tooltip (+1 more)
-
 ### Community 221 - "Community 221"
-Cohesion: 0.2
-Nodes (9): build, _buildAddButton, _buildCancelButton, _buildSubmitButton, Container, DialogActionBar, Row, Semantics (+1 more)
-
-### Community 222 - "Community 222"
 Cohesion: 0.2
 Nodes (9): build, CustomScrollView, DashboardCard, HomeDashboard, _KpiGrid, LayoutBuilder, Wrap, package:hanigold_admin/src/domain/home/widget/dashboard_card.widget.dart (+1 more)
 
-### Community 223 - "Community 223"
+### Community 222 - "Community 222"
 Cohesion: 0.2
 Nodes (8): Duration, main, _minimalWav, Duration, main, package:hanigold_admin/src/domain/chat/utils/chat_voice_recording.dart, package:hanigold_admin/src/domain/chat/widget/chat_voice_recording_bar.widget.dart, package:record/record.dart
 
-### Community 224 - "Community 224"
+### Community 223 - "Community 223"
 Cohesion: 0.22
 Nodes (8): ChatMessageModel, finalizeCaptionlessForwardDisplay, ForwardAdminSendPayload, ForwardOutboundReference, forwardSnapshotHasBody, normalizeChatMessageFilesJson, resolveForwardAdminSendPayload, resolveForwardOutboundReference
 
-### Community 225 - "Community 225"
+### Community 224 - "Community 224"
 Cohesion: 0.22
 Nodes (8): AttachmentDownloadChip, _AttachmentDownloadChipState, build, Icon, Padding, saveChatAttachmentBytesToDisk, SizedBox, ../utils/chat_attachment_utils.dart
 
-### Community 226 - "Community 226"
+### Community 225 - "Community 225"
 Cohesion: 0.22
 Nodes (7): ItemModel, itemModelToJson, Refrence, ProductInventoryQuantityModel, productInventoryQuantityModelToJson, package:hanigold_admin/src/domain/product/model/item_group.model.dart, package:hanigold_admin/src/domain/product/model/item_unit.model.dart
+
+### Community 226 - "Community 226"
+Cohesion: 0.22
+Nodes (8): _defaultNowMs, dispose, Function, _newTabId, start, unregisterAndCheckIfLast, WebTabPresence, _writeTabs
 
 ### Community 227 - "Community 227"
 Cohesion: 0.22
@@ -1268,56 +1271,56 @@ Cohesion: 0.22
 Nodes (8): Chat Module Remediation Phase 4 Implementation Plan, code:dart (part 'chat.controller.socket.dart';), code:dart (class ChatController extends GetxController with ChatControl), code:dart (part of 'chat.controller.dart';), Global Constraints, Task 1: Mixin-based socket part extraction, Task 2: Remove obsolete extraction scripts, Task 3: Final verification
 
 ### Community 229 - "Community 229"
-Cohesion: 0.25
-Nodes (7): broadcastConnected, broadcastDisconnected, broadcastToFollowers, dispose, requestLeaderSync, sendToLeader, SocketCoordinator
+Cohesion: 0.22
+Nodes (7): dependencies, NotificationBindings, listNotificationFromJson, ListNotificationModel, listNotificationToJson, package:hanigold_admin/src/domain/notification/controller/notification.controller.dart, package:hanigold_admin/src/domain/notification/model/notification.model.dart
 
 ### Community 230 - "Community 230"
 Cohesion: 0.25
-Nodes (7): build, Container, Function, LayoutBuilder, TotalBalanceNewWidget, _TotalBalanceNewWidgetState, Function
+Nodes (7): broadcastConnected, broadcastDisconnected, broadcastToFollowers, dispose, requestLeaderSync, sendToLeader, SocketCoordinator
 
 ### Community 231 - "Community 231"
 Cohesion: 0.25
-Nodes (6): AccountSalesGroupGetOneItemModel, accountSalesGroupGetOneItemModelFromJson, accountSalesGroupGetOneItemModelToJson, AccountSalesGroupModel, accountSalesGroupModelToJson, package:hanigold_admin/src/domain/accountSalesGroup/model/account_sales_group_item.model.dart
+Nodes (6): dependencies, SettingBinding, dependencies, SettingTelegramBinding, package:hanigold_admin/src/domain/tools/controller/setting.controller.dart, package:hanigold_admin/src/domain/tools/controller/setting_telegram.controller.dart
 
 ### Community 232 - "Community 232"
 Cohesion: 0.25
-Nodes (7): dependencies, OrderBindings, ../../../domain/order/controller/order.controller.dart, package:hanigold_admin/src/domain/order/controller/order_byAccount_report.controller.dart, package:hanigold_admin/src/domain/order/controller/order_create.controller.dart, package:hanigold_admin/src/domain/order/controller/order_edited_report.controller.dart, package:hanigold_admin/src/domain/order/controller/order_update.controller.dart
+Nodes (7): build, Container, Function, LayoutBuilder, TotalBalanceNewWidget, _TotalBalanceNewWidgetState, Function
 
 ### Community 233 - "Community 233"
 Cohesion: 0.25
-Nodes (7): CheckResultController, clearData, getCheckResult, onClose, onInit, package:hanigold_admin/src/config/repository/user_info_transaction.repository.dart, package:hanigold_admin/src/domain/users/model/check_result.model.dart
+Nodes (6): AccountSalesGroupGetOneItemModel, accountSalesGroupGetOneItemModelFromJson, accountSalesGroupGetOneItemModelToJson, AccountSalesGroupModel, accountSalesGroupModelToJson, package:hanigold_admin/src/domain/accountSalesGroup/model/account_sales_group_item.model.dart
 
 ### Community 234 - "Community 234"
 Cohesion: 0.25
-Nodes (7): build, Column, Obx, _onChipTap, SizedBox, UserBalanceGroupedHeader, package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart
+Nodes (7): dependencies, OrderBindings, ../../../domain/order/controller/order.controller.dart, package:hanigold_admin/src/domain/order/controller/order_byAccount_report.controller.dart, package:hanigold_admin/src/domain/order/controller/order_create.controller.dart, package:hanigold_admin/src/domain/order/controller/order_edited_report.controller.dart, package:hanigold_admin/src/domain/order/controller/order_update.controller.dart
 
 ### Community 235 - "Community 235"
 Cohesion: 0.25
-Nodes (6): ResizeChannel(), SetChannelWarnsOnOverflow(), handler, Resize(), SetMethodCallHandler(), SetWarnsOnOverflow()
+Nodes (7): CheckResultController, clearData, getCheckResult, onClose, onInit, package:hanigold_admin/src/config/repository/user_info_transaction.repository.dart, package:hanigold_admin/src/domain/users/model/check_result.model.dart
 
 ### Community 236 - "Community 236"
 Cohesion: 0.25
-Nodes (7): code:dart (import 'package:flutter/foundation.dart';), Fix Nested Hover Dismiss on Content Implementation Plan, Global Constraints, Task 1: Add hover debug tracing, Task 2: Replace Flutter Tooltip with custom overlay (root cause fix), Task 3: Harden nested panel bridge + pointer reconciliation, Task 4: Verification
+Nodes (7): build, Column, Obx, _onChipTap, SizedBox, UserBalanceGroupedHeader, package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart
 
 ### Community 237 - "Community 237"
 Cohesion: 0.25
-Nodes (7): clearMessages, fetchTelegramStatus, _isErrorMessage, onClose, onInit, SettingTelegramController, package:hanigold_admin/src/config/repository/setting_telegram.repository.dart
+Nodes (6): ResizeChannel(), SetChannelWarnsOnOverflow(), handler, Resize(), SetMethodCallHandler(), SetWarnsOnOverflow()
 
 ### Community 238 - "Community 238"
 Cohesion: 0.25
-Nodes (7): copyWith, DashboardGroupModel, DashboardLayoutModel, ModuleItemModel, QuickAccessItemModel, RecentPageEntry, WorkspaceWidgetModel
+Nodes (7): code:dart (import 'package:flutter/foundation.dart';), Fix Nested Hover Dismiss on Content Implementation Plan, Global Constraints, Task 1: Add hover debug tracing, Task 2: Replace Flutter Tooltip with custom overlay (root cause fix), Task 3: Harden nested panel bridge + pointer reconciliation, Task 4: Verification
 
 ### Community 239 - "Community 239"
 Cohesion: 0.25
-Nodes (7): build, _buildSubMenuItem, Container, MenuCard, MenuItem, SizedBox, _buildSubMenuItem
+Nodes (7): Column, navigateToInsertUser, _passwordField, showChangePassword, showExitDialog, SizedBox, TextFormField
+
+### Community 240 - "Community 240"
+Cohesion: 0.25
+Nodes (7): clearMessages, fetchTelegramStatus, _isErrorMessage, onClose, onInit, SettingTelegramController, package:hanigold_admin/src/config/repository/setting_telegram.repository.dart
 
 ### Community 241 - "Community 241"
-Cohesion: 0.29
-Nodes (6): Account, AccountGroup, Contact, ItemUserModel, itemUserModelFromJson, itemUserModelToJson
-
-### Community 242 - "Community 242"
-Cohesion: 0.29
-Nodes (5): BankAccountModel, bankAccountModelToJson, BankAccountReqModel, bankAccountReqModelFromJson, bankAccountReqModelToJson
+Cohesion: 0.25
+Nodes (7): copyWith, DashboardGroupModel, DashboardLayoutModel, ModuleItemModel, QuickAccessItemModel, RecentPageEntry, WorkspaceWidgetModel
 
 ### Community 243 - "Community 243"
 Cohesion: 0.29
@@ -1325,151 +1328,151 @@ Nodes (6): ChatHistoryModel, chatHistoryModelFromJson, chatHistoryModelToJson, C
 
 ### Community 244 - "Community 244"
 Cohesion: 0.29
-Nodes (5): ReplyMessageModel, replyMessageModelToJson, TopicModel, topicModelToJson, package:hanigold_admin/src/domain/home/model/user.model.dart
+Nodes (5): BankAccountModel, bankAccountModelToJson, BankAccountReqModel, bankAccountReqModelFromJson, bankAccountReqModelToJson
 
 ### Community 245 - "Community 245"
 Cohesion: 0.29
-Nodes (6): dependencies, TransactionBindings, ../../../domain/transaction/controller/balance_dialog.controller.dart, ../../../domain/transaction/controller/transaction.controller.dart, package:hanigold_admin/src/domain/transaction/controller/balance_dialog_id.controller.dart, package:hanigold_admin/src/domain/transaction/controller/transaction.controller.dart
+Nodes (6): Account, AccountGroup, Contact, ItemUserModel, itemUserModelFromJson, itemUserModelToJson
 
 ### Community 246 - "Community 246"
 Cohesion: 0.29
-Nodes (6): loadBalancesByDate, BalanceDialogController, clearData, loadBalances, onClose, onInit
+Nodes (5): ReplyMessageModel, replyMessageModelToJson, TopicModel, topicModelToJson, package:hanigold_admin/src/domain/home/model/user.model.dart
 
 ### Community 247 - "Community 247"
 Cohesion: 0.29
-Nodes (6): InventoryImagePicker, PickedInventoryImage, resolveUploadFileName, _toPicked, _toPickedList, package:hanigold_admin/src/domain/inventory/model/picked_inventory_image.model.dart
+Nodes (6): dependencies, TransactionBindings, ../../../domain/transaction/controller/balance_dialog.controller.dart, ../../../domain/transaction/controller/transaction.controller.dart, package:hanigold_admin/src/domain/transaction/controller/balance_dialog_id.controller.dart, package:hanigold_admin/src/domain/transaction/controller/transaction.controller.dart
 
 ### Community 248 - "Community 248"
 Cohesion: 0.29
-Nodes (6): Assumptions, Global Constraints, Goal, Socket Unlimited Reconnect + Web Tab Logout, Task 1: Unlimited reconnect for transport failures, Task 2: Web tab close = logout
+Nodes (6): loadBalancesByDate, BalanceDialogController, clearData, loadBalances, onClose, onInit
 
 ### Community 249 - "Community 249"
 Cohesion: 0.29
-Nodes (6): Global Constraints, Inline Payment Tooltip Expand Implementation Plan, Task 1: Add embedded mode to detail content widgets, Task 2: Inline expansion in today-payment tooltip, Task 3: Widget tests for expansion, Task 4: Validation
+Nodes (6): InventoryImagePicker, PickedInventoryImage, resolveUploadFileName, _toPicked, _toPickedList, package:hanigold_admin/src/domain/inventory/model/picked_inventory_image.model.dart
 
 ### Community 250 - "Community 250"
-Cohesion: 0.38
-Nodes (4): ClearPlugins(), GetInstance(), OnRegistrarDestroyed(), PluginRegistrar()
+Cohesion: 0.29
+Nodes (6): Assumptions, Global Constraints, Goal, Socket Unlimited Reconnect + Web Tab Logout, Task 1: Unlimited reconnect for transport failures, Task 2: Web tab close = logout
 
 ### Community 251 - "Community 251"
 Cohesion: 0.29
-Nodes (6): chat_web_clipboard_paste_stub.dart, ChatWebClipboardPasteListener, Function, start, stop, package:web/web.dart
+Nodes (6): Global Constraints, Inline Payment Tooltip Expand Implementation Plan, Task 1: Add embedded mode to detail content widgets, Task 2: Inline expansion in today-payment tooltip, Task 3: Widget tests for expansion, Task 4: Validation
 
 ### Community 252 - "Community 252"
-Cohesion: 0.29
-Nodes (6): Circular Section Percent Indicators Implementation Plan, code:dart (testWidgets('shows coverage percent ring in withdraw section), Global Constraints, Self-Review, Task 1: Section percent ring widget, Task 2: Wire rings into section shells
+Cohesion: 0.38
+Nodes (4): ClearPlugins(), GetInstance(), OnRegistrarDestroyed(), PluginRegistrar()
 
 ### Community 253 - "Community 253"
 Cohesion: 0.29
-Nodes (6): Fix Nested Hover Panel Stability and Scroll Plan, Global Constraints, Task 1: Fix `HoverNestedPanel` hit area and scroll stability, Task 2: Fix `TooltipScrollableList` bounded scrolling, Task 3: Wire `Expanded` in withdraw/deposit content, Task 4: Add scroll widget test + analyze
+Nodes (6): chat_web_clipboard_paste_stub.dart, ChatWebClipboardPasteListener, Function, start, stop, package:web/web.dart
 
 ### Community 254 - "Community 254"
-Cohesion: 0.33
-Nodes (5): ChatAttachmentRepository, downloadChatAttachmentBytes, Exception, package:hanigold_admin/src/config/network/dio_client.dart, package:hanigold_admin/src/config/repository/chat_attachment_download.dart
+Cohesion: 0.29
+Nodes (6): Circular Section Percent Indicators Implementation Plan, code:dart (testWidgets('shows coverage percent ring in withdraw section), Global Constraints, Self-Review, Task 1: Section percent ring widget, Task 2: Wire rings into section shells
 
 ### Community 255 - "Community 255"
-Cohesion: 0.33
-Nodes (5): AccountSalesGroupBindings, dependencies, ../../../domain/accountSalesGroup/controller/account_sales_group.controller.dart, ../../../domain/accountSalesGroup/controller/insert_account_sales_group.controller.dart, ../../../domain/accountSalesGroup/controller/update_account_sales_group.controller.dart
+Cohesion: 0.29
+Nodes (6): Fix Nested Hover Panel Stability and Scroll Plan, Global Constraints, Task 1: Fix `HoverNestedPanel` hit area and scroll stability, Task 2: Fix `TooltipScrollableList` bounded scrolling, Task 3: Wire `Expanded` in withdraw/deposit content, Task 4: Add scroll widget test + analyze
 
 ### Community 256 - "Community 256"
-Cohesion: 0.33
-Nodes (5): chat_dialog_internals.dart, build, Container, _extractInitial, InitialAvatar
+Cohesion: 0.29
+Nodes (6): BlinkingSvg, _BlinkingSvgState, build, dispose, FadeTransition, initState
 
 ### Community 257 - "Community 257"
 Cohesion: 0.33
-Nodes (5): chat_attachment_utils.dart, ChatStickerPreparedSend, ChatStickerSendService, StateError, package:hanigold_admin/src/config/repository/chat_attachment.repository.dart
+Nodes (5): ChatAttachmentRepository, downloadChatAttachmentBytes, Exception, package:hanigold_admin/src/config/network/dio_client.dart, package:hanigold_admin/src/config/repository/chat_attachment_download.dart
 
 ### Community 258 - "Community 258"
 Cohesion: 0.33
-Nodes (5): SocketChatWaitingTotalModel, socketChatWaitingTotalModelFromJson, socketChatWaitingTotalModelToJson, SocketChatWaitingTotalRequest, WaitingTotalData
+Nodes (5): AccountSalesGroupBindings, dependencies, ../../../domain/accountSalesGroup/controller/account_sales_group.controller.dart, ../../../domain/accountSalesGroup/controller/insert_account_sales_group.controller.dart, ../../../domain/accountSalesGroup/controller/update_account_sales_group.controller.dart
 
 ### Community 259 - "Community 259"
-Cohesion: 0.47
-Nodes (4): wWinMain(), CreateAndAttachConsole(), GetCommandLineArguments(), Utf8FromUtf16()
+Cohesion: 0.33
+Nodes (5): chat_attachment_utils.dart, ChatStickerPreparedSend, ChatStickerSendService, StateError, package:hanigold_admin/src/config/repository/chat_attachment.repository.dart
 
 ### Community 260 - "Community 260"
 Cohesion: 0.33
-Nodes (5): Compact Scrollable Request Report Tooltips Plan, Global Constraints, Task 1: Compact withdraw list rows, Task 2: Compact deposit list rows, Task 3: Verify
+Nodes (5): chat_dialog_internals.dart, build, Container, _extractInitial, InitialAvatar
 
 ### Community 261 - "Community 261"
 Cohesion: 0.33
-Nodes (4): main, main, package:cross_file/cross_file.dart, package:hanigold_admin/src/domain/chat/utils/chat_attachment_pick.dart
+Nodes (5): SocketChatWaitingTotalModel, socketChatWaitingTotalModelFromJson, socketChatWaitingTotalModelToJson, SocketChatWaitingTotalRequest, WaitingTotalData
+
+### Community 262 - "Community 262"
+Cohesion: 0.47
+Nodes (4): wWinMain(), CreateAndAttachConsole(), GetCommandLineArguments(), Utf8FromUtf16()
 
 ### Community 263 - "Community 263"
-Cohesion: 0.4
-Nodes (4): dependencies, RemittanceBindings, ../../../domain/remittance/controller/remittance.controller.dart, ../../../domain/remittance/controller/remittance_pending.controller.dart
+Cohesion: 0.33
+Nodes (5): Compact Scrollable Request Report Tooltips Plan, Global Constraints, Task 1: Compact withdraw list rows, Task 2: Compact deposit list rows, Task 3: Verify
 
 ### Community 264 - "Community 264"
-Cohesion: 0.4
-Nodes (4): dependencies, TransferWalletBindings, ../../../domain/transferWallet/controller/transfer_after_tomorrow_change.controller.dart, package:hanigold_admin/src/domain/transferWallet/controller/transfer_wallet_list.controller.dart
+Cohesion: 0.33
+Nodes (5): build, Container, Obx, SizedBox, SocketStatusIndicator
 
 ### Community 265 - "Community 265"
-Cohesion: 0.4
-Nodes (4): AnalyticalReportsBindings, dependencies, ../../../domain/analyticalReports/controller/candle_price_chart.controller.dart, ../../../domain/analyticalReports/controller/statistics_report.controller.dart
-
-### Community 266 - "Community 266"
-Cohesion: 0.4
-Nodes (4): build, Center, UserBalanceErrorState, package:hanigold_admin/src/widget/err_page.dart
+Cohesion: 0.33
+Nodes (4): main, main, package:cross_file/cross_file.dart, package:hanigold_admin/src/domain/chat/utils/chat_attachment_pick.dart
 
 ### Community 267 - "Community 267"
 Cohesion: 0.4
-Nodes (4): ChatWebClipboardPasteListener, ChatWebPastedFile, start, stop
+Nodes (4): dependencies, RemittanceBindings, ../../../domain/remittance/controller/remittance.controller.dart, ../../../domain/remittance/controller/remittance_pending.controller.dart
 
 ### Community 268 - "Community 268"
 Cohesion: 0.4
-Nodes (4): _clipboardImageExtension, clipboardImageFileName, ClipboardPasteContent, package:pasteboard/pasteboard.dart
+Nodes (4): build, Center, UserBalanceErrorState, package:hanigold_admin/src/widget/err_page.dart
 
 ### Community 269 - "Community 269"
 Cohesion: 0.4
-Nodes (4): Data, SocketChatRevokeBroadcastModel, socketChatRevokeBroadcastModelFromJson, socketChatRevokeBroadcastModelToJson
+Nodes (4): ChatWebClipboardPasteListener, ChatWebPastedFile, start, stop
 
 ### Community 270 - "Community 270"
 Cohesion: 0.4
-Nodes (4): Clude, ReportSettingModel, reportSettingModelFromJson, reportSettingModelToJson
+Nodes (4): _clipboardImageExtension, clipboardImageFileName, ClipboardPasteContent, package:pasteboard/pasteboard.dart
 
 ### Community 271 - "Community 271"
 Cohesion: 0.4
-Nodes (4): Country, StateItemModel, stateItemModelFromJson, stateItemModelToJson
+Nodes (4): AccountChildModel, accountChildModelFromJson, accountChildModelToJson, ParentChildModel
 
 ### Community 272 - "Community 272"
 Cohesion: 0.4
-Nodes (4): Data, SocketChatForwardBroadcastModel, socketChatForwardBroadcastModelFromJson, socketChatForwardBroadcastModelToJson
+Nodes (4): AccountSubGroupModel, accountSubGroupModelFromJson, accountSubGroupModelToJson, package:hanigold_admin/src/domain/product/model/item_price.model.dart
 
 ### Community 273 - "Community 273"
 Cohesion: 0.4
-Nodes (4): AccountAdminModel, accountAdminModelFromJson, accountAdminModelToJson, Item
+Nodes (4): Data, SocketChatCloseBroadcastModel, socketChatCloseBroadcastModelFromJson, socketChatCloseBroadcastModelToJson
 
 ### Community 274 - "Community 274"
 Cohesion: 0.4
-Nodes (4): AccountChildModel, accountChildModelFromJson, accountChildModelToJson, ParentChildModel
+Nodes (4): Data, SocketChatRevokeBroadcastModel, socketChatRevokeBroadcastModelFromJson, socketChatRevokeBroadcastModelToJson
 
 ### Community 275 - "Community 275"
 Cohesion: 0.4
-Nodes (4): Data, SocketChatCloseBroadcastModel, socketChatCloseBroadcastModelFromJson, socketChatCloseBroadcastModelToJson
+Nodes (4): Data, SocketChatForwardBroadcastModel, socketChatForwardBroadcastModelFromJson, socketChatForwardBroadcastModelToJson
 
 ### Community 276 - "Community 276"
 Cohesion: 0.4
-Nodes (4): BroadcastChannelHandler, close, sendMessage, setup
+Nodes (4): AccountAdminModel, accountAdminModelFromJson, accountAdminModelToJson, Item
 
 ### Community 277 - "Community 277"
 Cohesion: 0.4
-Nodes (4): ChatFabCrossTabSync, dispose, notifyUnread, setup
+Nodes (4): Country, StateItemModel, stateItemModelFromJson, stateItemModelToJson
 
 ### Community 278 - "Community 278"
 Cohesion: 0.4
-Nodes (4): AppRoutes, resolveInitialRoute, shellPath, stripShell
+Nodes (4): Clude, ReportSettingModel, reportSettingModelFromJson, reportSettingModelToJson
 
 ### Community 279 - "Community 279"
 Cohesion: 0.4
-Nodes (4): build, SizedBox, VersionWidget, package:package_info_plus/package_info_plus.dart
+Nodes (4): BroadcastChannelHandler, close, sendMessage, setup
+
+### Community 280 - "Community 280"
+Cohesion: 0.4
+Nodes (4): ChatFabCrossTabSync, dispose, notifyUnread, setup
 
 ### Community 281 - "Community 281"
-Cohesion: 0.5
-Nodes (3): dependencies, TradingBalanceBindings, package:hanigold_admin/src/domain/balance/controller/trading_balance.controller.dart
-
-### Community 282 - "Community 282"
-Cohesion: 0.5
-Nodes (3): CreditHelperBindings, dependencies, ../../../domain/creditHelper/controller/credit_helper.controller.dart
+Cohesion: 0.4
+Nodes (4): AppRoutes, resolveInitialRoute, shellPath, stripShell
 
 ### Community 283 - "Community 283"
 Cohesion: 0.5
@@ -1477,43 +1480,43 @@ Nodes (3): AccountBindings, dependencies, ../../../domain/account/controller/acc
 
 ### Community 284 - "Community 284"
 Cohesion: 0.5
-Nodes (3): StatisticsReportModel, statisticsReportModelToJson, package:hanigold_admin/src/domain/order/model/user_admin_group.model.dart
+Nodes (3): CreditHelperBindings, dependencies, ../../../domain/creditHelper/controller/credit_helper.controller.dart
 
 ### Community 285 - "Community 285"
 Cohesion: 0.5
-Nodes (3): chat, main, package:hanigold_admin/src/domain/chat/utils/chat_realtime_unread.dart
+Nodes (3): dependencies, LaboratoryBindings, ../../../domain/laboratory/controller/laboratory.controller.dart
 
 ### Community 286 - "Community 286"
 Cohesion: 0.5
-Nodes (3): SocketRemittanceModel, socketRemittanceModelFromJson, socketRemittanceModelToJson
+Nodes (3): StatisticsReportModel, statisticsReportModelToJson, package:hanigold_admin/src/domain/order/model/user_admin_group.model.dart
 
 ### Community 287 - "Community 287"
 Cohesion: 0.5
-Nodes (3): TransactionInfoDetailItemModel, transactionInfoDetailItemModelFromJson, transactionInfoDetailItemModelToJson
+Nodes (3): chat, main, package:hanigold_admin/src/domain/chat/utils/chat_realtime_unread.dart
 
 ### Community 288 - "Community 288"
 Cohesion: 0.5
-Nodes (3): SettingModel, settingModelFromJson, settingModelToJson
+Nodes (3): SocialModel, socialModelFromJson, socialModelToJson
 
 ### Community 289 - "Community 289"
 Cohesion: 0.5
-Nodes (3): UserAdminGroupModel, userAdminGroupModelFromJson, userAdminGroupModelToJson
+Nodes (3): DetailGoldModel, detailGoldModelFromJson, detailGoldModelToJson
 
 ### Community 290 - "Community 290"
 Cohesion: 0.5
-Nodes (3): DetailGoldModel, detailGoldModelFromJson, detailGoldModelToJson
+Nodes (3): InfoModel, infoModelFromJson, infoModelToJson
 
 ### Community 291 - "Community 291"
 Cohesion: 0.5
-Nodes (3): StatisticsReportHeaderModel, statisticsReportHeaderModelFromJson, statisticsReportHeaderModelToJson
+Nodes (3): SocketItemModel, socketItemModelFromJson, socketItemModelToJson
 
 ### Community 292 - "Community 292"
 Cohesion: 0.5
-Nodes (3): TransactionsWalletReceivablesItemModel, transactionsWalletReceivablesItemModelFromJson, transactionsWalletReceivablesItemModelToJson
+Nodes (3): UserAdminGroupModel, userAdminGroupModelFromJson, userAdminGroupModelToJson
 
 ### Community 293 - "Community 293"
 Cohesion: 0.5
-Nodes (3): LaboratoryModel, laboratoryModelFromJson, laboratoryModelToJson
+Nodes (3): ReasonRejectionReqModel, reasonRejectionReqModelFromJson, reasonRejectionReqModelToJson
 
 ### Community 294 - "Community 294"
 Cohesion: 0.5
@@ -1521,21 +1524,33 @@ Nodes (3): SocketDepositModel, socketDepositModelFromJson, socketDepositModelToJ
 
 ### Community 295 - "Community 295"
 Cohesion: 0.5
-Nodes (3): SocketInventoryModel, socketInventoryModelFromJson, socketInventoryModelToJson
+Nodes (3): StatisticsReportHeaderModel, statisticsReportHeaderModelFromJson, statisticsReportHeaderModelToJson
 
 ### Community 296 - "Community 296"
 Cohesion: 0.5
-Nodes (3): BalanceTradingModel, balanceTradingModelToJson, package:hanigold_admin/src/domain/balance/model/order_result_day.model.dart
+Nodes (3): TodayPaymentReportModel, todayPaymentReportModelFromJson, todayPaymentReportModelToJson
 
 ### Community 297 - "Community 297"
-Cohesion: 0.83
-Nodes (3): html_to_pdf(), main(), write_html()
+Cohesion: 0.5
+Nodes (3): TransactionsWalletReceivablesItemModel, transactionsWalletReceivablesItemModelFromJson, transactionsWalletReceivablesItemModelToJson
 
 ### Community 298 - "Community 298"
 Cohesion: 0.5
-Nodes (3): conversationUnreadFromSocket, totalUnreadMessagesForAccount, unreadChatThreadCountForAccount
+Nodes (3): LaboratoryModel, laboratoryModelFromJson, laboratoryModelToJson
 
 ### Community 299 - "Community 299"
+Cohesion: 0.5
+Nodes (3): accepts, acceptsSessionId, SocketSessionGuard
+
+### Community 300 - "Community 300"
+Cohesion: 0.83
+Nodes (3): html_to_pdf(), main(), write_html()
+
+### Community 301 - "Community 301"
+Cohesion: 0.5
+Nodes (3): conversationUnreadFromSocket, totalUnreadMessagesForAccount, unreadChatThreadCountForAccount
+
+### Community 302 - "Community 302"
 Cohesion: 0.5
 Nodes (3): dependencies, SettingChatBinding, package:hanigold_admin/src/domain/tools/controller/setting_chat.controller.dart
 
@@ -1547,16 +1562,16 @@ Nodes (3): dependencies, SettingChatBinding, package:hanigold_admin/src/domain/t
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `package:flutter/material.dart` connect `Community 34` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 9`, `Community 10`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 24`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 30`, `Community 32`, `Community 33`, `Community 35`, `Community 37`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 48`, `Community 49`, `Community 50`, `Community 53`, `Community 54`, `Community 55`, `Community 56`, `Community 57`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 72`, `Community 76`, `Community 77`, `Community 78`, `Community 80`, `Community 81`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 88`, `Community 89`, `Community 90`, `Community 91`, `Community 92`, `Community 96`, `Community 97`, `Community 98`, `Community 100`, `Community 101`, `Community 102`, `Community 103`, `Community 105`, `Community 106`, `Community 107`, `Community 110`, `Community 113`, `Community 116`, `Community 117`, `Community 118`, `Community 119`, `Community 120`, `Community 121`, `Community 124`, `Community 125`, `Community 126`, `Community 127`, `Community 128`, `Community 129`, `Community 131`, `Community 136`, `Community 137`, `Community 138`, `Community 139`, `Community 141`, `Community 143`, `Community 145`, `Community 146`, `Community 147`, `Community 149`, `Community 150`, `Community 151`, `Community 153`, `Community 154`, `Community 155`, `Community 156`, `Community 158`, `Community 160`, `Community 161`, `Community 162`, `Community 165`, `Community 166`, `Community 167`, `Community 169`, `Community 171`, `Community 172`, `Community 174`, `Community 175`, `Community 177`, `Community 179`, `Community 186`, `Community 188`, `Community 189`, `Community 192`, `Community 193`, `Community 194`, `Community 195`, `Community 199`, `Community 202`, `Community 203`, `Community 207`, `Community 208`, `Community 214`, `Community 219`, `Community 220`, `Community 221`, `Community 222`, `Community 223`, `Community 225`, `Community 227`, `Community 230`, `Community 234`, `Community 237`, `Community 239`, `Community 256`, `Community 266`, `Community 279`, `Community 300`?**
+- **Why does `package:flutter/material.dart` connect `Community 49` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 8`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 22`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 28`, `Community 29`, `Community 30`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 38`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 52`, `Community 53`, `Community 57`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 73`, `Community 76`, `Community 77`, `Community 79`, `Community 80`, `Community 81`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 88`, `Community 89`, `Community 90`, `Community 91`, `Community 92`, `Community 93`, `Community 94`, `Community 98`, `Community 99`, `Community 100`, `Community 101`, `Community 103`, `Community 105`, `Community 106`, `Community 107`, `Community 112`, `Community 113`, `Community 114`, `Community 115`, `Community 116`, `Community 117`, `Community 118`, `Community 121`, `Community 122`, `Community 123`, `Community 124`, `Community 125`, `Community 126`, `Community 128`, `Community 129`, `Community 134`, `Community 135`, `Community 136`, `Community 137`, `Community 139`, `Community 140`, `Community 142`, `Community 143`, `Community 144`, `Community 146`, `Community 147`, `Community 148`, `Community 151`, `Community 152`, `Community 153`, `Community 154`, `Community 156`, `Community 157`, `Community 158`, `Community 160`, `Community 161`, `Community 162`, `Community 163`, `Community 166`, `Community 167`, `Community 168`, `Community 171`, `Community 173`, `Community 174`, `Community 176`, `Community 177`, `Community 179`, `Community 180`, `Community 183`, `Community 189`, `Community 191`, `Community 192`, `Community 194`, `Community 195`, `Community 196`, `Community 197`, `Community 201`, `Community 204`, `Community 205`, `Community 210`, `Community 211`, `Community 215`, `Community 220`, `Community 221`, `Community 222`, `Community 224`, `Community 227`, `Community 232`, `Community 236`, `Community 239`, `Community 240`, `Community 256`, `Community 260`, `Community 264`, `Community 268`, `Community 303`?**
   _High betweenness centrality (0.228) - this node is a cross-community bridge._
-- **Why does `package:get/get.dart` connect `Community 4` to `Community 0`, `Community 1`, `Community 5`, `Community 6`, `Community 7`, `Community 9`, `Community 10`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 24`, `Community 26`, `Community 27`, `Community 28`, `Community 30`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 37`, `Community 39`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 54`, `Community 55`, `Community 56`, `Community 57`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 65`, `Community 66`, `Community 67`, `Community 69`, `Community 70`, `Community 76`, `Community 77`, `Community 78`, `Community 80`, `Community 81`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 88`, `Community 89`, `Community 91`, `Community 92`, `Community 93`, `Community 94`, `Community 97`, `Community 98`, `Community 100`, `Community 101`, `Community 102`, `Community 103`, `Community 105`, `Community 106`, `Community 107`, `Community 110`, `Community 113`, `Community 116`, `Community 117`, `Community 119`, `Community 120`, `Community 121`, `Community 124`, `Community 126`, `Community 127`, `Community 128`, `Community 129`, `Community 131`, `Community 132`, `Community 135`, `Community 137`, `Community 139`, `Community 141`, `Community 143`, `Community 144`, `Community 145`, `Community 146`, `Community 147`, `Community 149`, `Community 150`, `Community 151`, `Community 153`, `Community 154`, `Community 155`, `Community 156`, `Community 157`, `Community 158`, `Community 160`, `Community 165`, `Community 167`, `Community 169`, `Community 171`, `Community 172`, `Community 175`, `Community 179`, `Community 180`, `Community 181`, `Community 186`, `Community 189`, `Community 194`, `Community 199`, `Community 202`, `Community 203`, `Community 205`, `Community 207`, `Community 209`, `Community 213`, `Community 214`, `Community 219`, `Community 220`, `Community 222`, `Community 225`, `Community 230`, `Community 232`, `Community 233`, `Community 234`, `Community 237`, `Community 245`, `Community 246`, `Community 255`, `Community 263`, `Community 264`, `Community 265`, `Community 281`, `Community 282`, `Community 283`, `Community 299`?**
+- **Why does `package:get/get.dart` connect `Community 8` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 22`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 29`, `Community 30`, `Community 32`, `Community 33`, `Community 34`, `Community 36`, `Community 37`, `Community 38`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 55`, `Community 56`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 63`, `Community 64`, `Community 68`, `Community 70`, `Community 71`, `Community 77`, `Community 79`, `Community 80`, `Community 81`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 88`, `Community 89`, `Community 90`, `Community 91`, `Community 93`, `Community 94`, `Community 95`, `Community 96`, `Community 98`, `Community 100`, `Community 101`, `Community 103`, `Community 105`, `Community 106`, `Community 107`, `Community 112`, `Community 113`, `Community 114`, `Community 115`, `Community 116`, `Community 117`, `Community 118`, `Community 121`, `Community 123`, `Community 124`, `Community 125`, `Community 126`, `Community 128`, `Community 129`, `Community 130`, `Community 131`, `Community 133`, `Community 135`, `Community 137`, `Community 138`, `Community 139`, `Community 140`, `Community 142`, `Community 143`, `Community 144`, `Community 145`, `Community 146`, `Community 147`, `Community 148`, `Community 151`, `Community 152`, `Community 153`, `Community 154`, `Community 156`, `Community 157`, `Community 158`, `Community 160`, `Community 166`, `Community 167`, `Community 168`, `Community 171`, `Community 173`, `Community 174`, `Community 177`, `Community 183`, `Community 184`, `Community 189`, `Community 192`, `Community 196`, `Community 201`, `Community 204`, `Community 205`, `Community 207`, `Community 209`, `Community 211`, `Community 215`, `Community 220`, `Community 221`, `Community 224`, `Community 229`, `Community 231`, `Community 232`, `Community 234`, `Community 235`, `Community 236`, `Community 239`, `Community 240`, `Community 247`, `Community 248`, `Community 258`, `Community 264`, `Community 267`, `Community 283`, `Community 284`, `Community 285`, `Community 302`?**
   _High betweenness centrality (0.208) - this node is a cross-community bridge._
-- **Why does `package:flutter/foundation.dart` connect `Community 10` to `Community 0`, `Community 1`, `Community 5`, `Community 6`, `Community 135`, `Community 268`, `Community 12`, `Community 14`, `Community 13`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 15`, `Community 24`, `Community 26`, `Community 27`, `Community 28`, `Community 32`, `Community 35`, `Community 41`, `Community 46`, `Community 47`, `Community 181`, `Community 54`, `Community 55`, `Community 56`, `Community 57`, `Community 58`, `Community 196`, `Community 77`, `Community 209`, `Community 84`, `Community 86`, `Community 89`, `Community 90`, `Community 107`, `Community 116`, `Community 121`, `Community 126`?**
+- **Why does `package:flutter/foundation.dart` connect `Community 16` to `Community 0`, `Community 1`, `Community 131`, `Community 4`, `Community 5`, `Community 133`, `Community 11`, `Community 12`, `Community 13`, `Community 270`, `Community 15`, `Community 14`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 22`, `Community 24`, `Community 25`, `Community 26`, `Community 27`, `Community 32`, `Community 36`, `Community 43`, `Community 44`, `Community 48`, `Community 50`, `Community 51`, `Community 52`, `Community 58`, `Community 59`, `Community 60`, `Community 65`, `Community 198`, `Community 80`, `Community 209`, `Community 85`, `Community 86`, `Community 90`, `Community 91`, `Community 92`, `Community 106`, `Community 107`, `Community 115`, `Community 118`, `Community 123`?**
   _High betweenness centrality (0.093) - this node is a cross-community bridge._
 - **What connects `MainActivity`, `Intercept NOTIFY_DEBUGGER_ABOUT_RX_PAGES and touch the pages.`, `MyApp` to the rest of the system?**
   _6313 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.02 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.01 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.01 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
