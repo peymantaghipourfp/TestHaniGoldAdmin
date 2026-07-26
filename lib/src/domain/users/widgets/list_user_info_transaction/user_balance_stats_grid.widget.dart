@@ -86,7 +86,11 @@ class UserBalanceStatsGrid extends StatelessWidget {
   }
 
   static String _formatRial(double value) {
-    return value.toStringAsFixed(0).seRagham();
+    if (value < 0) {
+    return '-${value.abs().toStringAsFixed(0).seRagham()}';
+    } else {
+      return value.toStringAsFixed(0).seRagham();
+    }
   }
 
   static String _formatGold(double value) {
@@ -153,6 +157,7 @@ class _KpiCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: data.valueColor,
             ),
+            textDirection: TextDirection.ltr,
           ),
         ],
       ),

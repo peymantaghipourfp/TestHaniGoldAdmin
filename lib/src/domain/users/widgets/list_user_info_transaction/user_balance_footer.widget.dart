@@ -126,13 +126,13 @@ class UserBalanceFooter extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildFooterItem(
-                        title: 'ارز بستانکار',
+                        title: 'دلار بستانکار',
                         positiveValue: _sumPositive(footer, 'دلار'),
                         color: AppColor.primaryColor,
                         unit: 'دلار',
                       ),
                       _buildFooterItem(
-                        title: '',
+                        title: 'یورو بستانکار',
                         positiveValue: _sumPositive(footer, 'یورو'),
                         color: AppColor.primaryColor,
                         unit: 'یورو',
@@ -143,16 +143,16 @@ class UserBalanceFooter extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildFooterItem(
-                        title: 'ارز بدهکار',
+                        title: 'دلار بدهکار',
                         negativeValue: _sumNegative(footer, 'دلار'),
                         color: AppColor.accentColor,
                         unit: 'دلار',
                       ),
                       const SizedBox(height: 2),
                       _buildFooterItem(
-                        title: '',
-                        positiveValue: _sumNegative(footer, 'یورو'),
-                        color: AppColor.primaryColor,
+                        title: 'یورو بدهکار',
+                        negativeValue: _sumNegative(footer, 'یورو'),
+                        color: AppColor.accentColor,
                         unit: 'یورو',
                       ),
                     ],
@@ -198,7 +198,7 @@ class UserBalanceFooter extends StatelessWidget {
                       ),
                     );
                   }),
-                  ...footer.where((item) => item.itemGroupName == 'ارز').map((item) {
+                  /* ...footer.where((item) => item.itemGroupName == 'ارز').map((item) {
                     final netValue = (item.totalPositiveBalance ?? 0) +
                         (item.totalNegativeBalance ?? 0);
                     if (netValue == 0.0) return const SizedBox.shrink();
@@ -210,18 +210,11 @@ class UserBalanceFooter extends StatelessWidget {
                         unit: item.unitName,
                       ),
                     );
-                  }),
+                  }), */
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'مجموع کل:',
-                        style: AppTextStyle.labelText.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+                     
                       _buildNetFooterItem(
                         title: 'مجموع کل',
                         netValue: footer.fold<double>(
