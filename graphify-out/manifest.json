@@ -24,7 +24,7 @@
     "hash": "41b283bd6e35b85eecd703f31d2aa0aa"
   },
   "D:\\curserAi project\\ios\\Flutter\\ephemeral\\flutter_lldb_helper.py": {
-    "mtime": 1784704644.296597,
+    "mtime": 1785043849.6010158,
     "hash": "98fc75412162af387e2e3461e4e58094"
   },
   "D:\\curserAi project\\ios\\Runner\\AppDelegate.swift": {
@@ -48,7 +48,7 @@
     "hash": "24e5d095048eb86c30423f4e04b6e57b"
   },
   "D:\\curserAi project\\lib\\main.dart": {
-    "mtime": 1784035000.0115752,
+    "mtime": 1784981686.757924,
     "hash": "92730cbeda263db8b941698b7930af4b"
   },
   "D:\\curserAi project\\lib\\src\\config\\open_in_new_tab.dart": {
@@ -64,27 +64,27 @@
     "hash": "3f7e74fc9c325fa1af933b68bda1584d"
   },
   "D:\\curserAi project\\lib\\src\\config\\open_in_new_tab_web.dart": {
-    "mtime": 1784455379.097124,
+    "mtime": 1784981685.0238388,
     "hash": "1d1bab349d9aa05d77b5ff23715f58b5"
   },
   "D:\\curserAi project\\lib\\src\\config\\secure_session_storage.dart": {
-    "mtime": 1784455318.8444707,
+    "mtime": 1784981683.9457371,
     "hash": "03867f299c57f50afa86e6272893c5ce"
   },
   "D:\\curserAi project\\lib\\src\\config\\session_bootstrap.dart": {
-    "mtime": 1784035245.7212152,
+    "mtime": 1784981683.381826,
     "hash": "eb73a8a5e4180ae2b8d3c4dac7e95cce"
   },
   "D:\\curserAi project\\lib\\src\\config\\session_invalidation.dart": {
-    "mtime": 1784030288.1392002,
+    "mtime": 1784981683.9072742,
     "hash": "0662771f0edcc72abe377e4415bc662d"
   },
   "D:\\curserAi project\\lib\\src\\config\\session_storage.dart": {
-    "mtime": 1784034897.2400885,
+    "mtime": 1784981683.9256577,
     "hash": "119d42f6074d815cd916c9615e47be4e"
   },
   "D:\\curserAi project\\lib\\src\\config\\socket_ui_scheduler.dart": {
-    "mtime": 1782831452.626807,
+    "mtime": 1784981683.3318262,
     "hash": "0cc1b598e0db5ae68eecd260c308330a"
   },
   "D:\\curserAi project\\lib\\src\\config\\tear_off_context.dart": {
@@ -92,31 +92,31 @@
     "hash": "639b4a5754562dc40e24cfc928b94d2f"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_route_hash.dart": {
-    "mtime": 1783759118.7385237,
+    "mtime": 1784981686.134279,
     "hash": "aa26dddafb6b5517b91e696e0b8c227a"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_logout.dart": {
-    "mtime": 1784030702.4542549,
+    "mtime": 1784981683.8946683,
     "hash": "4d9adb344b8899205fb6ace4af1d9f7b"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_logout_logic.dart": {
-    "mtime": 1784455160.3224452,
+    "mtime": 1784981683.969248,
     "hash": "2aa88d17a4eed34bf24fcf125b7b7068"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_logout_stub.dart": {
-    "mtime": 1784030668.0930114,
+    "mtime": 1784981683.8189504,
     "hash": "bf9524880a50733c7f328d0b8a80c7c8"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_logout_web.dart": {
-    "mtime": 1784455298.9464996,
+    "mtime": 1784981683.9577458,
     "hash": "ebe68aed1ebd785488eba3bc3d5a798b"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_presence_logic.dart": {
-    "mtime": 1784454676.9750881,
+    "mtime": 1784981686.1995864,
     "hash": "5193045b28e76b0ce54ca09cc8e20c7f"
   },
   "D:\\curserAi project\\lib\\src\\config\\web_tab_presence_web.dart": {
-    "mtime": 1784454726.2365003,
+    "mtime": 1784981686.1682253,
     "hash": "5f49c2e9a99bef21baf9317a6efb1229"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\app_color.dart": {
@@ -136,31 +136,31 @@
     "hash": "5d0d64f06597f4375530d4438bf07ead"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket.service.dart": {
-    "mtime": 1784035321.4907174,
+    "mtime": 1784981685.85645,
     "hash": "dd16a6cc1caea3b2167a987971787b39"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket_session_guard.dart": {
-    "mtime": 1784035140.366625,
+    "mtime": 1784981685.919337,
     "hash": "55a5ef4accc9fd69e0d7a785e4b2b9f8"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\toast.service.dart": {
-    "mtime": 1782834393.2151937,
+    "mtime": 1784981683.8353257,
     "hash": "fa24ff48edcd43c5814ecaad9d0a8f31"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket_coordinator\\socket_coordinator.dart": {
-    "mtime": 1782640360.7106261,
+    "mtime": 1784981684.0127604,
     "hash": "1dcc0789337746f9c26a7ed79cbb09b0"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket_coordinator\\socket_coordinator_interface.dart": {
-    "mtime": 1782640277.934128,
+    "mtime": 1784981684.876873,
     "hash": "459df405d175de90633c00cbcd47ec78"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket_coordinator\\socket_coordinator_io.dart": {
-    "mtime": 1782640312.0063035,
+    "mtime": 1784981685.2053065,
     "hash": "785e7bbe05237facd6972915d04bcc2b"
   },
   "D:\\curserAi project\\lib\\src\\config\\const\\socket_coordinator\\socket_coordinator_web.dart": {
-    "mtime": 1783759060.6777098,
+    "mtime": 1784981685.3673096,
     "hash": "b12052afbc5f6e0df603ddcb7a44b520"
   },
   "D:\\curserAi project\\lib\\src\\config\\logger\\app_logger.dart": {
@@ -172,7 +172,7 @@
     "hash": "d55b945cd1527cb8a42452ff6fbea5b0"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\dio_Interceptor.dart": {
-    "mtime": 1784034940.4467018,
+    "mtime": 1784981685.4699678,
     "hash": "28a98c54087d22ea036ed672d5bb7911"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\error_handler.dart": {
@@ -196,7 +196,7 @@
     "hash": "7ae0cdd82a54ab9f443ccc82b1d7aaf4"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\auth.repository.dart": {
-    "mtime": 1784035094.3597417,
+    "mtime": 1784981684.4698813,
     "hash": "618a3b9b5bf102f045cdcd8a9298eee1"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\bank.repository.dart": {
@@ -208,7 +208,7 @@
     "hash": "f68377d210878615c40f42dada5894ef"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\chat.repository.dart": {
-    "mtime": 1782197359.029489,
+    "mtime": 1784981682.8361547,
     "hash": "e0f3f8c409e60f46b1f8458957f5badd"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\chat_attachment.repository.dart": {
@@ -224,7 +224,7 @@
     "hash": "9118fcf407f8da021b8158ad080d8061"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\chat_attachment_download_web.dart": {
-    "mtime": 1784035206.6420367,
+    "mtime": 1784981684.7967124,
     "hash": "95e033e6155a5bd25f14536a3b70f9cf"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\credit_helper.repository.dart": {
@@ -244,7 +244,7 @@
     "hash": "0c2fe95ccc429642d1450b00444e8f15"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\inventory.repository.dart": {
-    "mtime": 1783951087.3372395,
+    "mtime": 1784981684.6294198,
     "hash": "9cec785bd3992082a8244ed5a91767e7"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\item.repository.dart": {
@@ -308,7 +308,7 @@
     "hash": "85b703abab6e32c9af40c1194d1a4d9a"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\upload.repository.dart": {
-    "mtime": 1784710434.9681966,
+    "mtime": 1784981684.5200675,
     "hash": "831110e10b3c77e83df1a5db790e8104"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\user.repository.dart": {
@@ -316,7 +316,7 @@
     "hash": "eeb114c5e1bec9c2195084fa6d563028"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\user_info_transaction.repository.dart": {
-    "mtime": 1783951236.8552148,
+    "mtime": 1784981684.4971352,
     "hash": "d3755b8679fc0a7738d6643a1b0b6712"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\wallet.repository.dart": {
@@ -328,7 +328,7 @@
     "hash": "e9bac15e231598564478ca5a9c42dbe4"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\withdraw.repository.dart": {
-    "mtime": 1783845557.7308016,
+    "mtime": 1784981684.45504,
     "hash": "b63f0eaae722dd128b5a1e4c0281134b"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\withdraw_getOne.repository.dart": {
@@ -336,12 +336,12 @@
     "hash": "429c46ee24800b0d99c9b99ad27d5354"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\url\\base_url.dart": {
-    "mtime": 1784703564.0312228,
-    "hash": "e43e8c9979148e260c4347e8a6548874"
+    "mtime": 1785043793.0913684,
+    "hash": "10db382d944bda8031a71d651f577d7a"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\url\\web_socket_url.dart": {
-    "mtime": 1784703564.050957,
-    "hash": "065749270111d1e118972f6f1f82be6c"
+    "mtime": 1785043793.071904,
+    "hash": "87d4ce4a864d5e42bd899aab474b9159"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\route_page.dart": {
     "mtime": 1781342975.8947532,
@@ -368,7 +368,7 @@
     "hash": "9a1de3ed4268598766cfbfaa27e280f5"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\chat.bindings.dart": {
-    "mtime": 1782844268.1371891,
+    "mtime": 1784981684.8073354,
     "hash": "f781b57a60d52b42903a985673062c24"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\credit_helper.bindings.dart": {
@@ -376,7 +376,7 @@
     "hash": "16c53368323dffc40d51c80fb40f35a3"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\deposit.bindings.dart": {
-    "mtime": 1782829898.8663733,
+    "mtime": 1784981684.721546,
     "hash": "84bf47f2362c2ab43b905b03d600bc6c"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\home.bindings.dart": {
@@ -384,7 +384,7 @@
     "hash": "41c78ed9d739a153b7060b542db01865"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\inventory.bindings.dart": {
-    "mtime": 1782829800.1183283,
+    "mtime": 1784981684.7868204,
     "hash": "d42380379104b383a138688252b76462"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\laboratory.bindings.dart": {
@@ -392,11 +392,11 @@
     "hash": "6cb55325bb17c8dc9c747d1799d6b891"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\notification.bindings.dart": {
-    "mtime": 1782829709.7252586,
+    "mtime": 1784981685.040301,
     "hash": "dfa12544330b2bcaf96d0d20816ad54f"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\order.bindings.dart": {
-    "mtime": 1782830014.29033,
+    "mtime": 1784981684.8345947,
     "hash": "6c58a9d532a5fd16dd459ee747ace8f3"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\person_list.bindings.dart": {
@@ -404,11 +404,11 @@
     "hash": "dff7a99ed5c27e98eec65a009b63620f"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\product.bindings.dart": {
-    "mtime": 1782829847.2138178,
+    "mtime": 1784981685.2177894,
     "hash": "28b69a9b3eca4f3291a9b719c77793d1"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\remittance.bindings.dart": {
-    "mtime": 1782829761.3588405,
+    "mtime": 1784981684.8876715,
     "hash": "66370d586a2f043a6922b2ce5cf1ce5d"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\remittance_request.bindings.dart": {
@@ -452,7 +452,7 @@
     "hash": "9abf8b091a4254e3e9a23385d780a336"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\bindings\\withdraw.bindings.dart": {
-    "mtime": 1782829965.2186115,
+    "mtime": 1784981684.7648675,
     "hash": "c22919b8b9a8dfc15a631f6ac462cc93"
   },
   "D:\\curserAi project\\lib\\src\\domain\\account\\controller\\account_level.controller.dart": {
@@ -632,16 +632,16 @@
     "hash": "26ba988461cc46cab75cf89575711575"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\controller\\auth.controller.dart": {
-    "mtime": 1784035057.5681174,
+    "mtime": 1784981683.0596614,
     "hash": "a74139bc302b0580c1142315f4553403"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\model\\user_login.model.dart": {
-    "mtime": 1782035115.2614229,
+    "mtime": 1784981682.9542599,
     "hash": "9789987f96cbf942cd472d362e651a93"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\model\\user_login.model.g.dart": {
-    "mtime": 1782735239.7391405,
-    "hash": "9e3014a7288027d2827c74ab96665d58"
+    "mtime": 1784981682.9389646,
+    "hash": "5b0ea4308d2c32f4d0ea93ed18b0a1f1"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\service\\credentials_storage.dart": {
     "mtime": 1762680099.5526986,
@@ -680,15 +680,15 @@
     "hash": "c7be1ca9f590dd29fcab7eed30dbec77"
   },
   "D:\\curserAi project\\lib\\src\\domain\\base\\base_controller.dart": {
-    "mtime": 1784035284.0951054,
+    "mtime": 1784981686.3465273,
     "hash": "a9fccc35884f22ec2a08dbfbfbd812d3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\controller\\chat.controller.dart": {
-    "mtime": 1784037799.9443724,
+    "mtime": 1784981684.1615229,
     "hash": "25f4d0080a1cd4c608455e5bca05d800"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\controller\\chat_fab.controller.dart": {
-    "mtime": 1784035435.2041018,
+    "mtime": 1784981686.4186318,
     "hash": "c3521a61d21e303934bebe704a759fbd"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\account_admin.model.dart": {
@@ -700,23 +700,23 @@
     "hash": "2a9f76501b374700c1b01ebc6622fe14"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat.model.dart": {
-    "mtime": 1782032073.503505,
+    "mtime": 1784981686.2160954,
     "hash": "3c63f216c7a9c14505bc0cfe2c7a4868"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat.model.g.dart": {
-    "mtime": 1782735239.740142,
-    "hash": "0627e43b006843ffc66bfa1566ec2ad2"
+    "mtime": 1784981686.5487263,
+    "hash": "f74d853da38059c6023e31a8fd1f5936"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_account.model.dart": {
-    "mtime": 1782031723.9110782,
+    "mtime": 1784981686.0807106,
     "hash": "df08f24a767992d3a6db6c8551358dc3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_account.model.g.dart": {
-    "mtime": 1782735239.7408252,
-    "hash": "ba658a5c33f65b193ded55ce0161a24c"
+    "mtime": 1784981686.0925007,
+    "hash": "dede742dfec4562ee7069a3652bfd0e1"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_mention_candidates.model.dart": {
-    "mtime": 1781957558.5006418,
+    "mtime": 1784981686.3797703,
     "hash": "904102be476bcc616194245d3e3eef63"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_mention_candidates.model.g.dart": {
@@ -724,15 +724,15 @@
     "hash": "4b6628fce10f7228de01f0c2d2f1bf05"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_message.model.dart": {
-    "mtime": 1782571782.4022408,
+    "mtime": 1784981685.1872797,
     "hash": "ebe1a712d9f0502a1ae1dd43b13f1fe7"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_message.model.g.dart": {
-    "mtime": 1782735239.7408252,
-    "hash": "cc6b11f58ea9bb3d90ad9fe400b33f35"
+    "mtime": 1784981686.3045275,
+    "hash": "81bf3bd808762827e781dadf62eb297c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_unread_mentions.model.dart": {
-    "mtime": 1782047994.49299,
+    "mtime": 1784981686.669845,
     "hash": "710b7f7ea8f66a5aeb90824c8429b558"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\chat_unread_mentions.model.g.dart": {
@@ -748,79 +748,79 @@
     "hash": "fdd940c81eca8301396f0f5e531d19b8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_ack_unread.model.dart": {
-    "mtime": 1782633108.650626,
+    "mtime": 1784981682.7412822,
     "hash": "87aebc6866787509ec8c7466800128f4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_ack_unread.model.g.dart": {
-    "mtime": 1782735239.7418969,
-    "hash": "68c4b419b742afc69c72b782229fae28"
+    "mtime": 1784981686.3195274,
+    "hash": "3706e69437e914acd9c8f55874048969"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_admin_send.model.dart": {
-    "mtime": 1782633160.2062092,
+    "mtime": 1784981682.8151069,
     "hash": "87a78c7e5486745c89707647e0b4bceb"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_admin_send.model.g.dart": {
-    "mtime": 1782735239.7418969,
-    "hash": "f1ad71f3adf5798cc2b87d1e54ce06d5"
+    "mtime": 1784981686.7082448,
+    "hash": "47f15d56f0ce0ef9c9bbeacccfb69d57"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_message.model.dart": {
-    "mtime": 1782629961.3593862,
+    "mtime": 1784981685.960841,
     "hash": "207b16e7b2c12c18affe411aead53b37"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_message.model.g.dart": {
-    "mtime": 1782735239.7418969,
-    "hash": "309186f164713a859ef620641406aba8"
+    "mtime": 1784981686.572224,
+    "hash": "bfbbfcfbb690a80d90e5dd8fb3671579"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_seen.model.dart": {
-    "mtime": 1782632961.5291638,
+    "mtime": 1784981683.7863052,
     "hash": "b7c94fe56beededd476985e142ff88af"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_seen.model.g.dart": {
-    "mtime": 1782735239.7428994,
-    "hash": "835f0e56b718c0df1b6e19d1e5d421f5"
+    "mtime": 1784981686.1822562,
+    "hash": "d24a128650ab4272c71addedb28a154a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_seen_broadcast.model.dart": {
-    "mtime": 1782633020.3045428,
+    "mtime": 1784981683.1557367,
     "hash": "e3ed7487f769becd5e1513cae5484958"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_seen_broadcast.model.g.dart": {
-    "mtime": 1782735239.7428994,
-    "hash": "efc85c76115d44e79987b32868832876"
+    "mtime": 1784981686.1530135,
+    "hash": "79655a0d57476ad094cb6ba4579c31ed"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_typing.model.dart": {
-    "mtime": 1782632918.9961655,
+    "mtime": 1784981686.6900916,
     "hash": "702ecbcf5aa0fd7748af1ae615638f79"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_typing.model.g.dart": {
-    "mtime": 1782735239.7428994,
-    "hash": "c16f8eaf41ad6571f8c253178ad0ee3f"
+    "mtime": 1784981686.652032,
+    "hash": "b5f0794696d42474ef802102ca04ad3a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread.model.dart": {
-    "mtime": 1782633062.1567545,
+    "mtime": 1784981682.6777167,
     "hash": "686c1735aabd2001ef5f214a3e59b6b5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread.model.g.dart": {
-    "mtime": 1782735239.7428994,
-    "hash": "a8d422a9cca3558aeabb4687ad1809d8"
+    "mtime": 1784981686.6106758,
+    "hash": "9f2a096429f2ff3e499a059c1406bc34"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread_mention_total.model.dart": {
-    "mtime": 1782632854.0328891,
+    "mtime": 1784981686.6314704,
     "hash": "7dcc2777431963fd63936e8970a2dd42"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread_mention_total.model.g.dart": {
-    "mtime": 1782735239.743899,
-    "hash": "2f001e165c1a18fdfae74afbe7c0fa3b"
+    "mtime": 1784981686.7781286,
+    "hash": "2d33c6361e3e744f5227259b1670a21b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread_total.model.dart": {
-    "mtime": 1782632789.9982867,
+    "mtime": 1784981686.0678105,
     "hash": "83889287eae63357a7b424beaefd3a50"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_chat_unread_total.model.g.dart": {
-    "mtime": 1782735239.743899,
-    "hash": "c64afb2daad63b67a1c7e97ad80a322b"
+    "mtime": 1784981686.1029816,
+    "hash": "9874cf016ea179f3c8c2f19627f3adab"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\socket_envelope_normalize.dart": {
-    "mtime": 1782629831.6997926,
+    "mtime": 1784981685.806754,
     "hash": "6990840f4c2dc66ad51c1d5b4cbd9a5c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\model\\topic.model.dart": {
@@ -832,7 +832,7 @@
     "hash": "f6337870a7ae7a70099c203c10aa2df3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\theme\\chat_theme.dart": {
-    "mtime": 1782031351.2186184,
+    "mtime": 1784981683.6971984,
     "hash": "8e8901a097b1751f1119b8dbace87cb4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_attachment_pick.dart": {
@@ -840,11 +840,11 @@
     "hash": "754a12e5058e88c752c62250748ea1c0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_attachment_utils.dart": {
-    "mtime": 1783242264.848048,
+    "mtime": 1784981685.4985878,
     "hash": "2ef5cd7327c568e479ed2ff801209369"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_clipboard_paste.dart": {
-    "mtime": 1782209765.3653226,
+    "mtime": 1784981684.6033604,
     "hash": "d162b62fcd95db962a587bc85333e13c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_composer_text_editing.dart": {
@@ -852,7 +852,7 @@
     "hash": "c06e9a4e4f4bf8f8bdbe3ed21ed05e4f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_conversation_unread.dart": {
-    "mtime": 1783780060.5686452,
+    "mtime": 1784981684.651648,
     "hash": "45220418470964d6847ecc09e1ae5c47"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_emoji_grapheme.dart": {
@@ -860,11 +860,11 @@
     "hash": "869e76d2b98189eaeacd99ad265ca69c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_forward_outbound.dart": {
-    "mtime": 1782571708.8642044,
+    "mtime": 1784981684.990838,
     "hash": "230516b7e8cba9e4c5dc6506cf6c4828"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_mention.dart": {
-    "mtime": 1782047390.0508077,
+    "mtime": 1784981684.6770344,
     "hash": "76571a9026ae2c1985b15764cad85923"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_message_time.dart": {
@@ -884,11 +884,11 @@
     "hash": "7e4941d50ab889ed8608d0047b625cbf"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_reply_resolver.dart": {
-    "mtime": 1782571670.4066074,
+    "mtime": 1784981684.91735,
     "hash": "b78cd88d07d13716a05c6edc672d9e0a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_sticker_send.dart": {
-    "mtime": 1782650034.661252,
+    "mtime": 1784981684.3843856,
     "hash": "a9cdc7127d4620620ad7b26b51e0eada"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_typing_handler.dart": {
@@ -912,15 +912,15 @@
     "hash": "39576348a484a4430774f4057b40560e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_web_clipboard_paste.dart": {
-    "mtime": 1782214640.267226,
+    "mtime": 1784981684.543979,
     "hash": "405eef1eebe03f0a9f483e7dcae3394c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_web_clipboard_paste_stub.dart": {
-    "mtime": 1782214664.7027283,
+    "mtime": 1784981684.5319474,
     "hash": "fb4d2c13e12ffce8193e470b9e4a6616"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\utils\\chat_web_clipboard_paste_web.dart": {
-    "mtime": 1782214691.0870235,
+    "mtime": 1784981684.7457995,
     "hash": "b1c16ba8d2f4e58f6ee553fbadb89a44"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\attachment_chip.widget.dart": {
@@ -940,7 +940,7 @@
     "hash": "3f6862ddda83c48d8ce8b34b1a4399e4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_account_item.widget.dart": {
-    "mtime": 1782202099.4482446,
+    "mtime": 1784981686.000087,
     "hash": "ffda4b98773880862925ae1536d3fc98"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_audio_player.widget.dart": {
@@ -948,7 +948,7 @@
     "hash": "f3639649a876306e468f6b66111332f5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_composer.widget.dart": {
-    "mtime": 1782650489.381127,
+    "mtime": 1784981684.6982634,
     "hash": "24ee93b5d8e1e7ffb8351ae9e6f3f1a8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_composer_drop_target.widget.dart": {
@@ -956,23 +956,23 @@
     "hash": "4e4323bc9c0bd3ba8d42777ee17542cc"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_composer_input_trailing.widget.dart": {
-    "mtime": 1782214943.4113784,
+    "mtime": 1784981686.2644353,
     "hash": "4d360162edf7148851f3856673fd0804"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_dialog.widget.dart": {
-    "mtime": 1783766832.4435947,
+    "mtime": 1784981684.5723608,
     "hash": "d8e9776c849711bef6d8acb9760c9090"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_dialog_internals.dart": {
-    "mtime": 1781941074.4893458,
+    "mtime": 1784981685.9064374,
     "hash": "3f7d3b373dee28d209d3d7916f5d323b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_emoji_picker_sheet.widget.dart": {
-    "mtime": 1782719151.0234325,
+    "mtime": 1784981684.423146,
     "hash": "0a64014e71ce8015cca8e93a5a8d3957"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_image_editor_screen.widget.dart": {
-    "mtime": 1782223101.8391237,
+    "mtime": 1784981686.0112405,
     "hash": "1b67188208ec90f208a833a0a72a93d4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_image_thumbnail.widget.dart": {
@@ -980,11 +980,11 @@
     "hash": "eada223040e307ee2a867610d37c4dea"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_item.widget.dart": {
-    "mtime": 1782040913.8735685,
+    "mtime": 1784981685.8700552,
     "hash": "60640d73e65655b9901e9b0af213cb2e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_list_content.widget.dart": {
-    "mtime": 1782140233.0861237,
+    "mtime": 1784981686.0515254,
     "hash": "e50f76dded04dafefefa5c4d0da0070d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_list_panel.widget.dart": {
@@ -996,7 +996,7 @@
     "hash": "9e53a5e39380fa892098b140c8dde2d2"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_mention_suggestions.widget.dart": {
-    "mtime": 1782021718.1053393,
+    "mtime": 1784981685.9862785,
     "hash": "28428035d58f93d303c2e5ff307c7d18"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_row.dart": {
@@ -1004,7 +1004,7 @@
     "hash": "c47f41018d4835ad2f12f2b764422ee1"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_search_field.widget.dart": {
-    "mtime": 1782140274.9697483,
+    "mtime": 1784981685.7525122,
     "hash": "e323cb0d0a98560326388826e4378011"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\chat_status_banner.widget.dart": {
@@ -1024,7 +1024,7 @@
     "hash": "cc77eb138bcd0b4702b63beb4c36496d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\conversation_panel.widget.dart": {
-    "mtime": 1782123488.9618864,
+    "mtime": 1784981685.7835789,
     "hash": "d43b15afe5a8532878a383056de956a0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\day_separator.widget.dart": {
@@ -1036,7 +1036,7 @@
     "hash": "c9712ed5dd21dd71aea044b7c00bfb44"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\forward_preview_bar.widget.dart": {
-    "mtime": 1782572141.5442348,
+    "mtime": 1784981685.6711276,
     "hash": "f63d6760d520d4d2d0b94b3757c8839a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\initial_avatar.widget.dart": {
@@ -1044,7 +1044,7 @@
     "hash": "fe6136c59018ab7ec156caa6bad6cc07"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\jump_to_latest_mention.widget.dart": {
-    "mtime": 1782118652.8619888,
+    "mtime": 1784981685.7956338,
     "hash": "8a940aba62979334bfecc5cc4b42e75b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\jump_to_latest_pill.widget.dart": {
@@ -1052,7 +1052,7 @@
     "hash": "2f1ac3fe79127cc43db01cbbd7691f86"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\message_bubble.widget.dart": {
-    "mtime": 1782884674.4600644,
+    "mtime": 1784981685.8285966,
     "hash": "f22351fd85bc6e205ae3ef5b07ff93dd"
   },
   "D:\\curserAi project\\lib\\src\\domain\\chat\\widget\\reply_preview_bar.widget.dart": {
@@ -1116,7 +1116,7 @@
     "hash": "f959c781d431fb292898cd75f7286e9d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\creditHelper\\widget\\credit_helper_create_dialog.widget.dart": {
-    "mtime": 1782725919.3739448,
+    "mtime": 1784981684.8551373,
     "hash": "4e6fb9cca5470296b35a14bf110c63df"
   },
   "D:\\curserAi project\\lib\\src\\domain\\creditHelper\\widget\\credit_helper_filter.widget.dart": {
@@ -1124,7 +1124,7 @@
     "hash": "b0263436d4a8ac90298a9b3e3563a0c8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\creditHelper\\widget\\credit_helper_update_dialog.widget.dart": {
-    "mtime": 1782725919.393739,
+    "mtime": 1784981685.1528196,
     "hash": "6198897d1ba6c0ce1fd9166a2850a00e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\controller\\deposit.controller.dart": {
@@ -1132,7 +1132,7 @@
     "hash": "930320feb1260b387f22c81843447a2d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\controller\\deposit_create.controller.dart": {
-    "mtime": 1781693723.6353867,
+    "mtime": 1784981685.6404283,
     "hash": "5229e37614106cfe4bda6ac2ed9a082c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\controller\\deposit_pending.controller.dart": {
@@ -1140,7 +1140,7 @@
     "hash": "486968071d11d0bd190fb9203a4827ff"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\controller\\deposit_update.controller.dart": {
-    "mtime": 1781694326.9465423,
+    "mtime": 1784981685.583664,
     "hash": "b2cc7442918fd4e28d3a856b99d1ba9c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\model\\deposit.model.dart": {
@@ -1168,7 +1168,7 @@
     "hash": "fa4ee463fcbe2261b3859648e491823d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\view\\deposit_create.view.dart": {
-    "mtime": 1784471278.9961946,
+    "mtime": 1784981684.3587444,
     "hash": "620c60945f58a9a6fb9cd44833c7b0ca"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\view\\deposit_pending_list.view.dart": {
@@ -1176,7 +1176,7 @@
     "hash": "aa90b9eb644887be4a7bf092e2a2b1ff"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\view\\deposit_update.view.dart": {
-    "mtime": 1784471340.0586877,
+    "mtime": 1784981684.3117247,
     "hash": "4d1d11b49d1e4056c5cb060fedb583ab"
   },
   "D:\\curserAi project\\lib\\src\\domain\\deposit\\widget\\deposit_filter_button.widget.dart": {
@@ -1192,7 +1192,7 @@
     "hash": "0336f5d175e23550deb5a9522d3221e2"
   },
   "D:\\curserAi project\\lib\\src\\domain\\home\\controller\\home.controller.dart": {
-    "mtime": 1782641368.5007043,
+    "mtime": 1784981683.7999475,
     "hash": "855aa0db3fae0f1453d7605134ee432e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\home\\controller\\home_tabs.controller.dart": {
@@ -1216,7 +1216,7 @@
     "hash": "5abcb077dbc8c8ee3136ad5ab7be7e7d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\home\\view\\home.view.dart": {
-    "mtime": 1784035642.074336,
+    "mtime": 1784981683.6455207,
     "hash": "30b97156c356c6cfe3e810e42a86ea8e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\home\\view\\more.view.dart": {
@@ -1244,36 +1244,36 @@
     "hash": "d3e3b1e9264db70d9a03d95df52acf5b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory.controller.dart": {
-    "mtime": 1784724170.5768502,
-    "hash": "0af8dce26cb07d750f084519a746c278"
+    "mtime": 1785044194.3833437,
+    "hash": "b4b60600a877ee866f4ed5f07531c1be"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_create_layout.controller.dart": {
     "mtime": 1771410609.6966403,
     "hash": "f4f047044372329bdb0594b5362d0d90"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_create_payment.controller.dart": {
-    "mtime": 1784724172.2160635,
-    "hash": "4fc0b80ee6ef1b188e0ca1da8678cc18"
+    "mtime": 1785044180.538611,
+    "hash": "c027086cbf87b075f97c9a095ce0b080"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_create_receive.controller.dart": {
-    "mtime": 1784724171.3066711,
-    "hash": "ca411f821743f8de28c2e9b7f25cfe0e"
+    "mtime": 1785044180.537611,
+    "hash": "14e612ac9d593e2d8824f84a186ab91d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_detail_insert_payment.controller.dart": {
-    "mtime": 1784724173.132251,
-    "hash": "2d04d14df5e414f42ebe58f2237750ec"
+    "mtime": 1785044180.538611,
+    "hash": "cd858e525a16b4a57bc153f9475b62c8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_detail_insert_receive.controller.dart": {
-    "mtime": 1784724173.132251,
-    "hash": "308c31e37c1610f6b4c545b091cb6fd9"
+    "mtime": 1785044180.538611,
+    "hash": "9d1f54d41aac5298ba222735d921d9bf"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_update_payment.controller.dart": {
-    "mtime": 1784710882.8603644,
-    "hash": "9cc4dcafba67624475ef9043f077a0ab"
+    "mtime": 1784981686.2836359,
+    "hash": "17af349a698de781ef1db63a9414effc"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\controller\\inventory_update_receive.controller.dart": {
-    "mtime": 1784710882.473132,
-    "hash": "5e1cde2af96d31d8af80a9a8eb0353c0"
+    "mtime": 1784981686.234436,
+    "hash": "c4b4bc5b3b289a8c12296a8d7589752d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\model\\createdBy.model.dart": {
     "mtime": 1755787164.0371382,
@@ -1316,7 +1316,7 @@
     "hash": "6e8a06f8319be2b6048de6ed93927ce9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\model\\picked_inventory_image.model.dart": {
-    "mtime": 1784709375.7424088,
+    "mtime": 1784981683.3448257,
     "hash": "26f16cf8c062b6120dcf7ef209d64183"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\model\\socket_inventory.model.dart": {
@@ -1324,11 +1324,11 @@
     "hash": "ddf9ded7a65b859c3f4bcabdf1b93604"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\service\\invoice_generation.service.dart": {
-    "mtime": 1781687643.1491172,
+    "mtime": 1784981686.0344174,
     "hash": "f68fc1b8933f6eac6fe9414b1c3aba10"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\utils\\inventory_image_picker.dart": {
-    "mtime": 1784709377.6671877,
+    "mtime": 1784981685.6577282,
     "hash": "76f4d8a6e8c60812428f1259d18fa446"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\view\\inventory_create.view.dart": {
@@ -1344,16 +1344,16 @@
     "hash": "2dfc127a245297b5774b2c075ada7c97"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\view\\inventory_detail_update_payment.view.dart": {
-    "mtime": 1784710882.4742327,
-    "hash": "abb92f8a51563d659cc6aab59683f559"
+    "mtime": 1784981683.1388538,
+    "hash": "6001defa41d4676ea98d0a1b11c72cc8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\view\\inventory_detail_update_receive.view.dart": {
-    "mtime": 1784710882.3566883,
-    "hash": "9a0114cea1f54a5af1f5d152ec1d0746"
+    "mtime": 1784981683.1197982,
+    "hash": "9da5b54bb3e2d4dbe694c7129b74cb8e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\view\\inventory_list.view.dart": {
-    "mtime": 1784713639.4266577,
-    "hash": "5c55f0471fd7639d4384c2af99edc68c"
+    "mtime": 1785044180.538611,
+    "hash": "db3a9050d014bea7edab8c3826e1ecc3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\image_upload.widget.dart": {
     "mtime": 1745655992.8438208,
@@ -1364,27 +1364,27 @@
     "hash": "3f392deff7e87bcdd7d1d1c6e67efda4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\inventory_create_payment_tab.widget.dart": {
-    "mtime": 1784710883.8104174,
+    "mtime": 1784981685.7089913,
     "hash": "14e42dca80777bf8f60f41f96f7019c3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\inventory_create_receive_tab.widget.dart": {
-    "mtime": 1784710883.1455832,
+    "mtime": 1784981685.9350762,
     "hash": "a55be4d7c02fb83e604c0153ed7efa47"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\item_temp_detail_payment.widget.dart": {
-    "mtime": 1784716546.8118434,
-    "hash": "148c50cca7e0f687ca82d9d81d57ce85"
+    "mtime": 1784981685.7205055,
+    "hash": "a6299eb5eedc4cfb098e172e5816e6da"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\item_temp_detail_receive.widget.dart": {
-    "mtime": 1784716535.9666452,
-    "hash": "ea2be76b21d7f0368d3d4f1274b8d958"
+    "mtime": 1784981685.7407076,
+    "hash": "1d492e1aade465f0f1a830a684df4e09"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\picked_image_thumbnail.widget.dart": {
-    "mtime": 1784716528.074607,
-    "hash": "3e70a27002c79cf1acb4f8b136020caf"
+    "mtime": 1784981685.6847703,
+    "hash": "1e4ef560b4bc6d8f214c8baef7066d3a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\inventory\\widget\\total_balance_gold_value.widget.dart": {
-    "mtime": 1781687984.6468887,
+    "mtime": 1784981685.695825,
     "hash": "5188ae4f29a3dbaa378435787720aebf"
   },
   "D:\\curserAi project\\lib\\src\\domain\\laboratory\\controller\\laboratory.controller.dart": {
@@ -1460,7 +1460,7 @@
     "hash": "7ed799f2882dee10aa869a9262b48781"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order_create.controller.dart": {
-    "mtime": 1783419076.3790946,
+    "mtime": 1784981685.1117773,
     "hash": "23c6514a4c00a846b995c9f742c83264"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order_edited_report.controller.dart": {
@@ -1468,7 +1468,7 @@
     "hash": "f63fcfdb9ef0a7b0b6a5c092c9488d42"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order_update.controller.dart": {
-    "mtime": 1783421604.0848944,
+    "mtime": 1784981684.9465826,
     "hash": "31b4de50faa38a7f8fad71327435f84d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\model\\info.model.dart": {
@@ -1548,7 +1548,7 @@
     "hash": "2804d39edf278eed47678a4bbb7ce736"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\view\\order_create.view.dart": {
-    "mtime": 1782726246.1233053,
+    "mtime": 1784981683.0327554,
     "hash": "7696d9967740e6c1b6b7a94a1de33390"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\view\\order_edited_report_list.view.dart": {
@@ -1560,7 +1560,7 @@
     "hash": "45e52a425a56bd2771edc145bca7aa47"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\view\\order_update.view.dart": {
-    "mtime": 1782726243.0588825,
+    "mtime": 1784981683.0987983,
     "hash": "a27c31104167d5d7d0b5ed19ef07c4f5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\widget\\hover_tooltip_balance.widget.dart": {
@@ -1568,7 +1568,7 @@
     "hash": "76f3e21ab885e983524db9ce54a56d5e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\widget\\order_create_dialog.widget.dart": {
-    "mtime": 1783410302.191976,
+    "mtime": 1784981686.5332503,
     "hash": "c51bfbdf8c8fe75221cee6b341b6df05"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\widget\\order_edited_filter.widget.dart": {
@@ -1580,7 +1580,7 @@
     "hash": "0cfcf5522e81f1ae8397762a6925505e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\widget\\order_update_dialog.widget.dart": {
-    "mtime": 1783409623.1727514,
+    "mtime": 1784981683.2181902,
     "hash": "320db576c21b5e08a650570dc86552ad"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\widget\\tooltip_total_balance.widget.dart": {
@@ -1724,7 +1724,7 @@
     "hash": "a89a1e7225959a7c6db6b4dd2cfeb474"
   },
   "D:\\curserAi project\\lib\\src\\domain\\product\\widget\\price_sell.widget.dart": {
-    "mtime": 1783853524.6949725,
+    "mtime": 1784981686.4712262,
     "hash": "719cac7972f725c85e6fa795e32a1073"
   },
   "D:\\curserAi project\\lib\\src\\domain\\product\\widget\\product_inventory_filter.widget.dart": {
@@ -1824,7 +1824,7 @@
     "hash": "d5f76ce7935f357378e121ccb953ec42"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\view\\insert_remittance.view.dart": {
-    "mtime": 1784471184.424158,
+    "mtime": 1784981683.248133,
     "hash": "c97a34a5ebdd331d35f10616411ccfc0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\view\\remittance.view.dart": {
@@ -1840,7 +1840,7 @@
     "hash": "9b1f02e1022cfc0e315f56c3da7f5ba0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\view\\update_remittance.view.dart": {
-    "mtime": 1784471221.2178721,
+    "mtime": 1784981683.276917,
     "hash": "5f8a3bc9d1373d45c6dbb72f49638cfb"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\widget\\hover_tooltip_balance_rem_req.widget.dart": {
@@ -1900,7 +1900,7 @@
     "hash": "0a2784542f8a84f228a89b816b0f924a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\splash\\controller\\splash.controller.dart": {
-    "mtime": 1784030611.8733418,
+    "mtime": 1784981683.171453,
     "hash": "8f5ee4cce2cac350a71ab3ddf535fa3d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\splash\\view\\splash.view.dart": {
@@ -2080,7 +2080,7 @@
     "hash": "3680b83801102abbced1f6e4da239588"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_detail_transaction.controller.dart": {
-    "mtime": 1783951522.7694523,
+    "mtime": 1784981682.7213829,
     "hash": "1cd1411b12d894841ec2e801c375a51c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_gold_transaction.controller.dart": {
@@ -2276,12 +2276,12 @@
     "hash": "7cfaf42d6227f9bfbc01a81a2b615a21"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\model\\transaction_info_item.model.dart": {
-    "mtime": 1783948727.8582814,
+    "mtime": 1784981682.9223335,
     "hash": "ba571551774fc25003a22038783dc733"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\model\\transaction_info_item.model.g.dart": {
-    "mtime": 1783948777.1256392,
-    "hash": "d197961af4001349e7814bf833185fa2"
+    "mtime": 1784981683.0482638,
+    "hash": "15d2a339efeeaf1b1083f9636ee5c535"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\model\\transaction_info_item_list_pager.model.dart": {
     "mtime": 1752399132.1148014,
@@ -2344,8 +2344,8 @@
     "hash": "ff16b959833f26e58d3af79b5a66c7ca"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\list_user_info_transaction.view.dart": {
-    "mtime": 1783943046.8316202,
-    "hash": "e14a048dc7d3fcaa2b5f58a9a176a808"
+    "mtime": 1785049134.2614436,
+    "hash": "918d4c9ece125ffb680fdfb875f10560"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\person_list.view.dart": {
     "mtime": 1780328223.8968596,
@@ -2364,7 +2364,7 @@
     "hash": "bab05a33a29e7545637e2373ad494b5f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\user_info_transaction.view.dart": {
-    "mtime": 1783951490.8348894,
+    "mtime": 1784981685.341145,
     "hash": "da7c1bac9be9de0dfb570c490bc291a9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\balance.widget.dart": {
@@ -2420,7 +2420,7 @@
     "hash": "e48164b353e75fa775e93e602254979a"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\selected_factor_detail_dialog.widget.dart": {
-    "mtime": 1783951198.418228,
+    "mtime": 1784981685.8928254,
     "hash": "7b40cded032e3aad292ac56e2e2228c7"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\tabel_info.widget.dart": {
@@ -2438,6 +2438,86 @@
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_update_dialog.widget.dart": {
     "mtime": 1779192912.2832851,
     "hash": "7c9b0303ebd768619ef733d541d44595"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_coin_cell.widget.dart": {
+    "mtime": 1785048405.5913124,
+    "hash": "1232635acd54997f079c7b718612a06d"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_currency_cell.widget.dart": {
+    "mtime": 1785048409.570354,
+    "hash": "22c10938c8a5f2e02ddee7e3ab93b4c4"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_data_table.widget.dart": {
+    "mtime": 1785048655.9868827,
+    "hash": "d0b8df17b7198254148cd8f4da079dfb"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_desktop_body.widget.dart": {
+    "mtime": 1785048643.0136592,
+    "hash": "e9f8395c0f2a9633525f8b4e4c987224"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_empty_state.widget.dart": {
+    "mtime": 1785047983.580865,
+    "hash": "cef0a951aa546d49fe25880ecfe814c5"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_error_state.widget.dart": {
+    "mtime": 1785047982.532543,
+    "hash": "98128237d162f34d2a89f38fd53cdf38"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_excel_dialog.widget.dart": {
+    "mtime": 1785048229.5063312,
+    "hash": "88e4b1aa44a729658e7d596d8047a19b"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_footer.widget.dart": {
+    "mtime": 1785048789.838897,
+    "hash": "48b860b4d1c8a0ddeef9b320dfc182bf"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_gold_cell.widget.dart": {
+    "mtime": 1785048398.1462946,
+    "hash": "b5e9834471e02ca19493ad946365589e"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_grouped_header.widget.dart": {
+    "mtime": 1785048429.1525457,
+    "hash": "08c1f3aae721522f07ecb99117c1215e"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_loading_state.widget.dart": {
+    "mtime": 1785047982.531489,
+    "hash": "4a8d91ec71593e754b025c7b2259da6d"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_mobile_list.widget.dart": {
+    "mtime": 1785049130.073056,
+    "hash": "93c8457e405b5d4c96b7fb1f60f3b4ac"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_page_chrome.dart": {
+    "mtime": 1785047836.158886,
+    "hash": "920fd867007133242179ad6338eea367"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_polarity_chip.widget.dart": {
+    "mtime": 1785047837.654341,
+    "hash": "d81655ef235951e53cb1e59324d74d49"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_rial_cell.widget.dart": {
+    "mtime": 1785048386.399781,
+    "hash": "19145da54075d2858f1bf020405816fe"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_search_bar.widget.dart": {
+    "mtime": 1785048236.7155738,
+    "hash": "90a204276a4634dfa5f6aa1e53d7b4ef"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_stats_grid.widget.dart": {
+    "mtime": 1785047987.5123262,
+    "hash": "970ea728d8a2d010bdeba47f93f0953a"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_stats_helper.dart": {
+    "mtime": 1785047886.7833083,
+    "hash": "ba2dbfc9aff52ad1f77f29d8a55baf04"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_toolbar.widget.dart": {
+    "mtime": 1785048233.2562737,
+    "hash": "1ae5a78f1be3d5a0336db66afe289112"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_total_cell.widget.dart": {
+    "mtime": 1785048418.9264777,
+    "hash": "904d11bed3ede4b1e322f1be485596b5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\wallet\\model\\wallet.model.dart": {
     "mtime": 1741593603.834056,
@@ -2468,7 +2548,7 @@
     "hash": "2581f3bf29122ac3a1caef0526233b94"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\controller\\withdraw.controller.dart": {
-    "mtime": 1783848560.2263553,
+    "mtime": 1784981684.074423,
     "hash": "9af2796953e1937846dd08093cc34a0d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\controller\\withdraw_create.controller.dart": {
@@ -2544,7 +2624,7 @@
     "hash": "351d171c8217f7b4bade991e4569c876"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_deposit_request_report.model.dart": {
-    "mtime": 1782736803.543447,
+    "mtime": 1784981683.2938383,
     "hash": "f9dc4383dbfed6893bfc0fd8978f32b9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_deposit_request_report.model.g.dart": {
@@ -2552,7 +2632,7 @@
     "hash": "1e24a7f6a6c71de2a3d6b003a6522126"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_payment_report.model.dart": {
-    "mtime": 1783849127.8816273,
+    "mtime": 1784981683.2606928,
     "hash": "b353526b4c816ef3324e820cf780293f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_payment_report.model.g.dart": {
@@ -2560,7 +2640,7 @@
     "hash": "693b913c707d85e2134109e2feb36932"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_withdraw_request_report.model.dart": {
-    "mtime": 1782736682.2269135,
+    "mtime": 1784981683.3077855,
     "hash": "660a999f91139e996352512536fe7e60"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\model\\today_withdraw_request_report.model.g.dart": {
@@ -2576,15 +2656,15 @@
     "hash": "5418365d5de74a42050c8e00bb8a8a59"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\util\\request_date_api.util.dart": {
-    "mtime": 1783848476.2957711,
+    "mtime": 1784981685.5169003,
     "hash": "7c89d0f059756b92902fd85be15f4814"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\util\\today_payment_report_section.util.dart": {
-    "mtime": 1782912263.6392076,
+    "mtime": 1784981684.442177,
     "hash": "b963eda1e92fc48db716deca3a404ec2"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\deposit_request_create.view.dart": {
-    "mtime": 1782726488.0661807,
+    "mtime": 1784981683.360826,
     "hash": "22ceaafe4ed5b705e1535b69bf843fd4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\deposit_request_getOne.view.dart": {
@@ -2592,15 +2672,15 @@
     "hash": "6fa11125dcc7c940cd93a1b2f9ec0483"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\deposit_request_update.view.dart": {
-    "mtime": 1782726488.0921037,
+    "mtime": 1784981683.396826,
     "hash": "31313ec6d1bc1b19f4f4720e9dfb2f74"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\withdraws_list.view.dart": {
-    "mtime": 1784464736.2027037,
+    "mtime": 1784981683.6092844,
     "hash": "ab3ee925d8ca890b18bc2ecf71e5f213"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\withdraw_create.view.dart": {
-    "mtime": 1784471057.6740942,
+    "mtime": 1784981683.7629378,
     "hash": "a8755badf5f47279f8fed4261e39696c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\withdraw_getOne.view.dart": {
@@ -2612,7 +2692,7 @@
     "hash": "6c6ded37d4e91a514c0c49c13451d9e5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\view\\withdraw_update.view.dart": {
-    "mtime": 1784471081.8143752,
+    "mtime": 1784981683.8774304,
     "hash": "644ccf534c640654bffb97e09e613583"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\hover_tooltip_balance_withdraw.widget.dart": {
@@ -2620,15 +2700,15 @@
     "hash": "10bcabf69e89e9acbb235c8e94cddc12"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\hover_tooltip_deposit_request_report.widget.dart": {
-    "mtime": 1783848663.1600058,
+    "mtime": 1784981682.753807,
     "hash": "668fdaca6b1c39c2b5255eea7527d2fe"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\hover_tooltip_today_payment_report.widget.dart": {
-    "mtime": 1784465842.6197863,
+    "mtime": 1784981682.6021323,
     "hash": "ff09cf49049143ae72ca0b42dd1315c8"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\hover_tooltip_withdraw_request_report.widget.dart": {
-    "mtime": 1783848649.0559285,
+    "mtime": 1784981682.8255308,
     "hash": "ba437ed03404594b1cd0ce74a9a60cb5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\image_drop_zone_withdraw.widget.dart": {
@@ -2636,15 +2716,15 @@
     "hash": "7b0880e400be249fbac10aa157a6a124"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\today_deposit_request_report_tooltip_content.widget.dart": {
-    "mtime": 1783490145.7330432,
+    "mtime": 1784981682.7755685,
     "hash": "51146f21bce704774f985b40df464463"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\today_payment_report_tooltip_content.widget.dart": {
-    "mtime": 1784463947.9153597,
+    "mtime": 1784981682.6333778,
     "hash": "e9cddf4f3ee25c1f1cf1b72c85fa859b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\today_withdraw_request_report_tooltip_content.widget.dart": {
-    "mtime": 1783852661.4858449,
+    "mtime": 1784981682.6542337,
     "hash": "b2e0e437951c0f9c6f3b4814050a00a7"
   },
   "D:\\curserAi project\\lib\\src\\domain\\withdraw\\widget\\withdraw_filter.widget.dart": {
@@ -2680,11 +2760,11 @@
     "hash": "951a0b520adbe752b727f0418af26412"
   },
   "D:\\curserAi project\\lib\\src\\widget\\blinking_svg.widget.dart": {
-    "mtime": 1782040475.7236116,
+    "mtime": 1784981685.6188123,
     "hash": "5f17ae44d08a0f519b5abff88acffd64"
   },
   "D:\\curserAi project\\lib\\src\\widget\\chat_floating_button.widget.dart": {
-    "mtime": 1782844838.8001435,
+    "mtime": 1784981684.2412615,
     "hash": "c9a862130233d2416b2907c8dac93b15"
   },
   "D:\\curserAi project\\lib\\src\\widget\\custom_appbar.widget.dart": {
@@ -2700,7 +2780,7 @@
     "hash": "59c18ef2d47eda904dfdd01fc7af9c74"
   },
   "D:\\curserAi project\\lib\\src\\widget\\custom_dropdown1.widget.dart": {
-    "mtime": 1782727030.050192,
+    "mtime": 1784981684.0021214,
     "hash": "81659eee0a5bfc79198d6428367afa15"
   },
   "D:\\curserAi project\\lib\\src\\widget\\empty.dart": {
@@ -2716,19 +2796,19 @@
     "hash": "3fa0de6f0dd12a80038147f8d10716b6"
   },
   "D:\\curserAi project\\lib\\src\\widget\\hover_floating_panel.widget.dart": {
-    "mtime": 1783159833.876894,
+    "mtime": 1784981682.8005815,
     "hash": "46db33dd05b0f97e3c09aa00f396509e"
   },
   "D:\\curserAi project\\lib\\src\\widget\\hover_lazy_rich_tooltip.widget.dart": {
-    "mtime": 1783866972.6308227,
+    "mtime": 1784981684.2179267,
     "hash": "7fe9ee177e7b21022cf67fc3fec333ab"
   },
   "D:\\curserAi project\\lib\\src\\widget\\hover_nested_panel.widget.dart": {
-    "mtime": 1783158933.1503782,
+    "mtime": 1784981684.1823792,
     "hash": "b0ba5f1ca105296a5c61ee5f153a2622"
   },
   "D:\\curserAi project\\lib\\src\\widget\\hover_tooltip_scope.widget.dart": {
-    "mtime": 1783862930.6404178,
+    "mtime": 1784981684.2614427,
     "hash": "7f1bd4c12e50ce5266f27c5f4eb45d46"
   },
   "D:\\curserAi project\\lib\\src\\widget\\item_weight_calculator_dialog.widget.dart": {
@@ -2752,12 +2832,12 @@
     "hash": "4c77255d64712551a494ee56902dd8b5"
   },
   "D:\\curserAi project\\lib\\src\\widget\\side_menu.widget.dart": {
-    "mtime": 1784035582.4709547,
+    "mtime": 1784981685.550716,
     "hash": "64fdb996ccb1fc963678bf051de9f667"
   },
   "D:\\curserAi project\\lib\\src\\widget\\side_menu_fix.widget.dart": {
-    "mtime": 1784035559.1745975,
-    "hash": "ed4cf6ff1cbaa51fd6f7ab2adc2763e7"
+    "mtime": 1784981683.1857963,
+    "hash": "02e9ca48ca4a3108e351e5595e196e54"
   },
   "D:\\curserAi project\\lib\\src\\widget\\socket_status_indicator.widget.dart": {
     "mtime": 1771422810.1501436,
@@ -2772,7 +2852,7 @@
     "hash": "e4c12e37169e6ab347b195b49970bcae"
   },
   "D:\\curserAi project\\linux\\flutter\\generated_plugin_registrant.cc": {
-    "mtime": 1782209700.554522,
+    "mtime": 1785043850.0104446,
     "hash": "8da0e44ac2074d2d33a4494f485ae798"
   },
   "D:\\curserAi project\\linux\\flutter\\generated_plugin_registrant.h": {
@@ -2792,7 +2872,7 @@
     "hash": "f6b37d58752c8671078b6f660e33e8c1"
   },
   "D:\\curserAi project\\macos\\Flutter\\GeneratedPluginRegistrant.swift": {
-    "mtime": 1782219079.920178,
+    "mtime": 1785043850.0223947,
     "hash": "d73dd76fa27e7731ffbf4150452d5f52"
   },
   "D:\\curserAi project\\macos\\Runner\\AppDelegate.swift": {
@@ -2840,7 +2920,7 @@
     "hash": "09fe5abb1cb4f2e3ad51a5d9de4fb8c1"
   },
   "D:\\curserAi project\\test\\secure_session_storage_test.dart": {
-    "mtime": 1784708343.5153732,
+    "mtime": 1785044194.3833437,
     "hash": "fe4e8dcba94330feeaa09a70e56fb3c6"
   },
   "D:\\curserAi project\\test\\selected_factor_pdf_query_test.dart": {
@@ -2860,16 +2940,20 @@
     "hash": "4309d0a500dfc15038fa89e5f3941014"
   },
   "D:\\curserAi project\\test\\web_tab_logout_test.dart": {
-    "mtime": 1784708343.5153732,
+    "mtime": 1785044194.3833437,
     "hash": "6f962c94f593587db80e7525bbdbeaf2"
   },
   "D:\\curserAi project\\test\\web_tab_presence_test.dart": {
-    "mtime": 1784708343.5153732,
+    "mtime": 1785044194.3833437,
     "hash": "93a2833cbee1b1a79afedcedf67c8f1b"
   },
   "D:\\curserAi project\\test\\widget_test.dart": {
     "mtime": 1739598072.7803276,
     "hash": "ec084a6ba0d065181282acbe4cad3fa7"
+  },
+  "D:\\curserAi project\\test\\domain\\users\\user_balance_stats_helper_test.dart": {
+    "mtime": 1785047886.7873201,
+    "hash": "000d81e9637a55c03f2a5362b2d32a62"
   },
   "D:\\curserAi project\\web\\lottie.min.js": {
     "mtime": 1777369956.428511,
@@ -2896,7 +2980,7 @@
     "hash": "1e86152ba5df6bc98d05282cdd9a8d5f"
   },
   "D:\\curserAi project\\windows\\flutter\\generated_plugin_registrant.cc": {
-    "mtime": 1782209700.5632498,
+    "mtime": 1785043850.0161586,
     "hash": "6aaf4060a7cfa19ec7788b184ac1c928"
   },
   "D:\\curserAi project\\windows\\flutter\\generated_plugin_registrant.h": {
@@ -2936,8 +3020,8 @@
     "hash": "7569387d58711ab975940f4df3b4bcda"
   },
   "D:\\curserAi project\\AGENTS.md": {
-    "mtime": 1778664181.7753456,
-    "hash": "848561770122b94dd1b639d2187dc37a"
+    "mtime": 1785046199.2541685,
+    "hash": "f5589825f26798dff5fd421a3f04f10a"
   },
   "D:\\curserAi project\\analysis_options.yaml": {
     "mtime": 1739598072.8139772,
@@ -2948,8 +3032,8 @@
     "hash": "f5b7ed0c3de00eefb1b59b1b55579562"
   },
   "D:\\curserAi project\\pubspec.yaml": {
-    "mtime": 1784527011.921167,
-    "hash": "8be65722bb42f234af773d37236abc53"
+    "mtime": 1784981686.5878873,
+    "hash": "583278f416a12d64277bf6bdaa5c1723"
   },
   "D:\\curserAi project\\README.md": {
     "mtime": 1739598072.764704,
