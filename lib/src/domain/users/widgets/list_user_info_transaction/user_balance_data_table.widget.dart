@@ -36,7 +36,9 @@ class UserBalanceDataTable extends StatelessWidget {
         dataRowMaxHeight: double.infinity,
         headingRowColor:
             WidgetStatePropertyAll(AppColor.buttonColor.withAlpha(40)),
-        headingRowHeight: 56,
+        // Label (~16) + gap (4) + polarity chip min touch target (44) ≈ 64;
+        // 56 caused RenderFlex overflow by 8px on grouped headers.
+        headingRowHeight: 72,
         columnSpacing: 16,
         horizontalMargin: 5,
       );
