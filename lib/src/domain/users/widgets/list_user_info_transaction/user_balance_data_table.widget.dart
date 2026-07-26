@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_coin_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_gold_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_grouped_header.widget.dart';
@@ -17,7 +17,7 @@ class UserBalanceDataTable extends StatelessWidget {
     required this.controller,
   });
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +235,7 @@ class UserBalanceDataTable extends StatelessWidget {
     );
   }
 
-  /// Maps controller sort indices (2–11) to visual column indices (2–8).
+  /// Maps controller sort indices (2–15) to visual column indices (2–8).
   static int? _visualSortColumnIndex(int? controllerIndex) {
     if (controllerIndex == null) {
       return null;
@@ -245,7 +245,9 @@ class UserBalanceDataTable extends StatelessWidget {
       4 || 5 => 3,
       6 || 7 => 4,
       8 || 9 => 5,
-      10 || 11 => 8,
+      10 || 11 => 6,
+      12 || 13 => 7,
+      14 || 15 => 8,
       _ => null,
     };
   }

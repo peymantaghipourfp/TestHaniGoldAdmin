@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/model/list_transaction_info_item.model.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_page_chrome.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart';
@@ -17,9 +17,11 @@ class UserBalanceMobileList extends StatelessWidget {
   const UserBalanceMobileList({
     super.key,
     required this.controller,
+    this.filterDialogBuilder,
   });
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
+  final Widget Function(BuildContext context)? filterDialogBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class UserBalanceMobileList extends StatelessWidget {
         children: [
           Row(
             children: [
-              UserBalanceToolbar(controller: controller, isDesktop: false),
+              UserBalanceToolbar(
+                controller: controller,
+                isDesktop: false,
+                filterDialogBuilder: filterDialogBuilder,
+              ),
               Expanded(child: _MobileSortHeader(controller: controller)),
             ],
           ),
@@ -77,7 +83,7 @@ class UserBalanceMobileList extends StatelessWidget {
 class _MobileSortHeader extends StatelessWidget {
   const _MobileSortHeader({required this.controller});
 
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +125,8 @@ class _MobileSortHeader extends StatelessWidget {
                     DropdownMenuItem(value: 5, child: Text('طلا بدهکار')),
                     DropdownMenuItem(value: 6, child: Text('سکه بستانکار')),
                     DropdownMenuItem(value: 7, child: Text('سکه بدهکار')),
-                    DropdownMenuItem(value: 10, child: Text('تراز کل بستانکار')),
-                    DropdownMenuItem(value: 11, child: Text('تراز کل بدهکار')),
+                    DropdownMenuItem(value: 14, child: Text('تراز کل بستانکار')),
+                    DropdownMenuItem(value: 15, child: Text('تراز کل بدهکار')),
                   ],
                   onChanged: (int? newValue) {
                     if (newValue != null) {

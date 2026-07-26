@@ -22,9 +22,11 @@ import 'package:flutter/services.dart';
 import 'package:universal_html/html.dart' as html;
 
 
-enum PageState{loading,err,empty,list}
+import 'user_balance_list_controller.dart';
 
-class UserInfoTransactionController extends GetxController{
+export 'user_balance_list_controller.dart' show PageState;
+
+class UserInfoTransactionController extends GetxController implements UserBalanceListController {
 
   Rx<PageState> state=Rx<PageState>(PageState.list);
   RxInt currentPageIndex = 1.obs;
