@@ -22,9 +22,11 @@ import 'package:flutter/services.dart';
 import 'package:universal_html/html.dart' as html;
 
 
-enum PageState{loading,err,empty,list}
+import 'user_balance_list_controller.dart';
 
-class UserInfoGoldTransactionController extends GetxController{
+export 'user_balance_list_controller.dart' show PageState;
+
+class UserInfoGoldTransactionController extends GetxController implements UserBalanceListController {
 
   Rx<PageState> state=Rx<PageState>(PageState.list);
   RxInt currentPageIndex = 1.obs;
@@ -70,45 +72,48 @@ class UserInfoGoldTransactionController extends GetxController{
     sortColumnIndex.value = columnIndex;
     sortAscending.value = ascending;
 
-    /*if (columnIndex == 2) {
-      listTransactionInfo.sort((a, b) {
-        final aCurrency = a.currencyValue;
-        final bCurrency = b.currencyValue;
-        return ascending ? aCurrency.compareTo(bCurrency) : bCurrency.compareTo(aCurrency);
-      });
-    }else if(columnIndex == 3){
-      listTransactionInfo.sort((a, b) {
-        final aCurrency = a.currencyValue;
-        final bCurrency = b.currencyValue;
-        return ascending ? aCurrency.compareTo(bCurrency) : bCurrency.compareTo(aCurrency);
-      });
-    }*/
-
-    // Map column indices to orderBy fields
     String orderByField;
     switch (columnIndex) {
-      case 2: // Rial balance (credit)
+      case 2:
         orderByField = "AccountValues.CashBalanceBes";
         break;
-      case 3: // Rial balance (debit)
+      case 3:
         orderByField = "AccountValues.CashBalanceBed";
         break;
-      case 4: // Gold balance (credit)
+      case 4:
         orderByField = "AccountValues.GoldBalanceBes";
         break;
-      case 5: // Gold balance (debit)
+      case 5:
         orderByField = "AccountValues.GoldBalanceBed";
         break;
-      case 6: // Coin balance (credit)
+      case 6:
         orderByField = "AccountValues.CoinBalanceBes";
         break;
-      case 7: // Coin balance (debit)
+      case 7:
         orderByField = "AccountValues.CoinBalanceBed";
         break;
-      case 10: // Currency balance (debit)
+      case 8:
+        orderByField = "AccountValues.DollarBalanceBES";
+        break;
+      case 9:
+        orderByField = "AccountValues.DollarBalanceBED";
+        break;
+      case 10:
+        orderByField = "AccountValues.EuroBalanceBES";
+        break;
+      case 11:
+        orderByField = "AccountValues.EuroBalanceBED";
+        break;
+      case 12:
+        orderByField = "AccountValues.SilverBalanceBES";
+        break;
+      case 13:
+        orderByField = "AccountValues.SilverBalanceBED";
+        break;
+      case 14:
         orderByField = "AccountValues.CurrencyValueBes";
         break;
-      case 11: // Currency balance (debit)
+      case 15:
         orderByField = "AccountValues.CurrencyValueBed";
         break;
       default:
@@ -118,10 +123,11 @@ class UserInfoGoldTransactionController extends GetxController{
     currentOrderBy.value = orderByField;
     currentOrderByType.value = ascending ? "ASC" : "DESC";
 
-    // Refresh data with new sorting
     getListTransactionInfoGoldPager();
   }
 
+  @override
+  Future<void> getListTransactionInfoPager() => getListTransactionInfoGoldPager();
 
   void isChangePage(int index) {
     currentPage.value=(index*25-25)+1;

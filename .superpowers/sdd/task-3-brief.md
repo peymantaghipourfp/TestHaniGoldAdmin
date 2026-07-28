@@ -1,15 +1,11 @@
-﻿### Task 3: Toolbar, search, excel dialog
+﻿### Task 3: Extract mobile list + thin the view
 
-**Files:** `user_balance_search_bar.widget.dart`, `user_balance_excel_dialog.widget.dart`, `user_balance_toolbar.widget.dart`
+**Files:**
+- Create: `gold_transaction_mobile_list.widget.dart`
+- Modify: view â€” replace `_buildMobileTransactionCards(...)` with `GoldTransactionMobileList(controller: controller)`
+- Modify: controller â€” desktop horizontal `scrollController` unused cleanup only if safe
 
-- [ ] **Step 1:** Move desktop search (L117–168), excel dialog (L174–250), filter opener (L251–415) without behavior change
-- [ ] **Step 2:** Apply `UserBalancePageChrome` decorations; desktop max search width ~400
-- [ ] **Step 3:** Commit `feat(users): extract user-balance toolbar`
-
-**Global Constraints (binding):**
-- Do not change behavior — copy logic verbatim from monolith
-- Apply UserBalancePageChrome toolbarDecoration
-- Desktop search max width ~400
-- Filter dialog: existing `FilterDialogReportSetting` widget
-- Controller: UserInfoTransactionController
-- Do NOT wire into main view yet (Task 6)
+- [ ] **Step 1:** Move mobile card UI + helpers into `GoldTransactionMobileList` (mobile can keep showing debit/credit/balance as separate card rows â€” no UX requirement to group cards).
+- [ ] **Step 2:** Reuse `GoldTransactionToolbar` on mobile.
+- [ ] **Step 3:** Confirm view no longer contains `buildDataColumns` / `buildDataRows` / `_buildMobileTransactionCards`.
+- [ ] **Step 4:** Analyze + smoke on Chrome. Commit: `refactor(users): extract gold transaction mobile list`.

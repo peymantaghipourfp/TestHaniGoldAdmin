@@ -1,7 +1,7 @@
 # Task 1 Report — Scaffold gold transaction toolbar + desktop body shell
 
 **Status:** Complete  
-**Commit:** (pending at report write; see git log)  
+**Commit:** `014f7c7` — `feat(users): scaffold gold transaction desktop toolbar shell`  
 **Branch:** `feat/gold-tx-fit-table`
 
 ## What was implemented

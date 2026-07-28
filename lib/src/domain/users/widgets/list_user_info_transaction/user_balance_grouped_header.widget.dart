@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart';
 
 /// Grouped column header: asset label + بستانکار/بدهکار sort chips.
@@ -19,7 +19,7 @@ class UserBalanceGroupedHeader extends StatelessWidget {
   final String label;
   final int creditSortIndex;
   final int debitSortIndex;
-  final UserInfoTransactionController controller;
+  final UserBalanceListController controller;
   final bool sortEnabled;
 
   /// Currency headers swap بستانکار/بدهکار colors (monolith parity).

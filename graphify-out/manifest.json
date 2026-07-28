@@ -2076,8 +2076,8 @@
     "hash": "0695804d89e64731e0e4342e8b9ba1fe"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_detail_gold_transaction.controller.dart": {
-    "mtime": 1771422021.0906632,
-    "hash": "3680b83801102abbced1f6e4da239588"
+    "mtime": 1785220689.2665505,
+    "hash": "b06dcb3fa49fcacfdc5edd58f6926638"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_detail_transaction.controller.dart": {
     "mtime": 1784981682.7213829,
@@ -2360,8 +2360,8 @@
     "hash": "b130231287bb7bfab11eed8bcb027ee5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\user_info_gold_transaction.view.dart": {
-    "mtime": 1785216687.9170566,
-    "hash": "bab05a33a29e7545637e2373ad494b5f"
+    "mtime": 1785220862.3316374,
+    "hash": "aaed919d27dacc049394a411f588c363"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\user_info_transaction.view.dart": {
     "mtime": 1784981685.341145,
@@ -2519,9 +2519,53 @@
     "mtime": 1785064378.0683217,
     "hash": "674132fe9090623dc9c1a46d2e84df47"
   },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_coin_cell.widget.dart": {
+    "mtime": 1785220285.443416,
+    "hash": "35a8d9486b06e4f699c5471c9e691b89"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_data_table.widget.dart": {
+    "mtime": 1785220285.4444163,
+    "hash": "34064f6c7582e2ebd33fb14e3d2be355"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_datetime_cell.widget.dart": {
+    "mtime": 1785220285.445416,
+    "hash": "36fd7cc5c2c89097953f48fd7a9e6ffb"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_description_cell.widget.dart": {
+    "mtime": 1785220285.4474173,
+    "hash": "e0109d8e8dd48ccbdb2f48cecea6e505"
+  },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_desktop_body.widget.dart": {
-    "mtime": 1785218861.1075997,
-    "hash": "52c68cbf2c7df5d89884933b54d8bb06"
+    "mtime": 1785219431.0178032,
+    "hash": "1e81049d1584c210503e9df733a0c81e"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_gold_cell.widget.dart": {
+    "mtime": 1785220285.4484155,
+    "hash": "f91b25df7c1278322ce98150b667d055"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_grouped_header.widget.dart": {
+    "mtime": 1785219695.882702,
+    "hash": "c27baffb5d1fa1544582135efc579813"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_half_quarter_cell.widget.dart": {
+    "mtime": 1785220285.4494154,
+    "hash": "25a10a738e0f495b3fd7928e5b6cba42"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_invoice_cell.widget.dart": {
+    "mtime": 1785220154.474846,
+    "hash": "04beb86d0836f1374c968f3f66d7af5b"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_mobile_list.widget.dart": {
+    "mtime": 1785220889.5842514,
+    "hash": "61904617ff6399cfed9b19fc86cc479e"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_qty_cell.widget.dart": {
+    "mtime": 1785220285.4494154,
+    "hash": "2cdc6750a49c31d101dd6122c8afb9c1"
+  },
+  "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_rial_cell.widget.dart": {
+    "mtime": 1785220285.4504154,
+    "hash": "ddc9ef7865870ee475c2d84388cc5e85"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\user_info_gold_transaction\\gold_transaction_toolbar.widget.dart": {
     "mtime": 1785218861.1075997,
@@ -2920,8 +2964,8 @@
     "hash": "1c92f94007878919a8f2ba7d1f5d1476"
   },
   "D:\\curserAi project\\test\\gold_transaction_data_table_layout_test.dart": {
-    "mtime": 1785218810.6317663,
-    "hash": "04d84e9a164ea05bf483182970c18d6e"
+    "mtime": 1785220311.5040073,
+    "hash": "6c92ddbe356a40fb8b5b8e04e76fe81c"
   },
   "D:\\curserAi project\\test\\list_user_info_transaction_column_widths_test.dart": {
     "mtime": 1783956537.0574493,

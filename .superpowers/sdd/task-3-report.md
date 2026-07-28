@@ -2,7 +2,7 @@
 
 **Status:** DONE  
 **Branch:** `feat/gold-tx-fit-table`  
-**Commit:** (see git log) — `refactor(users): extract gold transaction mobile list`
+**Commit:** `92d6c3d` — `refactor(users): extract gold transaction mobile list`
 
 ## What was implemented
 
