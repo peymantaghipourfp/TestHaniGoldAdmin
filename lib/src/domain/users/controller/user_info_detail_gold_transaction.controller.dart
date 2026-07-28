@@ -56,7 +56,6 @@ class UserInfoDetailGoldTransactionController extends GetxController{
   final ItemRepository itemRepository=ItemRepository();
   final AccountRepository accountRepository=AccountRepository();
   final WalletRepository walletRepository=WalletRepository();
-  ScrollController scrollController = ScrollController();
   ScrollController scrollControllerMobile = ScrollController();
   final TextEditingController searchController=TextEditingController();
   final TextEditingController dateStartController=TextEditingController();

@@ -1,49 +1,61 @@
-# Task 3 Report — Toolbar, search, excel dialog
+# Task 3 Report — Extract mobile list + thin the view
 
-**Status:** Complete  
-**Commit:** `f287309` — `feat(users): extract user-balance toolbar`  
-**Branch:** `feat/user-balance-grouped-table`
+**Status:** DONE  
+**Branch:** `feat/gold-tx-fit-table`  
+**Commit:** (see git log) — `refactor(users): extract gold transaction mobile list`
 
-## Deliverables
+## What was implemented
 
-| File | Widget / API | Purpose |
-| --- | --- | --- |
-| `user_balance_search_bar.widget.dart` | `UserBalanceSearchBar` | Reusable search field with chrome borders; optional `maxWidth` + `compact` for mobile |
-| `user_balance_excel_dialog.widget.dart` | `showUserBalanceExcelDialog` | Shared Excel export dialog (name filter + `getListUserInfoTransactionExcel`) |
-| `user_balance_toolbar.widget.dart` | `UserBalanceToolbar` | Desktop row (search 400px + Excel + Filter in chrome); mobile icon actions |
+### Created
 
-## Implementation notes
+| File | Responsibility |
+| --- | --- |
+| `lib/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_mobile_list.widget.dart` | `GoldTransactionMobileList` — empty state, cards `ListView`, infinite-scroll footer (`Obx` loading / “همه تراکنش‌ها”), type chip + type-branched detail helpers |
 
-- **Search bar:** Extracted from monolith L50–101 (mobile) and L117–168 (desktop). Uses `UserBalancePageChrome.radiusMd` / `slateBorder` for borders and focused state. Callbacks `onSearch` / `onClear` wire to `getListTransactionInfoPager` / `clearSearch` at call site. Hint text preserved (`جستجو ... `).
-- **Excel dialog:** Extracted from L174–344 (desktop) and mobile duplicate (~L2648). `Obx` wraps export button for `isLoading`. Caller clears filters before open (`toolbar._openExcel`). Dialog chrome uses `radiusMd` + slate border.
-- **Toolbar:** Desktop uses `UserBalancePageChrome.toolbarDecoration()` with 400px search slot + `Spacer` + outlined Excel/Filter buttons. Mobile exposes Excel/Filter `GestureDetector` icons (search remains external per hybrid layout). Filter opens existing `FilterDialog` via `showGeneralDialog` with monolith dimensions (0.5/0.8 desktop, 0.9/0.9 mobile).
-- **Not wired:** `list_user_info_transaction.view.dart` unchanged per Task 6 scope.
+### Modified
+
+| File | Change |
+| --- | --- |
+| `user_info_gold_transaction.view.dart` | Mobile path → `GoldTransactionMobileList(controller: controller)`; removed `_buildMobileTransactionCards` + helpers (~870 lines); cleaned unused imports (`rendering`, `services`, `shamsi_date`, `chat_dialog`, `num_display`, filter) |
+| `user_info_detail_gold_transaction.controller.dart` | Removed unused desktop `ScrollController scrollController` (never attached; `scrollControllerMobile` infinite-scroll untouched) |
+
+### Toolbar reuse
+
+Inline mobile filter / clear-checkboxes `Row` replaced with `GoldTransactionToolbar(controller: controller)` inside `GoldTransactionMobileList` (same widget as desktop body).
+
+### View thinned — confirmed absent
+
+- `buildDataColumns` — gone (already removed in Task 2)
+- `buildDataRows` — gone (already removed in Task 2)
+- `_buildMobileTransactionCards` — removed this task
+
+Mobile cards still show separate debit/credit/balance rows (no grouping requirement).
 
 ## Verification
 
-```
-flutter analyze lib/src/domain/users/widgets/list_user_info_transaction/user_balance_search_bar.widget.dart \
-  lib/src/domain/users/widgets/list_user_info_transaction/user_balance_excel_dialog.widget.dart \
-  lib/src/domain/users/widgets/list_user_info_transaction/user_balance_toolbar.widget.dart
-→ No issues found! (3 files)
-```
+| Command | Result |
+| --- | --- |
+| `flutter test test/gold_transaction_data_table_layout_test.dart` | **PASS** (+5) |
+| `flutter analyze` on mobile list + view | **12 info** only (`withOpacity` deprecations + pre-existing view style infos); **no errors/warnings** on touched extraction |
+| Chrome smoke | Skipped (no browser device / not blocking) |
+| `graphify update .` | Ran; graph rebuilt (not included in this commit — Task 4 owns packaging) |
 
 ## Self-review
 
 | Check | Result |
 | --- | --- |
-| Uses `AppColor` / `AppTextStyle` | Pass |
-| Uses `UserBalancePageChrome` (toolbar + search + excel) | Pass |
-| Desktop search max width 400 | Pass |
-| Filter uses `FilterDialog` | Pass |
-| Excel calls `getListUserInfoTransactionExcel` + `clearFilter` before open | Pass |
-| No view wiring | Pass |
-| No API / model changes | Pass |
+| Mobile UI extracted to `GoldTransactionMobileList` | Pass |
+| `GoldTransactionToolbar` reused on mobile | Pass |
+| View free of desktop/mobile table builders named above | Pass |
+| `scrollControllerMobile` infinite-scroll preserved | Pass |
+| Desktop `scrollController` removed only because unused | Pass |
+| `AppColor` / `AppTextStyle` / package imports / GetX | Pass |
+| Cards not grouped (debit/credit separate) | Pass (intentional) |
 
 ## Concerns / carry-forward
 
-1. **Excel dialog context:** `showUserBalanceExcelDialog` uses `Get.context!` rather than the toolbar's `BuildContext`; works under GetX but less ideal for tests.
-2. **Mobile excel size:** Kept monolith mobile dimensions (65% × 50% height); redesign plan had 50% × 70% — confirm in Task 6 if UX wants the planned resize.
-3. **Search chrome vs monolith:** Search field gains chrome borders/focus ring (intentional per brief Step 2); visual delta from plain `OutlineInputBorder(10)`.
-4. **Double toolbar on mobile:** Task 6 must mount mobile search outside toolbar and toolbar icons below stats — avoid duplicating search inside `UserBalanceToolbar(isDesktop: false)`.
-5. **No widget tests:** Extraction-only scope; dialog/filter flows need manual regression in Task 7.
+1. **Empty state has no toolbar:** Early-return empty UI still omits `GoldTransactionToolbar` (same as monolith). Users who filter to empty cannot clear filters from the cards panel alone — consider showing toolbar above empty next pass.
+2. **`withOpacity` deprecations:** Ported as-is; not converted to `withValues` in this extraction.
+3. **Commented `_showImageGallery`:** Still in the view (~190 lines of dead commented code); left untouched (out of brief scope).
+4. **Controller pre-existing warnings:** `unnecessary_null_comparison` / `avoid_print` in detail gold controller unchanged.
+5. **Chrome smoke:** Not run; manual mobile infinite-scroll + toolbar dialog check recommended in Task 4/QA.
