@@ -1,106 +1,101 @@
-# Task 1 Report: Chrome, polarity chip, KPI helper + tests
+# Task 1 Report — Scaffold gold transaction toolbar + desktop body shell
 
-**Status:** DONE  
-**Date:** 2026-07-26  
-**Branch:** `feat/user-balance-grouped-table`  
-**Commit:** `68d3104` — `feat(users): add user-balance chrome, polarity chip, KPI helper`
+**Status:** Complete  
+**Commit:** (pending at report write; see git log)  
+**Branch:** `feat/gold-tx-fit-table`
 
-## Summary
+## What was implemented
 
-Created foundational shared tokens, a polarity chip widget, and a pure KPI aggregation helper for the user-balance transaction list refactor. No controllers, views, repositories, or `*.g.dart` files were modified.
+| File | Widget / API | Purpose |
+| --- | --- | --- |
+| `gold_transaction_toolbar.widget.dart` | `GoldTransactionToolbar({required controller})` | Filter via `GoldTransactionFilterWidget` + «حذف چک باکس» confirm dialog (`removeCheckedAll`) |
+| `gold_transaction_desktop_body.widget.dart` | `GoldTransactionDesktopBody({required controller})` | Desktop panel: margin/padding L/R 10, toolbar → `SizedBox(height: 10)` → table placeholder |
+| `test/gold_transaction_data_table_layout_test.dart` | layout test | Asserts desktop body tree has no `SingleChildScrollView(scrollDirection: Axis.horizontal)` |
+
+### Implementation notes
+
+- Toolbar copies desktop/mobile filter + clear-checkbox dialog logic from `user_info_gold_transaction.view.dart` (~2639–2682 / ~4443–4486). View duplicates left in place (Task 2/3 thin the view).
+- Desktop body panel chrome matches current container (`AppColor.backGroundColor1.withAlpha(150)`, left/right margin & padding 10).
+- Table slot is `SizedBox.shrink(key: Key('gold_transaction_table_placeholder'))` for Task 2.
+- View **not** wired to replace H-scroll block (Task 2).
+- No 14-col DataTable yet (Task 2).
+
+## What was tested and results
+
+| Command | Result |
+| --- | --- |
+| `flutter test test/gold_transaction_data_table_layout_test.dart` (after GREEN impl) | **PASS** — `All tests passed!` (+1) |
+| `flutter analyze` on toolbar, desktop body, layout test | **No issues found!** (3 items) |
+| `graphify update .` | Rebuilt graph (9009 nodes) |
 
 ## TDD Evidence
 
-### RED (tests first, implementation missing)
+### RED
 
+**Command:**
 ```
-flutter test test/domain/users/user_balance_stats_helper_test.dart
-```
-
-Result: **FAIL** — compilation error: `user_balance_stats_helper.dart` not found; `buildUserBalanceKpis` undefined (6 test cases could not load).
-
-### GREEN (after implementation)
-
-```
-flutter test test/domain/users/user_balance_stats_helper_test.dart
+flutter test test/gold_transaction_data_table_layout_test.dart
 ```
 
-Result: **PASS** — `00:00 +6: All tests passed!`
+**Setup:** Temporary stub `GoldTransactionDesktopBody` wrapped content in `SingleChildScrollView(scrollDirection: Axis.horizontal)`.
 
-## Files Created
+**Failing output (excerpt):**
+```
+Expected: no matching candidates
+  Actual: _WidgetPredicateWidgetFinder:<Found 1 widget with widget matching predicate: [
+            SingleChildScrollView(...),
+          ]>
+   Which: means one was found but none were expected
+...
+00:00 +0 -1: Some tests failed.
+```
 
-| File | Purpose |
+**Why expected:** Assertion requires zero horizontal `SingleChildScrollView`s; stub intentionally included one.
+
+### GREEN
+
+**Command:**
+```
+flutter test test/gold_transaction_data_table_layout_test.dart
+```
+
+**Setup:** Real shell — `Column` with toolbar + spacer + placeholder; no horizontal scroll.
+
+**Passing output (excerpt):**
+```
+00:00 +0: GoldTransactionDesktopBody build tree has no horizontal SingleChildScrollView
+00:01 +1: All tests passed!
+```
+
+## Files changed
+
+**Created:**
+- `lib/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_toolbar.widget.dart`
+- `lib/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_desktop_body.widget.dart`
+- `test/gold_transaction_data_table_layout_test.dart`
+
+**Not modified (intentional):**
+- `user_info_gold_transaction.view.dart` (still has H-scroll + duplicate toolbar; Task 2 wires)
+- Controller
+
+## Self-review findings
+
+| Check | Result |
 | --- | --- |
-| `lib/src/domain/users/widgets/list_user_info_transaction/user_balance_page_chrome.dart` | Shared `panelDecoration`, `toolbarDecoration`, `radiusLg=16`, `radiusMd=12`, `slateBorder` |
-| `lib/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart` | Credit/debit chip (`AppColor.primaryColor` / `AppColor.accentColor`), optional `isActive` + `onTap` with 44×44 min touch target |
-| `lib/src/domain/users/widgets/list_user_info_transaction/user_balance_stats_helper.dart` | `UserBalanceKpiSnapshot` + `buildUserBalanceKpis()` |
-| `test/domain/users/user_balance_stats_helper_test.dart` | Unit tests for KPI aggregation |
+| Package imports / AppColor / AppTextStyle / GetX | Pass |
+| Interfaces match brief (`GoldTransactionToolbar` / `GoldTransactionDesktopBody` + controller) | Pass |
+| No `Axis.horizontal` in desktop body | Pass |
+| Column: toolbar → SizedBox(10) → placeholder | Pass |
+| Panel margins ~left/right 10 | Pass |
+| Filter + حذف چک باکس moved into toolbar | Pass |
+| View not wired | Pass |
+| No 14-col DataTable | Pass |
+| Analyze clean | Pass |
+| TDD RED then GREEN | Pass |
 
-## Implementation Notes
+## Issues / concerns
 
-### `UserBalancePageChrome`
-
-- `panelDecoration`: `backGroundColor1.withAlpha(150)`, `radiusLg`, `slateBorder.withAlpha(120)` border, soft shadow.
-- `toolbarDecoration`: `appBarColor.withAlpha(30)`, `radiusMd`, matching border.
-- Only hard-coded color: `slateBorder = Color(0xFF64748B)` per spec.
-
-### `UserBalancePolarityChip`
-
-- ChatStatusChip-style container: tinted fill + border + `AppTextStyle.bodyText` at 10px.
-- `isCredit` → `AppColor.primaryColor`; debit → `AppColor.accentColor`.
-- `isActive` strengthens fill/border alpha.
-- When `onTap` is set, wraps chip in `InkWell` inside `ConstrainedBox(minWidth: 44, minHeight: 44)`.
-
-### `buildUserBalanceKpis`
-
-Mirrors existing footer fold logic in `list_user_info_transaction.view.dart` (L805+):
-
-```dart
-footer.where((item) => item.unitName == unit).fold(
-  0.0,
-  (sum, item) => sum + (item.totalPositiveBalance ?? 0) + (item.totalNegativeBalance ?? 0),
-);
-```
-
-- `netRial` → `unitName == "ریال"`
-- `netGoldGrams` → `unitName == "گرم"`
-- `netCoinCount` → `unitName == "عدد"` (aggregate sum across all coin rows)
-- `totalUsers` → passthrough `totalCount` (nullable)
-
-## Test Coverage
-
-| Test | Assertion |
-| --- | --- |
-| Empty footer | All nets 0; `totalUsers` = `totalCount` |
-| Null `totalCount` | `totalUsers` is null |
-| Rial rows | Sums positive + negative per ریال item |
-| Gold rows | Sums per گرم item |
-| Coin rows | Sums per عدد item |
-| Null balances | Treated as 0 |
-
-## Analyzer
-
-```
-flutter analyze lib/src/domain/users/widgets/list_user_info_transaction/
-No issues found!
-```
-
-## Self-Review
-
-| Criterion | Result |
-| --- | --- |
-| TDD: RED then GREEN | ✅ |
-| Chrome tokens match spec | ✅ |
-| Polarity chip API (`label`, `isCredit`, `isActive`, `onTap`) | ✅ |
-| KPI helper matches footer fold math | ✅ |
-| Package imports | ✅ |
-| No API / `*.g.dart` changes | ✅ |
-| `flutter test` passes | ✅ (6/6) |
-| `flutter analyze` clean | ✅ |
-| Commit with requested message | ✅ |
-| `graphify update .` run | ✅ (not committed — large generated diff) |
-
-## Concerns
-
-- **No widget tests** for `UserBalancePolarityChip` or `UserBalancePageChrome` (task scope was helper unit tests only; downstream tasks will exercise widgets in context).
-- **`netCoinCount` is an aggregate** across all `عدد` footer rows; the monolith footer shows per-coin breakdowns separately — acceptable for KPI snapshot card use in Task 2+.
+1. **View still has H-scroll:** Desktop body is unused until Task 2; production UI unchanged.
+2. **Toolbar not yet used on mobile:** Mobile still inlines filter/checkbox; Task 3 extracts `GoldTransactionMobileList` and can reuse toolbar.
+3. **Test uses real controller constructed without `Get.put`:** Avoids `onInit` / route params; sufficient for layout tree assertion. Dialog/filter interactions not covered here.
+4. **Placeholder is empty:** Task 2 must replace `gold_transaction_table_placeholder` with `GoldTransactionDataTable`.
