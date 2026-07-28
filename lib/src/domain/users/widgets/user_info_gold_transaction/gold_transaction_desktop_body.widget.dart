@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/domain/users/controller/user_info_detail_gold_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_data_table.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_toolbar.widget.dart';
 
-/// Desktop panel shell: toolbar → spacer → table placeholder (Task 2 fills the table).
+/// Desktop panel shell: toolbar → spacer → fit-width [GoldTransactionDataTable].
 ///
 /// Intentionally has no [SingleChildScrollView] with [Axis.horizontal].
 class GoldTransactionDesktopBody extends StatelessWidget {
@@ -25,10 +26,8 @@ class GoldTransactionDesktopBody extends StatelessWidget {
         children: [
           GoldTransactionToolbar(controller: controller),
           const SizedBox(height: 10),
-          // Placeholder for GoldTransactionDataTable (Task 2).
-          const SizedBox.shrink(
-            key: Key('gold_transaction_table_placeholder'),
-          ),
+          GoldTransactionDataTable(controller: controller),
+          const SizedBox(height: 50),
         ],
       ),
     );

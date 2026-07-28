@@ -1,50 +1,90 @@
-# Task 2 Report — Stats grid + page state widgets
+# Task 2 Report — Fit-width DataTable with meta merge + بدهکار/بستانکار grouping
 
-**Status:** Complete  
-**Commit:** `2c5574c` — `feat(users): add KPI grid and page states`  
-**Branch:** `feat/user-balance-grouped-table`
+**Status:** DONE_WITH_CONCERNS  
+**Branch:** `feat/gold-tx-fit-table`  
+**Commit:** `e4f1b87` — `feat(users): grouped debit/credit gold ledger table without horizontal scroll`
 
-## Deliverables
+## What was implemented
 
-| File | Widget | Purpose |
-| --- | --- | --- |
-| `user_balance_stats_grid.widget.dart` | `UserBalanceStatsGrid` | Obx KPI row via `buildUserBalanceKpis`; responsive 1/2/4-col `Wrap` |
-| `user_balance_loading_state.widget.dart` | `UserBalanceLoadingState` | Centered `HaniGoldLoading.large()` |
-| `user_balance_empty_state.widget.dart` | `UserBalanceEmptyState` | Dedicated empty copy + `onRetry` callback |
-| `user_balance_error_state.widget.dart` | `UserBalanceErrorState` | `ErrPage` wrapper with `onRetry` |
+### Created (under `lib/src/domain/users/widgets/user_info_gold_transaction/`)
 
-## Implementation notes
+| File | Responsibility |
+| --- | --- |
+| `gold_transaction_grouped_header.widget.dart` | Asset label + display-only `UserBalancePolarityChip` (بستانکار / بدهکار); chips stacked vertically for narrow columns; `onTap: null` |
+| `gold_transaction_data_table.widget.dart` | 14-col `Obx` → `LayoutBuilder` → `DataTable`; `_assetCell` credit-above-debit; width budgets; sort on تاریخ/ساعت (visual index 2) |
+| `gold_transaction_datetime_cell.widget.dart` | Merged date above + time below |
+| `gold_transaction_invoice_cell.widget.dart` | Compact icon buttons + tooltips (با مانده / بدون مانده) |
+| `gold_transaction_description_cell.widget.dart` | Ported type-branched شرح; `maxLines: 1` on `SelectableText` (SDK has no `softWrap`); width-constrained + `ClipRect` |
+| `gold_transaction_qty_cell.widget.dart` | وزن یا تعداد amount formatting |
+| `gold_transaction_gold_cell.widget.dart` | credit / debit / balance (`itemUnit.id == 2`, `goldTotalRunning`) |
+| `gold_transaction_coin_cell.widget.dart` | تمام‌سکه (`item.id == 2`, `coinTotalRunning`) |
+| `gold_transaction_half_quarter_cell.widget.dart` | نیم/ربع vertical stacks (`item.id` 3/4); separate balance section |
+| `gold_transaction_rial_cell.widget.dart` | ریال (`item.id == 6`, sell/buy `totalPrice`, `cashTotalRunning`) |
 
-- **Stats grid:** Reads `controller.paginated` + `controller.listTransactionInfoFooter` inside `Obx`. Four KPI labels per brief: `تعداد کل کاربران`, `مجموع مانده ریالی`, `مجموع طلا (گرم)`, `تعداد سکه`. Cards use `UserBalancePageChrome.panelDecoration`. `LayoutBuilder` computes column count (1 / 2 / 4) and explicit card widths to avoid unbounded `Wrap` width issues.
-- **Formatting:** Rial and counts use `seRagham()`; gold uses 3 decimals (matches monolith footer). Balance KPIs color-coded via `AppColor.primaryColor` / `accentColor`.
-- **Empty state:** Persian copy (`مانده‌ای یافت نشد` / filter hint) inside chrome panel; retry via `onRetry` (Task 6 will wire `clearSearch` + `getListTransactionInfoPager`).
-- **Error state:** Matches existing view `ErrPage` strings (`خطا در لیست کاربران`).
-- **Not wired:** Main view unchanged per Task 6 scope.
+### Modified
+
+| File | Change |
+| --- | --- |
+| `gold_transaction_desktop_body.widget.dart` | Replaced table placeholder with `GoldTransactionDataTable` |
+| `user_info_gold_transaction.view.dart` | Desktop uses `GoldTransactionDesktopBody`; removed dead `buildDataColumns` / `buildDataRows` (~1462 lines) |
+| `test/gold_transaction_data_table_layout_test.dart` | Asserts 14 cols, 4 grouped + 4 مانده headers, no «طلا بدهکار»/«طلا بستانکار», no H-scroll, description no `softWrap: true` |
+
+### Column model (14) — visual order
+
+`ردیف | فاکتور | تاریخ/ساعت | عملیات | شرح | وزن یا تعداد | طلا | مانده طلایی | تمام‌سکه | مانده تمام‌سکه | نیم‌ربع | مانده نیم‌ربع | ریال | مانده ریالی`
+
+## TDD evidence
+
+### RED (expanded assertions before full green)
+
+After scaffolding table but before Obx/`LayoutBuilder` fix and header width fix, tests failed with:
+
+1. GetX improper use of Obx (observables only read inside deferred `LayoutBuilder`)
+2. `RenderFlex` overflow (~92px) on grouped header chip `Row` at ~80px column width
+
+### GREEN
+
+```
+flutter test test/gold_transaction_data_table_layout_test.dart
+→ 00:00 +3: All tests passed!
+```
+
+Assertions covered: no horizontal `SingleChildScrollView`; 14 columns; 4 `GoldTransactionGroupedHeader`; 4 مانده labels; no separate طلا بدهکار/بستانکار titles; merged تاریخ/ساعت; description source has no `softWrap: true` and uses `maxLines: 1`; شرح header `softWrap: false`.
 
 ## Verification
 
-```
-flutter analyze lib/src/domain/users/widgets/list_user_info_transaction/user_balance_*.dart
-→ No issues found! (4 files)
-```
+| Command | Result |
+| --- | --- |
+| `flutter test test/gold_transaction_data_table_layout_test.dart` | **PASS** (+3) |
+| `flutter analyze` on `user_info_gold_transaction/` widgets + layout test | **7 info** only (`unnecessary_string_interpolations` ported from description); **no errors/warnings** |
+| `flutter analyze` on view | Pre-existing infos + 1 unused import warning (unchanged legacy); **no errors** from this task |
+
+Graphify **not** run (Task 4 owns it).
 
 ## Self-review
 
 | Check | Result |
 | --- | --- |
-| Uses `AppColor` / `AppTextStyle` | Pass |
-| Uses `UserBalancePageChrome` | Pass (stats + empty) |
-| Uses `buildUserBalanceKpis` | Pass |
-| Obx on paginated + footer | Pass |
-| Loading = `HaniGoldLoading.large()` | Pass |
-| Error = `ErrPage` wrapper | Pass |
-| Empty has dedicated copy + retry hook | Pass |
-| No view wiring | Pass |
-| No API / model changes | Pass |
+| No desktop `Axis.horizontal` around table | Pass |
+| 14 columns; مانده not merged into debit/credit | Pass |
+| Sort only on تاریخ/ساعت (index 2) | Pass |
+| Polarity chips display-only | Pass (`onTap: null`) |
+| Business rules ported (amount sign, unit/id, نیم/ربع 3/4, running totals, sell/buy rial) | Pass |
+| `AppColor` / `AppTextStyle` / package imports | Pass |
+| Mobile list not extracted (Task 3) | Pass |
+| `headingRowHeight` 72 | Pass (within 64–72) |
 
 ## Concerns / carry-forward
 
-1. **Wrap constraints:** `LayoutBuilder` mitigates unbounded-width risk; parent must still provide horizontal constraints (Task 6 padding handles this on mobile).
-2. **Retry wiring:** Empty/error widgets expose `onRetry`; view should call `clearSearch()` then `getListTransactionInfoPager()` (same as current `ErrPage` fallback).
-3. **Zero balances:** KPI cards show `0` even when monolith footer hides zero net rows — intentional for summary cards; confirm with UX if hiding preferred.
-4. **No widget tests:** Task scope was widget files only; helper already covered in Task 1 tests.
+1. **SelectableText softWrap:** Flutter 3.44 `SelectableText` has no `softWrap` parameter. Cells use `maxLines: 1` instead; `Text` headers use `softWrap: false`. Meets “no wrap” intent.
+2. **Grouped header chips vertical:** Side-by-side chips overflowed at fit-width budgets; stacked vertically under the label (still بستانکار above بدهکار, matching `_assetCell`). Slight UX variance vs list-balance horizontal chip row.
+3. **Description cell size:** Large port (~780 lines) retains original type branches and a large commented block; `unnecessary_string_interpolations` infos left as port fidelity.
+4. **Width budgets:** Tuned for ≥1280; very narrow desktops (~1100) may still clip dense description Rows despite `ClipRect`/`maxLines` — worth a visual pass.
+5. **Controller `scrollController`:** Desktop H-scroll removed; desktop `scrollController` on controller is now unused (mobile still uses `scrollControllerMobile`). Cleanup optional.
+6. **Date sort behavior:** Unchanged from monolith — `onSortColum` only sorts when `columnIndex == 0`; UI sort indicator still wires through `setSort` on تاریخ/ساعت.
+
+## Files changed (this commit scope)
+
+**Created:** 10 cell/table/header widgets listed above  
+**Modified:** desktop body, gold transaction view, layout test, this report  
+**Not committed:** graphify-out cache, unrelated `.superpowers/sdd` brief/progress churn
