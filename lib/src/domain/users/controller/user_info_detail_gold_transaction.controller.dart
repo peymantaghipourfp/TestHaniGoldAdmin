@@ -111,12 +111,21 @@ class UserInfoDetailGoldTransactionController extends GetxController{
     update();
   }
 
-  onSortColum(int columnIndex, bool ascending) {
-    if (columnIndex == 0) {
+  /// Sort key for merged تاریخ/ساعت column (visual index 2 in fit-width table).
+  static const int dateSortColumnIndex = 2;
+
+  void onSortColum(int columnIndex, bool ascending) {
+    if (columnIndex == dateSortColumnIndex) {
+      int cmp(TransactionReportGoldModel a, TransactionReportGoldModel b) {
+        final ad = a.date ?? DateTime.fromMillisecondsSinceEpoch(0);
+        final bd = b.date ?? DateTime.fromMillisecondsSinceEpoch(0);
+        return ad.compareTo(bd);
+      }
+
       if (ascending) {
-        transactionInfoGoldList.sort((a, b) => a.account!.name!.toString().compareTo(b.account!.name!.toString()));
+        transactionInfoGoldList.sort(cmp);
       } else {
-        transactionInfoGoldList.sort((a, b) => b.account!.name!.toString().compareTo(a.account!.name!.toString()));
+        transactionInfoGoldList.sort((a, b) => cmp(b, a));
       }
     }
 
@@ -124,9 +133,9 @@ class UserInfoDetailGoldTransactionController extends GetxController{
     update();
   }
 
-  setSort(int index,bool val){
-    sort.value= val;
-    sortIndex.value= index;
+  void setSort(int index, bool val) {
+    sort.value = val;
+    sortIndex.value = index;
     update();
   }
 

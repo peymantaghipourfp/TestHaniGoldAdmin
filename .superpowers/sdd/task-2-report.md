@@ -2,7 +2,7 @@
 
 **Status:** DONE_WITH_CONCERNS  
 **Branch:** `feat/gold-tx-fit-table`  
-**Commit:** `e4f1b87` — `feat(users): grouped debit/credit gold ledger table without horizontal scroll`
+**Commit:** `5a23e90` — `feat(users): grouped debit/credit gold ledger table without horizontal scroll`
 
 ## What was implemented
 
@@ -88,3 +88,48 @@ Graphify **not** run (Task 4 owns it).
 **Created:** 10 cell/table/header widgets listed above  
 **Modified:** desktop body, gold transaction view, layout test, this report  
 **Not committed:** graphify-out cache, unrelated `.superpowers/sdd` brief/progress churn
+
+---
+
+# Task 2 Fix Report — Review findings (overflow / width budgets / date sort)
+
+**Status:** DONE_WITH_CONCERNS  
+**Branch:** `feat/gold-tx-fit-table`
+
+## Findings addressed
+
+1. **شرح overflow handling** — Added `_fitRow` helper that wraps non-`SizedBox` Row children in `Flexible(fit: FlexFit.loose)`. Live description Rows converted to `_fitRow`; `ClipRect` + `maxLines: 1` retained. Structured Rows preserved.
+2. **Width budgets on cell bodies** — `_budget(maxWidth, child)` (`ConstrainedBox` + `ClipRect`) applied to all non-description cells (ردیف / فاکتور / تاریخ / عملیات / وزن / asset / مانده). Invoice icons slightly compacted + `FittedBox`. Qty/datetime/numeric cells no longer expand intrinsically past budgets.
+3. **Date sort wiring** — `UserInfoDetailGoldTransactionController.onSortColum` now sorts by `date` when `columnIndex == dateSortColumnIndex` (2), matching `GoldTransactionDataTable.dateSortVisualIndex`. Removed legacy account-name sort on index 0 and stale `sortIndex == 3` remapping.
+
+## Verification
+
+```
+flutter test test/gold_transaction_data_table_layout_test.dart
+→ 00:01 +5: All tests passed!
+```
+
+New/strengthened coverage:
+- Dense sell description at `maxWidth: 160` (~1280 desc budget) — no exception / no RenderFlex overflow / no H-scroll
+- `onSortColum(2, …)` sorts ascending/descending by date; controller index matches table constant
+
+```
+flutter analyze lib/src/domain/users/widgets/user_info_gold_transaction/ \
+  test/gold_transaction_data_table_layout_test.dart \
+  lib/src/domain/users/controller/user_info_detail_gold_transaction.controller.dart
+→ No errors; pre-existing infos/warnings only (string interpolations in description port; controller null/print infos)
+```
+
+## Concerns
+
+1. **SelectableText has no `overflow` parameter** in this Flutter SDK (same family as missing `softWrap`). Ellipsis dots cannot be set on `SelectableText`; overflow is prevented via `Flexible` + width constraints + `ClipRect` (hard clip, not `…`). Header/`Text` ops labels still use `TextOverflow.ellipsis`.
+2. Visual pass at ~1100px still recommended; budgets unchanged numerically, only enforced on cell bodies.
+
+## Files touched (fix commit)
+
+- `gold_transaction_description_cell.widget.dart` — `_fitRow` / Flexible
+- `gold_transaction_data_table.widget.dart` — `_budget` on cells; compact row checkbox Row
+- `gold_transaction_invoice_cell.widget.dart`, `qty` / `datetime` / gold/coin/half_quarter/rial cells — fit/ellipsis where applicable
+- `user_info_detail_gold_transaction.controller.dart` — date sort on index 2
+- `test/gold_transaction_data_table_layout_test.dart` — dense desc + sort tests
+- this report

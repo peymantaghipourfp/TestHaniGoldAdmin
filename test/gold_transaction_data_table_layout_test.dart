@@ -4,10 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/domain/users/controller/user_info_detail_gold_transaction.controller.dart';
+import 'package:hanigold_admin/src/domain/users/model/transaction_report_gold.model.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_data_table.widget.dart';
+import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_description_cell.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_desktop_body.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_grouped_header.widget.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+
+TransactionReportGoldModel _denseSellTx({
+  required DateTime date,
+  String itemName =
+      'طلای آبشده ۱۸ عیار آزمایشگاهی با نام بسیار بلند برای تست overflow شرح',
+}) {
+  return TransactionReportGoldModel.fromJson({
+    'date': date.toIso8601String(),
+    'type': 'sell',
+    'amount': 12.345,
+    'mesghalPrice': 123456789,
+    'rowNum': 1,
+    'checked': false,
+    'toAccount': {'name': 'مقصد'},
+    'account': {'name': 'مبدا'},
+    'item': {
+      'name': itemName,
+      'id': 1,
+      'itemUnit': {'id': 2, 'name': 'گرم'},
+    },
+  });
+}
 
 void main() {
   tearDown(Get.reset);
@@ -99,6 +123,10 @@ void main() {
       final source = descFile.readAsStringSync();
       expect(source.contains('softWrap: true'), isFalse);
       expect(source.contains('maxLines: 1'), isTrue);
+      // SelectableText has no overflow in this SDK; Flexible/_fitRow + maxLines
+      // prevent RenderFlex overflow (ClipRect clips residual paint).
+      expect(source.contains('_fitRow'), isTrue);
+      expect(source.contains('Flexible'), isTrue);
 
       expect(find.text('شرح'), findsOneWidget);
       final sharh = tester.widget<Text>(find.text('شرح'));
@@ -109,6 +137,82 @@ void main() {
             w is SingleChildScrollView && w.scrollDirection == Axis.horizontal,
       );
       expect(horizontal, findsNothing);
+    },
+  );
+
+  testWidgets(
+    'dense description at ~1280 width budget does not throw overflow',
+    (tester) async {
+      FlutterErrorDetails? overflowError;
+      final oldHandler = FlutterError.onError;
+      FlutterError.onError = (details) {
+        final msg = details.exceptionAsString();
+        if (msg.contains('overflowed') || msg.contains('RenderFlex')) {
+          overflowError = details;
+        }
+        oldHandler?.call(details);
+      };
+      addTearDown(() => FlutterError.onError = oldHandler);
+
+      await tester.binding.setSurfaceSize(const Size(1280, 800));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      final trans = _denseSellTx(date: DateTime(2024, 6, 15, 10, 30));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 160,
+                child: GoldTransactionDescriptionCell(
+                  trans: trans,
+                  maxWidth: 160,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(overflowError, isNull);
+
+      final horizontal = find.byWidgetPredicate(
+        (w) =>
+            w is SingleChildScrollView && w.scrollDirection == Axis.horizontal,
+      );
+      expect(horizontal, findsNothing);
+    },
+  );
+
+  test(
+    'onSortColum at visual index 2 sorts by date/time',
+    () {
+      final controller = UserInfoDetailGoldTransactionController();
+      final older = _denseSellTx(date: DateTime(2024, 1, 1));
+      final newer = _denseSellTx(date: DateTime(2024, 6, 1));
+      controller.transactionInfoGoldList.assignAll([newer, older]);
+
+      controller.onSortColum(
+        UserInfoDetailGoldTransactionController.dateSortColumnIndex,
+        true,
+      );
+      expect(controller.transactionInfoGoldList[0].date, older.date);
+      expect(controller.transactionInfoGoldList[1].date, newer.date);
+
+      controller.onSortColum(
+        GoldTransactionDataTable.dateSortVisualIndex,
+        false,
+      );
+      expect(controller.transactionInfoGoldList[0].date, newer.date);
+      expect(controller.transactionInfoGoldList[1].date, older.date);
+
+      expect(
+        UserInfoDetailGoldTransactionController.dateSortColumnIndex,
+        GoldTransactionDataTable.dateSortVisualIndex,
+      );
     },
   );
 }

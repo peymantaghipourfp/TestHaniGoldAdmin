@@ -46,9 +46,8 @@ class GoldTransactionDataTable extends StatelessWidget {
           return DataTable(
             key: const Key('gold_transaction_data_table'),
             columns: _buildColumns(context, widths),
-            sortColumnIndex: sortIndex == dateSortVisualIndex
-                ? dateSortVisualIndex
-                : (sortIndex == 3 ? dateSortVisualIndex : null),
+            sortColumnIndex:
+                sortIndex == dateSortVisualIndex ? dateSortVisualIndex : null,
             sortAscending: sortAscending,
             border: TableBorder.symmetric(
               inside: BorderSide(color: AppColor.textColor, width: 0.3),
@@ -220,66 +219,98 @@ class GoldTransactionDataTable extends StatelessWidget {
             ? WidgetStateProperty.all(AppColor.appBarColor.withAlpha(150))
             : WidgetStateProperty.all(rowColor),
         cells: [
-          DataCell(_rowCell(trans)),
+          DataCell(_budget(widths[0], _rowCell(trans))),
           DataCell(
-            GoldTransactionInvoiceCell(
-              controller: controller,
-              trans: trans,
+            _budget(
+              widths[1],
+              GoldTransactionInvoiceCell(
+                controller: controller,
+                trans: trans,
+              ),
             ),
           ),
-          DataCell(GoldTransactionDateTimeCell(trans: trans)),
-          DataCell(_operationCell(trans)),
+          DataCell(
+            _budget(widths[2], GoldTransactionDateTimeCell(trans: trans)),
+          ),
+          DataCell(_budget(widths[3], _operationCell(trans))),
           DataCell(
             GoldTransactionDescriptionCell(
               trans: trans,
               maxWidth: widths[4],
             ),
           ),
-          DataCell(GoldTransactionQtyCell(trans: trans)),
+          DataCell(_budget(widths[5], GoldTransactionQtyCell(trans: trans))),
           DataCell(
-            _assetCell(
-              credit: GoldTransactionGoldCell.creditSection(trans: trans),
-              debit: GoldTransactionGoldCell.debitSection(trans: trans),
+            _budget(
+              widths[6],
+              _assetCell(
+                credit: GoldTransactionGoldCell.creditSection(trans: trans),
+                debit: GoldTransactionGoldCell.debitSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            Center(
-              child: GoldTransactionGoldCell.balanceSection(trans: trans),
+            _budget(
+              widths[7],
+              Center(
+                child: GoldTransactionGoldCell.balanceSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            _assetCell(
-              credit: GoldTransactionCoinCell.creditSection(trans: trans),
-              debit: GoldTransactionCoinCell.debitSection(trans: trans),
+            _budget(
+              widths[8],
+              _assetCell(
+                credit: GoldTransactionCoinCell.creditSection(trans: trans),
+                debit: GoldTransactionCoinCell.debitSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            Center(
-              child: GoldTransactionCoinCell.balanceSection(trans: trans),
+            _budget(
+              widths[9],
+              Center(
+                child: GoldTransactionCoinCell.balanceSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            _assetCell(
-              credit:
-                  GoldTransactionHalfQuarterCell.creditSection(trans: trans),
-              debit: GoldTransactionHalfQuarterCell.debitSection(trans: trans),
+            _budget(
+              widths[10],
+              _assetCell(
+                credit: GoldTransactionHalfQuarterCell.creditSection(
+                  trans: trans,
+                ),
+                debit:
+                    GoldTransactionHalfQuarterCell.debitSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            Center(
-              child:
-                  GoldTransactionHalfQuarterCell.balanceSection(trans: trans),
+            _budget(
+              widths[11],
+              Center(
+                child: GoldTransactionHalfQuarterCell.balanceSection(
+                  trans: trans,
+                ),
+              ),
             ),
           ),
           DataCell(
-            _assetCell(
-              credit: GoldTransactionRialCell.creditSection(trans: trans),
-              debit: GoldTransactionRialCell.debitSection(trans: trans),
+            _budget(
+              widths[12],
+              _assetCell(
+                credit: GoldTransactionRialCell.creditSection(trans: trans),
+                debit: GoldTransactionRialCell.debitSection(trans: trans),
+              ),
             ),
           ),
           DataCell(
-            Center(
-              child: GoldTransactionRialCell.balanceSection(trans: trans),
+            _budget(
+              widths[13],
+              Center(
+                child: GoldTransactionRialCell.balanceSection(trans: trans),
+              ),
             ),
           ),
         ],
@@ -287,14 +318,23 @@ class GoldTransactionDataTable extends StatelessWidget {
     }).toList();
   }
 
+  /// Caps cell intrinsic width so columns honor [_columnWidths] budgets.
+  static Widget _budget(double maxWidth, Widget child) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxWidth),
+      child: ClipRect(child: child),
+    );
+  }
+
   Widget _rowCell(TransactionReportGoldModel trans) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(right: 4),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Checkbox(
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               value: trans.checked ?? false,
               onChanged: (value) async {
                 if (value != null) {
@@ -303,10 +343,12 @@ class GoldTransactionDataTable extends StatelessWidget {
               },
             ),
             const SizedBox(width: 2),
-            SelectableText(
-              '${trans.rowNum ?? 0}',
-              maxLines: 1,
-              style: AppTextStyle.bodyText,
+            Flexible(
+              child: SelectableText(
+                '${trans.rowNum ?? 0}',
+                maxLines: 1,
+                style: AppTextStyle.bodyText,
+              ),
             ),
           ],
         ),
@@ -331,6 +373,7 @@ class GoldTransactionDataTable extends StatelessWidget {
       child: Text(
         label,
         softWrap: false,
+        maxLines: 1,
         style: AppTextStyle.bodyText.copyWith(
           color: AppColor.textColor,
           fontSize: 10,

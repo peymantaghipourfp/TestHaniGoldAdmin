@@ -16,6 +16,19 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
   final TransactionReportGoldModel trans;
   final double? maxWidth;
 
+  /// Flex-shrinks non-spacing children so [TextOverflow.ellipsis] can apply.
+  static Widget _fitRow({required List<Widget> children}) {
+    return Row(
+      children: [
+        for (final child in children)
+          if (child is SizedBox)
+            child
+          else
+            Flexible(fit: FlexFit.loose, child: child),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,7 +45,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                           trans.type=="initial" ?
-                          Row(
+                          _fitRow(
                             children: [
                               SelectableText(
                                 maxLines: 1,
@@ -45,7 +58,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="sell" || trans.type=="buy" ?
-                          Row(
+                          _fitRow(
                             children: [
                               SelectableText(
                                 maxLines: 1,
@@ -117,7 +130,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="receive" || trans.type=="payment" ?
-                          Row(
+                          _fitRow(
                             children: [
                               SelectableText(
                                 maxLines: 1,
@@ -129,7 +142,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                               ),
                               SizedBox(width: 5,),
                               trans.item?.itemUnit?.id==2 ?
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -149,7 +162,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                   ),
                                 ],
                               ): trans.item?.itemUnit?.id==1 ?
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -169,7 +182,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                   ),
                                 ],
                               ):
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -191,7 +204,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                               ),
                               SizedBox(width: 5,),
                               trans.item?.id==1 || trans.item?.id==10 ||trans.item?.id==12 ||trans.item?.id==13 ||trans.item?.id==14 ||trans.item?.id==15 ||trans.item?.id==16?
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -213,7 +226,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                               ) : SizedBox.shrink(),
                               SizedBox(width: 5,),
                               trans.item?.id==1 ?
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -235,7 +248,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                               ) : SizedBox.shrink(),
                               SizedBox(width: 5,),
                               trans.item?.id==1 ?
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -258,9 +271,9 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="issue" ?
-                          Row(
+                          _fitRow(
                             children: [
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -281,7 +294,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -355,9 +368,9 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="reciept" ?
-                          Row(
+                          _fitRow(
                             children: [
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -378,7 +391,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -452,9 +465,9 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="deposit" ?
-                          Row(
+                          _fitRow(
                             children: [
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -483,7 +496,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -496,7 +509,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -519,9 +532,9 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                             ],
                           ):SizedBox.shrink(),
                           trans.type=="withdraw" ?
-                          Row(
+                          _fitRow(
                             children: [
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -550,7 +563,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,
@@ -563,7 +576,7 @@ class GoldTransactionDescriptionCell extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(width: 5,),
-                              Row(
+                              _fitRow(
                                 children: [
                                   SelectableText(
                                     maxLines: 1,

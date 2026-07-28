@@ -40,23 +40,20 @@ class GoldTransactionQtyCell extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SelectableText(
-            text,
-            maxLines: 1,
-            style: AppTextStyle.bodyText.copyWith(
-              color: (amount ?? 0) > 0
-                  ? AppColor.primaryColor
-                  : AppColor.accentColor,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-            textDirection: TextDirection.ltr,
+      padding: const EdgeInsets.only(left: 4),
+      child: Center(
+        child: SelectableText(
+          text,
+          maxLines: 1,
+          style: AppTextStyle.bodyText.copyWith(
+            color: (amount ?? 0) > 0
+                ? AppColor.primaryColor
+                : AppColor.accentColor,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+          textDirection: TextDirection.ltr,
+        ),
       ),
     );
   }

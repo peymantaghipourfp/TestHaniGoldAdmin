@@ -16,44 +16,47 @@ class GoldTransactionInvoiceCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Tooltip(
-          message: 'صدور فاکتور با مانده',
-          child: IconButton(
-            visualDensity: VisualDensity.compact,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-            onPressed: () async {
-              await controller.generateInvoiceForGoldTransaction(trans);
-            },
-            icon: Icon(
-              Icons.receipt_long,
-              size: 18,
-              color: AppColor.secondary2Color.withGreen(150),
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Tooltip(
+            message: 'صدور فاکتور با مانده',
+            child: IconButton(
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+              onPressed: () async {
+                await controller.generateInvoiceForGoldTransaction(trans);
+              },
+              icon: Icon(
+                Icons.receipt_long,
+                size: 18,
+                color: AppColor.secondary2Color.withGreen(150),
+              ),
             ),
           ),
-        ),
-        Tooltip(
-          message: 'صدور فاکتور بدون مانده',
-          child: IconButton(
-            visualDensity: VisualDensity.compact,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-            onPressed: () async {
-              await controller
-                  .generateInvoiceForGoldTransactionWithoutBalance(trans);
-            },
-            icon: Icon(
-              Icons.receipt,
-              size: 18,
-              color: AppColor.secondary2Color.withGreen(110),
+          Tooltip(
+            message: 'صدور فاکتور بدون مانده',
+            child: IconButton(
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+              onPressed: () async {
+                await controller
+                    .generateInvoiceForGoldTransactionWithoutBalance(trans);
+              },
+              icon: Icon(
+                Icons.receipt,
+                size: 18,
+                color: AppColor.secondary2Color.withGreen(110),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
