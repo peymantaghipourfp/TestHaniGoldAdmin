@@ -15,6 +15,7 @@ import 'package:hanigold_admin/src/domain/product/model/item.model.dart';
 import 'package:hanigold_admin/src/utils/convert_jalali_to_gregorian_custom_date.component.dart';
 import 'package:hanigold_admin/src/utils/num_display.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import '../../../config/network/error_handler.dart';
 import '../../../config/repository/account_sales_group.repository.dart';
 import '../../../config/repository/user_info_transaction.repository.dart';
 import '../../account/model/account_level_get_one_item.model.dart';
@@ -360,6 +361,28 @@ class OrderUpdateController extends BaseController{
     return null;
   }
 
+  void _showOrderSnackbar(String title, String description) {
+    if (Get.isDialogOpen ?? false) {
+      Get.back();
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.snackbar(
+        title,
+        description,
+        titleText: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          description,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
+    });
+  }
+
 
   Future<OrderModel?> updateOrder() async {
     if(orderId.value==0){
@@ -367,14 +390,16 @@ class OrderUpdateController extends BaseController{
     }
     try {
       isLoading.value = true;
+      errorMessage.value = '';
 
       String gregorianDate = convertJalaliToGregorianCustomDate(dateController.text);
-     // Gregorian date=existingOrder.date!.toGregorian();
-      if (Get.isDialogOpen!) Get.back();
-     var response = await orderRepository.updateOrder(
+      // Close confirm dialog only; keep the edit dialog until we know the result.
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+      final response = await orderRepository.updateOrder(
         orderId: orderId.value,
-        //date: "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}T${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}",
-       date:gregorianDate,
+        date: gregorianDate,
         accountId: selectedAccount.value?.id ?? 0,
         accountName: selectedAccount.value?.name ?? "",
         type: selectedBuySell.value?.id ?? 0,
@@ -383,31 +408,68 @@ class OrderUpdateController extends BaseController{
         price: double.parse(priceTemp.value.replaceAll(',', '').toEnglishDigit()),
         quantity: double.parse(quantityController.text.toEnglishDigit()),
         description: descriptionController.text,
-        notLimit:true,
-        manualPrice:manualPriceChecked.value,
-       isCard: isCardChecked.value,
+        notLimit: true,
+        manualPrice: manualPriceChecked.value,
+        isCard: isCardChecked.value,
       );
 
-     if(response!= null){
-       OrderModel orderResponse=OrderModel.fromJson(response);
-       //Get.toNamed('/orderList');
-       Get.back();
-       Get.snackbar(orderResponse.infos!.first['title'], orderResponse.infos!.first["description"],
-           titleText: Text(orderResponse.infos!.first['title'],
-             textAlign: TextAlign.center,
-             style: TextStyle(color: AppColor.textColor),),
-           messageText: Text(orderResponse.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
-       /*orderController.getOrderListPager();
-       orderController.fetchTotalBalanceList();*/
-       // Use silent refresh to update list without UI flicker
-       orderController.refreshOrderListSilently();
-       orderController.refreshTotalBalanceSilently();
-       balanceList.clear();
-       clearList();
-     }
+      final infos = response['infos'];
+      if (infos is List && infos.isNotEmpty) {
+        final info = Map<String, dynamic>.from(infos.first as Map);
+        final title = info['title']?.toString() ?? 'به‌روزرسانی سفارش';
+        final description = info['description']?.toString() ?? '';
+        if (!ErrorHandler.isSuccessInfo(info)) {
+          _showOrderSnackbar(
+            title,
+            description.isNotEmpty ? description : title,
+          );
+          return null;
+        }
+        // Info-only success payload (no order body)
+        if (response['id'] == null) {
+          _showOrderSnackbar(
+            title,
+            description.isNotEmpty ? description : title,
+          );
+          orderController.refreshOrderListSilently();
+          orderController.refreshTotalBalanceSilently();
+          balanceList.clear();
+          clearList();
+          return null;
+        }
+      }
 
+      if (response['id'] == null) {
+        return null;
+      }
+
+      final orderResponse = OrderModel.fromJson(response);
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+      if (orderResponse.infos != null && orderResponse.infos!.isNotEmpty) {
+        final raw = orderResponse.infos!.first;
+        if (raw is Map) {
+          final info = Map<String, dynamic>.from(raw);
+          final title = info['title']?.toString() ?? 'به‌روزرسانی سفارش';
+          final description = info['description']?.toString() ?? '';
+          _showOrderSnackbar(
+            title,
+            description.isNotEmpty ? description : title,
+          );
+          if (!ErrorHandler.isSuccessInfo(info)) {
+            return null;
+          }
+        }
+      }
+      orderController.refreshOrderListSilently();
+      orderController.refreshTotalBalanceSilently();
+      balanceList.clear();
+      clearList();
+      return orderResponse;
     } catch (e) {
-      throw ErrorException('خطا در به‌روزرسانی سفارش: $e');
+      final message = e is ErrorException ? e.message : e.toString();
+      _showOrderSnackbar('خطا', message);
     } finally {
       isLoading.value = false;
     }

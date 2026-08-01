@@ -198,7 +198,7 @@ class UserBalanceFooter extends StatelessWidget {
                       ),
                     );
                   }),
-                  /* ...footer.where((item) => item.itemGroupName == 'ارز').map((item) {
+                  /*...footer.where((item) => item.itemGroupName == 'ارز').map((item) {
                     final netValue = (item.totalPositiveBalance ?? 0) +
                         (item.totalNegativeBalance ?? 0);
                     if (netValue == 0.0) return const SizedBox.shrink();
@@ -210,7 +210,7 @@ class UserBalanceFooter extends StatelessWidget {
                         unit: item.unitName,
                       ),
                     );
-                  }), */
+                  }),*/
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

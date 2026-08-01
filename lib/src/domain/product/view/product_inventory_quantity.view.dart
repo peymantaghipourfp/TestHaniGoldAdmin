@@ -396,7 +396,7 @@ class ProductInventoryQuantityView extends GetView<ProductInventoryQuantityContr
                   Center(
                     child: Row(
                       children: [
-                        inventory.itemUnit?.id==2 && inventory.item?.id!=1 ?
+                        inventory.itemUnit?.id==2 && ![1, 23].contains(inventory.item?.id) ?
                         Text(
                           (inventory.quantityCount ?? 0) < 0 ?
                           "-${inventory.quantityCount?.abs().toDisplayString().seRagham() ?? "0"}":
@@ -411,7 +411,7 @@ class ProductInventoryQuantityView extends GetView<ProductInventoryQuantityContr
                         ):SizedBox.shrink(),
                         SizedBox(width: 4,),
                         Text(
-                          inventory.itemUnit?.id==2 && inventory.item?.id!=1 ? "عدد" : "",
+                          inventory.itemUnit?.id==2 && ![1, 23].contains(inventory.item?.id) ? "عدد" : "",
                           style: AppTextStyle.bodyText.copyWith(color: AppColor.textColor,
                               fontSize: 12,fontWeight:
                               FontWeight.bold),
@@ -1210,7 +1210,7 @@ class ProductInventoryQuantityView extends GetView<ProductInventoryQuantityContr
                     )
                 ),
                 // Numeric equivalent (only if applicable)
-                if (inventory.itemUnit?.id == 2 && inventory.item?.id != 1) ...[
+                if (inventory.itemUnit?.id == 2 && ![1, 23].contains(inventory.item?.id)) ...[
                   SizedBox(height: 8),
                   Expanded(
                     child: _mobileLine(

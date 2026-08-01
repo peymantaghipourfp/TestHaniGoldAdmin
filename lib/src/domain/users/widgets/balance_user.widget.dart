@@ -223,22 +223,22 @@ class _BalanceUserWidgetState extends State<BalanceUserWidget> {
                     SizedBox(width: 10,),
                     Row(
                       children: [
-                        widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم')
+                        widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم' && balance.item?.id!=23)
                             .fold(0.0, (sum, balance) => sum + (balance.balance ?? 0))<0 ?
-                        Text("-${widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم').fold(0.0, (sum, balance) => sum + (balance.balance ?? 0)).abs().toStringAsFixed(3).seRagham()}",
+                        Text("-${widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم' && balance.item?.id!=23).fold(0.0, (sum, balance) => sum + (balance.balance ?? 0)).abs().toStringAsFixed(3).seRagham()}",
                           style: AppTextStyle.labelText.copyWith(fontSize: 14,
                               fontWeight: FontWeight.normal,
                               color: AppColor.accentColor ),
                           textDirection: TextDirection.ltr,):
-                        widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم')
+                        widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم' && balance.item?.id!=23)
                             .fold(0.0, (sum, balance) => sum + (balance.balance ?? 0))>0 ?
-                        Text(widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم')
+                        Text(widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم' && balance.item?.id!=23)
                             .fold(0.0, (sum, balance) => sum + (balance.balance ?? 0)).toStringAsFixed(3).seRagham(),
                           style: AppTextStyle.labelText.copyWith(fontSize: 14,
                               fontWeight: FontWeight.normal,
                               color:AppColor.primaryColor ),
                           textDirection: TextDirection.ltr,):
-                        Text(widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم')
+                        Text(widget.listBalance.where((balance) => balance.item?.itemUnit?.name == 'گرم' && balance.item?.id!=23)
                             .fold(0.0, (sum, balance) => sum + (balance.balance ?? 0)).toStringAsFixed(3),
                           style: AppTextStyle.labelText.copyWith(fontSize: 14,
                               fontWeight: FontWeight.normal,

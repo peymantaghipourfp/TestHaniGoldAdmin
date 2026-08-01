@@ -389,10 +389,32 @@ class OrderRepository{
         "notLimit":notLimit,
         "isCard":isCard,
       };
-      var response=await orderDio.put('Order/update',data: orderData );
-      return response.data;
-    }
-    catch (e, s) {
+      var response = await orderDio.put(
+        'Order/update',
+        data: orderData,
+        options: Options(
+          validateStatus: (status) =>
+          status != null && (status < 300 || status == 409),
+        ),
+      );
+      if (response.statusCode == 409) {
+        final infos = ErrorHandler.parseInfoList(response.data);
+        if (infos != null) {
+          return {'infos': infos};
+        }
+      }
+      return Map<String, dynamic>.from(response.data as Map);
+    } on DioException catch (e, s) {
+      // Defense: if validateStatus did not apply (stale build), still surface 409 infos.
+      if (e.response?.statusCode == 409) {
+        final infos = ErrorHandler.parseInfoList(e.response?.data);
+        if (infos != null) {
+          return {'infos': infos};
+        }
+      }
+      AppLogger.e('updateOrder failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    } catch (e, s) {
       AppLogger.e('updateOrder failed', e, s);
       throw ErrorException(ErrorHandler.handle(e));
     }
@@ -448,10 +470,33 @@ class OrderRepository{
         "infos": []
       };
 
-      var response=await orderDio.put('Order/updateStatus',data: orderData);
-      return response.data;
-    }
-    catch (e, s) {
+      var response = await orderDio.put(
+        'Order/updateStatus',
+        data: orderData,
+        options: Options(
+          validateStatus: (status) =>
+          status != null && (status < 300 || status == 409),
+        ),
+      );
+      final infos = ErrorHandler.parseInfoList(response.data);
+      if (infos != null) {
+        return infos;
+      }
+      if (response.data is List) {
+        return response.data;
+      } else {
+        return [response.data];
+      }
+    } on DioException catch (e, s) {
+      if (e.response?.statusCode == 409) {
+        final infos = ErrorHandler.parseInfoList(e.response?.data);
+        if (infos != null) {
+          return infos;
+        }
+      }
+      AppLogger.e('updateStatusOrder failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    } catch (e, s) {
       AppLogger.e('updateStatusOrder failed', e, s);
       throw ErrorException(ErrorHandler.handle(e));
     }
@@ -467,14 +512,33 @@ class OrderRepository{
         "isDeleted" : isDeleted,
       };
 
-      var response=await orderDio.delete('Order/updateToIsDeleted',data: orderData);
+      var response = await orderDio.delete(
+        'Order/updateToIsDeleted',
+        data: orderData,
+        options: Options(
+          validateStatus: (status) =>
+          status != null && (status < 300 || status == 409),
+        ),
+      );
+      final infos = ErrorHandler.parseInfoList(response.data);
+      if (infos != null) {
+        return infos;
+      }
       if (response.data is List) {
         return response.data;
       } else {
         return [response.data];
       }
-    }
-    catch (e, s) {
+    } on DioException catch (e, s) {
+      if (e.response?.statusCode == 409) {
+        final infos = ErrorHandler.parseInfoList(e.response?.data);
+        if (infos != null) {
+          return infos;
+        }
+      }
+      AppLogger.e('deleteOrder failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    } catch (e, s) {
       AppLogger.e('deleteOrder failed', e, s);
       throw ErrorException(ErrorHandler.handle(e));
     }

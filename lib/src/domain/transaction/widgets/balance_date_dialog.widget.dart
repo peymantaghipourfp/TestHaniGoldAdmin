@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
@@ -206,6 +207,15 @@ class BalanceDateDialog extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
+                        // Silver Balance (مانده نقره)
+                        _buildBalanceSection(
+                          title: 'مانده نقره',
+                          svg: SvgPicture.asset('assets/svg/silver.svg',),
+                          balances: controller.silverBalances,
+                          color: AppColor.iconViewColor,
+                        ),
+                        const SizedBox(height: 16),
+
                         // Currency Balance (مانده ارز)
                         _buildBalanceSection(
                           title: 'مانده ارز',
@@ -256,7 +266,8 @@ class BalanceDateDialog extends StatelessWidget {
 
   Widget _buildBalanceSection({
     required String title,
-    required IconData icon,
+    IconData? icon,
+    Widget? svg,
     required List<AllBalancesModel> balances,
     required Color color,
   }) {
@@ -279,7 +290,10 @@ class BalanceDateDialog extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: color, size: 20),
+              if (svg != null)
+                SizedBox(width: 20, height: 20, child: svg,)
+              else if (icon != null)
+                Icon(icon, color: color, size: 20,),
               const SizedBox(width: 8),
               Text(
                 title,

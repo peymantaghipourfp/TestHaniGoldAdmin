@@ -567,6 +567,9 @@ class InventoryRepository {
   Future<List<InventoryDetailModel>> getInventoryDetail(int inventoryId)async{
     try{
       final response=await inventoryDio.get('Inventory/getInventoryDetail',queryParameters: {"id":inventoryId});
+      if (response.data == null) {
+        return [];
+      }
       List<dynamic> data=response.data;
       return data.map((inventoryDetail)=>InventoryDetailModel.fromJson(inventoryDetail)).toList();
     }catch(e,s){

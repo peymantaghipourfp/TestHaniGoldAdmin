@@ -1552,7 +1552,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                 dataRowMaxHeight: double.infinity,
                                                                 //dataRowColor: WidgetStatePropertyAll(AppColor.secondaryColor),
                                                                 headingRowColor: WidgetStatePropertyAll(AppColor.buttonColor.withAlpha(40)),
-                                                                headingRowHeight: 30,
+                                                                headingRowHeight: 40,
                                                                 columnSpacing: 12,
                                                                 horizontalMargin: 0,
                                                               ),
@@ -1608,81 +1608,148 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
   List<DataColumn> buildDataColumns() {
     return [
       DataColumn(
-          label: Padding(padding: const EdgeInsets.only(right: 8),
-            child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 80), child: Text('ردیف', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
-          ),
+          label: Center(
+              child: Text('ردیف', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Text('فاکتور', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
+          label: Center(
+              child: Text('فاکتور', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 80), child: Text('ساعت', style: AppTextStyle.labelText.copyWith(fontSize: 11))), headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
+          label: Center(
+              child: Text('تاریخ/ساعت', style: AppTextStyle.labelText.copyWith(fontSize: 11))), headingRowAlignment: MainAxisAlignment.center),
+      /*DataColumn(
           onSort: (columnIndex, ascending) {
             controller.setSort(columnIndex, ascending);
             controller.onSortColum(columnIndex, ascending);
           },
           label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 80), child: Text('تاریخ', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
+          headingRowAlignment: MainAxisAlignment.center),*/
+      DataColumn(
+          label: Center(
+              child: Text('عملیات', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Text('عملیات', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
+          label: Center(
+              child: Text('شرح', style: AppTextStyle.labelText.copyWith(fontSize: 11))), headingRowAlignment: MainAxisAlignment.center),
+      DataColumn(
+          label: Center(
+              child: Text('وزن/تعداد', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Text('شرح', style: AppTextStyle.labelText.copyWith(fontSize: 11))), headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
-          label: Padding(padding: const EdgeInsets.only(left: 8),
-            child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Text('وزن یا تعداد', style: AppTextStyle.labelText.copyWith(fontSize: 11))),
+          label: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('طلا بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                Text('طلا بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+              ],
+            ),
           ),
           headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
-          label: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 100), child: Text('طلا بدهکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold))),
-          headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
+      /*DataColumn(
           label: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 100), child: Text('طلا بستانکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))),
-          headingRowAlignment: MainAxisAlignment.center),
+          headingRowAlignment: MainAxisAlignment.center),*/
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
+          label: Center(
             child: Text('مانده طلایی', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold)),
           ),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 110),
-              child: Text('تمام سکه بانکی بدهکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold))),
+          label: Center(
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('تمام سکه بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                  Text('تمام سکه بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+                ],
+              )),
           headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
+      /*DataColumn(
           label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 110),
               child: Text('تمام سکه بانکی بستانکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))),
+          headingRowAlignment: MainAxisAlignment.center),*/
+      DataColumn(
+          label: Center(
+              child: Text('مانده تمام سکه', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 110),
-              child: Text('مانده تمام سکه بانکی', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold))),
+          label: Center(
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('نیم/ربع بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                  Text('نیم/ربع بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+                ],
+              )),
           headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
-              child: Text('نیم / ربع بدهکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold))),
-          headingRowAlignment: MainAxisAlignment.center),
-      DataColumn(
+      /*DataColumn(
           label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
               child: Text('نیم / ربع بستانکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))),
+          headingRowAlignment: MainAxisAlignment.center),*/
+      DataColumn(
+          label: Center(
+              child: Text('مانده نیم/ربع', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold))),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
-              child: Text('مانده نیم / ربع', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold))),
+          label: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('نقره بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                Text('نقره بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
-          label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100), child: Text('ریال بدهکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold))),
+          label: Center(
+            child: Text('مانده نقره', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold)),
+          ),
           headingRowAlignment: MainAxisAlignment.center),
       DataColumn(
+          label: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('دلار بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                Text('دلار بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+          headingRowAlignment: MainAxisAlignment.center),
+      DataColumn(
+          label: Center(
+            child: Text('مانده دلار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold)),
+          ),
+          headingRowAlignment: MainAxisAlignment.center),
+      DataColumn(
+          label: Center(
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('یورو بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                Text('یورو بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+          headingRowAlignment: MainAxisAlignment.center),
+      DataColumn(
+          label: Center(
+            child: Text('مانده یورو', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold)),
+          ),
+          headingRowAlignment: MainAxisAlignment.center),
+      DataColumn(
+          label: Center(
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('ریال بد', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.accentColor, fontWeight: FontWeight.bold)),
+                  Text('ریال بس', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))
+                ],
+              )),
+          headingRowAlignment: MainAxisAlignment.center),
+      /*DataColumn(
           label: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
               child: Text('ریال بستانکار', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.primaryColor, fontWeight: FontWeight.bold))),
-          headingRowAlignment: MainAxisAlignment.center),
+          headingRowAlignment: MainAxisAlignment.center),*/
       DataColumn(
-          label: Padding(padding: const EdgeInsets.only(right: 8),
-            child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 100),
+          label: Center(
                 child: Text('مانده ریالی', style: AppTextStyle.labelText.copyWith(fontSize: 11, color: AppColor.dividerColor, fontWeight: FontWeight.bold))),
-          ),
           headingRowAlignment: MainAxisAlignment.center),
     ];
   }
@@ -1695,10 +1762,9 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
         color: trans.checked == true ? WidgetStateProperty.all(AppColor.appBarColor.withAlpha(150)) : WidgetStateProperty.all(rowColor),
         cells: [
           // ردیف
-          DataCell(Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Row(
+          DataCell(
+              Center(
+            child: Row(
                 children: [
                   // رجیستر
                   Checkbox(
@@ -1714,7 +1780,6 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                   SelectableText("${trans.rowNum ?? 0}", style: AppTextStyle.bodyText,),
                 ],
               ),
-            ),
           )),
           // صدور فاکتور
           DataCell(
@@ -1723,15 +1788,18 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 Tooltip(
                   message: "صدور فاکتور با مانده",
                   child: Center(
-                    child: OutlinedButton.icon(
-                      onPressed: () async {
+                    child: GestureDetector(
+                      onTap: () async {
                         await controller.generateInvoiceForGoldTransaction(trans);
                       },
-                      label: Text('فاکتور با مانده', style: AppTextStyle.labelText.copyWith(color: AppColor.textColor, fontSize: 11),),
-                      style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.all(3)),
-                          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                          backgroundColor: WidgetStateProperty.all(AppColor.secondary2Color.withGreen(150))),
+                      child: SvgPicture.asset(
+                        'assets/svg/Invoice-balance.svg',
+                        height: 24,
+                        /*colorFilter: ColorFilter.mode(
+                          AppColor.secondary2Color,
+                          BlendMode.srcIn,
+                        ),*/
+                      ),
                     ),
                   ),
                 ),
@@ -1739,37 +1807,49 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 Tooltip(
                   message: "صدور فاکتور بدون مانده",
                   child: Center(
-                    child: OutlinedButton.icon(
-                      onPressed: () async {
+                    child: GestureDetector(
+                      onTap: () async {
                         await controller.generateInvoiceForGoldTransactionWithoutBalance(trans);
                       },
-                      label: Text('فاکتور', style: AppTextStyle.labelText.copyWith(color: AppColor.textColor, fontSize: 11),),
-                      style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.all(3)),
-                          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                          backgroundColor: WidgetStateProperty.all(AppColor.secondary2Color.withGreen(110))),
+                      child: SvgPicture.asset(
+                        'assets/svg/Invoice-nobalance.svg',
+                        height: 24,
+                        /*colorFilter: ColorFilter.mode(
+                          AppColor.secondary2Color,
+                          BlendMode.srcIn,
+                        ),*/
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          // ساعت
+          // تاریخ/ساعت
           DataCell(Center(
-            child: SelectableText(
-              trans.date != null ? "${trans.date!.hour.toString().padLeft(2, '0')}:${trans.date!.minute.toString().padLeft(2, '0')}:${trans.date!.second.toString().padLeft(2, '0')}" : "نامشخص",
-              style: AppTextStyle.bodyText.copyWith(color: AppColor.textColor, fontSize: 11),
-              textDirection: TextDirection.ltr,
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SelectableText(
+                  "${trans.date?.toPersianDate() ?? 'نامشخص'} ",
+                  style: AppTextStyle.bodyText.copyWith(color: AppColor.textColor, fontSize: 11),
+                  textDirection: TextDirection.ltr,
+                ),
+                SelectableText(
+                  trans.date != null ? "${trans.date!.hour.toString().padLeft(2, '0')}:${trans.date!.minute.toString().padLeft(2, '0')}:${trans.date!.second.toString().padLeft(2, '0')}" : "نامشخص",
+                  style: AppTextStyle.bodyText.copyWith(color: AppColor.textColor, fontSize: 11),
+                  textDirection: TextDirection.ltr,
+                ),
+              ],
             ),
           )),
           // تاریخ
-          DataCell(Center(
+          /*DataCell(Center(
             child: SelectableText(
               "${trans.date?.toPersianDate() ?? 'نامشخص'} ",
               style: AppTextStyle.bodyText.copyWith(color: AppColor.textColor, fontSize: 11),
               textDirection: TextDirection.ltr,
             ),
-          )),
+          )),*/
           // عملیات
           DataCell(
             Center(
@@ -1802,9 +1882,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
           // شرح
           DataCell(
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                child: Center(
+              child: Center(
                   child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
                     trans.type == "initial"
                         ? Row(
@@ -2227,7 +2305,6 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                         : SizedBox.shrink(),
                   ]),
                 ),
-              ),
             ),
           ),
           // مقدار
@@ -2260,26 +2337,39 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
               ),
             ),
           ),
-          // طلا بدهکار
+          // طلا بد/بس
           DataCell(
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+             Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  trans.item?.itemUnit?.id == 2
-                      ? SelectableText(
-                          trans.item?.itemUnit?.id == 2 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(3).seRagham()})" : "",
-                          style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                          textDirection: TextDirection.ltr,
-                        )
-                      : SizedBox.shrink(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      trans.item?.itemUnit?.id == 2 && trans.item?.id != 23
+                          ? SelectableText(
+                              trans.item?.itemUnit?.id == 2 && trans.item?.id != 23 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(3).seRagham()})" : "",
+                              style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                              textDirection: TextDirection.ltr,
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      trans.item?.itemUnit?.id == 2 && trans.item?.id != 23
+                          ? SelectableText(
+                        trans.item?.itemUnit?.id == 2 && trans.item?.id != 23 && trans.amount! > 0 ? "${trans.amount?.toStringAsFixed(3).seRagham()}" : "",
+                        style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                        textDirection: TextDirection.ltr,
+                      )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
                 ],
               ),
-            ),
           ),
           // طلا بستانکار
-          DataCell(
+          /*DataCell(
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Row(
@@ -2295,12 +2385,10 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 ],
               ),
             ),
-          ),
+          ),*/
           // مانده طلایی
           DataCell(
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SelectableText(
@@ -2321,28 +2409,40 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                   )
                 ],
               ),
-            ),
           ),
-          // تمام سکه بدهکار
+          // تمام بده/بس
           DataCell(
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  trans.item?.id == 2
-                      ? SelectableText(
-                          trans.item?.id == 2 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})" : "",
-                          style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                          textDirection: TextDirection.ltr,
-                        )
-                      : SizedBox.shrink(),
-                ],
-              ),
-            ),
+             Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+               children: [
+                 Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      trans.item?.id == 2
+                          ? SelectableText(
+                              trans.item?.id == 2 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})" : "",
+                              style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                              textDirection: TextDirection.ltr,
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     trans.item?.id == 2
+                         ? SelectableText(
+                       trans.item?.id == 2 && trans.amount! > 0 ? "${trans.amount?.toStringAsFixed(0).seRagham()}" : "",
+                       style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                       textDirection: TextDirection.ltr,
+                     )
+                         : SizedBox.shrink(),
+                   ],
+                 ),
+               ],
+             ),
           ),
           // تمام سکه بستانکار
-          DataCell(
+          /*DataCell(
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Row(
@@ -2358,7 +2458,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 ],
               ),
             ),
-          ),
+          ),*/
           // مانده تمام سکه
           DataCell(
             Padding(
@@ -2386,50 +2486,93 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
               ),
             ),
           ),
-          // نیم ربع بدهکار
+          // نیم ربع بد/بس
           DataCell(
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    trans.item?.id == 3
-                        ? SelectableText(
-                            trans.item?.id == 3 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})نیم " : "",
-                            style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                            textDirection: TextDirection.ltr,
-                          )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        trans.item?.id == 3
+                            ? SelectableText(
+                                trans.item?.id == 3 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})نیم " : "",
+                                style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                                textDirection: TextDirection.ltr,
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
+                    SizedBox(height: 2,),
+                    (trans.item?.id == 3 || trans.item?.id == 4) && trans.amount != null
+                        ? RotatedBox(
+                            quarterTurns: 1,
+                            child: Divider(
+                              color: AppColor.dividerColor,
+                              height: 1,
+                            ))
                         : SizedBox.shrink(),
+                    SizedBox(height: 2,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        trans.item?.id == 4
+                            ? SelectableText(
+                                trans.item?.id == 4 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})ربع " : "",
+                                style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                                textDirection: TextDirection.ltr,
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
                   ],
                 ),
-                SizedBox(height: 2,),
-                (trans.item?.id == 3 || trans.item?.id == 4) && trans.amount != null
-                    ? RotatedBox(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        trans.item?.id == 3
+                            ? SelectableText(
+                          trans.item?.id == 3 && trans.amount! > 0 ? "${trans.amount?.toStringAsFixed(0).seRagham()} نیم " : "",
+                          style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                          textDirection: TextDirection.ltr,
+                        )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
+                    SizedBox(width: 2,),
+                    (trans.item?.id == 3 || trans.item?.id == 4) && trans.amount != null
+                        ? RotatedBox(
                         quarterTurns: 1,
                         child: Divider(
                           color: AppColor.dividerColor,
                           height: 1,
                         ))
-                    : SizedBox.shrink(),
-                SizedBox(height: 2,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    trans.item?.id == 4
-                        ? SelectableText(
-                            trans.item?.id == 4 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})ربع " : "",
-                            style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                            textDirection: TextDirection.ltr,
-                          )
                         : SizedBox.shrink(),
+                    SizedBox(width: 2,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        trans.item?.id == 4
+                            ? SelectableText(
+                          trans.item?.id == 4 && trans.amount! > 0 ? "${trans.amount?.toStringAsFixed(0).seRagham()} ربع " : "",
+                          style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                          textDirection: TextDirection.ltr,
+                        )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
                   ],
                 ),
               ],
             ),
           ),
           // نیم ربع بستانکار
-          DataCell(
+          /*DataCell(
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -2469,7 +2612,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 ),
               ],
             ),
-          ),
+          ),*/
           // مانده نیم ربع
           DataCell(
             Row(
@@ -2530,32 +2673,216 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
               ],
             ),
           ),
-          // ریال بدهکار
+          // نقره بد/بس
           DataCell(
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  trans.item?.id == 6
-                      ? SelectableText(
-                          trans.item?.id == 6 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})" : "",
-                          style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                          textDirection: TextDirection.ltr,
-                        )
-                      : trans.type == "sell"
-                          ? SelectableText(
-                              "(-${trans.totalPrice?.abs().toStringAsFixed(0).seRagham()})",
-                              style: AppTextStyle.bodyText.copyWith(color: trans.type == "sell" ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                              textDirection: TextDirection.ltr,
-                            )
-                          : SizedBox.shrink(),
-                ],
-              ),
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 23
+                        ? SelectableText(
+                      trans.item?.id == 23 && trans.amount! < 0 ? "(-${trans.amount?.abs().toString().seRagham()})" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 23
+                        ? SelectableText(
+                      trans.item?.id == 23 && trans.amount! > 0 ? "${trans.amount?.toString().seRagham()}" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              ],
             ),
           ),
-          // ریال بستانکار
+          // مانده نقره
           DataCell(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SelectableText(
+                  trans.silverTotalRunning! < 0
+                      ? "(-${trans.silverTotalRunning?.abs().toString().seRagham()})"
+                      : trans.silverTotalRunning! > 0
+                      ? "${trans.silverTotalRunning?.toString().seRagham()}"
+                      : "",
+                  style: AppTextStyle.bodyText.copyWith(
+                      color: trans.silverTotalRunning! > 0
+                          ? AppColor.primaryColor
+                          : trans.silverTotalRunning! < 0
+                          ? AppColor.accentColor
+                          : AppColor.textColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold),
+                  textDirection: TextDirection.ltr,
+                )
+              ],
+            ),
+          ),
+          // دلار بد/بس
+          DataCell(
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 7
+                        ? SelectableText(
+                      trans.item?.id == 7 && trans.amount! < 0 ? "(-${trans.amount?.abs().toString().seRagham()})" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 7
+                        ? SelectableText(
+                      trans.item?.id == 7 && trans.amount! > 0 ? "${trans.amount?.toString().seRagham()}" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // مانده دلار
+          DataCell(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SelectableText(
+                  trans.dollarTotalRunning! < 0
+                      ? "(-${trans.dollarTotalRunning?.abs().toString().seRagham()})"
+                      : trans.dollarTotalRunning! > 0
+                      ? "${trans.dollarTotalRunning?.toString().seRagham()}"
+                      : "",
+                  style: AppTextStyle.bodyText.copyWith(
+                      color: trans.dollarTotalRunning! > 0
+                          ? AppColor.primaryColor
+                          : trans.dollarTotalRunning! < 0
+                          ? AppColor.accentColor
+                          : AppColor.textColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold),
+                  textDirection: TextDirection.ltr,
+                )
+              ],
+            ),
+          ),
+          // یورو بد/بس
+          DataCell(
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 17
+                        ? SelectableText(
+                      trans.item?.id == 17 && trans.amount! < 0 ? "(-${trans.amount?.abs().toString().seRagham()})" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    trans.item?.id == 17
+                        ? SelectableText(
+                      trans.item?.id == 17 && trans.amount! > 0 ? "${trans.amount?.toString().seRagham()}" : "",
+                      style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.ltr,
+                    )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // مانده یورو
+          DataCell(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SelectableText(
+                  trans.euroTotalRunning! < 0
+                      ? "(-${trans.euroTotalRunning?.abs().toString().seRagham()})"
+                      : trans.euroTotalRunning! > 0
+                      ? "${trans.euroTotalRunning?.toString().seRagham()}"
+                      : "",
+                  style: AppTextStyle.bodyText.copyWith(
+                      color: trans.euroTotalRunning! > 0
+                          ? AppColor.primaryColor
+                          : trans.euroTotalRunning! < 0
+                          ? AppColor.accentColor
+                          : AppColor.textColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold),
+                  textDirection: TextDirection.ltr,
+                )
+              ],
+            ),
+          ),
+          // ریال بد/بس
+          DataCell(
+             Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+               children: [
+                 Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      trans.item?.id == 6
+                          ? SelectableText(
+                              trans.item?.id == 6 && trans.amount! < 0 ? "(-${trans.amount?.abs().toStringAsFixed(0).seRagham()})" : "",
+                              style: AppTextStyle.bodyText.copyWith(color: trans.amount! < 0 ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                              textDirection: TextDirection.ltr,
+                            )
+                          : trans.type == "sell"
+                              ? SelectableText(
+                                  "(-${trans.totalPrice?.abs().toStringAsFixed(0).seRagham()})",
+                                  style: AppTextStyle.bodyText.copyWith(color: trans.type == "sell" ? AppColor.accentColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                                  textDirection: TextDirection.ltr,
+                                )
+                              : SizedBox.shrink(),
+                    ],
+                  ),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                     trans.item?.id == 6
+                         ? SelectableText(
+                       trans.item?.id == 6 && trans.amount! > 0 ? "${trans.amount?.toStringAsFixed(0).seRagham()}" : "",
+                       style: AppTextStyle.bodyText.copyWith(color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                       textDirection: TextDirection.ltr,
+                     )
+                         : trans.type == "buy"
+                         ? SelectableText(
+                       "${trans.totalPrice?.toStringAsFixed(0).seRagham()}",
+                       style: AppTextStyle.bodyText.copyWith(color: trans.type == "buy" ? AppColor.primaryColor : AppColor.textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                       textDirection: TextDirection.ltr,
+                     )
+                         : SizedBox.shrink(),
+                   ],
+                 ),
+               ],
+             ),
+          ),
+          // ریال بستانکار
+          /*DataCell(
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Row(
@@ -2577,7 +2904,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                 ],
               ),
             ),
-          ),
+          ),*/
           // ریال طلایی
           DataCell(
             Padding(

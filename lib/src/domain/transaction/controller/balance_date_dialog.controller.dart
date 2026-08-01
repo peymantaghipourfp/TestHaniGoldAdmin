@@ -57,7 +57,11 @@ class BalanceDateDialogController extends GetxController {
 
   /// Get gold balances (مانده طلایی)
   List<AllBalancesModel> get goldBalances =>
-      balances.where((b) => b.unitName == 'گرم').toList();
+      balances.where((b) => b.unitName == 'گرم' && b.itemName != 'نقره').toList();
+
+  /// Get gold balances (مانده نقره)
+  List<AllBalancesModel> get silverBalances =>
+      balances.where((b) => b.itemName == 'نقره').toList();
 
   /// Get currency balances (مانده ارز)
   List<AllBalancesModel> get currencyBalances =>

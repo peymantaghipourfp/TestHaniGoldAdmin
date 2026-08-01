@@ -25,6 +25,9 @@ TransactionReportGoldModel _$TransactionReportGoldModelFromJson(
       quarterCoinTotalRunning:
           (json['quarterCoinTotalRunning'] as num?)?.toDouble(),
       cashTotalRunning: (json['cashTotalRunning'] as num?)?.toDouble(),
+      silverTotalRunning: (json['silverTotalRunning'] as num?)?.toDouble(),
+      dollarTotalRunning: (json['dollarTotalRunning'] as num?)?.toDouble(),
+      euroTotalRunning: (json['euroTotalRunning'] as num?)?.toDouble(),
       toAccount:
           AccountModel.fromJson(json['toAccount'] as Map<String, dynamic>),
       price: (json['price'] as num?)?.toDouble(),
@@ -59,6 +62,9 @@ Map<String, dynamic> _$TransactionReportGoldModelToJson(
       'halfCoinTotalRunning': instance.halfCoinTotalRunning,
       'quarterCoinTotalRunning': instance.quarterCoinTotalRunning,
       'cashTotalRunning': instance.cashTotalRunning,
+      'silverTotalRunning': instance.silverTotalRunning,
+      'dollarTotalRunning': instance.dollarTotalRunning,
+      'euroTotalRunning': instance.euroTotalRunning,
       'toAccount': instance.toAccount,
       'price': instance.price,
       'totalPrice': instance.totalPrice,

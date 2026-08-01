@@ -25,6 +25,7 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../../config/const/app_color.dart';
 import '../../../config/network/error/network.error.dart';
+import '../../../config/network/error_handler.dart';
 import '../../../config/repository/item.repository.dart';
 import '../../../config/repository/user_info_transaction.repository.dart';
 import '../../account/model/account.model.dart';
@@ -528,19 +529,38 @@ class OrderController extends BaseController{
       isLoading.value = true;
       if (Get.isDialogOpen!) Get.back();
       var response=await orderRepository.updateStatusOrder(status: status, orderId: orderId);
-      if(response!= null){
-        Get.snackbar(response.first['title'], response.first["description"],
-            titleText: Text(response.first['title'],
+      if(response.isNotEmpty){
+        final info = Map<String, dynamic>.from(response.first as Map);
+        final title = info['title']?.toString() ?? 'تغییر وضعیت سفارش';
+        final description = info['description']?.toString() ?? '';
+        Get.snackbar(title, description,
+            titleText: Text(title,
               textAlign: TextAlign.center,
               style: TextStyle(color: AppColor.textColor),),
-            messageText: Text(response.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
-        // Use silent refresh to update list without UI flicker
-        refreshOrderListSilently();
-        refreshTotalBalanceSilently();
+            messageText: Text(description , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
+        if (ErrorHandler.isSuccessInfo(info)) {
+          // Use silent refresh to update list without UI flicker
+          refreshOrderListSilently();
+          refreshTotalBalanceSilently();
+        }
       }
     }catch(e){
       EasyLoading.dismiss();
-      throw ErrorException('خطا در تغییر وضعیت: $e');
+      final message = e is ErrorException ? e.message : e.toString();
+      Get.snackbar(
+        'خطا',
+        message,
+        titleText: Text(
+          'خطا',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
     }finally {
       EasyLoading.dismiss();
       isLoading.value = false;
@@ -555,19 +575,37 @@ class OrderController extends BaseController{
       if (Get.isDialogOpen!) Get.back();
       var response=await orderRepository.deleteOrder(isDeleted: isDeleted, orderId: orderId);
       if(response.isNotEmpty){
-        final info = response.first;
-        Get.snackbar(info['title'],info['description'],
-            titleText: Text(info['title'],
+        final info = Map<String, dynamic>.from(response.first as Map);
+        final title = info['title']?.toString() ?? 'حذف سفارش';
+        final description = info['description']?.toString() ?? '';
+        Get.snackbar(title, description,
+            titleText: Text(title,
               textAlign: TextAlign.center,
               style: TextStyle(color: AppColor.textColor),),
-            messageText: Text(info['description'],textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
-        // Use silent refresh to update list without UI flicker
-        refreshOrderListSilently();
-        refreshTotalBalanceSilently();
+            messageText: Text(description,textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
+        if (ErrorHandler.isSuccessInfo(info)) {
+          // Use silent refresh to update list without UI flicker
+          refreshOrderListSilently();
+          refreshTotalBalanceSilently();
+        }
       }
     }catch(e){
       EasyLoading.dismiss();
-      throw ErrorException('خطا در حذف سفارش: $e');
+      final message = e is ErrorException ? e.message : e.toString();
+      Get.snackbar(
+        'خطا',
+        message,
+        titleText: Text(
+          'خطا',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+        messageText: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.textColor),
+        ),
+      );
     }finally {
       EasyLoading.dismiss();
       isLoading.value = false;

@@ -34,6 +34,12 @@ class TransactionReportGoldModel {
   final double? quarterCoinTotalRunning;
   @JsonKey(name: "cashTotalRunning")
   final double? cashTotalRunning;
+  @JsonKey(name: "silverTotalRunning")
+  final double? silverTotalRunning;
+  @JsonKey(name: "dollarTotalRunning")
+  final double? dollarTotalRunning;
+  @JsonKey(name: "euroTotalRunning")
+  final double? euroTotalRunning;
   @JsonKey(name: "toAccount")
   final AccountModel toAccount;
   @JsonKey(name: "price")
@@ -78,6 +84,9 @@ class TransactionReportGoldModel {
     required this.halfCoinTotalRunning,
     required this.quarterCoinTotalRunning,
     required this.cashTotalRunning,
+    required this.silverTotalRunning,
+    required this.dollarTotalRunning,
+    required this.euroTotalRunning,
     required this.toAccount,
     required this.price,
     required this.totalPrice,
