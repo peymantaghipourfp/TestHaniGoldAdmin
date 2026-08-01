@@ -1,101 +1,117 @@
-# Task 1 Report — Scaffold gold transaction toolbar + desktop body shell
+# Task 1 Report: Pending post-login route helpers
 
-**Status:** Complete  
-**Commit:** `014f7c7` — `feat(users): scaffold gold transaction desktop toolbar shell`  
-**Branch:** `feat/gold-tx-fit-table`
+**Status:** DONE_WITH_CONCERNS  
+**Branch:** `feat/web-refresh-session-login-restore`  
+**Commit:** `7272f14` — `feat(session): add pending post-login route helpers for web refresh`
 
-## What was implemented
+---
 
-| File | Widget / API | Purpose |
-| --- | --- | --- |
-| `gold_transaction_toolbar.widget.dart` | `GoldTransactionToolbar({required controller})` | Filter via `GoldTransactionFilterWidget` + «حذف چک باکس» confirm dialog (`removeCheckedAll`) |
-| `gold_transaction_desktop_body.widget.dart` | `GoldTransactionDesktopBody({required controller})` | Desktop panel: margin/padding L/R 10, toolbar → `SizedBox(height: 10)` → table placeholder |
-| `test/gold_transaction_data_table_layout_test.dart` | layout test | Asserts desktop body tree has no `SingleChildScrollView(scrollDirection: Axis.horizontal)` |
+## Summary
 
-### Implementation notes
+Implemented pure GetStorage helpers for persisting and restoring a post-login route during unauthenticated web boot. No wiring to `session_bootstrap` or `AuthController` (per task scope).
 
-- Toolbar copies desktop/mobile filter + clear-checkbox dialog logic from `user_info_gold_transaction.view.dart` (~2639–2682 / ~4443–4486). View duplicates left in place (Task 2/3 thin the view).
-- Desktop body panel chrome matches current container (`AppColor.backGroundColor1.withAlpha(150)`, left/right margin & padding 10).
-- Table slot is `SizedBox.shrink(key: Key('gold_transaction_table_placeholder'))` for Task 2.
-- View **not** wired to replace H-scroll block (Task 2).
-- No 14-col DataTable yet (Task 2).
-
-## What was tested and results
-
-| Command | Result |
-| --- | --- |
-| `flutter test test/gold_transaction_data_table_layout_test.dart` (after GREEN impl) | **PASS** — `All tests passed!` (+1) |
-| `flutter analyze` on toolbar, desktop body, layout test | **No issues found!** (3 items) |
-| `graphify update .` | Rebuilt graph (9009 nodes) |
+---
 
 ## TDD Evidence
 
-### RED
+### RED (Step 2)
 
-**Command:**
-```
-flutter test test/gold_transaction_data_table_layout_test.dart
-```
-
-**Setup:** Temporary stub `GoldTransactionDesktopBody` wrapped content in `SingleChildScrollView(scrollDirection: Axis.horizontal)`.
-
-**Failing output (excerpt):**
-```
-Expected: no matching candidates
-  Actual: _WidgetPredicateWidgetFinder:<Found 1 widget with widget matching predicate: [
-            SingleChildScrollView(...),
-          ]>
-   Which: means one was found but none were expected
-...
-00:00 +0 -1: Some tests failed.
+```text
+flutter test test/pending_post_login_route_test.dart
+→ FAIL — lib/src/config/pending_post_login_route.dart not found; symbols undefined
 ```
 
-**Why expected:** Assertion requires zero horizontal `SingleChildScrollView`s; stub intentionally included one.
+Compilation failed as expected before implementation existed.
 
-### GREEN
+### GREEN (Step 4)
 
-**Command:**
-```
-flutter test test/gold_transaction_data_table_layout_test.dart
-```
+After implementation (+ minimal test harness for `path_provider`):
 
-**Setup:** Real shell — `Column` with toolbar + spacer + placeholder; no horizontal scroll.
-
-**Passing output (excerpt):**
-```
-00:00 +0: GoldTransactionDesktopBody build tree has no horizontal SingleChildScrollView
-00:01 +1: All tests passed!
+```text
+flutter test test/pending_post_login_route_test.dart
+→ 00:00 +7: All tests passed!
 ```
 
-## Files changed
+| Group | Tests |
+| --- | --- |
+| `isPendingPostLoginRouteAllowed` | 3 |
+| `save + consume` | 2 |
+| `resolveUnauthenticatedWebBootRoute` | 2 |
 
-**Created:**
-- `lib/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_toolbar.widget.dart`
-- `lib/src/domain/users/widgets/user_info_gold_transaction/gold_transaction_desktop_body.widget.dart`
-- `test/gold_transaction_data_table_layout_test.dart`
+---
 
-**Not modified (intentional):**
-- `user_info_gold_transaction.view.dart` (still has H-scroll + duplicate toolbar; Task 2 wires)
-- Controller
+## Files Changed
 
-## Self-review findings
+| File | Action |
+| --- | --- |
+| `lib/src/config/pending_post_login_route.dart` | Created — helpers, constants, AppLogger error handling |
+| `test/pending_post_login_route_test.dart` | Created — unit tests per brief (+ path_provider mock in `setUpAll`) |
+
+---
+
+## Public API (as specified)
+
+- `pendingPostLoginRouteKey` — `'pending_post_login_route'`
+- `pendingBootstrapOnlyRoutes` — `{'/splash', '/login'}`
+- `isPendingPostLoginRouteAllowed(route, knownRouteNames)` — validates route against allowlist
+- `savePendingPostLoginRoute(route, {knownRouteNames, box})` — writes allowed route to GetStorage
+- `consumePendingPostLoginRoute({box})` — read + remove; returns `null` if empty/missing
+- `resolveUnauthenticatedWebBootRoute({hashRoute, knownRouteNames, box})` — may save pending; always returns `'/login'`
+
+---
+
+## Self-Review
 
 | Check | Result |
 | --- | --- |
-| Package imports / AppColor / AppTextStyle / GetX | Pass |
-| Interfaces match brief (`GoldTransactionToolbar` / `GoldTransactionDesktopBody` + controller) | Pass |
-| No `Axis.horizontal` in desktop body | Pass |
-| Column: toolbar → SizedBox(10) → placeholder | Pass |
-| Panel margins ~left/right 10 | Pass |
-| Filter + حذف چک باکس moved into toolbar | Pass |
-| View not wired | Pass |
-| No 14-col DataTable | Pass |
-| Analyze clean | Pass |
-| TDD RED then GREEN | Pass |
+| Matches brief signatures and behavior | Yes |
+| Package imports (`package:hanigold_admin/...`) | Yes |
+| AppLogger for errors (no `print`) | Yes |
+| Optional `GetStorage? box` for testability | Yes |
+| Bootstrap routes excluded from pending save | Yes |
+| Unknown routes rejected | Yes |
+| `consume` clears key after read | Yes |
+| No session_bootstrap / AuthController wiring | Yes |
+| Linter clean on new files | Yes |
 
-## Issues / concerns
+**Logic walkthrough:**
 
-1. **View still has H-scroll:** Desktop body is unused until Task 2; production UI unchanged.
-2. **Toolbar not yet used on mobile:** Mobile still inlines filter/checkbox; Task 3 extracts `GoldTransactionMobileList` and can reuse toolbar.
-3. **Test uses real controller constructed without `Get.put`:** Avoids `onInit` / route params; sufficient for layout tree assertion. Dialog/filter interactions not covered here.
-4. **Placeholder is empty:** Task 2 must replace `gold_transaction_table_placeholder` with `GoldTransactionDataTable`.
+1. `isPendingPostLoginRouteAllowed` — rejects null/empty, `/splash`, `/login`, and routes not in `knownRouteNames`.
+2. `savePendingPostLoginRoute` — no-op unless allowed; try/catch with `AppLogger.e`.
+3. `consumePendingPostLoginRoute` — removes key before returning trimmed value; empty string → `null`.
+4. `resolveUnauthenticatedWebBootRoute` — delegates save then always returns `'/login'`.
+
+---
+
+## Concerns
+
+1. **Test harness deviation:** Brief specified verbatim test file without Flutter binding / `path_provider` mock. On Windows VM tests, `GetStorage.init` fails with `MissingPluginException` without it. Added the same `TestWidgetsFlutterBinding` + `MethodChannel` mock pattern used in `test/web_tab_logout_test.dart`. All test *cases* and assertions match the brief; only `setUpAll` setup differs.
+
+2. **GetStorage test artifacts:** Running tests created untracked `pending_post_login_route_test.bak` and `pending_post_login_route_test.gs` in the worktree root (GetStorage named-bucket side files). Not committed; consider adding to `.gitignore` if they recur.
+
+3. **Default `GetStorage()` in production:** When `box` is omitted, helpers use the default GetStorage instance (same pattern as other config helpers). Callers in later tasks should pass an explicit box if isolation is needed.
+
+4. **No re-validation on consume:** `consumePendingPostLoginRoute` does not re-check `knownRouteNames`. Later tasks should validate before navigation if the route table can change between save and login.
+
+---
+
+## Next Task Dependencies
+
+Task 2+ can import:
+
+```dart
+import 'package:hanigold_admin/src/config/pending_post_login_route.dart';
+```
+
+Use `resolveUnauthenticatedWebBootRoute` in unauthenticated web boot and `consumePendingPostLoginRoute` after successful login.
+
+---
+
+## Commands Run
+
+```bash
+flutter test test/pending_post_login_route_test.dart   # RED then GREEN
+git add lib/src/config/pending_post_login_route.dart test/pending_post_login_route_test.dart
+git commit -m "feat(session): add pending post-login route helpers for web refresh"
+graphify update .
+```

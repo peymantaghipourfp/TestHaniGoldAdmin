@@ -1,32 +1,28 @@
-# Progress Ledger - Gold TX Fit Table
+# Progress Ledger - Web Refresh Session Login-Restore
 
-Plan: c:\Users\Admin\.cursor\plans\gold_tx_fit_table_ad71a70c.plan.md
-Started: 2026-07-28
-Branch: feat/gold-tx-fit-table
-Workspace: D:/curserAi project (in-place; not linked worktree)
-Merge-base: a5d42c5f786fc72b872bfc4eef5ac91e11beae34
+Plan: docs/superpowers/plans/2026-08-01-web-refresh-session-login-restore.md
+Started: 2026-08-01
+Branch: feat/web-refresh-session-login-restore
+Workspace: D:/curserAi project/.worktrees/web-refresh-session-login-restore
+Merge-base: b1d1791
 
-Task 1: complete (commits a5d42c5..014f7c7, review clean - Approved)
-Task 2: complete (commits 014f7c7..8406c1e, review clean - Approved after fix 8406c1e)
-Task 3: complete (commits 8406c1e..92d6c3d, review clean - Approved)
-Task 4: complete (verification only; no commit â€” see task-4-report.md)
+Task 1: complete (commits a5e93ce..7272f14, review clean - Approved)
 
+Task 2: complete (commits 7272f14..d269d37, review clean - Approved)
+
+Task 3: complete (commits d269d37..b60dda0, review clean - Approved)
+
+Task 4: complete (commits b60dda0..12c1152, review clean - Approved)
+
+Task 5: complete (commits 12c1152..b487b59, review clean - Approved)
 ## Accumulated minors for final review
-- Task 1: layout test only asserts H-scroll absence (weak shell structure coverage)
-- Task 1: early graphify-out churn in Task 1 commit
-- Task 2: _fitRow doc claims ellipsis; SelectableText hard-clips
-- Task 2: large commented dead block in description port
-- Task 2: very narrow (~1100) desktop relies on clip budgets â€” visual pass recommended
-- Task 3: Chrome smoke skipped; dead empty branch in mobile list; pre-existing hard-coded colors
-- Task 4: human visual smoke still needed (~1100 + live invoice clicks); graphify-out left unstaged
-## Final review
-Final review: complete (Ready to merge with notes; no Critical/Important code defects)
+- Task 1: test harness path_provider mock; GetStorage sidecar artifacts
+- Task 1: no trim on save validation
+- Task 2: no direct unit test for resolveWebInitialRoute
+- Task 3: import grouping nit in auth.controller
+- Task 4: relative imports pre-existing in dio_Interceptor
+- Task 5: manual web checklist human-needed; pre-existing print in auth.controller
 
-## Accumulated minors (carry-forward — final triage)
-- Layout test weak on shell structure — OK
-- Task 1 graphify-out churn — exclude from feature PR or separate
-- _fitRow docs claim ellipsis; SelectableText hard-clips — OK
-- Large commented dead block in description port — cleanup later
-- ~1100 desktop clip budgets — QA visual pass recommended
-- Chrome smoke skipped; empty-state toolbar; hard-coded mobile colors — OK
-- Human smoke (~1100 + live invoices); graphify-out unstaged — leave out of feature commit or stage intentionally
+## Final review
+Final review: complete (Ready with notes; no Critical/Important code defects; manual web checklist human-needed)
+

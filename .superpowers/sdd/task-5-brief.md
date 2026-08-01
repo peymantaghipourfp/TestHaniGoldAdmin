@@ -1,14 +1,55 @@
-﻿### Task 5: 7-column data table + desktop body
+### Task 5: Verification + graphify
 
-**Files:** `user_balance_data_table.widget.dart`, `user_balance_desktop_body.widget.dart`
+**Files:** none new (verification only)
 
-- [ ] **Step 1:** `UserBalanceDataTable` — 7 `DataColumn`s, `dataRowMaxHeight: double.infinity`, zebra rows, `sortColumnIndex`/`sortAscending` from controller
-- [ ] **Step 2:** Each `DataRow` has 7 `DataCell`s; asset cells = `Column(crossAxisAlignment: center, children: [creditSection, SizedBox(4), debitSection])`
-- [ ] **Step 3:** `UserBalanceDesktopBody` — vertical `Column`: `StatsGrid` → `Toolbar` → `DataTable` (NO horizontal `SingleChildScrollView`) → `Footer` placeholder or skip footer until Task 6
-- [ ] **Step 4:** Commit `feat(users): add 7-column grouped data table`
+- [ ] **Step 1: Run focused + related session tests**
 
-**Validate:** Column count == 7; NO outer horizontal scroll; sort indices 2–11 via grouped headers.
+Run:
 
-**Use widgets from Tasks 1-4.** Footer widget comes in Task 6 — desktop body can omit footer or accept optional footer slot.
+```bash
+flutter test test/pending_post_login_route_test.dart test/dio_interceptor_session_header_test.dart test/session_invalidation_test.dart test/secure_session_storage_test.dart
+```
 
-**Do NOT thin main view yet (Task 6).**
+Expected: All PASS.
+
+- [ ] **Step 2: Analyze changed production files**
+
+Run:
+
+```bash
+flutter analyze lib/src/config/pending_post_login_route.dart lib/src/config/session_bootstrap.dart lib/src/config/routes/route_page.dart lib/src/domain/auth/controller/auth.controller.dart lib/src/config/network/dio_Interceptor.dart
+```
+
+Expected: No issues in these files.
+
+- [ ] **Step 3: Manual web checklist (engineer)**
+
+1. Login → open `#/listUserInfoTransaction` → F5 → login screen (no 401 spam from that page before login).
+2. Login again → lands on list; Dio has `Authorization`, no `x-session-id` header; socket identifies with vault `sessionId`.
+3. Two tabs → close one → other keeps session.
+4. Close last tab → reopen → login required.
+
+- [ ] **Step 4: Update knowledge graph**
+
+Run from repo root:
+
+```bash
+graphify update .
+```
+
+- [ ] **Step 5: Commit graphify outputs only if they changed and are normally tracked**
+
+```bash
+git add graphify-out/GRAPH_REPORT.md graphify-out/graph.json graphify-out/manifest.json
+git status
+```
+
+If those files changed:
+
+```bash
+git commit -m "chore: refresh graphify after session boot and Dio header changes"
+```
+
+If unchanged, skip commit.
+
+---
