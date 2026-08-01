@@ -1,4 +1,4 @@
-# Graph Report - disable-pagehide-session-logout  (2026-08-01)
+# Graph Report - curserAi project  (2026-08-01)
 
 ## Corpus Check
 - 766 files · ~651,590 words
