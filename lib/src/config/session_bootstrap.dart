@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/socket.service.dart';
 import 'package:hanigold_admin/src/config/logger/app_logger.dart';
+import 'package:hanigold_admin/src/config/pending_post_login_route.dart';
+import 'package:hanigold_admin/src/config/routes/route_page.dart';
 import 'package:hanigold_admin/src/config/secure_session_storage.dart';
 import 'package:hanigold_admin/src/config/session_invalidation.dart';
 import 'package:hanigold_admin/src/config/session_storage.dart';
@@ -28,9 +30,19 @@ void bootstrapSessionControllers() {
 }
 
 /// On Web, reads the hash route from the current URL; otherwise returns [fallback].
+///
+/// When there is no active stored session, always returns `/login` and may
+/// persist a recoverable hash under [pendingPostLoginRouteKey].
 String resolveWebInitialRoute(String fallback) {
   if (!kIsWeb) return fallback;
-  return parseHashRoute(html.window.location.hash) ?? fallback;
+  final hashRoute = parseHashRoute(html.window.location.hash);
+  if (hasActiveStoredSession()) {
+    return hashRoute ?? fallback;
+  }
+  return resolveUnauthenticatedWebBootRoute(
+    hashRoute: hashRoute,
+    knownRouteNames: RoutePage.knownRouteNames,
+  );
 }
 
 /// Post-splash destination: never re-navigate to splash/login from stored session.

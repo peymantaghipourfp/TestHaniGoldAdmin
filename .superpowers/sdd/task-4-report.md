@@ -1,94 +1,95 @@
-# Task 4 Report — Verification + graphify
+# Task 4 Report: Remove `x-session-id` from DioInterceptor (TDD)
 
-**Status:** DONE (verification only; no feature commit)  
-**Branch:** `feat/gold-tx-fit-table`  
-**Commit:** none (Step 5 — commit skipped unless user requests)
+**Status:** DONE  
+**Branch:** `feat/web-refresh-session-login-restore`  
+**Commit:** `12c1152` — `fix(network): stop attaching x-session-id on Dio requests`
 
-## 1. `flutter analyze` (touched paths)
+---
 
+## Summary
+
+`DioInterceptor.onRequest` no longer reads or attaches `x-session-id` on outgoing Dio HTTP requests. `Authorization` header injection is unchanged. Vault writes in `AuthController` / `AuthRepository` were not touched; socket/chat consumers still read `x-session-id` from `SecureSessionStorage`.
+
+---
+
+## TDD Evidence
+
+### RED — Step 2 (before interceptor change)
+
+```text
+flutter test test/dio_interceptor_session_header_test.dart
+→ onRequest sets Authorization but not x-session-id [E]
+  Expected: false
+    Actual: <true>
+
+🐛 Headers: {Authorization: Bearer test-token, x-session-id: session-abc}
 ```
-flutter analyze lib/src/domain/users/view/user_info_gold_transaction.view.dart \
-  lib/src/domain/users/widgets/user_info_gold_transaction/
+
+Test harness note: initial run failed on `MissingPluginException` for `path_provider`; fixed by adding `TestWidgetsFlutterBinding.ensureInitialized()` + `MethodChannel` mock (same pattern as `pending_post_login_route_test.dart`). Used Dio-chain capture approach per brief (not `RequestInterceptorHandler` subclass).
+
+### GREEN — Step 4 (after interceptor change)
+
+```text
+flutter test test/dio_interceptor_session_header_test.dart test/pending_post_login_route_test.dart
+→ 00:00 +8: All tests passed!
+
+🐛 Headers: {Authorization: Bearer test-token}
 ```
 
-| Result | Detail |
-| --- | --- |
-| Exit | 1 (infos reported as issues) |
-| Errors | **0** |
-| Warnings | **0** |
-| Infos | **19** |
-
-Info breakdown (non-blocking; same class as Task 2/3):
-
-- View: `sized_box_for_whitespace`, `avoid_unnecessary_containers`, 3× `deprecated_member_use` (`withOpacity`)
-- Description cell: 7× `unnecessary_string_interpolations`
-- Mobile list: 7× `deprecated_member_use` (`withOpacity`)
-
-**Gate:** treat as analyze-clean for DoD (no errors/warnings), matching prior task reports.
-
-## 2. `flutter test test/gold_transaction_data_table_layout_test.dart`
-
-| Result | Detail |
-| --- | --- |
-| Exit | **0** |
-| Tests | **5/5 passed** |
-
-Covered:
-
-1. No horizontal `SingleChildScrollView` under `GoldTransactionDesktopBody`
-2. 14 columns; 4 `GoldTransactionGroupedHeader` + 4 separate مانده headers; no standalone «… بدهکار/بستانکار» headers
-3. Description: no `softWrap: true` in source; `maxLines: 1` + `_fitRow`/`Flexible`
-4. Dense description at ~1280 / 160px budget — no RenderFlex overflow
-5. `onSortColum` at visual index **2** sorts by date; controller index == `GoldTransactionDataTable.dateSortVisualIndex`
-
-## 3. Manual checklist (code / static + widget tests)
-
-| Check | Verified how | Result |
+| Suite | Tests | Result |
 | --- | --- | --- |
-| No H-scroll wrapper on desktop table | `GoldTransactionDesktopBody` doc + Column → DataTable; grep no `Axis.horizontal` under users gold widgets; widget test | **PASS** (static + test) |
-| 4 grouped debit/credit columns | Headers: طلا / تمام‌سکه / نیم‌ربع / ریال via `GoldTransactionGroupedHeader`; cells use credit+debit sections | **PASS** (static + test) |
-| 4 separate مانده columns | Headers + cells: مانده طلایی / تمام‌سکه / نیم‌ربع / ریالی | **PASS** (static + test) |
-| شرح not soft-wrapped | No `softWrap: true`; all `SelectableText` use `maxLines: 1`; header `softWrap: false`. (Texts omit explicit `softWrap: false`; wrap prevented by maxLines + Flexible — Task 2 accepted pattern) | **PASS** (static + test) |
-| Date sort → visual index 2 | `dateSortVisualIndex = 2`; `DataColumn.onSort` → `onSortColum`; controller `dateSortColumnIndex = 2` | **PASS** (static + unit test) |
-| Invoice cells present | `GoldTransactionInvoiceCell` in column 1; calls `generateInvoiceForGoldTransaction` / `…WithoutBalance` | **PASS** (static wiring) |
-| No overflow at ≥1280 | Widget test at 1280 + dense desc cell | **PASS** (automated at 1280) |
-| Mobile cards still via extracted widget | View: `GoldTransactionMobileList(controller:)` | **PASS** (static) |
+| `dio_interceptor_session_header_test.dart` | 1 | PASS |
+| `pending_post_login_route_test.dart` | 7 | PASS |
+| **Total** | **8** | **All PASS** |
 
-### Requires human visual smoke (not run here)
+---
 
-- Live desktop UI at ≥1280 and ~1100: yellow/black stripes, chip readability, ellipsis/clip aesthetics
-- Click invoice icons and confirm PDF/dialog actually opens against a real session
-- Chrome/Windows full-page scroll feel (vertical only)
+## Files Changed
 
-## 4. `graphify update .`
-
-| Result | Detail |
+| File | Action |
 | --- | --- |
-| Exit | **0** |
-| Output | Rebuilt **9108** nodes, **16608** edges, **510** communities; `graph.json` + `GRAPH_REPORT.md` updated |
-| Viz | `graph.html` skipped (node limit 5000) |
+| `lib/src/config/network/dio_Interceptor.dart` | Removed `x-session-id` read + header injection |
+| `test/dio_interceptor_session_header_test.dart` | **Created** — asserts Authorization set, `x-session-id` absent |
 
-Working tree left **unstaged** (per Step 5):
+---
 
-- Modified: `graphify-out/GRAPH_REPORT.md`, `graph.json`, `manifest.json`
-- Untracked: new `graphify-out/cache/ast/*.json` entries
+## Public API / Behavior
 
-## 5. Definition of done vs plan validation gates
+- **Dio HTTP requests:** `Authorization: Bearer <token>` when vault has token; no `x-session-id` header.
+- **Unchanged:** `SecureSessionStorage` still stores `x-session-id` on login (`AuthController`, `AuthRepository`); `SocketService`, `ChatController`, `BaseController` still read vault `x-session-id` for socket/chat.
 
-| Gate | Status |
+---
+
+## Self-Review
+
+| Check | Result |
 | --- | --- |
-| Desktop: no horizontal scroll wrapper | **Met** |
-| Grouped بستانکار/بدهکار per 4 assets; separate مانده ×4 | **Met** |
-| No standalone «… بدهکار» / «… بستانکار» column headers | **Met** |
-| شرح: no soft-wrap strategy; no overflow at budgeted width | **Met** (test + maxLines strategy; explicit softWrap:false only on headers / comment) |
-| `flutter analyze` clean on touched paths; layout test 14 cols | **Met** (0 err/warn; 5/5 tests) |
-| Mobile cards via extracted widget | **Met** |
+| TDD: failing test before fix | Yes (RED on `containsKey('x-session-id')`) |
+| Authorization header preserved | Yes |
+| Vault writes not removed | Yes |
+| Commit message per brief | Yes |
+| Pending-route tests still green | Yes (7/7) |
 
-**Overall DoD:** **Met** for automated/static gates. Residual risk is visual/runtime smoke at narrow (~1100) widths and live invoice clicks — noted in progress ledger minors from Tasks 1–3.
+---
 
-## Accumulated minors (carry-forward, not Task 4 blockers)
+## Concerns
 
-- ~1100 desktop visual pass recommended
-- Description `SelectableText` hard-clips (not TextOverflow.ellipsis)
-- Analyze infos (`withOpacity`, string interpolations) pre-existing / non-blocking
-- graphify-out churn unstaged after this task
+1. **No end-to-end HTTP test:** Unit test covers interceptor only; no live API call verification that backends accept requests without `x-session-id` (product assumption per design spec).
+
+2. **Test harness boilerplate:** `path_provider` mock required for `GetStorage.init` in unit tests; not in brief template but consistent with sibling tests.
+
+3. **graphify-out churn:** `graphify update .` modified `graphify-out/` (unstaged, not committed).
+
+---
+
+## Commands Run
+
+```bash
+flutter test test/dio_interceptor_session_header_test.dart          # RED
+flutter test test/dio_interceptor_session_header_test.dart \
+             test/pending_post_login_route_test.dart                 # GREEN
+git add lib/src/config/network/dio_Interceptor.dart \
+        test/dio_interceptor_session_header_test.dart
+git commit -m "fix(network): stop attaching x-session-id on Dio requests"
+graphify update .
+```

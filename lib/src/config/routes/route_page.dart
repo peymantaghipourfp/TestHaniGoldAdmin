@@ -92,6 +92,10 @@ import 'bindings/trading_balance.bindings.dart';
 import 'bindings/transaction.bindings.dart';
 
 class RoutePage{
+  /// Exact `GetPage.name` values registered in [routePage].
+  static Set<String> get knownRouteNames =>
+      routePage.map((page) => page.name).whereType<String>().toSet();
+
   static List<GetPage> routePage=[
     GetPage(name: '/splash', page: ()=>SplashView(),binding: SplashBindings()),
     GetPage(name: '/home', page: ()=>HomeView(),binding:HomeBindings()),

@@ -67,13 +67,17 @@
     "mtime": 1784981685.0238388,
     "hash": "1d1bab349d9aa05d77b5ff23715f58b5"
   },
+  "D:\\curserAi project\\lib\\src\\config\\pending_post_login_route.dart": {
+    "mtime": 1785583012.012426,
+    "hash": "fe39ec67f068c13a0dbaf2ed42fcc9e1"
+  },
   "D:\\curserAi project\\lib\\src\\config\\secure_session_storage.dart": {
     "mtime": 1784981683.9457371,
     "hash": "03867f299c57f50afa86e6272893c5ce"
   },
   "D:\\curserAi project\\lib\\src\\config\\session_bootstrap.dart": {
-    "mtime": 1784981683.381826,
-    "hash": "eb73a8a5e4180ae2b8d3c4dac7e95cce"
+    "mtime": 1785583012.0134356,
+    "hash": "36969c2a8ba5e9c395f622f65e36e15a"
   },
   "D:\\curserAi project\\lib\\src\\config\\session_invalidation.dart": {
     "mtime": 1784981683.9072742,
@@ -172,8 +176,8 @@
     "hash": "d55b945cd1527cb8a42452ff6fbea5b0"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\dio_Interceptor.dart": {
-    "mtime": 1784981685.4699678,
-    "hash": "28a98c54087d22ea036ed672d5bb7911"
+    "mtime": 1785583012.012426,
+    "hash": "3df4615222957a53832217a554ec1712"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\error_handler.dart": {
     "mtime": 1785241330.504928,
@@ -344,8 +348,8 @@
     "hash": "87d4ce4a864d5e42bd899aab474b9159"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\route_page.dart": {
-    "mtime": 1781342975.8947532,
-    "hash": "facc151deb6951c8c30d863b41e2c18a"
+    "mtime": 1785583012.0134356,
+    "hash": "7b48a8287ad1f9d49b6b8c1b48b30a15"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\route_page1.dart": {
     "mtime": 1753890426.4311051,
@@ -632,8 +636,8 @@
     "hash": "26ba988461cc46cab75cf89575711575"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\controller\\auth.controller.dart": {
-    "mtime": 1784981683.0596614,
-    "hash": "a74139bc302b0580c1142315f4553403"
+    "mtime": 1785583012.0134356,
+    "hash": "a9b5645c32dcb99e17bd8aada2dd11b9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\auth\\model\\user_login.model.dart": {
     "mtime": 1784981682.9542599,
@@ -2915,6 +2919,10 @@
     "mtime": 1779262966.2359846,
     "hash": "1c92f94007878919a8f2ba7d1f5d1476"
   },
+  "D:\\curserAi project\\test\\dio_interceptor_session_header_test.dart": {
+    "mtime": 1785583012.0167701,
+    "hash": "76011a8319d7762ab7906ef110253d7a"
+  },
   "D:\\curserAi project\\test\\gold_transaction_data_table_layout_test.dart": {
     "mtime": 1785229929.283647,
     "hash": "6c92ddbe356a40fb8b5b8e04e76fe81c"
@@ -2926,6 +2934,10 @@
   "D:\\curserAi project\\test\\open_in_new_tab_test.dart": {
     "mtime": 1770043541.749239,
     "hash": "09fe5abb1cb4f2e3ad51a5d9de4fb8c1"
+  },
+  "D:\\curserAi project\\test\\pending_post_login_route_test.dart": {
+    "mtime": 1785583012.0178347,
+    "hash": "dc86453dfa6ff0241be9457310ef3613"
   },
   "D:\\curserAi project\\test\\secure_session_storage_test.dart": {
     "mtime": 1785044194.3833437,
@@ -3050,6 +3062,14 @@
   "D:\\curserAi project\\report.txt": {
     "mtime": 1780914295.0986445,
     "hash": "aa92d7c338f6bdf8b5a57e41e90eae6c"
+  },
+  "D:\\curserAi project\\docs\\superpowers\\plans\\2026-08-01-web-refresh-session-login-restore.md": {
+    "mtime": 1785580375.21245,
+    "hash": "a34e83c56d841f739e668c4640eb0514"
+  },
+  "D:\\curserAi project\\docs\\superpowers\\specs\\2026-08-01-web-refresh-session-login-restore-design.md": {
+    "mtime": 1785580232.4822161,
+    "hash": "1f4cb2301e68624ff76c0369eff8c29a"
   },
   "D:\\curserAi project\\ios\\Runner\\Assets.xcassets\\LaunchImage.imageset\\README.md": {
     "mtime": 1734387302.749391,

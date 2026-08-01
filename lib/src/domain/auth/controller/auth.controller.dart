@@ -6,6 +6,9 @@ import 'package:hanigold_admin/src/config/logger/app_logger.dart';
 import 'package:hanigold_admin/src/domain/auth/model/user_login.model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+import 'package:hanigold_admin/src/config/pending_post_login_route.dart';
+import 'package:hanigold_admin/src/config/routes/route_page.dart';
+
 import '../../../config/const/socket.service.dart';
 import '../../../config/repository/auth.repository.dart';
 import '../../../config/secure_session_storage.dart';
@@ -125,7 +128,12 @@ class AuthController extends GetxController {
         SocketService.to.resetManualDisconnect();
         await bootstrapSocketConnection();
         registerChatControllerIfNeeded();
-        Get.offNamed('/home');
+        final pending = consumePendingPostLoginRoute();
+        final destination =
+            isPendingPostLoginRouteAllowed(pending, RoutePage.knownRouteNames)
+                ? pending!
+                : '/home';
+        Get.offNamed(destination);
         AppLogger.d(
             "totalUnreadMessageCount:::::${fetch.totalUnreadMessageCount}");
         AppLogger.d("unreadMentionCount:::::${fetch.unreadMentionCount}");
