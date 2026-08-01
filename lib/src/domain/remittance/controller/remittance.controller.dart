@@ -558,16 +558,18 @@ class RemittanceController extends BaseController{
 
 
   Future<void> uploadImagesDesktop( String type, String entityType,) async {
+    // Prevent double-submit (rapid second click on ایجاد)
+    if (isLoading.value || isUploadingDesktop.value) return;
+    isLoading.value = true;
 
     recordId.value=uuid.v4();
-    if (selectedImagesDesktop.isEmpty) {
-      insertRemittance(recordId.value);
+    try {
+      if (selectedImagesDesktop.isEmpty) {
+        await insertRemittance(recordId.value, manageLoading: false);
+      } else {
+        isUploadingDesktop.value = true;
+        uploadStatusesDesktop.assignAll(List.filled(selectedImagesDesktop.length, false));
 
-    } else{
-      isUploadingDesktop.value = true;
-      uploadStatusesDesktop.assignAll(List.filled(selectedImagesDesktop.length, false));
-
-      try {
         for (int i = 0; i < selectedImagesDesktop.length; i++) {
           final file = selectedImagesDesktop[i];
           if(file!=null) {
@@ -589,16 +591,16 @@ class RemittanceController extends BaseController{
         }
         if (uploadStatusesDesktop.every((status) => status)) {
           Get.snackbar("موفقیت", "همه تصاویر با موفقیت آپلود شدند");
-          insertRemittance(recordId.value);
+          await insertRemittance(recordId.value, manageLoading: false);
           remittanceList.clear();
         }
-      } finally {
-        isUploadingDesktop.value = false;
-        selectedImagesDesktop.clear();
-        uploadStatusesDesktop.clear();
       }
+    } finally {
+      isLoading.value = false;
+      isUploadingDesktop.value = false;
+      selectedImagesDesktop.clear();
+      uploadStatusesDesktop.clear();
     }
-
   }
 
   Future<void> uploadImagesDesktopUpdate( String type, String entityType,) async {
@@ -796,9 +798,15 @@ class RemittanceController extends BaseController{
   }
 
 
-  Future<RemittanceModel?> insertRemittance(String recId) async {
+  Future<RemittanceModel?> insertRemittance(
+    String recId, {
+    bool manageLoading = true,
+  }) async {
+    if (manageLoading && isLoading.value) return null;
     try {
-      isLoading.value = true;
+      if (manageLoading) {
+        isLoading.value = true;
+      }
       String gregorianDate = convertJalaliToGregorian(dateController.text);
       RemittanceModel response = await remittanceRepository.insertRemittance(
         date: gregorianDate,
@@ -829,7 +837,9 @@ class RemittanceController extends BaseController{
     } catch (e) {
       throw ErrorException('خطا در ایجاد حواله: $e');
     } finally {
-      isLoading.value = false;
+      if (manageLoading) {
+        isLoading.value = false;
+      }
     }
     return null;
   }

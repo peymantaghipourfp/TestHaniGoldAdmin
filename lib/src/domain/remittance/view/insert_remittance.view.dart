@@ -752,7 +752,10 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       WidgetStatePropertyAll(AppColor.buttonColor),
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10)))),
-                                  onPressed: () {
+                                  onPressed: (controller.isLoading.value ||
+                                          controller.isUploadingDesktop.value)
+                                      ? null
+                                      : () {
                                     Get.defaultDialog(
                                         backgroundColor: AppColor
                                             .backGroundColor,
@@ -762,17 +765,21 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                         middleText: "آیا از ایجاد حواله مطمئن هستید؟",
                                         middleTextStyle: AppTextStyle
                                             .bodyText,
-                                        confirm: ElevatedButton(
+                                        confirm: Obx(() => ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor: WidgetStatePropertyAll(
                                                     AppColor.primaryColor)),
-                                            onPressed: () async{
+                                            onPressed: (controller.isLoading.value ||
+                                                    controller.isUploadingDesktop.value)
+                                                ? null
+                                                : () async {
                                               // Validate required fields before creating remittance
                                               if (controller.selectedAccountRecipt.value != null &&
                                                   controller.selectedAccountPayer.value != null &&
                                                   controller.selectedItem.value != null &&
                                                   controller.quantityPayerController.text.isNotEmpty &&
                                                   controller.dateController.text.isNotEmpty) {
+                                                Get.back();
                                                 await controller.uploadImagesDesktop("image", "Remittance");
                                               } else {
                                                 // Show error message for missing required fields
@@ -789,7 +796,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                               'ایجاد',
                                               style: AppTextStyle
                                                   .bodyText,
-                                            )));
+                                            ))));
 
                                   },
                                   child: controller.isLoading.value
@@ -1776,7 +1783,10 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       WidgetStatePropertyAll(AppColor.buttonColor),
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10)))),
-                                  onPressed: () {
+                                  onPressed: (controller.isLoading.value ||
+                                          controller.isUploadingDesktop.value)
+                                      ? null
+                                      : () {
                                     Get.defaultDialog(
                                         backgroundColor: AppColor
                                             .backGroundColor,
@@ -1786,17 +1796,21 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                         middleText: "آیا از ایجاد حواله مطمئن هستید؟",
                                         middleTextStyle: AppTextStyle
                                             .bodyText,
-                                        confirm: ElevatedButton(
+                                        confirm: Obx(() => ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor: WidgetStatePropertyAll(
                                                     AppColor.primaryColor)),
-                                            onPressed: () async{
+                                            onPressed: (controller.isLoading.value ||
+                                                    controller.isUploadingDesktop.value)
+                                                ? null
+                                                : () async {
                                               // Validate required fields before creating remittance
                                               if (controller.selectedAccountRecipt.value != null &&
                                                   controller.selectedAccountPayer.value != null &&
                                                   controller.selectedItem.value != null &&
                                                   controller.quantityPayerController.text.isNotEmpty &&
                                                   controller.dateController.text.isNotEmpty) {
+                                                Get.back();
                                                 await controller.uploadImagesDesktop("image", "Remittance");
                                               } else {
                                                 // Show error message for missing required fields
@@ -1813,7 +1827,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                               'ایجاد',
                                               style: AppTextStyle
                                                   .bodyText,
-                                            )));
+                                            ))));
 
                                   },
                                   child: controller.isLoading.value

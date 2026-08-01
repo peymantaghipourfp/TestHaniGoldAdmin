@@ -176,7 +176,7 @@
     "hash": "28a98c54087d22ea036ed672d5bb7911"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\error_handler.dart": {
-    "mtime": 1785240334.6711364,
+    "mtime": 1785241330.504928,
     "hash": "9f19bb838bfc1eceee282141cc483185"
   },
   "D:\\curserAi project\\lib\\src\\config\\network\\error\\network.error.dart": {
@@ -244,8 +244,8 @@
     "hash": "0c2fe95ccc429642d1450b00444e8f15"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\inventory.repository.dart": {
-    "mtime": 1784981684.6294198,
-    "hash": "9cec785bd3992082a8244ed5a91767e7"
+    "mtime": 1785323467.651255,
+    "hash": "bc105d987b35734f25b82a29231ec16a"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\item.repository.dart": {
     "mtime": 1771417968.0454133,
@@ -260,8 +260,8 @@
     "hash": "fde485cc720448a9997a37c58b31f12e"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\order.repository.dart": {
-    "mtime": 1785238643.523321,
-    "hash": "3ccfe5634e2c5fd6a5df87a1c77f1c88"
+    "mtime": 1785241471.0853066,
+    "hash": "3598964ad3734170c5c74f451017d2ed"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\product_inventory.repository.dart": {
     "mtime": 1778917350.4186194,
@@ -336,11 +336,11 @@
     "hash": "429c46ee24800b0d99c9b99ad27d5354"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\url\\base_url.dart": {
-    "mtime": 1785234390.4944406,
+    "mtime": 1785233413.431424,
     "hash": "10db382d944bda8031a71d651f577d7a"
   },
   "D:\\curserAi project\\lib\\src\\config\\repository\\url\\web_socket_url.dart": {
-    "mtime": 1785234399.5739143,
+    "mtime": 1785233413.413176,
     "hash": "87d4ce4a864d5e42bd899aab474b9159"
   },
   "D:\\curserAi project\\lib\\src\\config\\routes\\route_page.dart": {
@@ -1448,8 +1448,8 @@
     "hash": "051bb04e3deed0954b1959aba5f6f404"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order.controller.dart": {
-    "mtime": 1785238152.3111653,
-    "hash": "45336c227f8f70cb86162e2998275ced"
+    "mtime": 1785241690.9615355,
+    "hash": "ff23f2d5dfde618086007df69eac0654"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order.controller1.dart": {
     "mtime": 1771421236.7731302,
@@ -1468,8 +1468,8 @@
     "hash": "f63fcfdb9ef0a7b0b6a5c092c9488d42"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\controller\\order_update.controller.dart": {
-    "mtime": 1785239118.1747677,
-    "hash": "0819b5ed45ad808eda830100ccc6e4ee"
+    "mtime": 1785241650.600528,
+    "hash": "6ccf5593720723e5a536191aace3e2d5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\order\\model\\info.model.dart": {
     "mtime": 1746363710.7915902,
@@ -1696,12 +1696,12 @@
     "hash": "3eb4617df266a08612b99f357643ba50"
   },
   "D:\\curserAi project\\lib\\src\\domain\\product\\view\\product_inventory.view.dart": {
-    "mtime": 1780328016.4257233,
-    "hash": "0c4989d41972ca1a338d9fd64e1a051f"
+    "mtime": 1785318858.187947,
+    "hash": "47290680248f189b025bb2a6a6f29485"
   },
   "D:\\curserAi project\\lib\\src\\domain\\product\\view\\product_inventory_quantity.view.dart": {
-    "mtime": 1780328028.2547262,
-    "hash": "9b268d9193c1e62c6912b89fa4dec5d9"
+    "mtime": 1785318982.8500912,
+    "hash": "ba66a4496fe985c440cbf95222f2961f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\product\\widget\\buy_range.widget.dart": {
     "mtime": 1771421237.4572406,
@@ -1744,8 +1744,8 @@
     "hash": "bf9f53bab1339170bd7a3a02195ca78e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\controller\\remittance.controller.dart": {
-    "mtime": 1781357038.1396985,
-    "hash": "399b8f7faf466d60d6cb40af8374b541"
+    "mtime": 1785568551.6789646,
+    "hash": "d2f98dfde03bbfe1aa49a5ff39a514a7"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\controller\\remittance_pending.controller.dart": {
     "mtime": 1771421236.7016327,
@@ -1824,8 +1824,8 @@
     "hash": "d5f76ce7935f357378e121ccb953ec42"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\view\\insert_remittance.view.dart": {
-    "mtime": 1784981683.248133,
-    "hash": "c97a34a5ebdd331d35f10616411ccfc0"
+    "mtime": 1785568587.3125687,
+    "hash": "45897858c5f0d7dca9029d213c21936b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\remittance\\view\\remittance.view.dart": {
     "mtime": 1781614864.3470309,
@@ -1952,16 +1952,16 @@
     "hash": "c1a4852ae1040bbe8fd42be14039fba0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\controller\\balance_date_dialog.controller.dart": {
-    "mtime": 1756139762.36583,
-    "hash": "44132ed6171c232d8686c850d1c6cc2f"
+    "mtime": 1785309532.050683,
+    "hash": "39ffe01812712e53a8a43a457bb9b1f4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\controller\\balance_dialog.controller.dart": {
-    "mtime": 1760177673.678577,
-    "hash": "4c24bbd1cbac37c6dafaa034096d61ec"
+    "mtime": 1785306004.0952914,
+    "hash": "02f8310993d3b8ca736c0a61f7ce2a1c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\controller\\balance_dialog_id.controller.dart": {
-    "mtime": 1756130120.0043445,
-    "hash": "0e814d219410889d2aa5bd689b0d0692"
+    "mtime": 1785309062.5074966,
+    "hash": "7d02e5458e8ccba4e659efbd257d0a40"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\controller\\transaction.controller.dart": {
     "mtime": 1771422020.7721784,
@@ -1996,16 +1996,16 @@
     "hash": "f2b0dae6f7b79b5644c19d2a9ba570fc"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\widgets\\balance_date_dialog.widget.dart": {
-    "mtime": 1779183272.5814207,
-    "hash": "487162e0e31e217f80e5ebf74f6446e7"
+    "mtime": 1785309532.0713072,
+    "hash": "390e770c59139daacdb6e0f30e872ac4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\widgets\\balance_dialog.widget.dart": {
-    "mtime": 1779183272.5935647,
-    "hash": "74548bf63d946c3ca2dceb29527f2a16"
+    "mtime": 1785308528.2779534,
+    "hash": "e6d7dbf598fe393aa1cfad1a455b5197"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\widgets\\balance_dialog_id.widget.dart": {
-    "mtime": 1779183272.5976655,
-    "hash": "f0489071c3518318144bf0acdc81b5ab"
+    "mtime": 1785309062.567124,
+    "hash": "5959bb9e4581f8c6e3b05259890066d9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\transaction\\widgets\\filter.widget.dart": {
     "mtime": 1771139369.2553754,
@@ -2064,7 +2064,7 @@
     "hash": "230cef5877dde48afa454e3cab6f505f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_balance_list_controller.dart": {
-    "mtime": 1785223260.5109167,
+    "mtime": 1785066791.745072,
     "hash": "007e16e8e17dc483a9745f862b78ad85"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_create_dialog.controller.dart": {
@@ -2088,11 +2088,11 @@
     "hash": "1cd1411b12d894841ec2e801c375a51c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_gold_transaction.controller.dart": {
-    "mtime": 1785223260.5109167,
+    "mtime": 1785066792.2999842,
     "hash": "988ca529a37b01097180e08da0a6c2a4"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_info_transaction.controller.dart": {
-    "mtime": 1785223260.5109167,
+    "mtime": 1785066791.987357,
     "hash": "95635411b90ba02919f513296c8b1f75"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\controller\\user_list.controller.dart": {
@@ -2304,12 +2304,12 @@
     "hash": "38d00a74a48624559f94e3403fee0f5e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\model\\transaction_report_gold.model.dart": {
-    "mtime": 1758549187.534183,
-    "hash": "f1ef8bf7edb4e672714ad44968e78ef5"
+    "mtime": 1785333829.0460882,
+    "hash": "40923c47f0f304e5975e648433fb5c84"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\model\\transaction_report_gold.model.g.dart": {
-    "mtime": 1782735239.767419,
-    "hash": "5cdb342bae209c555b6d48f63954bf3a"
+    "mtime": 1785333829.0256574,
+    "hash": "e4a3c9c298b589c0c367532ed43e8b46"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\service\\gold_transaction_invoice_generation.service.dart": {
     "mtime": 1763302237.157833,
@@ -2340,11 +2340,11 @@
     "hash": "67ba9c4cad71cd628ee247816f7277c3"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\list_user_info_date_transaction.view.dart": {
-    "mtime": 1780328187.396005,
-    "hash": "761628e905a0429df1187603374f3bd3"
+    "mtime": 1785565368.8825595,
+    "hash": "f58a0a6699c73b15815e519c068717f0"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\list_user_info_gold_transaction.view.dart": {
-    "mtime": 1785223260.5120587,
+    "mtime": 1785076865.5409381,
     "hash": "1cc390356a4cf36fd72b79c39c79931f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\list_user_info_transaction.view.dart": {
@@ -2364,20 +2364,20 @@
     "hash": "b130231287bb7bfab11eed8bcb027ee5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\user_info_gold_transaction.view.dart": {
-    "mtime": 1785229929.2826467,
-    "hash": "4317877306dca429faa9868fdee89ee4"
+    "mtime": 1785335026.6103969,
+    "hash": "69eca96ba1d439cc32086150431cac9f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\view\\user_info_transaction.view.dart": {
     "mtime": 1784981685.341145,
     "hash": "da7c1bac9be9de0dfb570c490bc291a9"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\balance.widget.dart": {
-    "mtime": 1771422810.3168004,
-    "hash": "d810be5301cd6026df6da6513ea1a773"
+    "mtime": 1785325336.0471911,
+    "hash": "9f4c0628984fdee7938e0e8c457e0e20"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\balance_user.widget.dart": {
-    "mtime": 1771422810.2349565,
-    "hash": "f75e588ad91f2c8d6fb01da3dccaec4d"
+    "mtime": 1785317736.336565,
+    "hash": "31b8db20f2a467ef5b9f5fa94cade0c5"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\check_result.widget.dart": {
     "mtime": 1779187568.4679234,
@@ -2444,15 +2444,15 @@
     "hash": "7c9b0303ebd768619ef733d541d44595"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_coin_cell.widget.dart": {
-    "mtime": 1785054442.947995,
-    "hash": "635960f763341ffe7e4e6d10abc2ce5b"
+    "mtime": 1785565328.7367105,
+    "hash": "f4aece5816ec9fbab0905a78d6750a6b"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_data_table.widget.dart": {
-    "mtime": 1785223260.5140605,
+    "mtime": 1785076755.385633,
     "hash": "72ac73f3603d221bd2594cb794aaad2f"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_desktop_body.widget.dart": {
-    "mtime": 1785223260.5150614,
+    "mtime": 1785076809.930873,
     "hash": "4eb4e9a7cc6fd1d34358814b5dfa83f2"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_empty_state.widget.dart": {
@@ -2464,19 +2464,19 @@
     "hash": "98128237d162f34d2a89f38fd53cdf38"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_excel_dialog.widget.dart": {
-    "mtime": 1785223260.5160613,
+    "mtime": 1785066711.7150762,
     "hash": "b79089a912b996fbad6ac2ad0ab6d36c"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_footer.widget.dart": {
-    "mtime": 1785223671.694468,
-    "hash": "4a582fb7a29b900799886075b458ce2a"
+    "mtime": 1785074540.720676,
+    "hash": "dfb7fd8043c6f74a354f7d1c71b53a99"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_gold_cell.widget.dart": {
     "mtime": 1785051862.281153,
     "hash": "b5e9834471e02ca19493ad946365589e"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_grouped_header.widget.dart": {
-    "mtime": 1785223260.5172722,
+    "mtime": 1785066705.327371,
     "hash": "3d1f0ef4c78470864e793a3318bf9e02"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_loading_state.widget.dart": {
@@ -2484,7 +2484,7 @@
     "hash": "4a8d91ec71593e754b025c7b2259da6d"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_mobile_list.widget.dart": {
-    "mtime": 1785223260.5182743,
+    "mtime": 1785077021.9883792,
     "hash": "8068df85170aea9fc53435ca1c4914f2"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_page_chrome.dart": {
@@ -2504,7 +2504,7 @@
     "hash": "90a204276a4634dfa5f6aa1e53d7b4ef"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_stats_grid.widget.dart": {
-    "mtime": 1785223679.025766,
+    "mtime": 1785072011.9952788,
     "hash": "c6bb392d40434125e9a33d0daf216ec6"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_stats_helper.dart": {
@@ -2512,7 +2512,7 @@
     "hash": "ba2dbfc9aff52ad1f77f29d8a55baf04"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_toolbar.widget.dart": {
-    "mtime": 1785223260.5194213,
+    "mtime": 1785066711.0320427,
     "hash": "cd1338cc98313989c5c256790ff115c1"
   },
   "D:\\curserAi project\\lib\\src\\domain\\users\\widgets\\list_user_info_transaction\\user_balance_total_cell.widget.dart": {
@@ -3028,8 +3028,8 @@
     "hash": "7569387d58711ab975940f4df3b4bcda"
   },
   "D:\\curserAi project\\AGENTS.md": {
-    "mtime": 1785051862.172371,
-    "hash": "f5589825f26798dff5fd421a3f04f10a"
+    "mtime": 1785223730.0,
+    "hash": "2c2961fec95cb97e22eeafbff6acdc38"
   },
   "D:\\curserAi project\\analysis_options.yaml": {
     "mtime": 1739598072.8139772,
@@ -3319,6 +3319,14 @@
     "mtime": 1754824684.5338624,
     "hash": "a2341c7443c7d3ea78049cd25713e1ba"
   },
+  "D:\\curserAi project\\assets\\svg\\Invoice-balance.svg": {
+    "mtime": 1785327204.2056959,
+    "hash": "0e9ee10b23f81922e330b17b188539d0"
+  },
+  "D:\\curserAi project\\assets\\svg\\Invoice-nobalance.svg": {
+    "mtime": 1785327340.8630583,
+    "hash": "ffbec3247c0ddba7bd0a632928f58bdc"
+  },
   "D:\\curserAi project\\assets\\svg\\invoice.svg": {
     "mtime": 1763295588.5243669,
     "hash": "4949a834f6323c5de59dc09584eb7f7e"
@@ -3414,6 +3422,10 @@
   "D:\\curserAi project\\assets\\svg\\shield-close.svg": {
     "mtime": 1755325127.772811,
     "hash": "333ddd0c2f5107f49b21b02defacd679"
+  },
+  "D:\\curserAi project\\assets\\svg\\silver.svg": {
+    "mtime": 1785306518.6689508,
+    "hash": "92e01bf411191a80a9ff27a0370fe556"
   },
   "D:\\curserAi project\\assets\\svg\\square.svg": {
     "mtime": 1747727555.736923,

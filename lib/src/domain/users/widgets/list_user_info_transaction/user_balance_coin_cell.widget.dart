@@ -8,105 +8,84 @@ import 'package:hanigold_admin/src/utils/num_display.dart';
 class UserBalanceCoinCell {
   UserBalanceCoinCell._();
 
+  static bool _hasCredit(ListTransactionInfoItemModel trans) =>
+      (trans.coinBalanceBes ?? 0) != 0 ||
+      (trans.halfCoinBalanceBes ?? 0) != 0 ||
+      (trans.quarterCoinBalanceBes ?? 0) != 0;
+
+  static bool _hasDebit(ListTransactionInfoItemModel trans) =>
+      (trans.coinBalanceBed ?? 0) != 0 ||
+      (trans.halfCoinBalanceBed ?? 0) != 0 ||
+      (trans.quarterCoinBalanceBed ?? 0) != 0;
+
+  static Widget _coinRow({
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Row(
+      children: [
+        Text(
+          ' $label ',
+          style: AppTextStyle.bodyText.copyWith(
+            fontSize: 9,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          value,
+          style: AppTextStyle.bodyText.copyWith(
+            fontSize: 11,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+          textDirection: TextDirection.ltr,
+        ),
+        Text(
+          ' عدد ',
+          style: AppTextStyle.bodyText.copyWith(
+            fontSize: 9,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
   static Widget creditSection({
     required ListTransactionInfoItemModel trans,
   }) {
+    if (!_hasCredit(trans)) {
+      return const SizedBox();
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        trans.coinBalanceBes == 0
-            ? SizedBox()
-            : Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        ' تمام سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        trans.coinBalanceBes?.toDisplayString() ?? '',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        ' نیم سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        trans.halfCoinBalanceBes?.toDisplayString() ?? '',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        ' ربع سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        trans.quarterCoinBalanceBes?.toDisplayString() ?? '',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        Column(
+          children: [
+            if ((trans.coinBalanceBes ?? 0) != 0)
+              _coinRow(
+                label: 'تمام سکه',
+                value: trans.coinBalanceBes!.toDisplayString(),
+                color: AppColor.primaryColor,
               ),
+            if ((trans.halfCoinBalanceBes ?? 0) != 0)
+              _coinRow(
+                label: 'نیم سکه',
+                value: trans.halfCoinBalanceBes!.toDisplayString(),
+                color: AppColor.primaryColor,
+              ),
+            if ((trans.quarterCoinBalanceBes ?? 0) != 0)
+              _coinRow(
+                label: 'ربع سکه',
+                value: trans.quarterCoinBalanceBes!.toDisplayString(),
+                color: AppColor.primaryColor,
+              ),
+          ],
+        ),
       ],
     );
   }
@@ -114,102 +93,36 @@ class UserBalanceCoinCell {
   static Widget debitSection({
     required ListTransactionInfoItemModel trans,
   }) {
+    if (!_hasDebit(trans)) {
+      return const SizedBox();
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        trans.coinBalanceBed == 0
-            ? SizedBox()
-            : Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        ' تمام سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '-${trans.coinBalanceBed?.abs().toDisplayString()}',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        ' نیم سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '-${trans.halfCoinBalanceBed?.abs().toDisplayString()}',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        ' ربع سکه ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '-${trans.quarterCoinBalanceBed?.abs().toDisplayString()}',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 11,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      Text(
-                        ' عدد ',
-                        style: AppTextStyle.bodyText.copyWith(
-                          fontSize: 9,
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        Column(
+          children: [
+            if ((trans.coinBalanceBed ?? 0) != 0)
+              _coinRow(
+                label: 'تمام سکه',
+                value: '-${trans.coinBalanceBed!.abs().toDisplayString()}',
+                color: AppColor.accentColor,
               ),
+            if ((trans.halfCoinBalanceBed ?? 0) != 0)
+              _coinRow(
+                label: 'نیم سکه',
+                value: '-${trans.halfCoinBalanceBed!.abs().toDisplayString()}',
+                color: AppColor.accentColor,
+              ),
+            if ((trans.quarterCoinBalanceBed ?? 0) != 0)
+              _coinRow(
+                label: 'ربع سکه',
+                value:
+                    '-${trans.quarterCoinBalanceBed!.abs().toDisplayString()}',
+                color: AppColor.accentColor,
+              ),
+          ],
+        ),
       ],
     );
   }
