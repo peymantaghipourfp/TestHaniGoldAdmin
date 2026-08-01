@@ -13,7 +13,11 @@ bool _readPageHidePersisted(html.Event event) {
 
 WebTabPresence? _tabPresence;
 
-/// Registers a [pagehide] handler that logs out when the *last* app tab is closed.
+/// Registers tab presence + a [pagehide] handler that never clears the session.
+///
+/// Last-tab close and F5 both fire `pagehide`; vault wipe is disabled by
+/// [shouldClearSessionOnPageHide]. Presence unregister still runs for
+/// multi-tab bookkeeping.
 void registerWebTabCloseLogout() {
   try {
     _tabPresence?.dispose();
@@ -23,20 +27,24 @@ void registerWebTabCloseLogout() {
       try {
         final persisted = _readPageHidePersisted(event);
         final isLastTab = _tabPresence?.unregisterAndCheckIfLast() ?? true;
-        if (!shouldLogoutOnPageHide(
+        if (!shouldClearSessionOnPageHide(
           isWeb: true,
           persisted: persisted,
           isLastTab: isLastTab,
         )) {
           AppLogger.d(
-            'pagehide: skipping shared session clear '
-                '(persisted=$persisted, isLastTab=$isLastTab)',
+            'pagehide: presence updated, session vault kept '
+            '(persisted=$persisted, isLastTab=$isLastTab)',
           );
           return;
         }
-        performTabCloseLogoutSync();
+        // Unreachable while shouldClearSessionOnPageHide is always false.
+        // Intentionally no performTabCloseLogoutSync() — do not reintroduce.
+        AppLogger.w(
+          'pagehide: clear gate returned true unexpectedly; refusing vault wipe',
+        );
       } catch (e, s) {
-        AppLogger.e('pagehide tab-close logout handler failed', e, s);
+        AppLogger.e('pagehide tab presence handler failed', e, s);
       }
     });
   } catch (e, s) {

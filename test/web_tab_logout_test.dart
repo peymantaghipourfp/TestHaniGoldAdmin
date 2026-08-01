@@ -31,51 +31,42 @@ void main() {
     SecureSessionStorage.resetInstance();
   });
 
-  group('shouldLogoutOnPageHide', () {
-    test('web + non-persisted pagehide triggers logout intent', () {
+  group('shouldClearSessionOnPageHide', () {
+    test('never clears session on pagehide (explicit logout only)', () {
       expect(
-        shouldLogoutOnPageHide(isWeb: true, persisted: false),
-        isTrue,
-      );
-    });
-
-    test('non-web never triggers logout intent', () {
-      expect(
-        shouldLogoutOnPageHide(isWeb: false, persisted: false),
+        shouldClearSessionOnPageHide(isWeb: true, persisted: false),
         isFalse,
       );
       expect(
-        shouldLogoutOnPageHide(isWeb: false, persisted: true),
+        shouldClearSessionOnPageHide(
+          isWeb: true,
+          persisted: false,
+          isLastTab: true,
+        ),
         isFalse,
       );
-    });
-
-    test('bfcache persisted pagehide skips logout', () {
       expect(
-        shouldLogoutOnPageHide(isWeb: true, persisted: true),
-        isFalse,
-      );
-    });
-
-    test('sibling tabs alive skips shared session logout', () {
-      expect(
-        shouldLogoutOnPageHide(
+        shouldClearSessionOnPageHide(
           isWeb: true,
           persisted: false,
           isLastTab: false,
         ),
         isFalse,
       );
+      expect(
+        shouldClearSessionOnPageHide(isWeb: true, persisted: true),
+        isFalse,
+      );
+      expect(
+        shouldClearSessionOnPageHide(isWeb: false, persisted: false),
+        isFalse,
+      );
     });
 
-    test('last tab still logs out on non-persisted pagehide', () {
+    test('legacy shouldLogoutOnPageHide matches clear gate (always false)', () {
       expect(
-        shouldLogoutOnPageHide(
-          isWeb: true,
-          persisted: false,
-          isLastTab: true,
-        ),
-        isTrue,
+        shouldLogoutOnPageHide(isWeb: true, persisted: false, isLastTab: true),
+        isFalse,
       );
     });
   });
