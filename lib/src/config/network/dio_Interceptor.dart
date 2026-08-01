@@ -10,16 +10,10 @@ class DioInterceptor extends Interceptor {
     try {
       final session = SecureSessionStorage.instance;
       final token = session.read('Authorization');
-      final sessionId = session.read('x-session-id');
 
       // Authorization Header
       if (token != null && token.toString().isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
-      }
-
-      // Session Header
-      if (sessionId != null && sessionId.toString().isNotEmpty) {
-        options.headers['x-session-id'] = sessionId.toString();
       }
 
       AppLogger.d(
