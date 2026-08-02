@@ -22,6 +22,7 @@ import 'package:hanigold_admin/src/domain/inventory/view/inventory_create.view.d
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_detail_insert_receive.view.dart';
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_detail_update_receive.view.dart';
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_list.view.dart';
+import 'package:hanigold_admin/src/domain/inventory/view/item_movement_report.view.dart';
 import 'package:hanigold_admin/src/domain/order/view/order_create.view.dart';
 import 'package:hanigold_admin/src/domain/order/view/order_list.view.dart';
 import 'package:hanigold_admin/src/domain/order/view/order_update.view.dart';
@@ -79,6 +80,11 @@ class RoutePage{
     GetPage(name: '/inventoryDetailInsertPayment', page: ()=>MainLayout(child: InventoryDetailInsertPaymentView()),binding: InventoryBindings()),
     GetPage(name: '/inventoryDetailUpdateReceive', page: ()=>MainLayout(child: InventoryDetailUpdateReceiveView()),binding: InventoryBindings()),
     GetPage(name: '/inventoryDetailUpdatePayment', page: ()=>MainLayout(child: InventoryDetailUpdatePaymentView()),binding: InventoryBindings()),
+    GetPage(
+      name: '/itemMovementReport',
+      page: () => MainLayout(child: const ItemMovementReportView()),
+      binding: InventoryBindings(),
+    ),
     GetPage(name: '/withdrawCreate', page: ()=>MainLayout(child: WithdrawCreateView()),binding: WithdrawBindings()),
     GetPage(name: '/withdrawUpdate', page: ()=>MainLayout(child: WithdrawUpdateView()),binding: WithdrawBindings()),
     GetPage(name: '/withdrawsList', page: ()=>MainLayout(child: WithdrawsListView()),binding: WithdrawBindings()),
