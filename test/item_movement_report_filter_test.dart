@@ -41,6 +41,28 @@ void main() {
     );
   });
 
+  test('convertJalaliToGregorianForApi parses valid Jalali date', () {
+    expect(
+      ItemMovementReportController.convertJalaliToGregorianForApi('1405/02/31'),
+      '2026-05-21',
+    );
+  });
+
+  test('convertJalaliToGregorianForApi returns null for empty or invalid', () {
+    expect(
+      ItemMovementReportController.convertJalaliToGregorianForApi(''),
+      isNull,
+    );
+    expect(
+      ItemMovementReportController.convertJalaliToGregorianForApi('not-a-date'),
+      isNull,
+    );
+    expect(
+      ItemMovementReportController.convertJalaliToGregorianForApi('1405/13/01'),
+      isNull,
+    );
+  });
+
   test('filter matches account name search and input type', () {
     final op = _op(accountName: 'خانم شریفی', balanceEffect: 2);
     expect(

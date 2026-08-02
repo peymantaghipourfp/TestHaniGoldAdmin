@@ -74,12 +74,15 @@ class ItemMovementReportController extends GetxController {
     return matchesSearch && matchesType && matchesStatus;
   }
 
-  String convertJalaliToGregorianForApi(String jalaliDateString) {
+  static String? convertJalaliToGregorianForApi(String jalaliDateString) {
+    final trimmed = jalaliDateString.trim();
+    if (trimmed.isEmpty) return null;
     try {
-      final parts = jalaliDateString.split(' ');
+      final parts = trimmed.split(' ');
       final datePart = parts[0];
-
       final dateComponents = datePart.split('/');
+      if (dateComponents.length != 3) return null;
+
       final year = int.parse(dateComponents[0]);
       final month = int.parse(dateComponents[1]);
       final day = int.parse(dateComponents[2]);
@@ -89,7 +92,7 @@ class ItemMovementReportController extends GetxController {
 
       return formatGregorianApiDate(gregorianDate);
     } catch (e) {
-      return formatGregorianApiDate(DateTime.now());
+      return null;
     }
   }
 
@@ -114,7 +117,12 @@ class ItemMovementReportController extends GetxController {
     isLoading.value = true;
     errorMessage.value = '';
     try {
-      final gregorianDate = convertJalaliToGregorianForApi(dateController.text);
+      final gregorianDate =
+          convertJalaliToGregorianForApi(dateController.text);
+      if (gregorianDate == null) {
+        ToastService().error('تاریخ وارد شده معتبر نیست');
+        return;
+      }
       final result = await inventoryRepository.getItemMovementReport(
         fromDate: gregorianDate,
         toDate: gregorianDate,
@@ -130,6 +138,9 @@ class ItemMovementReportController extends GetxController {
       _applyFilters();
     } catch (e) {
       errorMessage.value = e.toString();
+      report.value = null;
+      _allOperations.clear();
+      visibleOperations.clear();
       ToastService().error('خطایی هنگام دریافت گزارش به وجود آمده است');
     } finally {
       EasyLoading.dismiss();
