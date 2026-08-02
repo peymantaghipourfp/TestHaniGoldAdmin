@@ -111,10 +111,11 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
 
   String _formatDateTime(DateTime? value) {
     if (value == null) return _dash;
+    final jalali = Jalali.fromDateTime(value);
     final date =
-        '${value.year.toString().padLeft(4, '0')}-'
-        '${value.month.toString().padLeft(2, '0')}-'
-        '${value.day.toString().padLeft(2, '0')}';
+        '${jalali.year}/'
+        '${jalali.month.toString().padLeft(2, '0')}/'
+        '${jalali.day.toString().padLeft(2, '0')}';
     final time =
         '${value.hour.toString().padLeft(2, '0')}:'
         '${value.minute.toString().padLeft(2, '0')}:'
@@ -1254,29 +1255,40 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
   }
 
   Widget _buildTechnical(OperationModel op) {
-    return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        childrenPadding: EdgeInsets.zero,
-        dense: true,
-        title: const Text(
-          'نمایش جزئیات',
-          style: TextStyle(
-            color: ItemMovementReportColors.blue,
-            fontSize: 13,
-          ),
+    return TextButton(
+      onPressed: () => _showTechnicalDetails(op),
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: const Text(
+        'نمایش جزئیات',
+        style: TextStyle(
+          color: ItemMovementReportColors.blue,
+          fontSize: 13,
         ),
-        children: [
-          Container(
-            width: 255,
-            margin: const EdgeInsets.only(top: 4, bottom: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF4F6F6),
-              borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  Future<void> _showTechnicalDetails(OperationModel op) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          title: const Text(
+            'اطلاعات فنی',
+            style: TextStyle(
+              color: ItemMovementReportColors.ink,
+              fontWeight: FontWeight.w700,
             ),
+          ),
+          content: SizedBox(
+            width: 320,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _techLine('شناسه ردیف', op.inventoryDetailId?.toString()),
@@ -1290,7 +1302,16 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
               ],
             ),
           ),
-        ],
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text(
+                'بستن',
+                style: TextStyle(color: ItemMovementReportColors.blue),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
