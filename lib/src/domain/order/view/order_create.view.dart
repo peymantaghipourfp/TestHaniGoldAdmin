@@ -20,7 +20,6 @@ import '../../../widget/custom_dropdown1.widget.dart';
 import '../../account/model/account.model.dart';
 import '../../account/widget/account_level_get_one_item.widget.dart';
 import '../../accountSalesGroup/widget/account_sales_group_get_one_item.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../product/model/item.model.dart';
 import '../../users/widgets/balance.widget.dart';
 import '../../users/widgets/user_create_dialog.widget.dart';

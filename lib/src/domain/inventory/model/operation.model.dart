@@ -37,6 +37,12 @@ class OperationModel {
   final double? balanceEffect;
   @JsonKey(name: "balanceAfterOperation")
   final double? balanceAfterOperation;
+  @JsonKey(name: "removedOn")
+  final DateTime? removedOn;
+  @JsonKey(name: "removedOnPersian")
+  final String? removedOnPersian;
+  @JsonKey(name: "balanceAfterRemoval")
+  final double? balanceAfterRemoval;
   @JsonKey(name: "walletId")
   final int? walletId;
   @JsonKey(name: "receiptNumber")
@@ -53,6 +59,20 @@ class OperationModel {
   final bool? isPriorPeriodOperation;
   @JsonKey(name: "hasDateMismatch")
   final bool? hasDateMismatch;
+  @JsonKey(name: "warningMessage")
+  final String? warningMessage;
+  @JsonKey(name: "eventKind")
+  final String? eventKind;
+  @JsonKey(name: "eventTitle")
+  final String? eventTitle;
+  @JsonKey(name: "eventDescription")
+  final String? eventDescription;
+  @JsonKey(name: "createdByName")
+  final String? createdByName;
+  @JsonKey(name: "removedBy")
+  final int? removedBy;
+  @JsonKey(name: "removedByName")
+  final String? removedByName;
 
   OperationModel({
     required this.inventoryDetailId,
@@ -69,6 +89,9 @@ class OperationModel {
     required this.quantity,
     required this.balanceEffect,
     required this.balanceAfterOperation,
+    required this.removedOn,
+    required this.removedOnPersian,
+    required this.balanceAfterRemoval,
     required this.walletId,
     required this.receiptNumber,
     required this.createdOn,
@@ -77,6 +100,13 @@ class OperationModel {
     required this.modifiedBy,
     required this.isPriorPeriodOperation,
     required this.hasDateMismatch,
+    required this.warningMessage,
+    required this.eventKind,
+    required this.eventTitle,
+    required this.eventDescription,
+    required this.createdByName,
+    required this.removedBy,
+    required this.removedByName,
   });
 
   factory OperationModel.fromJson(Map<String, dynamic> json) => _$OperationModelFromJson(json);

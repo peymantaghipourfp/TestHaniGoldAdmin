@@ -16,7 +16,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class DepositsPendingListView extends StatelessWidget {
   DepositsPendingListView({super.key});

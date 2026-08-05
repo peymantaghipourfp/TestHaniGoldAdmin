@@ -5,36 +5,27 @@ import 'package:hanigold_admin/src/config/const/socket.service.dart';
 import 'package:hanigold_admin/src/config/logger/app_logger.dart';
 import 'package:hanigold_admin/src/config/session_storage.dart';
 
-/// Whether a browser `pagehide` may clear the shared session vault.
+/// Whether a pagehide event should trigger tab-close logout.
 ///
-/// Product rule (explicit logout only): always `false`. F5 and last-tab close
-/// must not wipe `Authorization` / `x-session-id`. Session ends via UI logout
-/// or server-driven invalidation only.
-bool shouldClearSessionOnPageHide({
-  required bool isWeb,
-  required bool persisted,
-  bool isLastTab = true,
-}) {
-  return false;
-}
-
-/// Legacy name for [shouldClearSessionOnPageHide] (always `false`).
+/// Skips when not web, when the page enters the back-forward cache
+/// ([persisted] true), or when other app tabs are still alive
+/// ([isLastTab] false). Shared session storage must survive while any
+/// tab remains — otherwise a new tab boots without Authorization (401).
 bool shouldLogoutOnPageHide({
   required bool isWeb,
   required bool persisted,
   bool isLastTab = true,
 }) {
-  return shouldClearSessionOnPageHide(
-    isWeb: isWeb,
-    persisted: persisted,
-    isLastTab: isLastTab,
-  );
+  if (!isWeb) return false;
+  if (persisted) return false;
+  if (!isLastTab) return false;
+  return true;
 }
 
-/// Clears vault + session controllers and best-effort socket disconnect.
+/// Synchronous tab-close teardown for pagehide/unload handlers.
 ///
-/// Not used from `pagehide` anymore. Kept for tests / any future non-unload
-/// caller. Must never be wired back into `registerWebTabCloseLogout`.
+/// Clears stored session first (sync kickoff), then controllers, then
+/// attempts socket disconnect without blocking on async work.
 void performTabCloseLogoutSync() {
   try {
     clearStoredSessionSync();
@@ -52,7 +43,7 @@ void performTabCloseLogoutSync() {
   }
 }
 
-/// Async variant of [performTabCloseLogoutSync] (not used from pagehide).
+/// Logout-equivalent teardown for tab close (async callers may await socket).
 Future<void> performTabCloseLogout() async {
   try {
     await clearStoredSession();

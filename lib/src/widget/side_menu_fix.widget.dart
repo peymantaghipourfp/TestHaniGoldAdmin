@@ -457,6 +457,11 @@ class _SideMenuFixState extends State<SideMenuFix> {
                     icon: Icons.add_card,
                     route: '/inventoryCreate',
                   ),
+                  _buildSubMenuItem(
+                    title: 'گزارش گردش روزانه انبار',
+                    icon: Icons.featured_play_list_outlined,
+                    route: '/itemMovementReport',
+                  ),
                 ],
               ),
               _buildMenuButton(

@@ -26,7 +26,6 @@ import 'package:hanigold_admin/src/domain/inventory/view/inventory_create.view.d
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_detail_insert_receive.view.dart';
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_detail_update_receive.view.dart';
 import 'package:hanigold_admin/src/domain/inventory/view/inventory_list.view.dart';
-import 'package:hanigold_admin/src/domain/inventory/view/item_movement_report.view.dart';
 import 'package:hanigold_admin/src/domain/notification/view/insert_notification.view.dart';
 import 'package:hanigold_admin/src/domain/order/view/order_byAccount_report_list.view.dart';
 import 'package:hanigold_admin/src/domain/order/view/order_create.view.dart';
@@ -60,6 +59,7 @@ import '../../domain/deposit/view/deposit_update.view.dart';
 import '../../domain/home/view/more.view.dart';
 import '../../domain/inventory/view/inventory_detail_insert_payment.view.dart';
 import '../../domain/inventory/view/inventory_detail_update_payment.view.dart';
+import '../../domain/inventory/view/item_movement_report.view.dart';
 import '../../domain/laboratory/view/laboratory.view.dart';
 import '../../domain/notification/view/notification.view.dart';
 import '../../domain/product/view/product_edit.view.dart';
@@ -122,11 +122,7 @@ class RoutePage{
     GetPage(name: '/inventoryDetailInsertPayment', page: ()=>InventoryDetailInsertPaymentView(),binding: InventoryBindings()),
     GetPage(name: '/inventoryDetailUpdateReceive', page: ()=>InventoryDetailUpdateReceiveView(),binding: InventoryBindings()),
     GetPage(name: '/inventoryDetailUpdatePayment', page: ()=>InventoryDetailUpdatePaymentView(),binding: InventoryBindings()),
-    GetPage(
-      name: '/itemMovementReport',
-      page: () => const ItemMovementReportView(),
-      binding: InventoryBindings(),
-    ),
+    GetPage(name: '/itemMovementReport', page: () => const ItemMovementReportView(), binding: InventoryBindings(),),
     GetPage(name: '/withdrawCreate', page: ()=>WithdrawCreateView(),binding: WithdrawBindings()),
     GetPage(name: '/withdrawUpdate', page: ()=>WithdrawUpdateView(),binding: WithdrawBindings()),
     GetPage(name: '/withdrawsList', page: ()=>WithdrawsListView(),binding: WithdrawBindings()),

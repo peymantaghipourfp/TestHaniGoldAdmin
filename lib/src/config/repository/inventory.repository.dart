@@ -1112,7 +1112,8 @@ class InventoryRepository {
     required int itemId,
   }) async {
     try {
-      final options = {
+      final options =
+      {
         'fromDate': fromDate,
         'toDate': toDate,
         'itemId': itemId,

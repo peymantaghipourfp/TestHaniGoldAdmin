@@ -362,20 +362,20 @@ class RemittanceController extends BaseController{
       // Then fetch the remittance data
       getOneRemittance(int.parse(updateId));
       } else {*/
-      getRemittanceListPager();
-      var now = Jalali.now();
-      DateTime date = DateTime.now();
-      dateController.text =
-      "${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day
-          .toString()
-          .padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date
-          .minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(
-          2, '0')}";
-      fetchItemList();
-      //fetchAccountListRecipt("");
-      balanceListRecipt.clear();
-      balanceListPayer.clear();
-      //clearList();
+    getRemittanceListPager();
+    var now = Jalali.now();
+    DateTime date = DateTime.now();
+    dateController.text =
+    "${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day
+        .toString()
+        .padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date
+        .minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(
+        2, '0')}";
+    fetchItemList();
+    //fetchAccountListRecipt("");
+    balanceListRecipt.clear();
+    balanceListPayer.clear();
+    //clearList();
     //}
     super.onInit();
   }
@@ -489,16 +489,16 @@ class RemittanceController extends BaseController{
   // لیست محصولات
   Future<void> fetchItemList() async{
     try{
-     // state.value=PageState.loading;
+      // state.value=PageState.loading;
       var fetchedItemList=await itemRepository.getItemList();
       itemList.assignAll(fetchedItemList);
-    //  state.value=PageState.list;
+      //  state.value=PageState.list;
       if(itemList.isEmpty){
-     //   state.value=PageState.empty;
+        //   state.value=PageState.empty;
       }
     }
     catch(e){
-     // state.value=PageState.err;
+      // state.value=PageState.err;
       errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
     }finally{
 
@@ -652,9 +652,9 @@ class RemittanceController extends BaseController{
     // balanceList.clear();
     // balanceListP.clear();
     try{
-     // state.value=PageState.loading;
+      // state.value=PageState.loading;
       var response=await userInfoTransactionRepository.getBalanceList(id);
-     // balanceList.addAll(response);
+      // balanceList.addAll(response);
       response.removeWhere((r)=>r.balance==0);
       return response;
 
@@ -666,7 +666,7 @@ class RemittanceController extends BaseController{
       // update();
     }
     catch(e){
-     // state.value=PageState.err;
+      // state.value=PageState.err;
     }finally{
     }
     return null;
@@ -742,7 +742,7 @@ class RemittanceController extends BaseController{
     }finally{
     }
   }*/
- // لیست عکس ها
+  // لیست عکس ها
   Future<void> getImage(String fileName,String type) async{
     imageList.clear();
     try{
@@ -752,22 +752,22 @@ class RemittanceController extends BaseController{
       update();
     }
     catch(e){
-    //  state.value=PageState.err;
+      //  state.value=PageState.err;
       errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
     }finally{
     }
   }
- // لیست عکس ها
+  // لیست عکس ها
   Future<void> deleteImage(String fileName,) async{
     EasyLoading.show(status: 'لطفا منتظر بمانید');
     try{
       var fetch=await remittanceRepository.deleteImage(fileName: fileName,);
-     if(fetch){
-       getImage(remittanceModel?.recId??"", "Remittance");
-     }
+      if(fetch){
+        getImage(remittanceModel?.recId??"", "Remittance");
+      }
     }
     catch(e){
-    //  state.value=PageState.err;
+      //  state.value=PageState.err;
       errorMessage.value=" خطایی هنگام بارگذاری به وجود آمده است ${e.toString()}";
     }finally{
       EasyLoading.dismiss();
@@ -799,9 +799,9 @@ class RemittanceController extends BaseController{
 
 
   Future<RemittanceModel?> insertRemittance(
-    String recId, {
-    bool manageLoading = true,
-  }) async {
+      String recId, {
+        bool manageLoading = true,
+      }) async {
     if (manageLoading && isLoading.value) return null;
     try {
       if (manageLoading) {
@@ -820,19 +820,19 @@ class RemittanceController extends BaseController{
         accountNameReciept:selectedAccountRecipt.value?.name??"",
         recId: recId,
       );
-        Get.toNamed('/remittance');
-        Get.snackbar(response.infos!.first['title'], response.infos!.first["description"],
-            titleText: Text(response.infos!.first['title'],
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColor.textColor),),
-            messageText: Text(response.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
+      Get.toNamed('/remittance');
+      Get.snackbar(response.infos!.first['title'], response.infos!.first["description"],
+          titleText: Text(response.infos!.first['title'],
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),),
+          messageText: Text(response.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
 
       descController.text="";
       dateController.text="";
       quantityPayerController.text="";
       remittanceList.clear();
       clearFilter();
-       clearSearch();
+      clearSearch();
       clearList();
     } catch (e) {
       throw ErrorException('خطا در ایجاد حواله: $e');
@@ -862,19 +862,19 @@ class RemittanceController extends BaseController{
         walletPayerId: remittanceModel?.walletPayer?.id ?? 0  ,
         walletRecieptId: remittanceModel?.walletReciept?.id ?? 0,
       );
-        Get.back();
-        Get.snackbar(response.infos!.first['title'], response.infos!.first["description"],
-            titleText: Text(response.infos!.first['title'],
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColor.textColor),),
-            messageText: Text(response.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
+      Get.back();
+      Get.snackbar(response.infos!.first['title'], response.infos!.first["description"],
+          titleText: Text(response.infos!.first['title'],
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColor.textColor),),
+          messageText: Text(response.infos!.first["description"] , textAlign: TextAlign.center,style: TextStyle(color: AppColor.textColor)));
 
       descController.text="";
       dateController.text="";
       quantityPayerController.text="";
-     // getRemittanceListPager();
-     clearFilter();
-     clearSearch();
+      // getRemittanceListPager();
+      clearFilter();
+      clearSearch();
       clearList();
     } catch (e) {
       throw ErrorException('خطا در ایجاد حواله: $e');
@@ -1265,7 +1265,7 @@ class RemittanceController extends BaseController{
   }
 
   Future<RemittanceModel?> updateStatusRemittance(int remittanceId,int status,int reasonRejectionId) async {
-   // EasyLoading.show(status: 'لطفا منتظر بمانید');
+    // EasyLoading.show(status: 'لطفا منتظر بمانید');
     int? previousStatus;
     ReasonRejectionModel? previousReason;
     try {
@@ -1650,10 +1650,10 @@ class RemittanceController extends BaseController{
         buildDataCell("بد:${remittance.balancePayer?.where((e) => e.unitName == "ریال").map((e) => "${e.balance ?? ''} ${e.unitName ?? ''} ${e.itemName ?? ''}").join(", ")} بس:${remittance.balanceReciept?.where((e) => e.unitName == "ریال").map((e) => "${e.balance ?? ''} ${e.unitName ?? ''} ${e.itemName ?? ''}").join(", ")}"),
         buildDataCell(remittance.description ?? ''),
         buildDataCell(" از:${remittance.walletPayer?.account?.name ?? 0} به:${remittance.walletReciept?.account?.name ?? 0} ${remittance.item?.itemUnit?.id == 1
-          ? "${remittance.quantity} عدد "
-          : remittance.item?.itemUnit?.id == 2
-          ? "${remittance.quantity} گرم "
-          : "${remittance.quantity.toString().seRagham()} ریال " } ${remittance.item?.name} "),
+            ? "${remittance.quantity} عدد "
+            : remittance.item?.itemUnit?.id == 2
+            ? "${remittance.quantity} گرم "
+            : "${remittance.quantity.toString().seRagham()} ریال " } ${remittance.item?.name} "),
         buildDataCell(getStatusText(remittance.status ?? 0 ),isCenter: true),
         buildDataCell(remittance.quantity?.toString().seRagham(separator: ",") ?? '',isCenter: true),
         buildDataCell(remittance.item?.name ?? '',isCenter: true),

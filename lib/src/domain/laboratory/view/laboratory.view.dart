@@ -13,7 +13,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/laboratory.controller.dart';
 
 class LaboratoryView extends GetView<LaboratoryController> {

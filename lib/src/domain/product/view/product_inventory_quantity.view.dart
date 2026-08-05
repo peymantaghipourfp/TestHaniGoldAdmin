@@ -15,7 +15,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../inventory/model/inventory_detail.model.dart';
 import '../controller/product_inventory_quantity.controller.dart';
 import '../model/product_inventory_quantity.model.dart';

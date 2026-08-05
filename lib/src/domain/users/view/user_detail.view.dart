@@ -13,7 +13,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class UserDetailView extends StatefulWidget {
   const UserDetailView({super.key});
@@ -100,9 +99,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                                   .copyWith(fontSize: 12),
                                             ),
                                             Text(
-                                              controller.accountModel.value!
-                                                  .startDate!
-                                                  .toPersianDate(),
+                                              controller.accountModel.value?.startDate?.toPersianDate() ?? "",
                                               style: AppTextStyle.labelText
                                                   .copyWith(fontSize: 12),
                                             ),
@@ -121,14 +118,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                         horizontal: 20, vertical: 10),
                                     child: Column(
                                       children: [
-                                        controller.accountModel.value!
-                                                        .accountSubGroups !=
-                                                    null &&
-                                                controller
-                                                    .accountModel
-                                                    .value!
-                                                    .accountSubGroups!
-                                                    .isNotEmpty
+                                        (controller.accountModel.value?.accountSubGroups?.isNotEmpty ?? false)
                                             ? Container(
                                                 decoration: BoxDecoration(
                                                     borderRadius:
@@ -167,10 +157,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                                       height: 15,
                                                     ),
                                                     Column(
-                                                      children: controller
-                                                          .accountModel
-                                                          .value!
-                                                          .accountSubGroups!
+                                                      children: (controller.accountModel.value?.accountSubGroups ?? [])
                                                           .map(
                                                         (e) {
                                                           // / int color=0xff + int.parse(e.color!.replaceAll("#", ""));
@@ -389,7 +376,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                                                                           ],
                                                                                           border: TableBorder.symmetric(inside: BorderSide(color: AppColor.textColor, width: 0.3), outside: BorderSide(color: AppColor.textColor, width: 0.3), borderRadius: BorderRadius.circular(8)),
                                                                                           dividerThickness: 0.3,
-                                                                                          rows: e.itemPrices!
+                                                                                          rows: (e.itemPrices ?? [])
                                                                                               .map((trans) => DataRow(
                                                                                                     cells: [
                                                                                                       DataCell(Center(
@@ -405,7 +392,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                                                                                         child: GestureDetector(
                                                                                                           onTap: () {},
                                                                                                           child: Text(
-                                                                                                            "${trans.buyRange!.toInt()}".seRagham(),
+                                                                                                            "${trans.buyRange?.toInt()}".seRagham(),
                                                                                                             style: AppTextStyle.bodyText.copyWith(
                                                                                                               color: AppColor.textColor,
                                                                                                               fontSize: 13,
@@ -416,7 +403,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                                                                                                       DataCell(Center(
                                                                                                         child: SizedBox(
                                                                                                           child: Text(
-                                                                                                            "${trans.salesRange!.toInt()}".seRagham(),
+                                                                                                            "${trans.salesRange?.toInt()}".seRagham(),
                                                                                                             style: AppTextStyle.bodyText.copyWith(
                                                                                                               color: AppColor.textColor,
                                                                                                               fontSize: 13,

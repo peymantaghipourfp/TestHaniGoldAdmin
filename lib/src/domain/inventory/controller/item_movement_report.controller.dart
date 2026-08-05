@@ -14,65 +14,60 @@ class ItemMovementReportController extends GetxController {
   final ItemRepository itemRepository = ItemRepository();
 
   final TextEditingController dateController = TextEditingController();
-  final List<ItemModel> itemList = <ItemModel>[].obs;
+
+  final RxList<ItemModel> itemList = <ItemModel>[].obs;
   final Rxn<ItemModel> selectedItem = Rxn<ItemModel>();
   final Rxn<ItemMovementReportModel> report = Rxn<ItemMovementReportModel>();
-  final isLoading = false.obs;
-  final searchQuery = ''.obs;
-  final typeFilter = 'all'.obs;
-  final statusFilter = 'all'.obs;
-  final visibleOperations = <OperationModel>[].obs;
-  final errorMessage = ''.obs;
 
-  final List<OperationModel> _allOperations = [];
+  final RxBool isLoading = false.obs;
+  final RxString searchQuery = ''.obs;
+  final RxString typeFilter = 'all'.obs;
+  final RxString statusFilter = 'all'.obs;
+  final RxList<OperationModel> visibleOperations = <OperationModel>[].obs;
+  final RxString errorMessage = ''.obs;
+
+  final List<OperationModel> _allOperations = <OperationModel>[];
+  final List<_IndexedOperation> _indexedOperations = <_IndexedOperation>[];
+
+  Worker? _searchDebounceWorker;
+  Worker? _typeWorker;
+  Worker? _statusWorker;
+
+  bool _suspendFiltering = false;
 
   @override
   void onInit() {
     final now = Jalali.now();
     dateController.text =
-        '${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')}';
+    '${now.year}/${now.month.toString().padLeft(2, '0')}/${now.day.toString().padLeft(2, '0')}';
+
     fetchItemList();
-    ever(searchQuery, (_) => _applyFilters());
-    ever(typeFilter, (_) => _applyFilters());
-    ever(statusFilter, (_) => _applyFilters());
+
+    _searchDebounceWorker = debounce<String>(
+      searchQuery,
+          (_) => _applyFilters(),
+      time: const Duration(milliseconds: 300),
+    );
+
+    _typeWorker = ever<String>(typeFilter, (_) => _applyFilters());
+    _statusWorker = ever<String>(statusFilter, (_) => _applyFilters());
+
     super.onInit();
   }
 
   @override
   void onClose() {
+    _searchDebounceWorker?.dispose();
+    _typeWorker?.dispose();
+    _statusWorker?.dispose();
     dateController.dispose();
     super.onClose();
   }
 
   static String formatGregorianApiDate(DateTime d) =>
       '${d.year.toString().padLeft(4, '0')}-'
-      '${d.month.toString().padLeft(2, '0')}-'
-      '${d.day.toString().padLeft(2, '0')}';
-
-  static bool operationMatchesFilters({
-    required OperationModel op,
-    required String query,
-    required String typeFilter,
-    required String statusFilter,
-  }) {
-    final deleted = (op.status ?? '').contains('حذف');
-    final direction = (op.balanceEffect ?? 0) >= 0 ? 'input' : 'output';
-    final haystack = [
-      op.accountName,
-      op.accountCode,
-      op.accountId,
-      op.inventoryDetailId,
-      op.inventoryId,
-      op.movementType,
-      op.operationTime,
-    ].join(' ').toLowerCase();
-    final q = query.trim().toLowerCase();
-    final matchesSearch = q.isEmpty || haystack.contains(q);
-    final matchesType = typeFilter == 'all' || direction == typeFilter;
-    final matchesStatus = statusFilter == 'all' ||
-        (statusFilter == 'deleted' ? deleted : !deleted);
-    return matchesSearch && matchesType && matchesStatus;
-  }
+          '${d.month.toString().padLeft(2, '0')}-'
+          '${d.day.toString().padLeft(2, '0')}';
 
   static String? convertJalaliToGregorianForApi(String jalaliDateString) {
     final trimmed = jalaliDateString.trim();
@@ -91,9 +86,14 @@ class ItemMovementReportController extends GetxController {
       final gregorianDate = jalaliDate.toDateTime();
 
       return formatGregorianApiDate(gregorianDate);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
+  }
+
+  void onSearchChanged(String value) {
+    if (searchQuery.value == value) return;
+    searchQuery.value = value;
   }
 
   Future<void> fetchItemList() async {
@@ -116,31 +116,35 @@ class ItemMovementReportController extends GetxController {
     EasyLoading.show(status: 'لطفا منتظر بمانید');
     isLoading.value = true;
     errorMessage.value = '';
+
     try {
-      final gregorianDate =
-          convertJalaliToGregorianForApi(dateController.text);
+      final gregorianDate = convertJalaliToGregorianForApi(dateController.text);
       if (gregorianDate == null) {
+        report.value = null;
+        _clearOperations();
         ToastService().error('تاریخ وارد شده معتبر نیست');
         return;
       }
+
       final result = await inventoryRepository.getItemMovementReport(
         fromDate: gregorianDate,
         toDate: gregorianDate,
         itemId: itemId,
       );
+
       report.value = result;
-      _allOperations
-        ..clear()
-        ..addAll(
-          result.days?.expand((d) => d.operations ?? const <OperationModel>[]) ??
-              const <OperationModel>[],
-        );
+
+      final ops = result.days
+          ?.expand((d) => d.operations ?? const <OperationModel>[])
+          .toList(growable: false) ??
+          const <OperationModel>[];
+
+      _setOperations(ops);
       _applyFilters();
     } catch (e) {
       errorMessage.value = e.toString();
       report.value = null;
-      _allOperations.clear();
-      visibleOperations.clear();
+      _clearOperations();
       ToastService().error('خطایی هنگام دریافت گزارش به وجود آمده است');
     } finally {
       EasyLoading.dismiss();
@@ -149,22 +153,92 @@ class ItemMovementReportController extends GetxController {
   }
 
   void resetFilters() {
+    _suspendFiltering = true;
     searchQuery.value = '';
     typeFilter.value = 'all';
     statusFilter.value = 'all';
+    _suspendFiltering = false;
     _applyFilters();
   }
 
+  void _setOperations(List<OperationModel> operations) {
+    _allOperations
+      ..clear()
+      ..addAll(operations);
+
+    _indexedOperations
+      ..clear()
+      ..addAll(operations.map(_IndexedOperation.fromOperation));
+  }
+
+  void _clearOperations() {
+    _allOperations.clear();
+    _indexedOperations.clear();
+    visibleOperations.clear();
+  }
+
   void _applyFilters() {
-    visibleOperations.assignAll(
-      _allOperations.where(
-        (op) => operationMatchesFilters(
-          op: op,
-          query: searchQuery.value,
-          typeFilter: typeFilter.value,
-          statusFilter: statusFilter.value,
-        ),
-      ),
+    if (_suspendFiltering) return;
+
+    final q = searchQuery.value.trim().toLowerCase();
+    final type = typeFilter.value;
+    final status = statusFilter.value;
+
+    if (q.isEmpty && type == 'all' && status == 'all') {
+      visibleOperations.assignAll(_allOperations);
+      return;
+    }
+
+    final List<OperationModel> result = <OperationModel>[];
+
+    for (final item in _indexedOperations) {
+      if (q.isNotEmpty && !item.searchText.contains(q)) continue;
+      if (type != 'all' && item.direction != type) continue;
+      if (status == 'deleted' && !item.deleted) continue;
+      if (status == 'active' && item.deleted) continue;
+
+      result.add(item.operation);
+    }
+
+    visibleOperations.assignAll(result);
+  }
+}
+
+class _IndexedOperation {
+  final OperationModel operation;
+  final String searchText;
+  final String direction; // input | output
+  final bool deleted;
+
+  const _IndexedOperation({
+    required this.operation,
+    required this.searchText,
+    required this.direction,
+    required this.deleted,
+  });
+
+  factory _IndexedOperation.fromOperation(OperationModel op) {
+    final deleted = (op.status ?? '').contains('حذف');
+    final direction = (op.balanceEffect ?? 0) >= 0 ? 'input' : 'output';
+
+    final searchText = [
+      op.accountName,
+      op.accountCode,
+      op.accountId?.toString(),
+      op.inventoryDetailId?.toString(),
+      op.inventoryId?.toString(),
+      op.movementType,
+      op.operationTime,
+      op.eventTitle,
+      op.createdByName,
+      op.removedByName,
+    ].whereType<String>().join(' ').toLowerCase();
+
+    return _IndexedOperation(
+      operation: op,
+      searchText: searchText,
+      direction: direction,
+      deleted: deleted,
     );
   }
 }

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hanigold_admin/src/config/const/app_color.dart';
+import 'package:hanigold_admin/src/config/const/app_text_style.dart';
 import 'package:hanigold_admin/src/domain/inventory/controller/item_movement_report.controller.dart';
 import 'package:hanigold_admin/src/domain/inventory/model/item_movement_report.model.dart';
 import 'package:hanigold_admin/src/domain/inventory/model/operation.model.dart';
-import 'package:hanigold_admin/src/domain/inventory/widget/item_movement_report_colors.dart';
 import 'package:hanigold_admin/src/domain/product/model/item.model.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:printing/printing.dart';
+
+import '../../../widget/app_drawer.widget.dart';
+import '../../../widget/background_image_total.widget.dart';
+import '../../../widget/custom_appbar1.widget.dart';
 
 class ItemMovementReportView extends StatefulWidget {
   const ItemMovementReportView({super.key});
@@ -21,7 +26,7 @@ class ItemMovementReportView extends StatefulWidget {
 
 class _ItemMovementReportViewState extends State<ItemMovementReportView> {
   final ItemMovementReportController controller =
-      Get.find<ItemMovementReportController>();
+  Get.find<ItemMovementReportController>();
   final TextEditingController _searchController = TextEditingController();
 
   static const _footnote =
@@ -100,13 +105,11 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     if (mismatch.isEmpty) return null;
 
     final op = mismatch.first;
-    final detailId = (op.inventoryDetailId?.toString() ?? '').toPersianDigit();
+    /*final detailId = (op.inventoryDetailId?.toString() ?? '').toPersianDigit();
     final day = op.operationPersianDate ?? _dash;
     final time = (op.operationTime ?? '').toPersianDigit();
-    final created = _formatDateTime(op.createdOn);
-    return 'عملیات شماره $detailId برای $day '
-        'ساعت $time نمایش داده شده، اما زمان ایجاد فنی آن '
-        '$created است. این رکورد با نوار نارنجی در جدول مشخص شده است.';
+    final created = _formatDateTime(op.createdOn);*/
+    return op.warningMessage;
   }
 
   String _formatDateTime(DateTime? value) {
@@ -158,7 +161,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
 
       if (picked != null) {
         controller.dateController.text =
-            '${picked.year}/${picked.month.toString().padLeft(2, '0')}/${picked.day.toString().padLeft(2, '0')}';
+        '${picked.year}/${picked.month.toString().padLeft(2, '0')}/${picked.day.toString().padLeft(2, '0')}';
         await controller.fetchReport();
       }
     } catch (_) {}
@@ -168,7 +171,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     final report = controller.report.value;
     final ops = controller.visibleOperations.toList();
     final fontData =
-        await rootBundle.load('assets/fonts/IRANSansX-Regular.ttf');
+    await rootBundle.load('assets/fonts/IRANSansX-Regular.ttf');
     final ttf = pw.Font.ttf(fontData);
     final title = report?.item?.name ?? 'گزارش گردش انبار';
     final dateLabel = report?.fromPersianDate ?? controller.dateController.text;
@@ -180,21 +183,22 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
         final pdf = pw.Document();
         pdf.addPage(
           pw.MultiPage(
-            pageFormat: PdfPageFormat.a4.landscape,
+            mainAxisAlignment: pw.MainAxisAlignment.start,
+            pageFormat: PdfPageFormat.a4,
             textDirection: pw.TextDirection.rtl,
             theme: pw.ThemeData.withFont(base: ttf, fontFallback: [ttf]),
             build: (context) {
               return [
                 pw.Text(
-                  'گزارش قابل فهم گردش انبار',
-                  style: pw.TextStyle(fontSize: 10, color: PdfColors.grey700),
+                  'گزارش گردش روزانه انبار',
+                  style: pw.TextStyle(fontSize: 11, color: PdfColors.grey700),
                 ),
                 pw.SizedBox(height: 4),
                 pw.Text(
                   title,
                   style: pw.TextStyle(
-                    fontSize: 16,
-                    fontWeight: pw.FontWeight.bold,
+                    fontSize: 17,
+                    //fontWeight: pw.FontWeight.bold,
                   ),
                 ),
                 pw.SizedBox(height: 4),
@@ -208,41 +212,41 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                 pw.SizedBox(height: 12),
                 pw.TableHelper.fromTextArray(
                   headers: const [
-                    'ساعت',
-                    'حساب',
-                    'نوع رویداد',
-                    'وضعیت',
-                    'تعداد',
-                    'اثر هنگام ثبت',
-                    'موجودی پس از ثبت',
-                    'ساعت حذف',
-                    'موجودی پس از حذف',
                     'توضیح',
+                    'موجودی پس از حذف',
+                    'ساعت حذف',
+                    'موجودی پس از ثبت',
+                    'اثر هنگام ثبت',
+                    'تعداد',
+                    'وضعیت',
+                    'نوع رویداد',
+                    'حساب',
+                    'ساعت',
                   ],
                   data: ops
                       .map(
                         (op) => [
-                          op.operationTime ?? _dash,
-                          op.accountName ?? _dash,
-                          op.movementType ?? _dash,
-                          op.status ?? _dash,
-                          _faNum(op.quantity),
-                          _effectLabel(op.balanceEffect),
-                          _faNum(op.balanceAfterOperation),
+                          _dash,
+                          _dash,
                           _deleteTime(op),
-                          _dash,
-                          _dash,
-                        ],
-                      )
+                          _faNum(op.balanceAfterOperation).seRagham(),
+                          _effectLabel(op.balanceEffect),
+                          _faNum(op.quantity),
+                          op.status ?? _dash,
+                          op.movementType ?? _dash,
+                          op.accountName ?? _dash,
+                          op.operationTime ?? _dash,
+                    ],
+                  )
                       .toList(),
                   headerStyle: pw.TextStyle(
                     fontSize: 8,
-                    fontWeight: pw.FontWeight.bold,
+                    //fontWeight: pw.FontWeight.bold,
                   ),
                   cellStyle: const pw.TextStyle(fontSize: 7),
                   cellAlignment: pw.Alignment.centerRight,
                   headerDecoration:
-                      const pw.BoxDecoration(color: PdfColors.grey300),
+                  const pw.BoxDecoration(color: PdfColors.grey300),
                 ),
                 if (ops.isEmpty)
                   pw.Padding(
@@ -278,27 +282,27 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
       labelText: label,
       isDense: true,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: AppColor.textColor,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       hintStyle: const TextStyle(
-        color: ItemMovementReportColors.muted,
+        color: AppColor.textColorSecondary2,
         fontSize: 13,
       ),
       labelStyle: const TextStyle(
-        color: ItemMovementReportColors.muted,
+        color: AppColor.textColorSecondary2,
         fontSize: 12,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(11),
-        borderSide: const BorderSide(color: Color(0xFFD7D0C1)),
+        borderSide: const BorderSide(color: AppColor.textColorSecondary),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(11),
-        borderSide: const BorderSide(color: Color(0xFFD7D0C1)),
+        borderSide: const BorderSide(color: AppColor.textColorSecondary),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(11),
-        borderSide: const BorderSide(color: ItemMovementReportColors.gold),
+        borderSide: const BorderSide(color: AppColor.gold),
       ),
     );
   }
@@ -308,51 +312,48 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: ItemMovementReportColors.canvas,
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(0.9, -1),
-              radius: 1.2,
-              colors: [
-                Color(0x1FB48622),
-                ItemMovementReportColors.canvas,
-              ],
-            ),
-          ),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1480),
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 28, 16, 56),
-                children: [
-                  _buildHero(),
-                  const SizedBox(height: 18),
-                  Obx(() => _buildSummary()),
-                  Obx(() {
-                    final text = _anomalyText(controller.report.value);
-                    if (text == null) return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 18),
-                      child: _buildNotice(text),
-                    );
-                  }),
-                  _buildGuide(),
-                  const SizedBox(height: 18),
-                  _buildPanel(),
-                  const SizedBox(height: 15),
-                  const Text(
-                    _footnote,
-                    style: TextStyle(
-                      color: ItemMovementReportColors.muted,
-                      fontSize: 12.5,
-                      height: 1.65,
-                    ),
+        appBar: CustomAppbar1(title: 'گزارش گردش روزانه انبار',
+          onBackTap: () => Get.offNamed('/home'),
+        ),
+        drawer: const AppDrawer(),
+        body: Stack(
+          children: [
+            BackgroundImageTotal(),
+            Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1480),
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 28, 16, 56),
+                    children: [
+                      _buildHero(),
+                      const SizedBox(height: 12),
+                      Obx(() => _buildSummary()),
+                      const SizedBox(height: 12),
+                      Obx(() {
+                        final text = _anomalyText(controller.report.value);
+                        if (text == null) return const SizedBox.shrink();
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 18),
+                          child: _buildNotice(text),
+                        );
+                      }),
+                      _buildGuide(),
+                      const SizedBox(height: 12),
+                      _buildPanel(),
+                      const SizedBox(height: 15),
+                      const Text(
+                        _footnote,
+                        style: TextStyle(
+                          color: AppColor.textColorSecondary2,
+                          fontSize: 12.5,
+                          height: 1.65,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
+          ],
         ),
       ),
     );
@@ -366,8 +367,8 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            ItemMovementReportColors.heroStart,
-            ItemMovementReportColors.heroEnd,
+            AppColor.secondary10Color,
+            AppColor.secondary50Color,
           ],
         ),
         borderRadius: BorderRadius.circular(26),
@@ -401,7 +402,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'گزارش قابل فهم گردش انبار',
+                'گزارش گردش روزانه انبار',
                 style: TextStyle(
                   color: Color(0xFFE9C86F),
                   fontSize: 13,
@@ -462,7 +463,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                       SizedBox(
                         width: narrow ? constraints.maxWidth : 280,
                         child: Obx(
-                          () => DropdownButtonFormField<ItemModel>(
+                              () => DropdownButtonFormField<ItemModel>(
                             value: controller.selectedItem.value,
                             isExpanded: true,
                             dropdownColor: const Color(0xFF1A2328),
@@ -470,12 +471,16 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                               color: Colors.white,
                               fontSize: 14,
                             ),
+                                hint: const Text(
+                                  'انتخاب محصول',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                             decoration: _controlDecoration(
                               hint: 'انتخاب محصول',
                             ).copyWith(
                               fillColor: Colors.white.withValues(alpha: 0.08),
                               hintStyle: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.7),
+                                color: Colors.white,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
@@ -493,13 +498,13 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                             items: controller.itemList
                                 .map(
                                   (item) => DropdownMenuItem<ItemModel>(
-                                    value: item,
-                                    child: Text(
-                                      item.name ?? '',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                )
+                                value: item,
+                                child: Text(
+                                  item.name ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            )
                                 .toList(),
                             onChanged: (item) {
                               controller.selectedItem.value = item;
@@ -630,37 +635,37 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
         final cards = [
           _SummaryCardData(
             label: 'موجودی ابتدای روز',
-            value: _withUnit(_faNum(opening)),
+            value: _withUnit(_faNum(opening).toString().seRagham()),
             note: 'پیش از اولین عملیات این گزارش',
           ),
           _SummaryCardData(
             label: 'ورودی واقعی',
-            value: _withUnit(_faNum(inputQty)),
+            value: _withUnit(_faNum(inputQty).toString().seRagham()),
             note: '${_faInt(_activeInputCount)} عملیات فعال',
-            valueColor: ItemMovementReportColors.green,
+            valueColor: AppColor.primaryColor,
             kind: _SummaryKind.input,
           ),
           _SummaryCardData(
             label: 'خروجی واقعی',
-            value: _withUnit(_faNum(outputQty)),
+            value: _withUnit(_faNum(outputQty).toString().seRagham()),
             note: '${_faInt(_activeOutputCount)} عملیات فعال',
-            valueColor: ItemMovementReportColors.red,
+            valueColor: AppColor.accentColor,
             kind: _SummaryKind.output,
           ),
           _SummaryCardData(
             label: 'عملیات حذف‌شده',
             value: '${_faInt(deletedCount)} عملیات',
             note:
-                'مجموع گردش حذف‌شده: ${_withUnit(_faNum(deletedQty?.toDouble()))}',
-            valueColor: ItemMovementReportColors.orange,
+            'مجموع گردش حذف‌شده: ${_withUnit(_faNum(deletedQty?.toDouble()))}',
+            valueColor: AppColor.gold.withBlue(40),
             kind: _SummaryKind.deleted,
           ),
           _SummaryCardData(
             label: 'موجودی پایان روز',
-            value: _withUnit(_faNum(closing)),
+            value: _withUnit(_faNum(closing).toString().seRagham()),
             note: net == null
                 ? _dash
-                : 'تغییر خالص روز: ${net > 0 ? '+' : ''}${_withUnit(_faNum(net))}',
+                : 'تغییر خالص روز: ${_withUnit(_faNum(net))}',
             kind: _SummaryKind.finalCard,
           ),
         ];
@@ -690,20 +695,20 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
       decoration: BoxDecoration(
         gradient: isFinal
             ? const LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  ItemMovementReportColors.finalCardStart,
-                  ItemMovementReportColors.finalCardEnd,
-                ],
-              )
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            AppColor.gold,
+            AppColor.goldDark,
+          ],
+        )
             : null,
         color: isFinal
             ? null
-            : ItemMovementReportColors.paper.withValues(alpha: 0.95),
+            : AppColor.secondary100Color,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isFinal ? Colors.transparent : ItemMovementReportColors.line,
+          color: isFinal ? Colors.transparent : AppColor.circularLoadingColor,
         ),
         boxShadow: const [
           BoxShadow(
@@ -721,7 +726,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             style: TextStyle(
               color: isFinal
                   ? const Color(0xFFF5E7C1)
-                  : ItemMovementReportColors.muted,
+                  : AppColor.textColorSecondary.withAlpha(200),
               fontSize: 13,
             ),
           ),
@@ -731,7 +736,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             style: TextStyle(
               color: isFinal
                   ? Colors.white
-                  : (data.valueColor ?? ItemMovementReportColors.ink),
+                  : (data.valueColor ?? AppColor.textColor),
               fontSize: 26,
               fontWeight: FontWeight.w800,
               height: 1.15,
@@ -743,7 +748,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             style: TextStyle(
               color: isFinal
                   ? const Color(0xFFF5E7C1)
-                  : ItemMovementReportColors.muted,
+                  : AppColor.textColorSecondary.withAlpha(200),
               fontSize: 12.5,
             ),
           ),
@@ -756,7 +761,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
-        color: ItemMovementReportColors.orangeSoft,
+        color: AppColor.textErrorColor.withAlpha(230),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFEDC696)),
       ),
@@ -767,14 +772,14 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             width: 34,
             height: 34,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: ItemMovementReportColors.orange,
+            decoration: BoxDecoration(
+              color: AppColor.errorColor.withGreen(100),
               shape: BoxShape.circle,
             ),
             child: const Text(
               '!',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColor.textColor,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -817,14 +822,14 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             : (constraints.maxWidth - gap) / 2;
         final items = [
           (
-            ItemMovementReportColors.green,
-            'فعال:',
-            ' عملیات واقعی که اثر آن در موجودی پایان روز باقی مانده است.',
+          AppColor.primaryColor,
+          'فعال:',
+          ' عملیات واقعی که اثر آن در موجودی پایان روز باقی مانده است.',
           ),
           (
-            ItemMovementReportColors.red,
-            'حذف‌شده:',
-            ' ساعت ثبت و ساعت حذف در یک ردیف آمده و موجودی هر دو لحظه نمایش داده شده است.',
+          AppColor.accentColor,
+          'حذف‌شده:',
+          ' ساعت ثبت و ساعت حذف در یک ردیف آمده و موجودی هر دو لحظه نمایش داده شده است.',
           ),
         ];
         return Wrap(
@@ -836,12 +841,12 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                 width: itemWidth,
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
                   decoration: BoxDecoration(
                     color:
-                        ItemMovementReportColors.paper.withValues(alpha: 0.72),
+                    AppColor.iconViewColor,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: ItemMovementReportColors.line),
+                    border: Border.all(color: AppColor.circularLoadingColor,),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -860,7 +865,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                         child: Text.rich(
                           TextSpan(
                             style: const TextStyle(
-                              color: ItemMovementReportColors.muted,
+                              color: AppColor.appBarColor,
                               fontSize: 13.5,
                               height: 1.55,
                             ),
@@ -869,7 +874,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                                 text: item.$2,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: ItemMovementReportColors.ink,
+                                  color: AppColor.secondary50Color,
                                 ),
                               ),
                               TextSpan(text: item.$3),
@@ -890,9 +895,9 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
   Widget _buildPanel() {
     return Container(
       decoration: BoxDecoration(
-        color: ItemMovementReportColors.paper,
+        color: AppColor.secondary50Color,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: ItemMovementReportColors.line),
+        border: Border.all(color: AppColor.circularLoadingColor,),
         boxShadow: const [
           BoxShadow(
             color: Color(0x173D3016),
@@ -916,7 +921,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                       Text(
                         'ریز گردش روز',
                         style: TextStyle(
-                          color: ItemMovementReportColors.ink,
+                          color: AppColor.textPrimaryColor,
                           fontSize: 18.5,
                           fontWeight: FontWeight.w700,
                         ),
@@ -925,7 +930,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                       Text(
                         'هر عملیات فقط یک ردیف دارد؛ ساعت و نتیجه حذف نیز در همان ردیف نمایش داده می‌شود.',
                         style: TextStyle(
-                          color: ItemMovementReportColors.muted,
+                          color: AppColor.iconViewColor,
                           fontSize: 13.5,
                         ),
                       ),
@@ -937,15 +942,15 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                   final total = _allOps.length;
                   return Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8EDCE),
+                      color: AppColor.textErrorColor,
                       borderRadius: BorderRadius.circular(99),
                     ),
                     child: Text(
                       '${_faInt(visible)} عملیات از ${_faInt(total)}',
-                      style: const TextStyle(
-                        color: ItemMovementReportColors.goldDark,
+                      style: TextStyle(
+                        color: AppColor.goldDark,
                         fontSize: 12.5,
                       ),
                     ),
@@ -954,9 +959,9 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
               ],
             ),
           ),
-          const Divider(height: 1, color: ItemMovementReportColors.line),
+          const Divider(height: 1, color: AppColor.dividerColor),
           _buildFilters(),
-          const Divider(height: 1, color: ItemMovementReportColors.line),
+          const Divider(height: 1, color: AppColor.dividerColor),
           Obx(() {
             final ops = controller.visibleOperations.toList();
             if (ops.isEmpty) {
@@ -966,7 +971,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
                   'موردی مطابق فیلتر انتخاب‌شده پیدا نشد.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: ItemMovementReportColors.muted,
+                    color: AppColor.textColorSecondary2,
                     fontSize: 14,
                   ),
                 ),
@@ -974,37 +979,31 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             }
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 1250),
-                child: DataTable(
-                  headingRowColor: WidgetStateProperty.all(
-                    const Color(0xFFF7F3EB),
+              child: DataTable(
+                    headingRowColor: WidgetStatePropertyAll(AppColor.buttonColor.withAlpha(100)),
+                    headingRowHeight: 40,
+                    columnSpacing: 25,
+                    horizontalMargin: 6,
+                    dataRowMaxHeight: double.infinity,
+                    dividerThickness: 0.3,
+                    headingTextStyle: AppTextStyle.bodyText,
+                    columns: const [
+                      DataColumn(label: Text('ساعت/تاریخ')),
+                      DataColumn(label: Text('حساب')),
+                      DataColumn(label: Text('نوع رویداد')),
+                      DataColumn(label: Text('وضعیت')),
+                      DataColumn(label: Text('تعداد')),
+                      DataColumn(label: Text('اثر هنگام ثبت')),
+                      DataColumn(label: Text('موجودی پس از ثبت')),
+                      DataColumn(label: Text('ساعت حذف')),
+                      DataColumn(label: Text('موجودی پس از حذف')),
+                      DataColumn(label: Text('توضیح')),
+                      DataColumn(label: Text('اطلاعات فنی')),
+                    ],
+                    rows: [
+                      for (final op in ops) _buildDataRow(op),
+                    ],
                   ),
-                  dataRowMinHeight: 56,
-                  dataRowMaxHeight: 120,
-                  headingTextStyle: const TextStyle(
-                    color: Color(0xFF596167),
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  columns: const [
-                    DataColumn(label: Text('ساعت')),
-                    DataColumn(label: Text('حساب')),
-                    DataColumn(label: Text('نوع رویداد')),
-                    DataColumn(label: Text('وضعیت')),
-                    DataColumn(label: Text('تعداد')),
-                    DataColumn(label: Text('اثر هنگام ثبت')),
-                    DataColumn(label: Text('موجودی پس از ثبت')),
-                    DataColumn(label: Text('ساعت حذف')),
-                    DataColumn(label: Text('موجودی پس از حذف')),
-                    DataColumn(label: Text('توضیح')),
-                    DataColumn(label: Text('اطلاعات فنی')),
-                  ],
-                  rows: [
-                    for (final op in ops) _buildDataRow(op),
-                  ],
-                ),
-              ),
             );
           }),
         ],
@@ -1014,7 +1013,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
 
   Widget _buildFilters() {
     return Container(
-      color: const Color(0xFFFAF7F0),
+      color: AppColor.secondary2Color,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -1045,28 +1044,53 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
   }
 
   Widget _buildSearchField() {
-    return TextField(
-      controller: _searchController,
-      onChanged: (value) => controller.searchQuery.value = value,
-      decoration: _controlDecoration(
-        hint: 'جست‌وجوی نام حساب، توضیح یا شناسه…',
-      ),
-      style: const TextStyle(
-        color: ItemMovementReportColors.ink,
-        fontSize: 14,
-      ),
+    return ValueListenableBuilder<TextEditingValue>(
+      valueListenable: _searchController,
+      builder: (context, value, _) {
+        return TextField(
+          controller: _searchController,
+          onChanged: controller.onSearchChanged,
+          decoration: _controlDecoration(
+            hint: 'جست‌وجوی نام حساب, شماره عملیات, ساعت, توضیح …',
+          ).copyWith(
+            prefixIcon: const Icon(
+              Icons.search,
+              size: 18,
+              color: AppColor.textColorSecondary2,
+            ),
+            suffixIcon: value.text.isEmpty
+                ? null
+                : IconButton(
+              icon: const Icon(
+                Icons.close,
+                size: 18,
+                color: AppColor.textColorSecondary2,
+              ),
+              onPressed: () {
+                _searchController.clear();
+                controller.onSearchChanged('');
+                FocusScope.of(context).unfocus();
+              },
+            ),
+          ),
+          style: const TextStyle(
+            color: AppColor.secondary50Color,
+            fontSize: 14,
+          ),
+        );
+      },
     );
   }
 
   Widget _buildTypeFilter() {
     return Obx(
-      () => DropdownButtonFormField<String>(
+          () => DropdownButtonFormField<String>(
         value: controller.typeFilter.value,
         decoration: _controlDecoration(),
         items: const [
-          DropdownMenuItem(value: 'all', child: Text('همه ورود و خروج‌ها')),
-          DropdownMenuItem(value: 'input', child: Text('فقط ورودی‌ها')),
-          DropdownMenuItem(value: 'output', child: Text('فقط خروجی‌ها')),
+          DropdownMenuItem(value: 'all', child: Text('همه ورود و خروج‌ها', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
+          DropdownMenuItem(value: 'input', child: Text('فقط ورودی‌ها', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
+          DropdownMenuItem(value: 'output', child: Text('فقط خروجی‌ها', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
         ],
         onChanged: (value) {
           if (value != null) controller.typeFilter.value = value;
@@ -1077,13 +1101,13 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
 
   Widget _buildStatusFilter() {
     return Obx(
-      () => DropdownButtonFormField<String>(
+          () => DropdownButtonFormField<String>(
         value: controller.statusFilter.value,
         decoration: _controlDecoration(),
         items: const [
-          DropdownMenuItem(value: 'all', child: Text('همه وضعیت‌ها')),
-          DropdownMenuItem(value: 'active', child: Text('فقط فعال')),
-          DropdownMenuItem(value: 'deleted', child: Text('فقط حذف‌شده')),
+          DropdownMenuItem(value: 'all', child: Text('همه وضعیت‌ها', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
+          DropdownMenuItem(value: 'active', child: Text('فقط فعال', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
+          DropdownMenuItem(value: 'deleted', child: Text('فقط حذف‌شده', style: TextStyle(color: AppColor.secondary50Color, fontSize: 14,),)),
         ],
         onChanged: (value) {
           if (value != null) controller.statusFilter.value = value;
@@ -1101,7 +1125,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     return DataRow(
       color: WidgetStateProperty.resolveWith((states) {
         if (deleted) {
-          return ItemMovementReportColors.redSoft.withValues(alpha: 0.52);
+          return AppColor.accentColor.withAlpha(50);
         }
         if (states.contains(WidgetState.hovered)) {
           return const Color(0xFFFFFCF5);
@@ -1113,18 +1137,28 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
           Container(
             decoration: anomaly
                 ? const BoxDecoration(
-                    border: Border(
-                      right: BorderSide(color: Color(0xFFD37A1E), width: 4),
-                    ),
-                  )
+              border: Border(
+                right: BorderSide(color: Color(0xFFD37A1E), width: 4),
+              ),
+            )
                 : null,
             padding: anomaly ? const EdgeInsets.only(right: 6) : EdgeInsets.zero,
-            child: Text(
-              op.operationTime ?? _dash,
-              style: const TextStyle(
-                fontFeatures: [FontFeature.tabularFigures()],
-              ),
-              textDirection: TextDirection.ltr,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  op.operationTime ?? _dash,
+                  style: AppTextStyle.bodyText,
+                  textDirection: TextDirection.ltr,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  op.operationDate?.toPersianDate() ?? _dash,
+                  style: AppTextStyle.bodyText,
+                  textDirection: TextDirection.ltr,
+                ),
+              ],
             ),
           ),
         ),
@@ -1135,13 +1169,13 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             children: [
               Text(
                 op.accountName ?? _dash,
-                style: const TextStyle(fontWeight: FontWeight.w700),
+                style: AppTextStyle.bodyText.copyWith(fontWeight: FontWeight.w700, color: AppColor.gold),
               ),
               const SizedBox(height: 2),
               Text(
-                'کد حساب: ${op.accountCode ?? _dash}',
+                'شماره عملیات: ${op.inventoryDetailId ?? _dash}',
                 style: const TextStyle(
-                  color: ItemMovementReportColors.muted,
+                  color: AppColor.iconViewColor,
                   fontSize: 12,
                 ),
               ),
@@ -1152,38 +1186,39 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
           _badge(
             op.movementType ?? _dash,
             color: input
-                ? const Color(0xFF0F614B)
-                : const Color(0xFF96312B),
+                ? AppColor.buttonColor
+                : AppColor.accentColor,
             background: input
-                ? ItemMovementReportColors.greenSoft
-                : ItemMovementReportColors.redSoft,
+                ? AppColor.textPrimaryColor
+                : AppColor.textAccentColor,
           ),
         ),
         DataCell(
           _badge(
             op.status ?? _dash,
             color: deleted
-                ? const Color(0xFF96312B)
-                : const Color(0xFF0F614B),
+                ? AppColor.accentColor
+                : AppColor.buttonColor,
             background: deleted
-                ? ItemMovementReportColors.redSoft
-                : ItemMovementReportColors.greenSoft,
+                ? AppColor.textAccentColor
+                : AppColor.textPrimaryColor,
           ),
         ),
         DataCell(
           Text(
             _faNum(op.quantity),
-            style: const TextStyle(fontWeight: FontWeight.w800),
+            style: AppTextStyle.bodyText.copyWith(fontWeight: FontWeight.w700),
           ),
         ),
         DataCell(
           Text(
             _effectLabel(effect),
+            textDirection: TextDirection.ltr,
             style: TextStyle(
               fontWeight: FontWeight.w800,
               color: effect >= 0
-                  ? ItemMovementReportColors.green
-                  : ItemMovementReportColors.red,
+                  ? AppColor.primaryColor
+                  : AppColor.accentColor,
             ),
           ),
         ),
@@ -1192,15 +1227,15 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
             constraints: const BoxConstraints(minWidth: 64),
             padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
             decoration: BoxDecoration(
-              color: ItemMovementReportColors.blueSoft,
+              color: AppColor.textColorSecondary,
               borderRadius: BorderRadius.circular(9),
             ),
             child: Text(
-              _faNum(op.balanceAfterOperation),
+              _faNum(op.balanceAfterOperation).seRagham(),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF21373E),
-                fontWeight: FontWeight.w800,
+                color: AppColor.secondary50Color,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -1208,27 +1243,48 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
         DataCell(
           deleted && _deleteTime(op) != _dash
               ? Text(
-                  _deleteTime(op),
-                  style: const TextStyle(
-                    color: ItemMovementReportColors.red,
-                    fontWeight: FontWeight.w800,
-                  ),
-                )
+            _deleteTime(op),
+            style: TextStyle(
+              color: AppColor.errorColor,
+              fontWeight: FontWeight.w800,
+            ),
+          )
               : Text(
-                  _dash,
-                  style: const TextStyle(color: Color(0xFF9AA0A4)),
-                ),
-        ),
-        const DataCell(
-          Text(
-            '—',
-            style: TextStyle(color: Color(0xFF9AA0A4)),
+            _dash,
+            style: const TextStyle(color: Color(0xFF9AA0A4)),
           ),
         ),
-        const DataCell(
-          Text(
-            '—',
-            style: TextStyle(color: Color(0xFF515960)),
+        DataCell(
+          Container(
+            constraints: const BoxConstraints(minWidth: 64),
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+            decoration: BoxDecoration(
+              color: AppColor.textAccentColor.withAlpha(150),
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: Text(
+              _faNum(op.balanceAfterRemoval).seRagham(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: AppColor.secondary50Color,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: 80,
+            child: Text(
+              op.eventTitle ?? _dash,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              style: AppTextStyle.bodyText.copyWith(
+                fontWeight: FontWeight.w500,
+                color: AppColor.gold,
+              ),
+            ),
           ),
         ),
         DataCell(_buildTechnical(op)),
@@ -1265,7 +1321,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
       child: const Text(
         'نمایش جزئیات',
         style: TextStyle(
-          color: ItemMovementReportColors.blue,
+          color: AppColor.secondary3Color,
           fontSize: 13,
         ),
       ),
@@ -1278,10 +1334,11 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
       builder: (dialogContext) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
+          backgroundColor: AppColor.textColorSecondary,
           title: const Text(
             'اطلاعات فنی',
             style: TextStyle(
-              color: ItemMovementReportColors.ink,
+              color: AppColor.secondary50Color,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -1291,14 +1348,17 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _techLine('نام حساب', op.accountName?.toString()),
                 _techLine('شناسه ردیف', op.inventoryDetailId?.toString()),
                 _techLine('شناسه سند', op.inventoryId?.toString()),
                 _techLine('شناسه حساب', op.accountId?.toString()),
                 _techLine('شناسه کیف پول', op.walletId?.toString()),
                 _techLine('زمان ایجاد', _formatDateTime(op.createdOn)),
                 _techLine('زمان آخرین تغییر', _formatDateTime(op.modifiedOn)),
-                _techLine('ایجادکننده', op.createdBy?.toString()),
-                _techLine('ویرایش‌کننده', op.modifiedBy?.toString()),
+                _techLine('ایجادکننده', op.createdByName?.toString()),
+                if(op.removedByName!=null) _techLine('حذف کننده', op.removedByName?.toString()),
+                if(op.eventDescription!=null) _techLine('توضیحات', op.eventDescription?.toString(), color: AppColor.accent3Color),
+                if(op.warningMessage!=null) _techLine('علت خطا', op.warningMessage?.toString(), color: AppColor.accent3Color),
               ],
             ),
           ),
@@ -1307,7 +1367,7 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: const Text(
                 'بستن',
-                style: TextStyle(color: ItemMovementReportColors.blue),
+                style: TextStyle(color: AppColor.secondary3Color),
               ),
             ),
           ],
@@ -1316,21 +1376,22 @@ class _ItemMovementReportViewState extends State<ItemMovementReportView> {
     );
   }
 
-  Widget _techLine(String label, String? value) {
+  Widget _techLine(String label, String? value , {Color? color}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 3),
+      padding: const EdgeInsets.only(bottom: 4),
       child: Text.rich(
         TextSpan(
           style: const TextStyle(
-            color: Color(0xFF545D62),
-            fontSize: 11.5,
+            color: AppColor.appBarColor,
+            fontSize: 12,
           ),
           children: [
             TextSpan(text: '$label: '),
             TextSpan(
               text: (value == null || value.isEmpty) ? _dash : value,
-              style: const TextStyle(
-                fontFamily: 'Roboto',
+              style: TextStyle(
+                fontFamily: 'IranSansB',
+                color: color ?? AppColor.secondary50Color
               ),
             ),
           ],

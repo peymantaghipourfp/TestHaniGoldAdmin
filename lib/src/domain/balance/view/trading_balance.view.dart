@@ -11,7 +11,6 @@ import '../../../config/const/app_text_style.dart';
 import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../product/model/item.model.dart';
 import '../controller/trading_balance.controller.dart';
 import '../model/order_result_day.model.dart';

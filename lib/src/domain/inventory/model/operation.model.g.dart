@@ -25,6 +25,12 @@ OperationModel _$OperationModelFromJson(Map<String, dynamic> json) =>
       balanceEffect: (json['balanceEffect'] as num?)?.toDouble(),
       balanceAfterOperation:
           (json['balanceAfterOperation'] as num?)?.toDouble(),
+      removedOn: json['removedOn'] == null
+          ? null
+          : DateTime.parse(json['removedOn'] as String),
+      removedOnPersian: json['removedOnPersian'] as String?,
+      balanceAfterRemoval:
+      (json['balanceAfterRemoval'] as num?)?.toDouble(),
       walletId: (json['walletId'] as num?)?.toInt(),
       receiptNumber: json['receiptNumber'] as String?,
       createdOn: json['createdOn'] == null
@@ -37,6 +43,13 @@ OperationModel _$OperationModelFromJson(Map<String, dynamic> json) =>
       modifiedBy: (json['modifiedBy'] as num?)?.toInt(),
       isPriorPeriodOperation: json['isPriorPeriodOperation'] as bool?,
       hasDateMismatch: json['hasDateMismatch'] as bool?,
+      warningMessage: json['warningMessage'] as String?,
+      eventKind: json['eventKind'] as String?,
+      eventTitle: json['eventTitle'] as String?,
+      eventDescription: json['eventDescription'] as String?,
+      createdByName: json['createdByName'] as String?,
+      removedBy: (json['removedBy'] as num?)?.toInt(),
+      removedByName: json['removedByName'] as String?,
     );
 
 Map<String, dynamic> _$OperationModelToJson(OperationModel instance) =>
@@ -55,6 +68,9 @@ Map<String, dynamic> _$OperationModelToJson(OperationModel instance) =>
       'quantity': instance.quantity,
       'balanceEffect': instance.balanceEffect,
       'balanceAfterOperation': instance.balanceAfterOperation,
+      'removedOn': instance.removedOn,
+      'removedOnPersian': instance.removedOnPersian,
+      'balanceAfterRemoval': instance.balanceAfterRemoval,
       'walletId': instance.walletId,
       'receiptNumber': instance.receiptNumber,
       'createdOn': instance.createdOn?.toIso8601String(),
@@ -63,4 +79,11 @@ Map<String, dynamic> _$OperationModelToJson(OperationModel instance) =>
       'modifiedBy': instance.modifiedBy,
       'isPriorPeriodOperation': instance.isPriorPeriodOperation,
       'hasDateMismatch': instance.hasDateMismatch,
+      'warningMessage': instance.warningMessage,
+      'eventKind': instance.eventKind,
+      'eventTitle': instance.eventTitle,
+      'eventDescription': instance.eventDescription,
+      'createdByName': instance.createdByName,
+      'removedBy': instance.removedBy,
+      'removedByName': instance.removedByName,
     };

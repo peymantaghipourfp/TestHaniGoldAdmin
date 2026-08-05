@@ -16,7 +16,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../transaction/widgets/balance_date_dialog.widget.dart';
 import '../../transaction/widgets/balance_dialog.widget.dart';
 import '../widget/deposit_filter_button.widget.dart';

@@ -13,7 +13,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../users/widgets/balance.widget.dart';
 import '../controller/inventory_detail_insert_payment.controller.dart';
 

@@ -12,7 +12,6 @@ import '../../../config/const/app_text_style.dart';
 import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../widget/total_balance_gold_value.widget.dart';
 import '../controller/inventory_create_payment.controller.dart';
 import '../widget/inventory_create_payment_tab.widget.dart';

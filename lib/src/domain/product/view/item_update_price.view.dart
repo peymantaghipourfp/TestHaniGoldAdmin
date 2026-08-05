@@ -16,7 +16,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../widget/buy_status.widget.dart';
 import '../widget/sell_status.widget.dart';
 

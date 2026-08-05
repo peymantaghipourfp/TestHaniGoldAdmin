@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.1+8
+version: 1.0.1+9
 
 environment:
   sdk: ^3.6.0
@@ -102,7 +102,7 @@ msix_config:
   publisher_display_name: Hanigold
   identity_name: com.Hanigold.myapp
   publisher: CN=Hanigold, O=Hanigold, C=IR
-  msix_version: 1.0.1.8
+  msix_version: 1.0.1.9
   logo_path: assets/icon/haniGold.png
   architecture: x64
   capabilities: internetClient, internetClientServer, privateNetworkClientServer, location, microphone, webcam, bluetooth, serialCommunication, usb, removableStorage, documentsLibrary, picturesLibrary, videosLibrary, musicLibrary

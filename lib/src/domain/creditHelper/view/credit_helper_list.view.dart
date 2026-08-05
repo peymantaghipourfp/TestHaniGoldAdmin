@@ -14,7 +14,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/credit_helper.controller.dart';
 import '../widget/credit_helper_filter.widget.dart';
 import '../widget/credit_helper_create_dialog.widget.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list.controller.dart';
 import 'package:hanigold_admin/src/domain/users/model/list_transaction_info_item.model.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_page_chrome.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_polarity_chip.widget.dart';
