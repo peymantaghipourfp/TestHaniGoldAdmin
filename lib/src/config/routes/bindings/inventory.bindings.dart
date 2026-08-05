@@ -9,6 +9,7 @@ import '../../../domain/inventory/controller/inventory_create_payment.controller
 import '../../../domain/inventory/controller/inventory_detail_insert_payment.controller.dart';
 import '../../../domain/inventory/controller/inventory_update_payment.controller.dart';
 import '../../../domain/inventory/controller/inventory_update_receive.controller.dart';
+import '../../../domain/inventory/controller/item_movement_report.controller.dart';
 
 class InventoryBindings implements Bindings{
   @override
@@ -21,6 +22,7 @@ class InventoryBindings implements Bindings{
     Get.lazyPut(()=>InventoryDetailInsertPaymentController());
     Get.lazyPut(()=>InventoryDetailUpdatePaymentController());
     Get.lazyPut(()=>InventoryCreateLayoutController());
+    Get.lazyPut(() => ItemMovementReportController());
     //Get.lazyPut(()=>HomeController());
   }
 

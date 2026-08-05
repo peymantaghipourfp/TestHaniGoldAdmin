@@ -18,7 +18,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../widgets/gold_transaction_filter.widget.dart';
 import '../widgets/tabel_info.widget.dart';
 
@@ -159,12 +158,16 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                               initialDatePickerMode: PersianDatePickerMode.day,
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.startDateFilter.value =
-                                                                                                "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.startDateFilter.value =
+                                                                                              "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                  2, '0')}";
 
-                                                                                            controller.dateStartController.text =
-                                                                                                "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateStartController.text =
+                                                                                              "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(
+                                                                                                  2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -212,12 +215,16 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
                                                                                             // DateTime date=DateTime.now();
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.endDateFilter.value =
-                                                                                                "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.endDateFilter.value =
+                                                                                              "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                  2, '0')}";
 
-                                                                                            controller.dateEndController.text =
-                                                                                                "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateEndController.text =
+                                                                                              "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(
+                                                                                                  2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -343,12 +350,16 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                               initialDatePickerMode: PersianDatePickerMode.day,
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.startDateFilter.value =
-                                                                                                "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.startDateFilter.value =
+                                                                                              "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                  2, '0')}";
 
-                                                                                            controller.dateStartController.text =
-                                                                                                "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateStartController.text =
+                                                                                              "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(
+                                                                                                  2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -396,12 +407,16 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
                                                                                             // DateTime date=DateTime.now();
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.endDateFilter.value =
-                                                                                                "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.endDateFilter.value =
+                                                                                              "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                  2, '0')}";
 
-                                                                                            controller.dateEndController.text =
-                                                                                                "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateEndController.text =
+                                                                                              "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(
+                                                                                                  2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -579,9 +594,7 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(7), color: AppColor.textColor),
                                                                       child: Text(
-                                                                        controller.headerInfoUserTransactionModel!.startDate != null
-                                                                            ? controller.headerInfoUserTransactionModel!.startDate!.toPersianDate().toString()
-                                                                            : "",
+                                                                        controller.headerInfoUserTransactionModel?.startDate?.toPersianDate().toString() ?? "",
                                                                         style: AppTextStyle.labelText.copyWith(fontSize: isDesktop ? 12 : 10, color: AppColor.backGroundColor),
                                                                       ),
                                                                     ),
@@ -852,12 +865,17 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                                     initialDatePickerMode: PersianDatePickerMode.day,
                                                                                                     locale: Locale("fa", "IR"),
                                                                                                   );
-                                                                                                  Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                  controller.startDateFilter.value =
-                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                  if (pickedDate != null) {
+                                                                                                    Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                    controller.startDateFilter.value =
+                                                                                                    "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                        2, '0')}";
 
-                                                                                                  controller.dateStartController.text =
-                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                    controller.dateStartController.text =
+                                                                                                    "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                        .toString()
+                                                                                                        .padLeft(2, '0')}";
+                                                                                                  }
                                                                                                 },
                                                                                               ),
                                                                                             ),
@@ -906,12 +924,17 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                                     locale: Locale("fa", "IR"),
                                                                                                   );
                                                                                                   // DateTime date=DateTime.now();
-                                                                                                  Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                  controller.endDateFilter.value =
-                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                  if (pickedDate != null) {
+                                                                                                    Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                    controller.endDateFilter.value =
+                                                                                                    "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                        2, '0')}";
 
-                                                                                                  controller.dateEndController.text =
-                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                    controller.dateEndController.text =
+                                                                                                    "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                        .toString()
+                                                                                                        .padLeft(2, '0')}";
+                                                                                                  }
                                                                                                 },
                                                                                               ),
                                                                                             ),
@@ -1034,12 +1057,17 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                                     initialDatePickerMode: PersianDatePickerMode.day,
                                                                                                     locale: Locale("fa", "IR"),
                                                                                                   );
-                                                                                                  Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                  controller.startDateFilter.value =
-                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                  if (pickedDate != null) {
+                                                                                                    Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                    controller.startDateFilter.value =
+                                                                                                    "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                        2, '0')}";
 
-                                                                                                  controller.dateStartController.text =
-                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                    controller.dateStartController.text =
+                                                                                                    "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                        .toString()
+                                                                                                        .padLeft(2, '0')}";
+                                                                                                  }
                                                                                                 },
                                                                                               ),
                                                                                             ),
@@ -1088,12 +1116,17 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                                                                                     locale: Locale("fa", "IR"),
                                                                                                   );
                                                                                                   // DateTime date=DateTime.now();
-                                                                                                  Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                  controller.endDateFilter.value =
-                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                  if (pickedDate != null) {
+                                                                                                    Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                    controller.endDateFilter.value =
+                                                                                                    "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(
+                                                                                                        2, '0')}";
 
-                                                                                                  controller.dateEndController.text =
-                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                    controller.dateEndController.text =
+                                                                                                    "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                        .toString()
+                                                                                                        .padLeft(2, '0')}";
+                                                                                                  }
                                                                                                 },
                                                                                               ),
                                                                                             ),
@@ -3345,6 +3378,34 @@ class _UserInfoGoldTransactionViewState extends State<UserInfoGoldTransactionVie
                                 "مانده ربع: ",
                                 (trans.quarterCoinTotalRunning ?? 0) < 0 ? "(-${trans.quarterCoinTotalRunning!.abs().toStringAsFixed(0)})" : trans.quarterCoinTotalRunning!.toStringAsFixed(0),
                                 (trans.quarterCoinTotalRunning ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: 5,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if ((trans.silverTotalRunning ?? 0) != 0)
+                              _buildMobileCardItemTotal(
+                                AppColor.dividerColor,
+                                "مانده نقره: ",
+                                (trans.silverTotalRunning ?? 0) < 0 ? "(-${trans.silverTotalRunning!.abs().toString().seRagham()})" : trans.silverTotalRunning!.toString().seRagham(),
+                                (trans.silverTotalRunning ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,
+                              ),
+                            if ((trans.dollarTotalRunning ?? 0) != 0)
+                              _buildMobileCardItemTotal(
+                                AppColor.dividerColor,
+                                "مانده دلار: ",
+                                (trans.dollarTotalRunning ?? 0) < 0 ? "(-${trans.dollarTotalRunning!.abs().toString().seRagham()})" : trans.dollarTotalRunning!.toString().seRagham(),
+                                (trans.dollarTotalRunning ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,
+                              ),
+                            if ((trans.euroTotalRunning ?? 0) != 0)
+                              _buildMobileCardItemTotal(
+                                AppColor.dividerColor,
+                                "مانده یورو: ",
+                                (trans.euroTotalRunning ?? 0) < 0 ? "(-${trans.euroTotalRunning!.abs().toString().seRagham()})" : trans.euroTotalRunning!.toString().seRagham(),
+                                (trans.euroTotalRunning ?? 0) < 0 ? AppColor.accentColor : AppColor.primaryColor,
                               ),
                           ],
                         )

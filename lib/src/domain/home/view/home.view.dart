@@ -331,6 +331,11 @@ class HomeView extends GetView<HomeController> {
                           onTap: () => Get.toNamed('/inventoryCreate'),
                           icon: Icons.add,
                         ),
+                        MenuItem(
+                          title: 'گزارش گردش روزانه انبار',
+                          onTap: () => Get.toNamed('/itemMovementReport'),
+                          icon: Icons.featured_play_list_outlined,
+                        ),
                       ],
                     ),
                     // حواله

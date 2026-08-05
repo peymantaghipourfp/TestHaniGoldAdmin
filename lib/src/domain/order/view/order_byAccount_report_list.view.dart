@@ -16,7 +16,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/hanigold_loading.widget.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class OrderByAccountReportListView extends StatefulWidget {
   const OrderByAccountReportListView({super.key});

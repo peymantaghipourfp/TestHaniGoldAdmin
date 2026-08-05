@@ -7,19 +7,19 @@ const String pendingPostLoginRouteKey = 'pending_post_login_route';
 const Set<String> pendingBootstrapOnlyRoutes = {'/splash', '/login'};
 
 bool isPendingPostLoginRouteAllowed(
-  String? route,
-  Set<String> knownRouteNames,
-) {
+    String? route,
+    Set<String> knownRouteNames,
+    ) {
   if (route == null || route.isEmpty) return false;
   if (pendingBootstrapOnlyRoutes.contains(route)) return false;
   return knownRouteNames.contains(route);
 }
 
 void savePendingPostLoginRoute(
-  String? route, {
-  required Set<String> knownRouteNames,
-  GetStorage? box,
-}) {
+    String? route, {
+      required Set<String> knownRouteNames,
+      GetStorage? box,
+    }) {
   if (!isPendingPostLoginRouteAllowed(route, knownRouteNames)) return;
   try {
     (box ?? GetStorage()).write(pendingPostLoginRouteKey, route);

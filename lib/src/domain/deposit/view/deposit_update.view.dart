@@ -18,7 +18,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/background_image.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../users/widgets/balance.widget.dart';
 import '../controller/deposit_update.controller.dart';
 

@@ -12,7 +12,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class TransferAfterTomorrowChangeView extends StatelessWidget {
   const TransferAfterTomorrowChangeView({super.key});

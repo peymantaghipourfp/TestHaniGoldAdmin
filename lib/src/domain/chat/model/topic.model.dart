@@ -1,4 +1,4 @@
-import 'package:hanigold_admin/src/domain/home/model/user.model.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 

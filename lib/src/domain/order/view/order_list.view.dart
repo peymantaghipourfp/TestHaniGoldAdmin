@@ -21,7 +21,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/hanigold_loading.widget.dart';
 import '../../../widget/item_weight_calculator_dialog.widget.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../transaction/widgets/balance_dialog.widget.dart';
 import '../widget/hover_tooltip_balance.widget.dart';
 import '../widget/order_create_dialog.widget.dart';

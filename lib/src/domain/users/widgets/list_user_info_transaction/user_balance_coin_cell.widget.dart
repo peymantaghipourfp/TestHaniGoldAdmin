@@ -10,13 +10,13 @@ class UserBalanceCoinCell {
 
   static bool _hasCredit(ListTransactionInfoItemModel trans) =>
       (trans.coinBalanceBes ?? 0) != 0 ||
-      (trans.halfCoinBalanceBes ?? 0) != 0 ||
-      (trans.quarterCoinBalanceBes ?? 0) != 0;
+          (trans.halfCoinBalanceBes ?? 0) != 0 ||
+          (trans.quarterCoinBalanceBes ?? 0) != 0;
 
   static bool _hasDebit(ListTransactionInfoItemModel trans) =>
       (trans.coinBalanceBed ?? 0) != 0 ||
-      (trans.halfCoinBalanceBed ?? 0) != 0 ||
-      (trans.quarterCoinBalanceBed ?? 0) != 0;
+          (trans.halfCoinBalanceBed ?? 0) != 0 ||
+          (trans.quarterCoinBalanceBed ?? 0) != 0;
 
   static Widget _coinRow({
     required String label,
@@ -118,7 +118,7 @@ class UserBalanceCoinCell {
               _coinRow(
                 label: 'ربع سکه',
                 value:
-                    '-${trans.quarterCoinBalanceBed!.abs().toDisplayString()}',
+                '-${trans.quarterCoinBalanceBed!.abs().toDisplayString()}',
                 color: AppColor.accentColor,
               ),
           ],

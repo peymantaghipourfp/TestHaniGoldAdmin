@@ -1,5 +1,5 @@
 
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +18,6 @@ import '../../../widget/background_image.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class DepositRequestGetOneView extends StatelessWidget {
   DepositRequestGetOneView({super.key});

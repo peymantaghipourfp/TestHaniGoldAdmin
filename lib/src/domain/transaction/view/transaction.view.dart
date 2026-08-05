@@ -20,7 +20,6 @@ import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/transaction.controller.dart';
 import '../widgets/balance_dialog_id.widget.dart';
 

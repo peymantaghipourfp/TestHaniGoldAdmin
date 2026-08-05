@@ -1,28 +1,25 @@
-# Progress Ledger - Web Refresh Session Login-Restore
+﻿# Progress Ledger - Item Movement Report
 
-Plan: docs/superpowers/plans/2026-08-01-web-refresh-session-login-restore.md
-Started: 2026-08-01
-Branch: feat/web-refresh-session-login-restore
-Workspace: D:/curserAi project/.worktrees/web-refresh-session-login-restore
-Merge-base: b1d1791
+Plan: c:\Users\Admin\.cursor\plans\item_movement_report_f3c0121c.plan.md
+Started: 2026-08-02
+Branch: feat/item-movement-report
+Workspace: D:/curserAi project/.worktrees/item-movement-report
+Merge-base: 26e80f6
 
-Task 1: complete (commits a5e93ce..7272f14, review clean - Approved)
+Task 1: complete (uncommitted tests vs 865bff6, review clean - Approved)
+Task 2: complete (commits 865bff6..559eee0, review clean - Approved)
+Task 3: complete (commits 559eee0..449838e, review clean - Approved after fix)
+Task 4: complete (commits 449838e..d650711, review clean - Approved)
 
-Task 2: complete (commits 7272f14..d269d37, review clean - Approved)
-
-Task 3: complete (commits d269d37..b60dda0, review clean - Approved)
-
-Task 4: complete (commits b60dda0..12c1152, review clean - Approved)
-
-Task 5: complete (commits 12c1152..b487b59, review clean - Approved)
 ## Accumulated minors for final review
-- Task 1: test harness path_provider mock; GetStorage sidecar artifacts
-- Task 1: no trim on save validation
-- Task 2: no direct unit test for resolveWebInitialRoute
-- Task 3: import grouping nit in auth.controller
-- Task 4: relative imports pre-existing in dio_Interceptor
-- Task 5: manual web checklist human-needed; pre-existing print in auth.controller
+- Task 2: relative import in inventory.repository for new model
+- Task 2: extra errorMessage observable beyond listed set
+- Task 3: technical dialog omits HTML زمان حذف line
+- Task 3: ExpansionTile replaced by dialog (acceptable trade-off)
+- Task 3: DropdownButtonFormField.value deprecation infos
+- Task 3: description / balance-after-delete always —
+- Task 4: mixed import style pre-existing; tear-off polish optional
 
 ## Final review
-Final review: complete (Ready with notes; no Critical/Important code defects; manual web checklist human-needed)
-
+Final review: Needs work → fixed Important (8f00abd) — clear on fetch failure + reject invalid dates
+Ready with notes (remaining minors only)

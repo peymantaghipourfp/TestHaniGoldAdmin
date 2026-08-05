@@ -22,9 +22,9 @@ import 'package:flutter/services.dart';
 import 'package:universal_html/html.dart' as html;
 
 
-import 'user_balance_list_controller.dart';
+import 'user_balance_list.controller.dart';
 
-export 'user_balance_list_controller.dart' show PageState;
+export 'user_balance_list.controller.dart' show PageState;
 
 class UserInfoTransactionController extends GetxController implements UserBalanceListController {
 
@@ -207,7 +207,8 @@ class UserInfoTransactionController extends GetxController implements UserBalanc
           accountIds: filteredAccountIds,
           filterType: accountFilterType,
         );
-        if (fetchedListTransactionInfo.transactionWallets!.isNotEmpty ) {
+        final wallets = fetchedListTransactionInfo.transactionWallets;
+        if (wallets!=null && wallets.isNotEmpty ) {
           listTransactionInfo.addAll(fetchedListTransactionInfo.transactionWallets ?? []);
           currentPage.value = nextPage;
           hasMore.value = fetchedListTransactionInfo.transactionWallets?.length == itemsPerPage.value;

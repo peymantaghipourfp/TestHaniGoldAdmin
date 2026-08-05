@@ -16,7 +16,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/user_list.controller.dart';
 import '../widgets/user_create_dialog.widget.dart';
 import '../widgets/user_update_dialog.widget.dart';
@@ -328,10 +327,14 @@ class UserListView extends GetView<UserListController> {
                                                                                               initialDatePickerMode: PersianDatePickerMode.day,
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(
+                                                                                                  2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                                            controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(
+                                                                                                  2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -380,10 +383,14 @@ class UserListView extends GetView<UserListController> {
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
                                                                                             // DateTime date=DateTime.now();
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(
+                                                                                                  2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                                            controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(
+                                                                                                  2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -578,10 +585,14 @@ class UserListView extends GetView<UserListController> {
                                                                                               initialDatePickerMode: PersianDatePickerMode.day,
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(
+                                                                                                  2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                                            controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(
+                                                                                                  2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -630,10 +641,14 @@ class UserListView extends GetView<UserListController> {
                                                                                               locale: Locale("fa", "IR"),
                                                                                             );
                                                                                             // DateTime date=DateTime.now();
-                                                                                            Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                            controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                            if (pickedDate != null) {
+                                                                                              Gregorian gregorian = pickedDate.toGregorian();
+                                                                                              controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(
+                                                                                                  2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                                            controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                              controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(
+                                                                                                  2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                            }
                                                                                           },
                                                                                         ),
                                                                                       ),
@@ -1208,10 +1223,18 @@ class UserListView extends GetView<UserListController> {
                                                                                                       initialDatePickerMode: PersianDatePickerMode.day,
                                                                                                       locale: Locale("fa", "IR"),
                                                                                                     );
-                                                                                                    Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                    controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                    if (pickedDate != null) {
+                                                                                                      Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                      controller.startDateFilter.value =
+                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
 
-                                                                                                    controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                      controller.dateStartController.text =
+                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
+                                                                                                    }
                                                                                                   },
                                                                                                 ),
                                                                                               ),
@@ -1260,10 +1283,18 @@ class UserListView extends GetView<UserListController> {
                                                                                                       locale: Locale("fa", "IR"),
                                                                                                     );
                                                                                                     // DateTime date=DateTime.now();
-                                                                                                    Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                    controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                    if (pickedDate != null) {
+                                                                                                      Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                      controller.endDateFilter.value =
+                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
 
-                                                                                                    controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                      controller.dateEndController.text =
+                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
+                                                                                                    }
                                                                                                   },
                                                                                                 ),
                                                                                               ),
@@ -1443,10 +1474,18 @@ class UserListView extends GetView<UserListController> {
                                                                                                       initialDatePickerMode: PersianDatePickerMode.day,
                                                                                                       locale: Locale("fa", "IR"),
                                                                                                     );
-                                                                                                    Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                    controller.startDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                    if (pickedDate != null) {
+                                                                                                      Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                      controller.startDateFilter.value =
+                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
 
-                                                                                                    controller.dateStartController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                      controller.dateStartController.text =
+                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
+                                                                                                    }
                                                                                                   },
                                                                                                 ),
                                                                                               ),
@@ -1495,10 +1534,18 @@ class UserListView extends GetView<UserListController> {
                                                                                                       locale: Locale("fa", "IR"),
                                                                                                     );
                                                                                                     // DateTime date=DateTime.now();
-                                                                                                    Gregorian gregorian = pickedDate!.toGregorian();
-                                                                                                    controller.endDateFilter.value = "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                                                    if (pickedDate != null) {
+                                                                                                      Gregorian gregorian = pickedDate.toGregorian();
+                                                                                                      controller.endDateFilter.value =
+                                                                                                      "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
 
-                                                                                                    controller.dateEndController.text = "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                                                      controller.dateEndController.text =
+                                                                                                      "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day
+                                                                                                          .toString()
+                                                                                                          .padLeft(2, '0')}";
+                                                                                                    }
                                                                                                   },
                                                                                                 ),
                                                                                               ),
@@ -1904,7 +1951,7 @@ class UserListView extends GetView<UserListController> {
                           //color: AppColor.appBarColor.withAlpha(130),
                           alignment: Alignment.bottomCenter,
                           child: PagerWidget1(
-                            countPage: controller.paginated!.totalCount ?? 0,
+                            countPage: controller.paginated?.totalCount ?? 0,
                             callBack: (int index) {
                               controller.isChangePage(index);
                             },

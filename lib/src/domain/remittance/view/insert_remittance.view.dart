@@ -20,7 +20,6 @@ import '../../../widget/custom_dropdown.widget.dart';
 import '../../../widget/custom_dropdown1.widget.dart';
 import '../../../widget/hanigold_loading.widget.dart';
 import '../../account/model/account.model.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../users/widgets/balance.widget.dart';
 import '../controller/remittance.controller.dart';
 
@@ -114,7 +113,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       IntrinsicHeight(
                                         child: TextFormField(
                                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                                           controller: controller.nameRecieptController,
+                                          controller: controller.nameRecieptController,
                                           style: AppTextStyle.labelText,
                                           readOnly: true,
 
@@ -162,7 +161,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       IntrinsicHeight(
                                         child: TextFormField(
                                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                                           controller: controller.mobileReciptController,
+                                          controller: controller.mobileReciptController,
                                           style: AppTextStyle.labelText,
                                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                                           inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
@@ -344,34 +343,34 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                             fontWeight: FontWeight.normal,color: AppColor.textColor ),
                                       ),
                                       IntrinsicHeight(
-                                        child:
+                                          child:
                                           controller.selectedItem.value?.itemUnit?.name == 'ریال' ?
-                                        TextFormField(
-                                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                                           controller: controller.quantityPayerController,
-                                          style: AppTextStyle.labelText,
-                                          textAlign: TextAlign.center,
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(RegExp(r'[۰-۹0-9]')),
-                                          ],
-                                          onChanged: (value) {
-                                            if (controller.selectedItem.value?.itemUnit?.name == 'ریال') {
-                                              String cleanedValue = value
-                                                  .replaceAll(',', '');
-                                              if (cleanedValue.isNotEmpty) {
-                                                controller.quantityPayerController.text = cleanedValue
-                                                    .toPersianDigit()
-                                                    .seRagham();
-                                                controller.quantityPayerController
-                                                    .selection =
-                                                    TextSelection.collapsed(
-                                                        offset: controller.quantityPayerController
-                                                            .text.length);
+                                          TextFormField(
+                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            controller: controller.quantityPayerController,
+                                            style: AppTextStyle.labelText,
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(RegExp(r'[۰-۹0-9]')),
+                                            ],
+                                            onChanged: (value) {
+                                              if (controller.selectedItem.value?.itemUnit?.name == 'ریال') {
+                                                String cleanedValue = value
+                                                    .replaceAll(',', '');
+                                                if (cleanedValue.isNotEmpty) {
+                                                  controller.quantityPayerController.text = cleanedValue
+                                                      .toPersianDigit()
+                                                      .seRagham();
+                                                  controller.quantityPayerController
+                                                      .selection =
+                                                      TextSelection.collapsed(
+                                                          offset: controller.quantityPayerController
+                                                              .text.length);
+                                                }
                                               }
-                                            }
-                                          },
-                                          /*inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
+                                            },
+                                            /*inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
                                             TextInputFormatter.withFunction((oldValue, newValue) {
                                               // تبدیل اعداد فارسی به انگلیسی برای پردازش راحت‌تر
                                               String newText = newValue.text
@@ -389,23 +388,23 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                               return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
                                             }),
                                           ],*/
-                                          decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
-                                            isDense: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(6),
+                                            decoration: InputDecoration(
+                                              contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
+                                              isDense: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              filled: true,
+                                              fillColor: AppColor.textFieldColor,
+                                              errorMaxLines: 1,
                                             ),
-                                            filled: true,
-                                            fillColor: AppColor.textFieldColor,
-                                            errorMaxLines: 1,
-                                          ),
-                                          onFieldSubmitted: (value) {
+                                            onFieldSubmitted: (value) {
 
-                                            if (controller.selectedItem.value != null && value.isNotEmpty) {
-                                              controller.tempBalanceView(value);
-                                            }
-                                          },
-                                        )
+                                              if (controller.selectedItem.value != null && value.isNotEmpty) {
+                                                controller.tempBalanceView(value);
+                                              }
+                                            },
+                                          )
                                               :
                                           TextFormField(
                                             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -624,7 +623,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                             controller.pickImageDesktop();
                                           }
                                         },
-                                            //controller.pickImageDesktop(),
+                                        //controller.pickImageDesktop(),
                                         child: Container(
                                           constraints: BoxConstraints(maxWidth: 100),
                                           child: SvgPicture
@@ -656,60 +655,60 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                           height: 80,
                                           //width: Get.width * 0.3,
                                           child: Row(
-                                              children: controller.selectedImagesDesktop.map((e){
-                                                return  Stack(
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap:(){
-                                                        showGeneralDialog(
-                                                            context: context,
-                                                            barrierDismissible: true,
-                                                            barrierLabel: MaterialLocalizations.of(context)
-                                                                .modalBarrierDismissLabel,
-                                                            barrierColor: Colors.black45,
-                                                            transitionDuration: const Duration(milliseconds: 200),
-                                                            pageBuilder: (BuildContext buildContext,
-                                                                Animation animation,
-                                                                Animation secondaryAnimation) {
-                                                              return Center(
-                                                                child: Material(
-                                                                  color: Colors.transparent,
-                                                                  child: Container(
-                                                                    margin: EdgeInsets.all(isMobile ? 20 : 10),
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(8),
-                                                                        border: Border.all(color: AppColor.textColor),
-                                                                        image: DecorationImage(
-                                                                          image:e.path.startsWith('http') || kIsWeb ?
-                                                                          NetworkImage(e.path,)
-                                                                              : FileImage(File(e.path)) as ImageProvider,
-                                                                          fit: BoxFit.fill,
-                                                                        )
-                                                                    ),
-                                                                    height: isMobile ? Get.height * 0.6 : Get.height * 0.8,
-                                                                    width: isMobile ? Get.width * 0.8 : Get.width * 0.4,
+                                            children: controller.selectedImagesDesktop.map((e){
+                                              return  Stack(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap:(){
+                                                      showGeneralDialog(
+                                                          context: context,
+                                                          barrierDismissible: true,
+                                                          barrierLabel: MaterialLocalizations.of(context)
+                                                              .modalBarrierDismissLabel,
+                                                          barrierColor: Colors.black45,
+                                                          transitionDuration: const Duration(milliseconds: 200),
+                                                          pageBuilder: (BuildContext buildContext,
+                                                              Animation animation,
+                                                              Animation secondaryAnimation) {
+                                                            return Center(
+                                                              child: Material(
+                                                                color: Colors.transparent,
+                                                                child: Container(
+                                                                  margin: EdgeInsets.all(isMobile ? 20 : 10),
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(8),
+                                                                      border: Border.all(color: AppColor.textColor),
+                                                                      image: DecorationImage(
+                                                                        image:e.path.startsWith('http') || kIsWeb ?
+                                                                        NetworkImage(e.path,)
+                                                                            : FileImage(File(e.path)) as ImageProvider,
+                                                                        fit: BoxFit.fill,
+                                                                      )
                                                                   ),
+                                                                  height: isMobile ? Get.height * 0.6 : Get.height * 0.8,
+                                                                  width: isMobile ? Get.width * 0.8 : Get.width * 0.4,
                                                                 ),
-                                                              );
-                                                            });
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets.all(10),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(8),
-                                                            border: Border.all(color: AppColor.textColor),
-                                                            image: DecorationImage(
-                                                              image:e!.path.startsWith('http') || kIsWeb ?
-                                                              NetworkImage(e.path)
-                                                                  : FileImage(File(e.path)) as ImageProvider,
-                                                              fit: BoxFit.cover,
-                                                            )
-                                                        ),
-                                                        height: 60,width: 60,
-                                                        // child: Image.network(e!.path,fit: BoxFit.cover,),
+                                                              ),
+                                                            );
+                                                          });
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(8),
+                                                          border: Border.all(color: AppColor.textColor),
+                                                          image: DecorationImage(
+                                                            image:e!.path.startsWith('http') || kIsWeb ?
+                                                            NetworkImage(e.path)
+                                                                : FileImage(File(e.path)) as ImageProvider,
+                                                            fit: BoxFit.cover,
+                                                          )
                                                       ),
+                                                      height: 60,width: 60,
+                                                      // child: Image.network(e!.path,fit: BoxFit.cover,),
                                                     ),
-                                                    /*Container(
+                                                  ),
+                                                  /*Container(
                                                       margin: EdgeInsets.all(10),
                                                       decoration: BoxDecoration(
                                                           borderRadius: BorderRadius.circular(8),
@@ -719,19 +718,19 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                                       height: 60,width: 60,
                                                       // child: Image.network(e!.path,fit: BoxFit.cover,),
                                                     ),*/
-                                                    GestureDetector(
-                                                      child: CircleAvatar(
-                                                        backgroundColor: AppColor.accentColor,radius: 10,
-                                                        child: Center(child: Icon(Icons.clear,color: AppColor.textColor,size: 15,)),
-                                                      ),
-                                                      onTap: (){
-                                                        controller.selectedImagesDesktop.remove(e);
-                                                      },
-                                                    )
-                                                  ],
-                                                );
-                                              }).toList(),
-                                            ),
+                                                  GestureDetector(
+                                                    child: CircleAvatar(
+                                                      backgroundColor: AppColor.accentColor,radius: 10,
+                                                      child: Center(child: Icon(Icons.clear,color: AppColor.textColor,size: 15,)),
+                                                    ),
+                                                    onTap: (){
+                                                      controller.selectedImagesDesktop.remove(e);
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            }).toList(),
+                                          ),
                                         );
                                       }),
                                     ],
@@ -753,7 +752,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10)))),
                                   onPressed: (controller.isLoading.value ||
-                                          controller.isUploadingDesktop.value)
+                                      controller.isUploadingDesktop.value)
                                       ? null
                                       : () {
                                     Get.defaultDialog(
@@ -770,7 +769,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                                 backgroundColor: WidgetStatePropertyAll(
                                                     AppColor.primaryColor)),
                                             onPressed: (controller.isLoading.value ||
-                                                    controller.isUploadingDesktop.value)
+                                                controller.isUploadingDesktop.value)
                                                 ? null
                                                 : () async {
                                               // Validate required fields before creating remittance
@@ -1400,31 +1399,31 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                             fontWeight: FontWeight.normal,color: AppColor.textColor ),
                                       ),
                                       IntrinsicHeight(
-                                        child:
-                                        controller.selectedItem.value?.itemUnit?.name == 'ریال' ?
-                                        TextFormField(
-                                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                                          controller: controller.quantityPayerController,
-                                          style: AppTextStyle.labelText,
-                                          textAlign: TextAlign.center,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            if (controller.selectedItem.value?.itemUnit?.name == 'ریال') {
-                                              String cleanedValue = value
-                                                  .replaceAll(',', '');
-                                              if (cleanedValue.isNotEmpty) {
-                                                controller.quantityPayerController.text = cleanedValue
-                                                    .toPersianDigit()
-                                                    .seRagham();
-                                                controller.quantityPayerController
-                                                    .selection =
-                                                    TextSelection.collapsed(
-                                                        offset: controller.quantityPayerController
-                                                            .text.length);
+                                          child:
+                                          controller.selectedItem.value?.itemUnit?.name == 'ریال' ?
+                                          TextFormField(
+                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            controller: controller.quantityPayerController,
+                                            style: AppTextStyle.labelText,
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            onChanged: (value) {
+                                              if (controller.selectedItem.value?.itemUnit?.name == 'ریال') {
+                                                String cleanedValue = value
+                                                    .replaceAll(',', '');
+                                                if (cleanedValue.isNotEmpty) {
+                                                  controller.quantityPayerController.text = cleanedValue
+                                                      .toPersianDigit()
+                                                      .seRagham();
+                                                  controller.quantityPayerController
+                                                      .selection =
+                                                      TextSelection.collapsed(
+                                                          offset: controller.quantityPayerController
+                                                              .text.length);
+                                                }
                                               }
-                                            }
-                                          },
-                                          /*inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
+                                            },
+                                            /*inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
                                             TextInputFormatter.withFunction((oldValue, newValue) {
                                               // تبدیل اعداد فارسی به انگلیسی برای پردازش راحت‌تر
                                               String newText = newValue.text
@@ -1442,65 +1441,65 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                               return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
                                             }),
                                           ],*/
-                                          decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
-                                            isDense: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(6),
+                                            decoration: InputDecoration(
+                                              contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
+                                              isDense: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              filled: true,
+                                              fillColor: AppColor.textFieldColor,
+                                              errorMaxLines: 1,
                                             ),
-                                            filled: true,
-                                            fillColor: AppColor.textFieldColor,
-                                            errorMaxLines: 1,
-                                          ),
-                                          onFieldSubmitted: (value) {
+                                            onFieldSubmitted: (value) {
 
-                                            if (controller.selectedItem.value != null && value.isNotEmpty) {
-                                              controller.tempBalanceView(value);
-                                            }
-                                          },
-                                        )
-                                            :
-                                        TextFormField(
-                                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                                          controller: controller.quantityPayerController,
-                                          style: AppTextStyle.labelText,
-                                          textAlign: TextAlign.center,
-                                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
-                                            TextInputFormatter.withFunction((oldValue, newValue) {
-                                              // تبدیل اعداد فارسی به انگلیسی برای پردازش راحت‌تر
-                                              String newText = newValue.text
-                                                  .replaceAll('٠', '0')
-                                                  .replaceAll('١', '1')
-                                                  .replaceAll('٢', '2')
-                                                  .replaceAll('٣', '3')
-                                                  .replaceAll('٤', '4')
-                                                  .replaceAll('٥', '5')
-                                                  .replaceAll('٦', '6')
-                                                  .replaceAll('٧', '7')
-                                                  .replaceAll('٨', '8')
-                                                  .replaceAll('٩', '9');
+                                              if (controller.selectedItem.value != null && value.isNotEmpty) {
+                                                controller.tempBalanceView(value);
+                                              }
+                                            },
+                                          )
+                                              :
+                                          TextFormField(
+                                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                                            controller: controller.quantityPayerController,
+                                            style: AppTextStyle.labelText,
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[\d٠-٩۰-۹]*\.?[\d٠-٩۰-۹]*$')),
+                                              TextInputFormatter.withFunction((oldValue, newValue) {
+                                                // تبدیل اعداد فارسی به انگلیسی برای پردازش راحت‌تر
+                                                String newText = newValue.text
+                                                    .replaceAll('٠', '0')
+                                                    .replaceAll('١', '1')
+                                                    .replaceAll('٢', '2')
+                                                    .replaceAll('٣', '3')
+                                                    .replaceAll('٤', '4')
+                                                    .replaceAll('٥', '5')
+                                                    .replaceAll('٦', '6')
+                                                    .replaceAll('٧', '7')
+                                                    .replaceAll('٨', '8')
+                                                    .replaceAll('٩', '9');
 
-                                              return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
-                                            }),
-                                          ],
-                                          decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
-                                            isDense: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(6),
+                                                return newValue.copyWith(text: newText, selection: TextSelection.collapsed(offset: newText.length));
+                                              }),
+                                            ],
+                                            decoration: InputDecoration(
+                                              contentPadding: const EdgeInsets.symmetric(vertical: 17, ),
+                                              isDense: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              filled: true,
+                                              fillColor: AppColor.textFieldColor,
+                                              errorMaxLines: 1,
                                             ),
-                                            filled: true,
-                                            fillColor: AppColor.textFieldColor,
-                                            errorMaxLines: 1,
-                                          ),
-                                          onFieldSubmitted: (value) {
+                                            onFieldSubmitted: (value) {
 
-                                            if (controller.selectedItem.value != null && value.isNotEmpty) {
-                                              controller.tempBalanceView(value);
-                                            }
-                                          },
-                                        )
+                                              if (controller.selectedItem.value != null && value.isNotEmpty) {
+                                                controller.tempBalanceView(value);
+                                              }
+                                            },
+                                          )
                                       ),
                                     ],
                                   ),
@@ -1784,7 +1783,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10)))),
                                   onPressed: (controller.isLoading.value ||
-                                          controller.isUploadingDesktop.value)
+                                      controller.isUploadingDesktop.value)
                                       ? null
                                       : () {
                                     Get.defaultDialog(
@@ -1801,7 +1800,7 @@ class _InsertRemittanceViewState extends State<InsertRemittanceView> {
                                                 backgroundColor: WidgetStatePropertyAll(
                                                     AppColor.primaryColor)),
                                             onPressed: (controller.isLoading.value ||
-                                                    controller.isUploadingDesktop.value)
+                                                controller.isUploadingDesktop.value)
                                                 ? null
                                                 : () async {
                                               // Validate required fields before creating remittance

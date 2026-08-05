@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hanigold_admin/src/config/const/app_color.dart';
 import 'package:hanigold_admin/src/config/const/app_text_style.dart';
-import 'package:hanigold_admin/src/domain/users/controller/user_balance_list_controller.dart';
+import 'package:hanigold_admin/src/domain/users/controller/user_balance_list.controller.dart';
 import 'package:hanigold_admin/src/domain/users/controller/user_info_transaction.controller.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/filter_dialog_report_setting.widget.dart';
 import 'package:hanigold_admin/src/domain/users/widgets/list_user_info_transaction/user_balance_excel_dialog.widget.dart';
@@ -46,6 +46,15 @@ class UserBalanceToolbar extends StatelessWidget {
               searchController: controller.searchController,
               onSearch: controller.getListTransactionInfoPager,
               onClear: controller.clearSearch,
+            ),
+          ),
+          const SizedBox(width: 10),
+          // تازه سازی
+          Tooltip(
+            message: "تازه سازی",
+            child: IconButton(
+              onPressed: ()=>controller.getListTransactionInfoPager(),
+              icon: Icon(Icons.refresh_outlined),
             ),
           ),
           const SizedBox(width: 10),

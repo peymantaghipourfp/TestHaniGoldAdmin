@@ -8,6 +8,7 @@ import 'package:hanigold_admin/src/config/secure_session_storage.dart';
 import 'package:hanigold_admin/src/config/session_invalidation.dart';
 import 'package:hanigold_admin/src/config/session_storage.dart';
 import 'package:hanigold_admin/src/config/web_route_hash.dart';
+import 'package:hanigold_admin/src/config/web_unauthenticated_boot.dart';
 import 'package:hanigold_admin/src/domain/chat/controller/chat.controller.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -33,16 +34,22 @@ void bootstrapSessionControllers() {
 ///
 /// When there is no active stored session, always returns `/login` and may
 /// persist a recoverable hash under [pendingPostLoginRouteKey].
+///
+/// Also rewrites the browser hash to `#/login` so Flutter Web's
+/// [PlatformDispatcher.defaultRouteName] (which overrides [GetMaterialApp.initialRoute]
+/// when it is not `/`) does not reopen the protected deep link.
 String resolveWebInitialRoute(String fallback) {
   if (!kIsWeb) return fallback;
   final hashRoute = parseHashRoute(html.window.location.hash);
   if (hasActiveStoredSession()) {
     return hashRoute ?? fallback;
   }
-  return resolveUnauthenticatedWebBootRoute(
+  final loginRoute = resolveUnauthenticatedWebBootRoute(
     hashRoute: hashRoute,
     knownRouteNames: RoutePage.knownRouteNames,
   );
+  replaceBrowserHashWithLogin();
+  return loginRoute;
 }
 
 /// Post-splash destination: never re-navigate to splash/login from stored session.

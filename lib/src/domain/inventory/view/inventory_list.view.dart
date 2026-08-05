@@ -23,7 +23,6 @@ import '../../../widget/custom_dropdown.widget.dart';
 import '../../../widget/empty.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../../product/model/item.model.dart';
 import '../../transaction/widgets/balance_dialog.widget.dart';
 

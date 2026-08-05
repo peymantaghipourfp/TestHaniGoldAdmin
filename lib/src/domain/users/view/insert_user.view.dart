@@ -11,7 +11,6 @@ import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/background_image.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_dropdown.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/insert_user.controller.dart';
 import '../widgets/image_drop_zone_business_license_insert .widget.dart';
 import '../widgets/image_drop_zone_national_code_insert.widget.dart';
@@ -808,7 +807,7 @@ class InsertUserView extends GetView<InsertUserController> {
                                                                 height: Get.height * 0.8,
                                                                 width: Get.width * 0.4,
                                                                 child: Image.network(
-                                                                  image.path,
+                                                                  image?.path ?? "",
                                                                   fit: BoxFit.contain,
                                                                 ),
                                                               ),
@@ -826,7 +825,7 @@ class InsertUserView extends GetView<InsertUserController> {
                                                       height: 80,
                                                       width: 80,
                                                       child: Image.network(
-                                                        image!.path,
+                                                        image?.path ?? "",
                                                         fit: BoxFit.cover,
                                                         errorBuilder: (context, error, stackTrace) {
                                                           return Container(
@@ -958,7 +957,7 @@ class InsertUserView extends GetView<InsertUserController> {
                                                                 height: Get.height * 0.8,
                                                                 width: Get.width * 0.4,
                                                                 child: Image.network(
-                                                                  image.path,
+                                                                  image?.path ?? "",
                                                                   fit: BoxFit.contain,
                                                                 ),
                                                               ),
@@ -976,7 +975,7 @@ class InsertUserView extends GetView<InsertUserController> {
                                                       height: 80,
                                                       width: 80,
                                                       child: Image.network(
-                                                        image!.path,
+                                                        image?.path ?? "",
                                                         fit: BoxFit.cover,
                                                         errorBuilder: (context, error, stackTrace) {
                                                           return Container(

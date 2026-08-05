@@ -14,7 +14,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
 import '../../../widget/err_page.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../widgets/filter_user_list.widget.dart';
 
 class PersonListView extends GetView<PersonListController> {
@@ -426,7 +425,7 @@ class PersonListView extends GetView<PersonListController> {
                       //color: AppColor.appBarColor.withAlpha(130),
                       alignment: Alignment.bottomCenter,
                       child: PagerWidget1(
-                        countPage: controller.paginated!.totalCount ?? 0,
+                        countPage: controller.paginated?.totalCount ?? 0,
                         callBack: (int index) {
                           controller.isChangePage(index);
                         },)) : SizedBox(),
@@ -1090,7 +1089,8 @@ class PersonListView extends GetView<PersonListController> {
               child: const Text(
                   'تغییر رمز', style: TextStyle(color: Colors.white)),
               onPressed: () {
-                if (formKey.currentState!.validate()) {
+                final formState = formKey.currentState;
+                if (formState != null && formState.validate()) {
                   controller.changePasswordByAdmin(id);
                   controller.clearChangePasswordForm();
                 }

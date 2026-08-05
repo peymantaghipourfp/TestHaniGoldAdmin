@@ -22,7 +22,6 @@ import '../../../widget/background_image_total.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/err_page.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/user_info_detail_transaction.controller.dart';
 import '../model/transaction_info_item.model.dart';
 import '../widgets/selected_factor_detail_dialog.widget.dart';
@@ -339,39 +338,14 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                               "fa",
                                                                               "IR"),
                                                                         );
-                                                                        Gregorian gregorian = pickedDate!
-                                                                            .toGregorian();
-                                                                        controller
-                                                                            .startDateFilter
-                                                                            .value =
-                                                                        "${gregorian
-                                                                            .year}-${gregorian
-                                                                            .month
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}-${gregorian
-                                                                            .day
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}";
+                                                                        if (pickedDate != null) {
+                                                                          Gregorian gregorian = pickedDate.toGregorian();
+                                                                          controller.startDateFilter.value =
+                                                                          "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                        controller
-                                                                            .dateStartController
-                                                                            .text =
-                                                                        "${pickedDate
-                                                                            .year}/${pickedDate
-                                                                            .month
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}/${pickedDate
-                                                                            .day
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}";
+                                                                          controller.dateStartController.text =
+                                                                          "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                        }
                                                                       },
                                                                     ),
                                                                   ),
@@ -455,39 +429,41 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                               "IR"),
                                                                         );
                                                                         // DateTime date=DateTime.now();
-                                                                        Gregorian gregorian = pickedDate!
-                                                                            .toGregorian();
-                                                                        controller
-                                                                            .endDateFilter
-                                                                            .value =
-                                                                        "${gregorian
-                                                                            .year}-${gregorian
-                                                                            .month
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}-${gregorian
-                                                                            .day
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}";
+                                                                        if (pickedDate != null) {
+                                                                          Gregorian gregorian = pickedDate
+                                                                              .toGregorian();
+                                                                          controller
+                                                                              .endDateFilter
+                                                                              .value =
+                                                                          "${gregorian
+                                                                              .year}-${gregorian
+                                                                              .month
+                                                                              .toString()
+                                                                              .padLeft(
+                                                                              2,
+                                                                              '0')}-${gregorian
+                                                                              .day
+                                                                              .toString()
+                                                                              .padLeft(
+                                                                              2,
+                                                                              '0')}";
 
-                                                                        controller
-                                                                            .dateEndController
-                                                                            .text =
-                                                                        "${pickedDate
-                                                                            .year}/${pickedDate
-                                                                            .month
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}/${pickedDate
-                                                                            .day
-                                                                            .toString()
-                                                                            .padLeft(
-                                                                            2,
-                                                                            '0')}";
+                                                                          controller
+                                                                              .dateEndController
+                                                                              .text =
+                                                                          "${pickedDate
+                                                                              .year}/${pickedDate
+                                                                              .month
+                                                                              .toString()
+                                                                              .padLeft(
+                                                                              2,
+                                                                              '0')}/${pickedDate
+                                                                              .day
+                                                                              .toString()
+                                                                              .padLeft(
+                                                                              2,
+                                                                              '0')}";
+                                                                        }
                                                                       },
                                                                     ),
                                                                   ),
@@ -661,12 +637,14 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                           initialDatePickerMode: PersianDatePickerMode.day,
                                                                           locale: Locale("fa","IR"),
                                                                         );
-                                                                        Gregorian gregorian= pickedDate!.toGregorian();
-                                                                        controller.startDateFilter.value =
-                                                                        "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                        if (pickedDate != null) {
+                                                                          Gregorian gregorian = pickedDate.toGregorian();
+                                                                          controller.startDateFilter.value =
+                                                                          "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                        controller.dateStartController.text =
-                                                                        "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                          controller.dateStartController.text =
+                                                                          "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                        }
 
                                                                       },
                                                                     ),
@@ -717,12 +695,14 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                           locale: Locale("fa","IR"),
                                                                         );
                                                                         // DateTime date=DateTime.now();
-                                                                        Gregorian gregorian= pickedDate!.toGregorian();
-                                                                        controller.endDateFilter.value =
-                                                                        "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
+                                                                        if (pickedDate != null) {
+                                                                          Gregorian gregorian = pickedDate.toGregorian();
+                                                                          controller.endDateFilter.value =
+                                                                          "${gregorian.year}-${gregorian.month.toString().padLeft(2, '0')}-${gregorian.day.toString().padLeft(2, '0')}";
 
-                                                                        controller.dateEndController.text =
-                                                                        "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                          controller.dateEndController.text =
+                                                                          "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')}";
+                                                                        }
 
                                                                       },
                                                                     ),
@@ -1125,11 +1105,7 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                       AppColor.textColor),
                                                   child:
                                                   Text(
-                                                    controller.headerInfoUserTransactionModel!.startDate !=
-                                                        null
-                                                        ? controller.headerInfoUserTransactionModel!.startDate!.toPersianDate().toString()
-                                                        :
-                                                    "",
+                                                    controller.headerInfoUserTransactionModel?.startDate?.toPersianDate().toString() ?? "",
                                                     style: AppTextStyle.labelText.copyWith(
                                                         fontSize: isDesktop
                                                             ? 12
@@ -1318,7 +1294,7 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                 .spaceAround,
                             children: [
                               TabelInfoWidget(
-                                list: controller.headerInfoUserTransactionModel!.inventorys??[],
+                                list: controller.headerInfoUserTransactionModel?.inventorys ?? [],
                                 title: 'دریافت و پرداخت',
                                 title1: 'دریافت',
                                 title2: 'پرداخت',
@@ -1330,8 +1306,7 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                               ),
                               TabelInfoWidget(
                                 list: controller
-                                    .headerInfoUserTransactionModel!
-                                    .orders??[],
+                                    .headerInfoUserTransactionModel?.orders ?? [],
                                 title: 'خرید و فروش',
                                 title1: 'خرید',
                                 title2: 'فروش',
@@ -1342,9 +1317,7 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                 width: 30,
                               ),
                               TabelInfoWidget(
-                                list: controller
-                                    .headerInfoUserTransactionModel!
-                                    .remmitances??[],
+                                list: controller.headerInfoUserTransactionModel?.remmitances ?? [],
                                 title: 'حواله',
                                 title1: 'حواله',
                                 title2: 'رسید',
@@ -1546,39 +1519,41 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                                     "fa",
                                                                                     "IR"),
                                                                               );
-                                                                              Gregorian gregorian = pickedDate!
-                                                                                  .toGregorian();
-                                                                              controller
-                                                                                  .startDateFilter
-                                                                                  .value =
-                                                                              "${gregorian
-                                                                                  .year}-${gregorian
-                                                                                  .month
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}-${gregorian
-                                                                                  .day
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}";
+                                                                              if (pickedDate != null) {
+                                                                                Gregorian gregorian = pickedDate
+                                                                                    .toGregorian();
+                                                                                controller
+                                                                                    .startDateFilter
+                                                                                    .value =
+                                                                                "${gregorian
+                                                                                    .year}-${gregorian
+                                                                                    .month
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}-${gregorian
+                                                                                    .day
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}";
 
-                                                                              controller
-                                                                                  .dateStartController
-                                                                                  .text =
-                                                                              "${pickedDate
-                                                                                  .year}/${pickedDate
-                                                                                  .month
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}/${pickedDate
-                                                                                  .day
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}";
+                                                                                controller
+                                                                                    .dateStartController
+                                                                                    .text =
+                                                                                "${pickedDate
+                                                                                    .year}/${pickedDate
+                                                                                    .month
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}/${pickedDate
+                                                                                    .day
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}";
+                                                                              }
                                                                             },
                                                                           ),
                                                                         ),
@@ -1662,39 +1637,41 @@ class _UserInfoTransactionViewState extends State<UserInfoTransactionView> {
                                                                                     "IR"),
                                                                               );
                                                                               // DateTime date=DateTime.now();
-                                                                              Gregorian gregorian = pickedDate!
-                                                                                  .toGregorian();
-                                                                              controller
-                                                                                  .endDateFilter
-                                                                                  .value =
-                                                                              "${gregorian
-                                                                                  .year}-${gregorian
-                                                                                  .month
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}-${gregorian
-                                                                                  .day
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}";
+                                                                              if(pickedDate != null) {
+                                                                                Gregorian gregorian = pickedDate
+                                                                                    .toGregorian();
+                                                                                controller
+                                                                                    .endDateFilter
+                                                                                    .value =
+                                                                                "${gregorian
+                                                                                    .year}-${gregorian
+                                                                                    .month
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}-${gregorian
+                                                                                    .day
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}";
 
-                                                                              controller
-                                                                                  .dateEndController
-                                                                                  .text =
-                                                                              "${pickedDate
-                                                                                  .year}/${pickedDate
-                                                                                  .month
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}/${pickedDate
-                                                                                  .day
-                                                                                  .toString()
-                                                                                  .padLeft(
-                                                                                  2,
-                                                                                  '0')}";
+                                                                                controller
+                                                                                    .dateEndController
+                                                                                    .text =
+                                                                                "${pickedDate
+                                                                                    .year}/${pickedDate
+                                                                                    .month
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}/${pickedDate
+                                                                                    .day
+                                                                                    .toString()
+                                                                                    .padLeft(
+                                                                                    2,
+                                                                                    '0')}";
+                                                                              }
                                                                             },
                                                                           ),
                                                                         ),

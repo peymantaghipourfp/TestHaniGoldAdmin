@@ -7,7 +7,6 @@ import 'package:hanigold_admin/src/widget/hanigold_loading.widget.dart';
 import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 
 class SettingTelegramView extends StatelessWidget {
   const SettingTelegramView({super.key});

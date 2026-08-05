@@ -8,7 +8,6 @@ import '../../../config/const/app_text_style.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
 import '../../../widget/pager_widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../controller/invoice_preview.controller.dart';
 import '../model/transaction_info_item.model.dart';
 
@@ -448,7 +447,7 @@ class _InvoicePreviewViewState extends State<InvoicePreviewView> {
               _getAmountText(trans),
               style: AppTextStyle.bodyText.copyWith(
                 fontSize: 10,
-                color: trans.amount! > 0 ? AppColor.primaryColor : AppColor.accentColor,
+                color: (trans.amount ?? 0 ) > 0 ? AppColor.primaryColor : AppColor.accentColor,
                 fontWeight: FontWeight.bold,
               ),
               textDirection: TextDirection.ltr,
@@ -461,7 +460,7 @@ class _InvoicePreviewViewState extends State<InvoicePreviewView> {
           Center(
             child: Text(
               trans.details?.isNotEmpty == true
-                  ? '${trans.details!.first.carat ?? 0}'
+                  ? '${trans.details?.first.carat ?? 0}'
                   : '-',
               style: AppTextStyle.bodyText.copyWith(fontSize: 10),
             ),
@@ -473,7 +472,7 @@ class _InvoicePreviewViewState extends State<InvoicePreviewView> {
           Center(
             child: Text(
               trans.details?.isNotEmpty == true
-                  ? 'بد ${trans.details!.first.quantity ?? 0} گرم'
+                  ? 'بد ${trans.details?.first.quantity ?? 0} گرم'
                   : '-',
               style: AppTextStyle.bodyText.copyWith(fontSize: 10),
             ),
@@ -533,8 +532,8 @@ class _InvoicePreviewViewState extends State<InvoicePreviewView> {
   }
 
   String _getAmountText(TransactionInfoItemModel trans) {
-    String prefix = trans.amount! > 0 ? 'بس' : 'بد';
-    String amount = trans.amount!.abs().toString().seRagham();
+    String prefix = (trans.amount ?? 0 ) > 0 ? 'بس' : 'بد';
+    String? amount = trans.amount?.abs().toString().seRagham();
     String unit = trans.item?.itemUnit?.id == 1
         ? ' عدد'
         : trans.item?.itemUnit?.id == 2

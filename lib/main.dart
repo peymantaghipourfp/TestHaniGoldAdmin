@@ -15,6 +15,7 @@ import 'package:hanigold_admin/src/config/secure_session_storage.dart';
 import 'package:hanigold_admin/src/config/session_bootstrap.dart';
 import 'package:hanigold_admin/src/config/tear_off_context.dart';
 import 'package:hanigold_admin/src/config/web_tab_logout.dart';
+import 'package:hanigold_admin/src/config/web_unauthenticated_boot.dart';
 import 'package:hanigold_admin/src/domain/chat/controller/chat_fab.controller.dart';
 import 'package:hanigold_admin/src/domain/home/controller/home.controller.dart';
 import 'package:hanigold_admin/src/widget/hanigold_loading.widget.dart';
@@ -123,6 +124,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // Flutter Web prefers PlatformDispatcher.defaultRouteName over initialRoute
+    // when the hash is a deep link — redirect after the first frame if needed.
+    if (kIsWeb) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        enforceUnauthenticatedWebLoginRedirect();
+      });
+    }
   }
 
   @override

@@ -130,9 +130,9 @@ class AuthController extends GetxController {
         registerChatControllerIfNeeded();
         final pending = consumePendingPostLoginRoute();
         final destination =
-            isPendingPostLoginRouteAllowed(pending, RoutePage.knownRouteNames)
-                ? pending!
-                : '/home';
+        isPendingPostLoginRouteAllowed(pending, RoutePage.knownRouteNames)
+            ? pending!
+            : '/home';
         Get.offNamed(destination);
         AppLogger.d(
             "totalUnreadMessageCount:::::${fetch.totalUnreadMessageCount}");

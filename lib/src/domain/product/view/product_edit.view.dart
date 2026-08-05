@@ -17,7 +17,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../widget/app_drawer.widget.dart';
 import '../../../widget/chat_floating_button.widget.dart';
 import '../../../widget/custom_appbar1.widget.dart';
-import '../../chat/widget/chat_dialog.widget.dart';
 import '../widget/max_buy.widget.dart';
 
 class ProductEditView extends StatefulWidget {

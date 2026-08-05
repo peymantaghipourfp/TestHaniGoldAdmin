@@ -7,6 +7,7 @@ import 'package:hanigold_admin/src/domain/inventory/model/inventory_detail.model
 import 'package:hanigold_admin/src/domain/inventory/model/list_forPayment.model.dart';
 
 import '../../domain/inventory/model/inventory.model.dart';
+import '../../domain/inventory/model/item_movement_report.model.dart';
 import '../../domain/inventory/model/list_inventory.model.dart';
 import '../logger/app_logger.dart';
 import '../network/dio_Interceptor.dart';
@@ -1101,6 +1102,34 @@ class InventoryRepository {
       return InventoryModel.fromJson(response.data);
     } catch (e, s) {
       AppLogger.e('getOneInventory failed', e, s);
+      throw ErrorException(ErrorHandler.handle(e));
+    }
+  }
+
+  Future<ItemMovementReportModel> getItemMovementReport({
+    required String fromDate,
+    required String toDate,
+    required int itemId,
+  }) async {
+    try {
+      final options =
+      {
+        'fromDate': fromDate,
+        'toDate': toDate,
+        'itemId': itemId,
+      };
+      final response = await inventoryDio.post(
+        'Inventory/getItemMovementReport',
+        data: options,
+      );
+      if (response.statusCode == 200) {
+        return ItemMovementReportModel.fromJson(
+          response.data as Map<String, dynamic>,
+        );
+      }
+      throw ErrorException('خطا');
+    } catch (e, s) {
+      AppLogger.e('getItemMovementReport failed', e, s);
       throw ErrorException(ErrorHandler.handle(e));
     }
   }
